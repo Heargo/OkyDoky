@@ -11,7 +11,7 @@ class Config {
     public const TABLE_DOCUMENT = 'document';
 
     // Files
-    public const DIR_DOCUMENT = __DIR__ . '/data/document';
+    public const DIR_DOCUMENT = __DIR__ . '/data/document/';
 
     //URLs
     public const URL_ROOT = 'https://example.com/okydoky/';
