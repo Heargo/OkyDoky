@@ -1,12 +1,12 @@
 # OkyDoky
 
-## Base de donnée
+## Configuration
 
-Pour connecter la base de donnée, il faut créer un fichier `secret.php` comme ceci : 
+Pour connecter la base de donnée, il faut créer un fichier `config.php` comme ceci : 
 
 ```php
 <?php
-class Secret {
+class Config {
     public const DB_HOST = 'localhost';
     public const DB_USER = '<USER>';
     public const DB_PASSWORD = '<PASSWORD>';

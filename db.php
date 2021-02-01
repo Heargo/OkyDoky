@@ -1,8 +1,8 @@
 <?php
 
-include "secret.php";
+include "config.php";
 
-$DB = mysqli(Secret::DB_HOST, Secret::DB_USER, Secret::DB_PASSWORD, Secret::DB_NAME);
+$DB = mysqli(Config::DB_HOST, Config::DB_USER, Config::DB_PASSWORD, Config::DB_NAME);
 
 $DB->query("
 CREATE TABLE IF NOT EXISTS `document` (
@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS `document` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
 );
 
-unset(Secret);
+unset(Config);
