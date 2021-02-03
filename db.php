@@ -10,7 +10,8 @@ $DB->query("
 CREATE TABLE IF NOT EXISTS `$document` (
     `id_$document` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `type` enum('link','image','pdf') NOT NULL,
-    `path` varchar(200) NOT NULL,
+    `url` varchar(200),
+    `path` varchar(200),
     `visible` tinyint(1) NOT NULL,
     PRIMARY KEY (`id_$document`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
