@@ -26,7 +26,7 @@ class DocumentManager {
     public function get_documents(?bool $visible = true, int $limit = 10, int $offset = 0) {
         if (isset($visible)) {
             $visible = $visible ? 1 : 0;
-            $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d LIMIT %d OFFSET %d";
+            $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `url` IS NOT NULL LIMIT %d OFFSET %d";
             $sql = sprintf($sql, Config::TABLE_DOCUMENT, Config::TABLE_DOCUMENT, $visible, $limit, $offset);
         } else {
             $sql = "SELECT `id_%s` FROM `%s` LIMIT %d OFFSET %d";
@@ -60,9 +60,8 @@ class DocumentManager {
 
             // update DB with real path
             $file_url = Config::URL_ROOT . 'doc/' . $file_name;
-            $sql = "UPDATE `%s` SET `path` = '%s' WHERE `id_document` = '%d'";
-            $sql = sprintf($sql, Config::TABLE_DOCUMENT, $file_url, $id);
-            print_r($sql);
+            $sql = "UPDATE `%s` SET `url` = '%s', `path` = '%s' WHERE `id_document` = '%d'";
+            $sql = sprintf($sql, Config::TABLE_DOCUMENT, $file_url, $file_path, $id);
             $this->_db->query($sql);
 
             return $id;
@@ -71,7 +70,20 @@ class DocumentManager {
     }
 
     public function del_document(int $id) {
-        return null;
+        if (is_id_correct($this->_db, Config::TABLE_DOCUMENT, $id)) {
+            $doc = $this->get_by_id($id);
+
+            // File itself
+            if (file_exists($doc->path())) { unlink($doc->path()); }
+
+            // Visibility
+            $doc->set_visible(false);
+            
+            // Path
+            $sql = "UPDATE `%s` SET `path` = NULL WHERE `id_%s` = %d";
+            $sql = sprintf($sql, Config::TABLE_DOCUMENT, Config::TABLE_DOCUMENT, $id);
+            $this->_db->query($sql);
+        }
     }
 }
 
