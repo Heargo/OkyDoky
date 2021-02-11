@@ -14,5 +14,15 @@ class Config {
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
 
     //URLs
-    public const URL_ROOT = 'https://example.com/okydoky/';
+    public const URL_ROOT = 'example.com/okydoky/';
+
+    //DO NOT TOUCH
+    public static function URL_ROOT(bool $trailing_slash = true){
+        $root = self::URL_ROOT;
+        $slash = str_ends_with($root, '/');
+        return $slash ?
+            ($trailing_slash ? root : substr($root,0,-1)) 
+            :
+            ($trailing_slash ? $root . '/' : $root);
+    }
 }
