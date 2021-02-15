@@ -25,12 +25,12 @@ class Routes {
     }
 
     // Pour les actions
-    public function bound_post(string $regex, function &$func, string $action){
+    public function bound_post(string $regex, callable $func, ?string $action){
         $this->_regex_post['#^' . $regex . '/?$#'] = array($func, $action);
         return $this;
     }
 
-    public function execute(string $url){
+    public function execute(){
         $method = $_SERVER['REQUEST_METHOD'];
 
         $match = null;
@@ -47,8 +47,9 @@ class Routes {
         } else if ($method === "POST") {
             foreach ($this->_regex_post as $regex => list($func, $action)) {
                 if (preg_match($regex, self::get_url(), $match)){
-                    if (isset($_POST['action']) && $_POST['action'] == $action)
+                    if (!isset($action) || isset($_POST['action']) && $_POST['action'] == $action)
                         $func($match);
+                        header("Location: .");
                 }
             }
         }
@@ -59,7 +60,7 @@ class Routes {
         $full_url = $_SERVER['HTTP_HOST'] . explode('?', $_SERVER['REQUEST_URI'])[0];
         $match = "/";
         preg_match('#' . Config::URL_ROOT(false) . '(.*)#', $full_url, $match);
-        return $match; // /truc/bidule/machin/chouette
+        return $match[1]; // /truc/bidule/machin/chouette
 
     }
 }
