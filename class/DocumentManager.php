@@ -36,7 +36,7 @@ class DocumentManager {
         if($result) {
             for ($list = array();
                  $row = $result->fetch_assoc();
-                 $list[] = new Document($this->_db, $row['id_document']));
+                 $list[] = new Document($this->_db, $row['id_' . Config::TABLE_DOCUMENT]));
             return $list;
         }
         return array();
@@ -59,9 +59,9 @@ class DocumentManager {
             move_uploaded_file($document['tmp_name'], $file_path);
 
             // update DB with real path
-            $file_url = Config::URL_ROOT . 'doc/' . $file_name;
-            $sql = "UPDATE `%s` SET `url` = '%s', `path` = '%s' WHERE `id_document` = '%d'";
-            $sql = sprintf($sql, Config::TABLE_DOCUMENT, $file_url, $file_path, $id);
+            $file_url = Config::URL_ROOT() . 'document/' . $file_name;
+            $sql = "UPDATE `%s` SET `url` = '%s', `path` = '%s' WHERE `id_%s` = '%d'";
+            $sql = sprintf($sql, Config::TABLE_DOCUMENT, $file_url, $file_path, Config::TABLE_DOCUMENT, $id);
             $this->_db->query($sql);
 
             return $id;
