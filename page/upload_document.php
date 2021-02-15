@@ -11,7 +11,7 @@ tfoot {
 }
 </style>
 <!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
-<form enctype="multipart/form-data" action="." method="post">
+<form enctype="multipart/form-data" action="<?= Config::URL_SUBDIR(false) ?>/document/new" method="post">
   <!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
   <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
   <input type="hidden" name="action" value="upload_document" />
@@ -20,7 +20,7 @@ tfoot {
   <input type="submit" value="Envoyer le fichier" />
 </form>
 
-<form action="." method="post">
+<form action="<?= Config::URL_SUBDIR(false) ?>/document/del" method="post">
     Supprimer un document (id) : 
     <input type="hidden" name="action" value="delete_document"/>
     <input type="number" name="id" />
@@ -40,7 +40,7 @@ tfoot {
     </thead>
     <tbody>
 
-<?php foreach($DOCS->get_documents(null) as $doc) { ?>
+<?php foreach($GLOBALS["docs"]->get_documents(null) as $doc) { ?>
         <tr>
             <td><?= $doc->id(); ?></td>
             <td><?= $doc->type(); ?></td>

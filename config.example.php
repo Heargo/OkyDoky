@@ -19,10 +19,14 @@ class Config {
     //DO NOT TOUCH
     public static function URL_ROOT(bool $trailing_slash = true){
         $root = self::URL_ROOT;
-        $slash = str_ends_with($root, '/');
+        $slash = substr($root, -1) === '/';
         return $slash ?
-            ($trailing_slash ? root : substr($root,0,-1)) 
+            ($trailing_slash ? $root : substr($root,0,-1)) 
             :
             ($trailing_slash ? $root . '/' : $root);
+    }
+
+    public static function URL_SUBDIR(bool $trailing_slash = true){
+        return '/' . explode('/', self::URL_ROOT($trailing_slash), 2)[1];
     }
 }
