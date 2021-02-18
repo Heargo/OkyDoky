@@ -42,7 +42,7 @@ class Routes {
      *        ne sont pas renseigné. Ceci dit, la validité des champs n'est
      *        pas vérifiés, le soin vous est laissez.
      */
-    public function bound_post(string $regex, callable $func, ?array $required_fields){
+    public function bound_post(string $regex, callable $func, ?array $required_fields=null){
         $this->_regex_post['#^' . $regex . '/?$#'] = array($func, $required_fields);
         return $this;
     }
@@ -88,14 +88,14 @@ class Routes {
     }
 
     public static function are_fields_valid(array $required_fields, array $post){
-        res = true;
+        $res = true;
         foreach($required_fields as $field){
             if (!isset($post[$field])) {
-                res = false; 
+                $res = false; 
                 break; // Don't iterate over the whole array
             }
         }
-        return res;
+        return $res;
     }
 
     public static function url_for(string $ressource_path) {
