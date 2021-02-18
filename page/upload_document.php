@@ -11,18 +11,16 @@ tfoot {
 }
 </style>
 <!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
-<form enctype="multipart/form-data" action="<?= Config::URL_SUBDIR(false) ?>/document/new" method="post">
+<form enctype="multipart/form-data" action="<?= Routes::url_for("/document/new")?>" method="post">
   <!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
   <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
-  <input type="hidden" name="action" value="upload_document" />
   <!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
   Envoyez ce fichier : <input name="file" type="file" />
   <input type="submit" value="Envoyer le fichier" />
 </form>
 
-<form action="<?= Config::URL_SUBDIR(false) ?>/document/del" method="post">
+<form action="<?= Routes::url_for("/document/del")?>" method="post">
     Supprimer un document (id) : 
-    <input type="hidden" name="action" value="delete_document"/>
     <input type="number" name="id" />
     <input type="submit" />
 </form>
