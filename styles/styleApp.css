@@ -1,0 +1,565 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+/*
+font-family: 'Caveat Brush', cursive;
+font-family: 'Montserrat', sans-serif;
+*/
+
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+
+}
+
+body{
+	background-color: #F1F2F6;
+}
+
+h1{
+	font-weight: normal;
+	font-family: 'Caveat Brush', cursive;
+	color:#2F3542;
+}
+
+.hidden{
+	display: none;
+}
+
+/*--------------------------------------
+--------------- NAV BARS ---------------
+----------------------------------------*/
+
+nav, .topNav{
+	background-color:#F1F2F6 ; 
+	display: flex;
+	position: fixed;
+	height: 50px;
+	width: 100%;
+	align-items: center;
+	z-index: 100;
+}
+.topNav{
+	top: 0px;
+	color:#2F3542;
+	padding: 10px;
+	justify-content: space-between;
+	border-bottom:solid 1px #2F3542;
+}
+
+.topNav h1{
+	font-size: 35px;
+}
+
+nav{
+	justify-content: center;
+	border-top:solid 1px #2F3542;
+	bottom: 0;
+}
+nav a{
+	margin: 6%;
+}
+
+.backArrow{
+	position: absolute;
+	transform: scale(1.5);
+	left: 15px;
+	top:10px ;
+	
+}
+
+.shareTitle{
+	font-size: 3.2rem;
+}
+
+.home{
+	transform: scale(2.2);
+}
+
+.top{
+	transform: scale(2.2);
+}
+
+.search{
+	transform: scale(2.2);
+}
+
+.post{
+	transform: scale(1.9);
+}
+
+.small-bubble{
+	border-radius: 100%;
+	width: 36px;
+	height: 36px;
+}
+.small-bubble-2{
+	margin-top:5px; 
+	border-radius: 100%;
+	width: 40px;
+	height: 40px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+/*--------
+Fil d'actu
+--------*/
+
+#verticalScrollContainer{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	top: 50px;
+	margin: 0 auto;
+	padding: 20px;
+	max-width: 600px;
+}
+
+
+
+.postImg, .postPdf{
+	width: 100%;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+	margin: 10px;
+}
+
+.postPdf{
+
+}
+
+.content {
+	display:flex;
+	flex-direction: column;
+	padding: 5%;
+}
+
+.content img{
+	width: 100%;
+  	min-height: 250px;
+  	max-height: 350px;
+  	object-fit: cover;
+}
+
+.postEnTete{
+	display: flex;
+	align-content: center;
+	height: 50px;
+}
+
+.postEnTete img{
+	margin-top: 4px;
+	border-radius: 100%;
+	width: 40px;
+	height: 40px;
+}
+.postEnTete a{
+	text-decoration: none;
+	color:#2F3542;
+	line-height: 50px;
+	font-size: 1.3rem;
+	margin-left: 10px;
+}
+
+.postReactions{
+	padding: 0 3%; 
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 50px;
+}
+
+.postReactions a{
+	margin: 0 2%;
+	
+}
+
+.postReactions p{
+	color:#2F3542;
+	font-size: 1.3rem;
+}
+
+.left{
+	display: flex;
+	align-items: center;
+	width: 50%;
+}
+
+
+.right{
+	padding: 0 5px;
+	display: flex;
+	justify-content: flex-end;
+	width: 50%;
+}
+
+/*File uploads page*/
+
+.topBar{
+	display: flex;
+	justify-content: center;
+}
+
+.topBar i{
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+
+
+.shareContainer{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0 auto;
+	max-width: 900px;
+	color:#2F3542;
+	height: 80vh;
+}
+
+form{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 100%;
+}
+
+.titleInput, .descriptionInput{
+	margin: 10px 0;
+	border:0;
+	width: 300px;
+	border-radius: 5px;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.titleInput{
+	height: 30px;
+	padding: 0.4rem;
+}
+
+.descriptionInput{	
+	height: 100px;
+	padding: 0.4rem;
+}
+
+.fileUploadLabel{
+	border-radius: 100%;
+	height:100px;
+	width: 100px;
+	line-height: 120px;
+	text-align: center;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.fileUploadLabel img{
+	display: inline-block;
+	transform: scale(2.4);
+}
+
+.fileUploadInput{
+	display: none;
+}
+
+.submitUploadLabel{
+	border-radius: 25px;
+	height:50px;
+	width: 80px;
+	line-height: 70px;
+	text-align: center;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+.submitUploadLabel img{
+	display: inline-block;
+	transform: scale(1.5);
+}
+
+#submit{
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*Page community*/
+
+
+.carroussel {
+  position: relative;
+  top:50px;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+.mySlides img{
+	width: 100%;
+  	min-height: 180px;
+  	max-height: 350px;
+  	object-fit: cover;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.dotsButton{
+	position: absolute;
+	text-align:center;
+	right: 10px;
+	top: 10px;
+	width: 2rem;
+	height: 2rem;
+	padding: 0.2rem;
+	font-size: 2.5rem;
+	background-color: white;
+	border-radius: 100%;
+}
+
+
+/* Container for image text */
+.caption-container {
+	position: relative;
+	top: -2.4rem;
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 5px;
+	color: #2F3542;
+}
+.caption-container #caption,#number{
+	text-align:center;
+	padding: 0.1rem;
+	background-color: white;
+	font-size: 1.3rem;
+	box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+	font-family: 'Caveat Brush', cursive;
+
+}
+
+#caption{
+	min-width: 150px;
+}
+#number{
+	min-width:40px;
+}
+
+.descCommuContainer{
+	display: flex;
+	justify-content: center;
+	position: relative;
+	top: 20px;
+	
+}
+#descriptionCommu{
+	min-width: 300px;
+	max-width: 700px;
+	text-align: center;
+	margin: 10px;
+	padding: 0.2rem 0.4rem;
+	font-size: 0.8rem;
+	background-color: white;
+	box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.communityTitle{
+	font-weight: normal;
+	font-size: 2.2rem;
+	color: #2F3542;
+	font-family: 'Caveat Brush', cursive;
+}
+
+#communityContentContainer{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0 auto;
+	margin-top: 20px;
+	margin-bottom: 50px;
+	padding: 20px;
+	max-width: 600px;
+}
+
+.adminTeamContainer{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	min-height: 370px;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+	margin: 10px;
+	padding-bottom: 50px;
+}
+
+.adminTeamContainer h3{
+	margin: 10px 0;
+	text-align:center;
+	font-weight: normal;
+	font-size: 1.8rem;
+	color: black;
+	font-family: 'Caveat Brush', cursive;
+}
+
+.adminTeamContainer p{
+	max-width: 100%;
+	word-wrap: break-word;
+}
+
+.creator img{
+	width: 90px;
+	height: 90px;
+	border-radius: 100%;
+	object-fit: cover;
+}
+
+.creator{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+
+.team ul{
+	list-style: none;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+.team li{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0 10px ;
+}
+
+.team li img{
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
+	object-fit: cover;
+}
+
+
+.communityList{
+	position: absolute;
+	z-index: 100;
+	top: 20px;
+	left:5%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 90%;
+	height: 95vh;
+	padding: 1rem;
+	background-color: white;
+	scrollbar-width: none;
+
+}
+
+
+/*List of communities*/
+
+.cross{
+	position: sticky;
+	z-index: 150;
+	left: 90%;
+	top:1%;
+
+}
+
+.flex-coms-container{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	margin-top:15px;
+
+}
+
+.communityPreview{
+	position: relative;
+	width: 200px;
+	height:150px;
+	object-fit: cover;
+	border-radius: 10px;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+@media screen and (min-width: 300px) {
+  .communityPreview{
+	width:250px;
+	height:150px;
+}
+}
+
+.communityPreviewLabel{
+	position: relative;
+	top: -50px;
+	margin:0 1rem;
+	text-align: center;
+	font-family: 'Caveat Brush', cursive;
+	font-size: 1.8rem;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.communityList::-webkit-scrollbar {
+    display: none;
+
+}
+
+.hidden{
+	display: none;
+}
+.blocScroll{
+	overflow: hidden;
+}
+
+.blurryOverlay{
+	filter: blur(4px);
+}
