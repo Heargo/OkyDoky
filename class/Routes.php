@@ -29,8 +29,8 @@ class Routes {
      *
      * eg : lier /document/new à la fonction upload_document (voir action/documents.php)
      * et /document/del à la fonction delete_document : 
-     * $ROUTES->bound_post("/document/new", 'upload_document', 'upload_document')
-     *        ->bound_post("/document/del", 'delete_document', 'delete_document');
+     * $ROUTES->bound_post("/document/new", 'upload_document', ['file'] )
+     *        ->bound_post("/document/del", 'delete_document', ['id'] );
      *
      * @param $regex une expression régulière représentant une URL
      * @param $func le nom de la fonction à appeler, sous forme de string.
@@ -65,7 +65,6 @@ class Routes {
             foreach ($this->_regex_post as $regex => list($func, $req_fields)) {
                 if (preg_match($regex, self::get_url(), $match)){
                     if (!isset($req_fields) || are_fields_valid($req_fields, $_POST)) $func($match);
-                    header("Location: .");
                 }
             }
         }
