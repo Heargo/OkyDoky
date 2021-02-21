@@ -27,6 +27,8 @@ class Config {
     }
 
     public static function URL_SUBDIR(bool $trailing_slash = true){
-        return '/' . explode('/', self::URL_ROOT($trailing_slash), 2)[1];
+        $subdir = explode('/', self::URL_ROOT($trailing_slash), 2)[1] ?? '';
+        $subdir = empty($subdir) ? $subdir : '/' . $subdir;  // add heading slash if needed
+        return $subdir;
     }
 }
