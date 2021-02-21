@@ -47,6 +47,9 @@ class DocumentManager {
 
         // if file isn't empty and not too large
         if ($document['size'] != 0 && $document['size'] < 50000000) {
+            if (!is_writable(Config::DIR_DOCUMENT)) {
+                throw new NotWritable('Directory ' . Config::DIR_DOCUMENT . ' is not writable');
+            }
             // insert tmp path to DB
             $sql = "INSERT INTO `%s` (`type`, `path`, `visible`) VALUES ('image', '%s', '%d')";
             $sql = sprintf($sql, Config::TABLE_DOCUMENT, $document['tmp_name'], $visible);

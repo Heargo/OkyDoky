@@ -1,6 +1,7 @@
 <?php
 
 class InvalidID extends Exception {}
+class NotWritable extends Exception {}
 
 function is_id_correct(mysqli $db, string $table, int $id) {
     $sql = "SELECT COUNT(`id_$table`) FROM $table WHERE id_$table = $id";
