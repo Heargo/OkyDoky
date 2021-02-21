@@ -9,20 +9,20 @@
 <body>
 
 <div class="topBar">
-	<img class="backArrow" src="./img/svg/arrow-back-fill.svg">
+	<img onclick="window.history.back();" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
 	<h1 class="noselect shareTitle">Partagez !</h1>
 </div>
 
 <section class="shareContainer">
 	<!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
-	<form enctype="multipart/form-data" action="." method="post">
+	<form enctype="multipart/form-data" action="<?= Routes::url_for("/document/new")?>" method="post">
 		<!-- Titre -->
 		<input class="titleInput" type="text" name="title" placeholder="Titre de votre document.">
 
 		<!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
 		<input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
 		<!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
-		<label for="file" class="fileUploadLabel"><img src="./img/svg/upload.svg"></label>
+		<label for="file" class="fileUploadLabel cursor"><img src="./img/svg/upload.svg"></label>
 		<input class="fileUploadInput" id="file" name="file" type="file"/>
 
 		<!-- Description -->
@@ -34,7 +34,7 @@
 			<option value="valeur3">Vive les pates</option>
 		</select>
 		
-		<label for="submit" class="submitUploadLabel"><img src="./img/svg/check.svg"></label>
+		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>
 		<input id ="submit" type="submit" value="publier" />	
 	</form>
 
