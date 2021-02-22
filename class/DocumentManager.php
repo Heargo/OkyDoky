@@ -62,7 +62,7 @@ class DocumentManager {
             move_uploaded_file($document['tmp_name'], $file_path);
 
             // update DB with real path
-            $file_url = Config::URL_ROOT() . 'document/' . $file_name;
+            $file_url = 'http://' . Config::URL_ROOT() . 'data/document/' . $file_name;
             $sql = "UPDATE `%s` SET `url` = '%s', `path` = '%s' WHERE `id_%s` = '%d'";
             $sql = sprintf($sql, Config::TABLE_DOCUMENT, $file_url, $file_path, Config::TABLE_DOCUMENT, $id);
             $this->_db->query($sql);

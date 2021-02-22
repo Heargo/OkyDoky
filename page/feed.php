@@ -18,7 +18,13 @@
 
 <section id="verticalScrollContainer">
 
-	<div class="postImg">
+
+<?php foreach($GLOBALS["docs"]->get_documents(true) as $doc) { 
+	if ($doc->is_visible()){
+		$urlIMG=$doc->url(); /*"./data/document" . */
+	?>
+        
+        <div class="postImg">
 		<!-- user -->
 		<div class="postEnTete">
 			<a href="#"><img src="./img/img1.jpg" alt="profil"></a>
@@ -26,7 +32,10 @@
 		</div>
 		<!-- content -->
 		<div class="content">
-			<img src="./img/img1.jpg" alt="content">
+			<?php 
+			echo "<img src='$urlIMG' alt='content'>";
+			?>
+			
 		</div>
 		<!-- reactions -->
 		<div class="postReactions">
@@ -43,63 +52,10 @@
 		</div>
 	</div>
 
-	<div class="postImg">
-		<!-- user -->
-		<div class="postEnTete">
-			<a href="#"><img src="./img/img1.jpg" alt="profil"></a>
-			<a href="#">Pseudo</a>
-		</div>
-		<!-- content -->
-		<div class="content">
-			<img src="./img/img1.jpg" alt="content">
-		</div>
-		<!-- reactions -->
-		<div class="postReactions">
-			<div class="left">
-				<a href="#"><img src="./img/svg/comment.svg"></a>
-				<a href="#"><img src="./img/svg/like.svg"></a>
-				<p>12</p>
-			</div>
-			<div class="right">
-				<a href="#"><img src="./img/svg/share.svg"></a>
-				<a href="#"><img src="./img/svg/bookmark.svg"></a>
-			</div>
-			
-		</div>
-	</div>
-
-
-
-	<div class="postImg">
-		<!-- user -->
-		<div class="postEnTete">
-			<a href="#"><img src="./img/img1.jpg" alt="profil"></a>
-			<a href="#">Pseudo</a>
-		</div>
-		<!-- content -->
-		<div class="content">
-			<img src="./img/img1.jpg" alt="content">
-		</div>
-		<!-- reactions -->
-		<div class="postReactions">
-			<div class="left">
-				<a href="#"><img src="./img/svg/comment.svg"></a>
-				<a href="#"><img src="./img/svg/like.svg"></a>
-				<p>12</p>
-			</div>
-			<div class="right">
-				<a href="#"><img src="./img/svg/share.svg"></a>
-				<a href="#"><img src="./img/svg/bookmark.svg"></a>
-			</div>
-			
-		</div>
-	</div>
-
-	<div class="postPdf">
-		
-	</div>
-
-
+<?php
+	} 
+}
+?>
 
 </section>
 
@@ -134,4 +90,16 @@
 
 
 </body>
+<script type="text/javascript">
+	
+window.onscroll = function(ev) {
+
+	if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight -2) {
+		console.log("je suis en bas !");
+		console.log("faire la requete ajax");
+		console.log("modif la page");
+	}
+};
+
+</script>
 </html>
