@@ -1,1 +1,6 @@
+Options +SymLinksIfOwnerMatch
 
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^/user/index.php
+RewriteCond %{REQUEST_URI} !^/user/(img|static|styles|data)/.*
+RewriteRule ^.*$ /user/index.php [L,QSA]
