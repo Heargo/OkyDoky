@@ -106,6 +106,8 @@ class User {
      * Connect user if password hash is correct
      *
      * If passeword is correct, the user is stored in $_SESSION['user'].
+     * To check if the user is connected, use User::is_connected().
+     * To access the user, use User::current().
      *
      * @return bool True if successful
      */
@@ -136,10 +138,19 @@ class User {
      */
     public function can(int $flags, Community $comm) : bool;
 
+    /**
+     * Add a permission (or several) for a user on a community
+     */
     public function add_perm(int $flags, Community $comm);
 
+    /**
+     * Delete a permission (or several) for a user on a community
+     */
     public function del_perm(int $flags, Community $comm);
 
+    /**
+     * Set a permission (or several) for a user on a community
+     */
     public function set_perm(int $flags);
 
     // STATIC
