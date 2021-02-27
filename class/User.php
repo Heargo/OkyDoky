@@ -5,7 +5,7 @@
  */
 class User {
 
-    // ATTRIBUTES
+    //// ATTRIBUTES
 
     /**
      * DB link
@@ -27,7 +27,9 @@ class User {
     public $current_community;
 
 
-    // METHODS
+    //// METHODS
+
+    // GETTERS
 
     /**
      * Instantiate user from $id
@@ -54,31 +56,48 @@ class User {
      */
     public function email() : string;
 
-
     /**
      * Get url to profile pic
      */
     public function profile_pic() : string;
+    
+    // COMMUNITY INTERACTIONS
 
     /**
-     * Check whenever a user email is confirmed
+     * Get array of communities followed by user.
+     * 
+     * @param $flags int|null representing a Permission. 
+     *        Will return only communities matching the flag(s)
+     * 
+     * eg: $myuser->get_communities(P::OWNER); // will return communities where user is the owner
+     *     $myuser->get_communities(P::VIEW); // will return communities where user is not banned from
      */
-    public function is_email_confirmed() : bool;
+    public function get_communities(?int $flags=null) : array;
+
+    /**
+     * Make the user join a community
+     */
+    public function join(Community $comm) : bool;
+
+    // AUTHENTIFICATION & PROFILE
+
+    /**
+     * Send an email to verify its authenticity
+     */
+    public function verify_email() : bool;
 
     /**
      * Change user email.
      *
-     * This email must be confirmed.
+     * TODO : This email must be confirmed.
      * @return bool True if successful
      */
     public function set_email_to(string $new_email) : bool;
 
     /**
-     * Check if used password hash match $pwd_hash
-     *
-     * @return bool True if valid.
+     * Check whenever the user email is confirmed
      */
-    public function verify_email() : bool;
+    public function is_email_confirmed() : bool;
 
     /**
      * Check if used password hash match $pwd_hash
@@ -88,10 +107,13 @@ class User {
     public function is_pwd_valid(string $pwd_hash) : bool;
 
     /**
-     * 
+     * Change password of user
      */
     public function set_pwd(string $pwd) : bool;
 
+    /**
+     * Send a link to user to reset password
+     */
     public function retrieve_pwd() : bool;
 
     /**
@@ -119,6 +141,15 @@ class User {
      * $_SESSION['user'] will be null.
      */
     public function disconnect();
+
+    // POSTS INTERACTIONS
+
+    /**
+     * Get array of posts written by user
+     * 
+     * @param $comm Community|null if you want posts from a specific community
+     */
+    public function get_posts(?Community $comm) : array;
 
     /**
      * User giving a good evaluation for a post
@@ -151,9 +182,10 @@ class User {
     /**
      * Set a permission (or several) for a user on a community
      */
-    public function set_perm(int $flags);
+    public function set_perm(int $flags, Community $comm);
 
-    // STATIC
+
+    //// STATIC
 
     /**
      * Return true whenever a user is connected
