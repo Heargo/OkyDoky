@@ -64,7 +64,7 @@ class Routes {
         } else if ($method === "POST") {
             foreach ($this->_regex_post as $regex => list($func, $req_fields)) {
                 if (preg_match($regex, self::get_url(), $match)){
-                    if (!isset($req_fields) || are_fields_valid($req_fields, $_POST)) $func($match);
+                    if (!isset($req_fields) || self::are_fields_valid($req_fields, $_POST)) $func($match);
                 }
             }
         }
