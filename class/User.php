@@ -212,7 +212,7 @@ class User {
      */
     public function connect(string $pwd) : bool {
         $is_correct = $this->is_pwd_correct($pwd);
-        $_SESSION['user'] = $is_correct ? $this : $_SESSION['user'];
+        $_SESSION['user'] = $is_correct ? $this->id() : $_SESSION['user'];
         return $is_correct;
     }
 
@@ -267,6 +267,10 @@ class User {
      */
     //public function set_perm(int $flags, Community $comm);
 
+    public function __toString() : string {
+        return '('.$this->id().') '. $this->nickname();
+    }
+
 
     //// STATIC
 
@@ -274,7 +278,7 @@ class User {
      * Return true whenever a user is connected
      */
     public static function is_connected() : bool {
-        return isset($_SESSION['user']) ? get_class($_SESSION['user']) == self::class : false;
+        return isset($_SESSION['user']) ? gettype($_SESSION['user']) == "integer" : false;
     }
 
     /**
@@ -284,6 +288,6 @@ class User {
      */
     public static function current() : ?User {
         // Do not return session var directly, it may not be User|null if overwritten
-        return self::is_connected() ? $_SESSION['user'] : null; 
+        return self::is_connected() ? new User($GLOBALS['db'], $_SESSION['user']) : null; 
     }
 }
