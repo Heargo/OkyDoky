@@ -30,14 +30,34 @@ class UserManager {
      *
      * @return User|null Depends if a user exists with the $nickname.
      */
-    //public function get_by_nickname(string $nickname) : ?User;
+    public function get_by_nickname(string $nickname) : ?User {
+        $sql = "SELECT `id_%s`, `nickname` FROM `%s` WHERE `nickname` = '%s'";
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER, $nickname);
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return isset($row['id_'.Config::TABLE_USER]) ? new User($this->_db, (int) $row['id_'.Config::TABLE_USER]) : null;
+        }
+        return null;
+    }
 
     /**
      * Get a user based on his email.
      *
      * @return User|null Depends if a user exists with the $email.
      */
-    //public function get_by_email(string $email) : ?User;
+    public function get_by_email(string $email) : ?User {
+        $sql = "SELECT `id_%s`, `email` FROM `%s` WHERE `email` = '%s'";
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER, $email);
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return isset($row['id_'.Config::TABLE_USER]) ? new User($this->_db, (int) $row['id_'.Config::TABLE_USER]) : null;
+        }
+        return null;
+    }
 
     /**
      * Know if nickname if free or already used
