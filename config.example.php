@@ -9,6 +9,7 @@ class Config {
 
     // Tables
     public const TABLE_DOCUMENT = 'document';
+    public const TABLE_USER = 'user';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
