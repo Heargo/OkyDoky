@@ -12,6 +12,8 @@ class Config {
     public const TABLE_USER = 'user';
     public const TABLE_COMMUNITY = 'community';
     public const TABLE_USER_COMMUNITY = 'user_community';
+    public const TABLE_RESOURCE = 'resource';
+    public const TABLE_POST = 'post';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';

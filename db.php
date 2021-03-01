@@ -6,10 +6,14 @@ $DB = new mysqli(Config::DB_HOST, Config::DB_USER, Config::DB_PASSWORD, Config::
 
 $document = Config::TABLE_DOCUMENT;
 $user = Config::TABLE_USER;
+$community = Config::TABLE_COMMUNITY;
+$ressource = Config::TABLE_RESOURCE;
+$post = Config::TABLE_POST;
 
 $DB->query("
 CREATE TABLE IF NOT EXISTS `$document` (
     `id_$document` int unsigned NOT NULL AUTO_INCREMENT,
+    `post` int unsigned NULL,
     `type` enum('link','image','pdf') NOT NULL,
     `url` varchar(200) NULL,
     `path` varchar(200) NULL,
@@ -17,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `$document` (
     `visible` tinyint(1) NOT NULL DEFAULT 0,
 
     PRIMARY KEY (`id_$document`)
+    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`),
 );"
 );
 
@@ -38,4 +43,34 @@ CREATE TABLE IF NOT EXISTS `$user` (
 );"
 );
 
-unset($document, $user);
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$resource` (
+    `id_$resource` int unsigned NOT NULL AUTO_INCREMENT,
+    `url` varchar(200) NULL,
+    `path` varchar(200) NULL,
+    `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (`id_$resource`)
+);"
+);
+
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$community` (
+    `id_$community` int unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(40) NOT NULL,
+    `display_name` varchar(100) NULL,
+    `cover` int unsigned NULL,
+    `description` tinytext NULL,
+    `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `highlight_post` int unsigned NULL,
+    `is_private` tinyint(1) NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (`id_$community`),
+    FOREIGN KEY (`cover`) REFERENCES `$resource`(`id_$resource`),
+    FOREIGN KEY (`highlight_post`) REFERENCES `$post`(`id_$post`),
+    UNIQUE KEY `nickname` (`nickname`)
+);"
+);
+
+unset($document, $user, $community, $resource, $post);
+
