@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Provide a way to manipulate users
+ */
 class UserManager {
     /**
      * DB link
