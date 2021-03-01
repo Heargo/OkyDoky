@@ -10,6 +10,8 @@ class Config {
     // Tables
     public const TABLE_DOCUMENT = 'document';
     public const TABLE_USER = 'user';
+    public const TABLE_COMMUNITY = 'community';
+    public const TABLE_USER_COMMUNITY = 'user_community';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
