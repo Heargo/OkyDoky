@@ -23,10 +23,6 @@ h1{
 	color:#2F3542;
 }
 
-.hidden{
-	display: none;
-}
-
 /*--------------------------------------
 --------------- NAV BARS ---------------
 ----------------------------------------*/
@@ -40,14 +36,14 @@ nav, .topNav{
 	align-items: center;
 	z-index: 100;
 }
-.topNav{
-	top: 0px;
-	color:#2F3542;
-	padding: 10px;
-	justify-content: space-between;
-	border-bottom:solid 1px #2F3542;
-}
 
+.topNav{
+    top: 0px;
+    color:#2F3542;
+    padding: 10px;
+    justify-content: space-between;
+    border-bottom:solid 1px #2F3542;
+}
 .topNav h1{
 	font-size: 35px;
 }
@@ -123,8 +119,7 @@ Fil d'actu
 	top: 50px;
 	margin: 0 auto;
 	padding: 20px;
-	padding-bottom: 80px;
-	max-width: 600px;
+	/*max-width: 600px;*/
 }
 
 
@@ -147,10 +142,10 @@ Fil d'actu
 }
 
 .content img{
-	width: 100%;
-  	min-height: 250px;
-  	max-height: 350px;
-  	object-fit: cover;
+	max-width : 100%;
+	height: auto;
+	display: block;
+
 }
 
 .postEnTete{
@@ -302,24 +297,16 @@ form{
 
 
 
-/*Page community*/
+
 
 
 .carroussel {
   position: relative;
-  top:50px;
 }
 
 /* Hide the images by default */
 .mySlides {
   display: none;
-}
-
-.mySlides img{
-	width: 100%;
-  	min-height: 180px;
-  	max-height: 350px;
-  	object-fit: cover;
 }
 
 /* Add a pointer when hovering over the thumbnail images */
@@ -332,7 +319,7 @@ form{
 .next {
   cursor: pointer;
   position: absolute;
-  top: 50%;
+  top: 40%;
   width: auto;
   padding: 16px;
   margin-top: -50px;
@@ -350,217 +337,47 @@ form{
   border-radius: 3px 0 0 3px;
 }
 
-.dotsButton{
-	position: absolute;
-	text-align:center;
-	right: 10px;
-	top: 10px;
-	width: 2rem;
-	height: 2rem;
-	padding: 0.2rem;
-	font-size: 2.5rem;
-	background-color: white;
-	border-radius: 100%;
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
 
 /* Container for image text */
 .caption-container {
-	position: relative;
-	top: -2.4rem;
-	display: flex;
-	justify-content: space-between;
-	padding: 0px 5px;
-	color: #2F3542;
-}
-.caption-container #caption,#number{
-	text-align:center;
-	padding: 0.1rem;
-	background-color: white;
-	font-size: 1.3rem;
-	box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-	font-family: 'Caveat Brush', cursive;
-
+  text-align: center;
+  background-color: #222;
+  padding: 2px 16px;
+  color: white;
 }
 
-#caption{
-	min-width: 150px;
-}
-#number{
-	min-width:40px;
-}
-
-.descCommuContainer{
-	display: flex;
-	justify-content: center;
-	position: relative;
-	top: 20px;
-	
-}
-#descriptionCommu{
-	min-width: 300px;
-	max-width: 700px;
-	text-align: center;
-	margin: 10px;
-	padding: 0.2rem 0.4rem;
-	font-size: 0.8rem;
-	background-color: white;
-	box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-.communityTitle{
-	font-weight: normal;
-	font-size: 2.2rem;
-	color: #2F3542;
-	font-family: 'Caveat Brush', cursive;
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 16.66%;
 }
 
-#communityContentContainer{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 0 auto;
-	margin-top: 20px;
-	margin-bottom: 50px;
-	padding: 20px;
-	max-width: 600px;
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
 }
 
-.adminTeamContainer{
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 100%;
-	min-height: 370px;
-	background-color: white;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
-	margin: 10px;
-	padding-bottom: 50px;
-}
-
-.adminTeamContainer h3{
-	margin: 10px 0;
-	text-align:center;
-	font-weight: normal;
-	font-size: 1.8rem;
-	color: black;
-	font-family: 'Caveat Brush', cursive;
-}
-
-.adminTeamContainer p{
-	max-width: 100%;
-	word-wrap: break-word;
-}
-
-.creator img{
-	width: 90px;
-	height: 90px;
-	border-radius: 100%;
-	object-fit: cover;
-}
-
-.creator{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-
-.team ul{
-	list-style: none;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-evenly;
-}
-.team li{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 0 10px ;
-}
-
-.team li img{
-	width: 60px;
-	height: 60px;
-	border-radius: 100%;
-	object-fit: cover;
-}
-
-
-.communityList{
-	position: absolute;
-	z-index: 100;
-	top: 20px;
-	left:5%;
-	overflow-y: auto;
-	overflow-x: hidden;
-	width: 90%;
-	height: 95vh;
-	padding: 1rem;
-	background-color: white;
-	scrollbar-width: none;
-
-}
-
-
-/*List of communities*/
-
-.cross{
-	position: sticky;
-	z-index: 150;
-	left: 90%;
-	top:1%;
-
-}
-
-.flex-coms-container{
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-evenly;
-	margin-top:15px;
-
-}
-
-.communityPreview{
-	position: relative;
-	width: 200px;
-	height:150px;
-	object-fit: cover;
-	border-radius: 10px;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
-}
-@media screen and (min-width: 300px) {
-  .communityPreview{
-	width:250px;
-	height:150px;
-}
-}
-
-.communityPreviewLabel{
-	position: relative;
-	top: -50px;
-	margin:0 1rem;
-	text-align: center;
-	font-family: 'Caveat Brush', cursive;
-	font-size: 1.8rem;
-	background-color: white;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.communityList::-webkit-scrollbar {
-    display: none;
-
-}
-
-.hidden{
-	display: none;
-}
-.blocScroll{
-	overflow: hidden;
-}
-
-.blurryOverlay{
-	filter: blur(4px);
+.active,
+.demo:hover {
+  opacity: 1;
 }
