@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class to manipulate a specific user
+ * Provide a way to manipulate a particular user
  */
 class User {
 
@@ -32,7 +32,7 @@ class User {
     // GETTERS
 
     /**
-     * Instantiate user from an id
+     * Instantiate user from an ID
      */
     public function __construct(mysqli $db, int $id) {
         $this->_db = $db;
@@ -190,7 +190,7 @@ class User {
      * Change profile picture
      *
      * @param $pic array is a picture from $_FILES.
-     * @return bool True if successfull.
+     * @return bool True if successful.
      */
     //public function set_profile_picture(array $pic) : bool;
 

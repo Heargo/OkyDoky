@@ -1,18 +1,24 @@
 <?php
 
-require_once(__DIR__ . '/tools.php');
-require_once(__DIR__ . '/../config.php');
-
-require_once(__DIR__ . '/Document.php');
-
-
+/**
+ * Provide a way to manipulate documents
+ */
 class DocumentManager {
-    private $_db;
+    /**
+     * DB connection
+     */
+    private mysqli $_db;
 
+    /**
+     * Instaciate a manager for a DB connection
+     */
     public function __construct(mysqli $db) {
         $this->_db = $db;
     }
 
+    /**
+     * Get a document by its ID
+     */
     public function get_by_id(int $id){
         try {
             return new Document($this->_db, $id);
@@ -22,8 +28,15 @@ class DocumentManager {
     }
     //public get_by_post(Post $p);
 
-    // For moderation purpose
-    public function get_documents(?bool $visible = true, int $limit = 10, int $offset = 0) {
+    /**
+     * Get an array of documents
+     *
+     * @param bool|null $visible Filter if files are marked as visible or not. Null will return both.
+     * @param int $limit Limits the number of document you want.
+     * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
+     * @return Document[] An array of documents.
+     */
+    public function get_documents(?bool $visible = true, int $limit = 10, int $offset = 0) : array {
         if (isset($visible)) {
             $visible = $visible ? 1 : 0;
             $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `url` IS NOT NULL LIMIT %d OFFSET %d";
@@ -42,6 +55,13 @@ class DocumentManager {
         return array();
     }
 
+    /**
+     * Add a document to the DB
+     *
+     * @param array $document A file from the global array $_FILES like $_FILES['profile_picture'].
+     * @param bool $visible Should the document be visible by an average user.
+     * @param int|null Return the ID of the document added. Null type means an error occured.
+     */
     public function add_document(array $document, bool $visible = true) : ?int {
         $visible = $visible ? 1 : 0;
 
@@ -72,7 +92,14 @@ class DocumentManager {
         return null;
     }
 
-    public function del_document(int $id) {
+    /**
+      * Delete a document based on its ID
+      *
+      * @todo We should pass a Document instance instead of ID.
+      * @param int $id The ID of the document.
+      * @return bool True if successful.
+     */
+    public function del_document(int $id) : bool {
         if (is_id_correct($this->_db, Config::TABLE_DOCUMENT, $id)) {
             $doc = $this->get_by_id($id);
 
