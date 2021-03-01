@@ -3,7 +3,7 @@
 /**
  * Represent permission of a user on a community
  */
-class P {
+class Permission {
 
     const VIEW = 1<<0;
     const INTERACT = 1<<1;
@@ -51,8 +51,8 @@ class P {
     }
 
 
-    public function add(int $flags) : P;
-    public function del(int $flags) : P;
-    public function get() : int;
+    //public function add(int $flags) : P;
+    //public function del(int $flags) : P;
+    //public function get() : int;
 
 }

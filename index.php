@@ -12,6 +12,7 @@ spl_autoload_register(function ($class_name) {
     include 'class/' . $class_name . '.php';
 });
 require 'class/tools.php';
+class_alias('Permission', 'P');
 
 $GLOBALS['page'] = [];
 
