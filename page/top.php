@@ -10,8 +10,33 @@
 
 <?php include 'topnav.php'; ?>
 
+
 <section id="verticalScrollContainer">
 
+<div class="BestUserContainer">
+	<div class="profilMisEnAvant">
+		<h3>Certifiés</h3>
+		<ul>
+			<li onclick="document.location.href='./user/Bouba'"><img src="./img/img1.jpg"></li>
+			<li onclick="document.location.href='./user/JeSuisMalin'"><img src="./img/img1.jpg"></li>
+			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
+			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
+		</ul>
+		<h3>Les + actifs</h3>
+		<ul>
+			<li onclick="document.location.href='./user/Bouba'"><img src="./img/img1.jpg"></li>
+			<li onclick="document.location.href='./user/JeSuisMalin'"><img src="./img/img1.jpg"></li>
+			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
+			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+
+<!-- fil actu du plus au moins liké -->
 
 <?php foreach($GLOBALS["docs"]->get_documents(true) as $doc) { 
 	if ($doc->is_visible()){
@@ -54,9 +79,9 @@
 </section>
 
 
-
-
 <?php include 'bottomnav.php'; ?>
+
+
 
 </body>
 <script type="text/javascript">

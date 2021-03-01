@@ -497,10 +497,10 @@ form{
 	overflow-x: hidden;
 	width: 90%;
 	height: 95vh;
-	padding: 1rem;
+	text-align: center;
+
 	background-color: white;
 	scrollbar-width: none;
-
 }
 
 
@@ -509,7 +509,7 @@ form{
 .cross{
 	position: sticky;
 	z-index: 150;
-	left: 90%;
+	left: 95%;
 	top:1%;
 
 }
@@ -551,16 +551,124 @@ form{
 
 .communityList::-webkit-scrollbar {
     display: none;
-
 }
 
 .hidden{
 	display: none;
 }
+.hide{
+	visibility:hidden
+}
+
 .blocScroll{
 	overflow: hidden;
 }
 
 .blurryOverlay{
 	filter: blur(4px);
+}
+
+
+
+/*selectorCommunityProfil*/
+.communitySelectorProfil{
+	height: 90px;
+	margin: 0 auto;
+	padding: 5px;
+	max-width: 550px;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.horizontal-scroll{
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	overflow-y: hidden;
+	overflow-x: auto;
+}
+.horizontal-scroll div{
+	margin: 0 5px;
+}
+
+.communityPreview-profil{
+	position: relative;
+	width: 120px;
+	height:80px;
+	object-fit: cover;
+	border-radius: 10px;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.checkfilter{
+	position: relative;
+	transform: scale(2) translateY(-120%) translateX(70%);
+}
+
+.communityPreviewLabel-profil{
+	position: relative;
+	top: -25px;
+	margin:0 1rem;
+	text-align: center;
+	font-family: 'Caveat Brush', cursive;
+	font-size: 0.8rem;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.blurryOverlayProfilFilter{
+	filter: blur(1px);
+}
+
+.communityList h3{
+	font-family: 'Caveat Brush', cursive;
+	font-size: 2.4rem;
+	font-weight: normal;
+}
+
+
+
+
+
+/*----top page----*/
+
+.BestUserContainer{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	min-height: 280px;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+	margin: 10px;
+}
+
+.BestUserContainer h3{
+	margin: 10px 0;
+	text-align:center;
+	font-weight: normal;
+	font-size: 1.8rem;
+	color: black;
+	font-family: 'Caveat Brush', cursive;
+}
+
+.profilMisEnAvant ul{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	list-style: none;
+	margin: 0 auto;
+}
+.profilMisEnAvant li{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.profilMisEnAvant li img{
+	width: 60px;
+	height: 60px;
+	margin: 5px;
+	border-radius: 100%;
+	object-fit: cover;
 }

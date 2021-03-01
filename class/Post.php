@@ -1,12 +1,14 @@
 <?php
 
-require_once(__DIR__ . '/tools.php');
-
 class Post {
 
+	/** DB connection */
     private $_id;
+
+    /** ID of the post */
     private $_db;
 
+    /** Post's infos */
     private $_publisher;
     private $_id_community;
     private $_date;
@@ -14,6 +16,12 @@ class Post {
     private $_description;
     private $_visible;
 
+
+    /**
+     * Instanciate a post from an ID
+     *
+     * @throw InvalidID If the ID isn't in the DB or if there is more than one.
+     */
     public function __construct(mysqli $db, int $id) {
         $this->_db = $db;
         $this->_id = (int) $id;
@@ -21,26 +29,126 @@ class Post {
         if (!is_id_correct($this->_db, Config::TABLE_POST, $this->id())) {
             throw new InvalidID('id "' . $this->id() . '" in table "' . Config::TABLE_POST . '" isn`t correct.');
         }
+        $sql = "SELECT * FROM `%s` WHERE `id_%s` = %s";
+        $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $id);
+        $row = $db->query($sql)->fetch_assoc();
+    
+        $this->_publisher = $row['publisher'];
+        $this->_id_community = $row['id_community'];
+        $this->_date = $row['date'];
+        $this->_title = $row['title'];
+        $this->_description = $row['description'];
+        $this->_visible = $row['visible'];
     }
-
+    /** Return the post's ID */
     public function id() { return $this->_id;}
 
-    public function publisher() : int;
-    public function id_community() : int;
-	public function date() : datetime;
-	public function title() : string;
-	public function description() : string;
-	public function is_visible() : bool;
+    /** Return the post's publisher */
+    public function publisher() { return $this->_publisher;}
+    
+    /** Return the post's community */
+    public function id_community() { return $this->_id_community;}
+
+    /** Return the post's creation date */
+	public function date() : { return $this->_date;}
+
+	/** Return the post's title */
+	public function title() : { return $this->_title;}
 	
+	/** Return the post's description */
+	public function description() : { return $this->_description;}
+
+	/** Return the post's visibility */
+	public function is_visible() : { return $this->_visible;}
+	
+	/**
+     * Sets the post title
+     *
+     * @param string $title is the new title of the post.
+     * @return bool True if successful
+     */
+	public function set_title_to(string $title) {
+		$sql = "UPDATE `%s` SET `title` = '%s' WHERE `id_%s` = %s";
+        $sql = sprintf($sql, Config::TABLE_POST, $title, Config::TABLE_POST, $this->id());
+
+        return $this->_db->query($sql);
+	}
+
+	/**
+     * Sets the post description
+     *
+     * @param string $description is the new description of the post.
+     * @return bool True if successful
+     */
+	public function set_description_to(string $description) {
+		$sql = "UPDATE `%s` SET `description` = '%s' WHERE `id_%s` = %s";
+        $sql = sprintf($sql, Config::TABLE_POST, $description, Config::TABLE_POST, $this->id());
+
+        return $this->_db->query($sql);
+	}
+	/**
+     * Sets the post related documents
+     *
+     * @param Document[] $documents are the new documents of the post.
+     * @return bool True if successful
+     */
+	public function set_document_links(Document[] $documents) {
+		$all_docs_linked_ok = true;
+		foreach ($documents as $doc) {
+			$all_docs_linked_ok &= $doc->bound($this);
+		}
+        return $all_docs_linked_ok;
+	}
+
+	/**
+     * Gets how many upvotes are they for this post
+     *
+     * @return int number_of_votes
+     */
 	public function get_nb_up_votes() : int;
+	
+	/**
+     * Gets how many downvotes are they for this post
+     *
+     * @return int number_of_votes
+     */
 	public function get_nb_down_votes() : int;
 	
+	/**
+     * Upvotes the post by a given user
+     *
+     * @param User $u the user who upvote
+     * @return bool True if successful
+     */
 	public function upvote(User $u) : bool;
+
+	/**
+     * Downvotes the post by a given user
+     *
+     * @param User $u the user who downvote
+     * @return bool True if successful
+     */
 	public function downvote(User $u) : bool;
 
-	public function get_documents() : array;
+	/**
+     * Gets all documents related to the post
+     *
+     * @return Document[] documents
+     */
+	public function get_documents() : Document[];
 
+	/**
+     * Sets the visibility of the post
+     *
+     * @param 
+     * @return bool True if successful
+     */
 	public function set_visible(bool $visib) : bool;
 
+	/**
+     * Deletes the post
+     *
+     * @return bool True if successful
+     */
 	public function delete_post() : bool;
 }
