@@ -10,7 +10,7 @@
 
 	<a href="." class="top-left-name-absolute">OkyDoky</a>
 	<div class="form-structor">
-		<form class="signup" action="<?= Routes::url_for('/signup') ?>" method="POST">
+		<form id="signupForm" class="signup" action="<?= Routes::url_for('/signup') ?>" method="POST">
 			<h2 class="form-title" id="signup"><span>or</span>Sign up</h2>
 			<div class="form-holder">
 				<input type="text" name="nickname" class="input" placeholder="Nickname" />
@@ -19,7 +19,7 @@
 			</div>
 			<input type="submit" value="Sign up" class="submit-btn"></input>
 		</form>
-		<form class="login slide-up" action="<?= Routes::url_for('/signin') ?>" method="POST">
+		<form id="loginForm" class="login slide-up" action="<?= Routes::url_for('/signin') ?>" method="POST">
 			<div class="center">
 				<h2 class="form-title" id="login"><span>or</span>Login</h2>
 				<div class="form-holder">
@@ -40,27 +40,23 @@ const loginBtn = document.getElementById('login');
 const signupBtn = document.getElementById('signup');
 
 loginBtn.addEventListener('click', (e) => {
-	let parent = e.target.parentNode.parentNode;
-	Array.from(e.target.parentNode.parentNode.classList).find((element) => {
-		if(element !== "slide-up") {
-			parent.classList.add('slide-up')
-		}else{
-			signupBtn.parentNode.classList.add('slide-up')
-			parent.classList.remove('slide-up')
-		}
-	});
+	let formSignup = document.getElementById("signupForm");
+	let formLogin = document.getElementById("loginForm");
+	if (!formSignup.classList.contains("slide-up")){
+		
+		formSignup.classList.toggle("slide-up");
+		formLogin.classList.toggle("slide-up");
+	}
 });
 
 signupBtn.addEventListener('click', (e) => {
-	let parent = e.target.parentNode;
-	Array.from(e.target.parentNode.classList).find((element) => {
-		if(element !== "slide-up") {
-			parent.classList.add('slide-up')
-		}else{
-			loginBtn.parentNode.parentNode.classList.add('slide-up')
-			parent.classList.remove('slide-up')
-		}
-	});
+	let formSignup = document.getElementById("signupForm");
+	let formLogin = document.getElementById("loginForm");
+	if (!formLogin.classList.contains("slide-up")){
+		
+		formSignup.classList.toggle("slide-up");
+		formLogin.classList.toggle("slide-up");
+	}
 });
 </script>
 </html>	
