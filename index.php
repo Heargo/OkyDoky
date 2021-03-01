@@ -7,13 +7,22 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+/// Autoinclude class
+spl_autoload_register(function ($class_name) {
+    include 'class/' . $class_name . '.php';
+});
+require 'class/tools.php';
+class_alias('Permission', 'P');
+
+$GLOBALS['page'] = [];
+
 /// Managers
 require('db.php');
-require('class/DocumentManager.php');
-$GLOBALS["docs"] = new DocumentManager($DB);
+$GLOBALS['docs'] = new DocumentManager($DB);
+$GLOBALS['users'] = new UserManager($DB);
+$GLOBALS['db'] = $DB;
 
 /// Routes
-require('class/Routes.php');
 $ROUTES = new Routes();
 include('view.php');
 include('action.php');
