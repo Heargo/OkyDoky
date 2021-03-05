@@ -57,9 +57,32 @@ nav{
 	border-top:solid 1px #2F3542;
 	bottom: 0;
 }
-nav a{
+nav .bottomNavElement {
 	margin: 6%;
 }
+
+.bottomNavElement a{
+	padding: 0.5rem 0.2rem;
+	width: 200px;
+	text-decoration: none;
+	color: black;
+
+}
+
+#overlayCreate{
+	position: absolute;
+	transform: translateX(-45%) translateY(-120%);
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	background-color: #F1F2F6;
+}
+
+
+
+
+
 
 .backArrow{
 	position: absolute;
@@ -554,7 +577,7 @@ form{
 }
 
 .hidden{
-	display: none;
+	display: none !important;
 }
 .hide{
 	visibility:hidden
@@ -671,4 +694,71 @@ form{
 	margin: 5px;
 	border-radius: 100%;
 	object-fit: cover;
+}
+
+
+
+/* Un seul post*/
+
+.uniquePost{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	margin: 0 auto;
+	padding: 0 5px;
+	padding-bottom: 80px;
+	max-width: 600px;
+}
+
+.content p{
+	margin-top: 1rem;
+	text-align: justify;
+	font-size: 0.8rem;
+}
+
+.content h4{
+	margin-top: 0.5rem;
+	font-weight: normal;
+	text-align: center;
+	font-size: 1.2rem;
+
+}
+
+.commentaires{
+	display: none;
+}
+
+.commentaires a{
+	color: black;
+	font-weight: bold;
+	text-decoration: none; 
+}
+.commentaires div {
+	display: flex;
+	margin: 0.8rem 0;
+}
+.commentaires div .comment-img{
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	margin: 0 0.3rem;
+}
+
+.commentaires .comment-pseudo{
+	font-weight: bold;
+	margin-right: 10px;
+}
+.commentaires .comment{
+	display: inline;
+	vertical-align: top;
+}
+
+.comment-like{
+	font-size: 1rem;
+}
+.comment-like img{
+	height: 1rem;
+	margin-right: 5px;
+	transform: scale(1.3);
 }

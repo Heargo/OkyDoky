@@ -18,7 +18,7 @@
 		$urlIMG=$doc->url(); /*"./data/document" . */
 	?>
         
-        <div class="postImg">
+    <div class="postImg">
 		<!-- user -->
 		<div class="postEnTete">
 			<a href="#"><img src="./img/img1.jpg" alt="profil"></a>
