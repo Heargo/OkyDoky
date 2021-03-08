@@ -18,7 +18,7 @@
 	<div class="postEnTete">
 		<a href="#"><img src="<?= Routes::url_for('/img/img1.jpg')?>" alt="profil"></a>
 		<a href="#">Pseudo</a>
-		<img onclick="window.history.back();" class="cursor" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+		<img onclick="window.history.back();" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 	</div>
 	<!-- content -->
 	<div class="content">
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 </div>	
-<div class="commentaires">
+<div class="commentaires hidden">
 	<div>
 		<a href="#">
 			<img class="comment-img" src="<?= Routes::url_for('/img/img1.jpg')?>" alt="profil">
