@@ -50,16 +50,16 @@ class Post {
     public function id_community() { return $this->_id_community;}
 
     /** Return the post's creation date */
-	public function date() : { return $this->_date;}
+	public function date() { return $this->_date;}
 
 	/** Return the post's title */
-	public function title() : { return $this->_title;}
+	public function title() { return $this->_title;}
 	
 	/** Return the post's description */
-	public function description() : { return $this->_description;}
+	public function description() { return $this->_description;}
 
 	/** Return the post's visibility */
-	public function is_visible() : { return $this->_visible;}
+	public function is_visible() { return $this->_visible;}
 	
 	/**
      * Sets the post title
@@ -135,20 +135,49 @@ class Post {
      *
      * @return Document[] documents
      */
-	public function get_documents() : Document[];
+	public function get_documents() : array {
+		return $GLOBALS['docs']-> get_by_post($this);
+	}
+
+	/**
+     * Deletes a given document related to the post
+     *
+     * @throw InvalidDocument If the given document isn't in the post document list
+     * @return bool True if successful
+     */
+	public function del_document(Document $document)
+	{
+		if (contains($document, get_documents()) {
+			return $GLOBALS['docs']->del_document($document);
+		} else {
+			throw new InvalidDocument('You can\'t delete the document "' . $document->id() . '" from that post!');
+		}
+	}
+
+	/**
+     * Deletes all documents related to the post
+     *
+     * @return bool True if successful
+     */
+	public function del_all_docs()
+	{
+		$operationValid = true;
+		foreach ($this->get_documents() as $document) {
+			$operationValid &= $this->del_document($document);
+		}
+		return $operationValid;
+	}
 
 	/**
      * Sets the visibility of the post
      *
-     * @param 
+     * @param bool $visib the new visibility
      * @return bool True if successful
      */
-	public function set_visible(bool $visib) : bool;
+	public function set_visible(bool $visib) : bool {
+        $sql = "UPDATE `%s` SET `visible` = '%s' WHERE `id_%s` = %s";
+        $sql = sprintf($sql, Config::TABLE_POST, $visib, Config::TABLE_POST, $this->id());
 
-	/**
-     * Deletes the post
-     *
-     * @return bool True if successful
-     */
-	public function delete_post() : bool;
+        return $this->_db->query($sql);
+    }
 }
