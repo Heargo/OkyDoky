@@ -62,7 +62,7 @@ class Community{
     public function recruit(User $user) : bool {
         $average_nb = (new P(P::AVERAGE))->get();
         $sql = "INSERT INTO `%s` (`id_%s`, `id_%s`, `join_date`, `permissions`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
-        sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$_id,$average_nb, $user->is_certified($this));
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$_id,$average_nb, $user->is_certified($this));
         return $this->_db->query($sql);
     }
 
@@ -71,7 +71,7 @@ class Community{
      */
     public function leave(User $user) : bool {
         $sql = "DELETE FROM `%s` WHERE `id_%s` = %s;";
-        sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $user->id());
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $user->id());
         return $this->_db->query($sql);
     }
 
