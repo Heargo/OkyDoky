@@ -17,7 +17,7 @@ class PostManager {
      * @throw UserCantInteract If the user cannot create a post for this community
      * @param Document[] $documents Array of documents coming from $_FILES. 
      */
-    public function add_post(User $publisher, Community $community, string $title, string $description, Document[] $documents) : bool {
+    public function add_post(User $publisher = null, Community $community = null, string $title, string $description, array $documents = null) : bool {
         /*if (!$publisher->can(P::INTERACT, $community)) {
             throw new UserCantInteract("User ".$publisher->nickname()." cannot interact with ".$community->name()."'s community!");
         }*/
@@ -58,24 +58,24 @@ class PostManager {
      * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
      * @return Posts[] An array of posts.
      */
-    public function get_by_community(?bool $visible = true, Community $community, int $limit = 10, int $offset = 0) : array {
-        if (isset($visible)) {
-            $visible = $visible ? 1 : 0;
-            $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d LIMIT %d OFFSET %d";
-            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $community->id(), $limit, $offset);
-        } else {
-            $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d LIMIT %d OFFSET %d";
-            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $community->id(), $limit, $offset);
-        }
-        $result = $this->_db->query($sql);
-        if($result) {
-            for ($list = array();
-                 $row = $result->fetch_assoc();
-                 $list[] = new Post($this->_db, $row['id_' . Config::TABLE_POST]));
-            return $list;
-        }
-        return array();
-    }
+    // public function get_by_community(?bool $visible = true, Community $community, int $limit = 10, int $offset = 0) : array {
+    //     if (isset($visible)) {
+    //         $visible = $visible ? 1 : 0;
+    //         $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d LIMIT %d OFFSET %d";
+    //         $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $community->id(), $limit, $offset);
+    //     } else {
+    //         $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d LIMIT %d OFFSET %d";
+    //         $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $community->id(), $limit, $offset);
+    //     }
+    //     $result = $this->_db->query($sql);
+    //     if($result) {
+    //         for ($list = array();
+    //              $row = $result->fetch_assoc();
+    //              $list[] = new Post($this->_db, $row['id_' . Config::TABLE_POST]));
+    //         return $list;
+    //     }
+    //     return array();
+    // }
 
     /**
      * Get an array of posts by publisher
@@ -86,24 +86,24 @@ class PostManager {
      * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
      * @return Posts[] An array of posts.
      */
-    public function get_by_publisher(?bool $visible = true, User $publisher, int $limit = 10, int $offset = 0) : array {
-        if (isset($visible)) {
-            $visible = $visible ? 1 : 0;
-            $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `publisher` = %d LIMIT %d OFFSET %d";
-            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $publisher->id(), $limit, $offset);
-        } else {
-            $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `publisher` = %d LIMIT %d OFFSET %d";
-            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $publisher->id(), $limit, $offset);
-        }
-        $result = $this->_db->query($sql);
-        if($result) {
-            for ($list = array();
-                 $row = $result->fetch_assoc();
-                 $list[] = new Post($this->_db, $row['id_' . Config::TABLE_POST]));
-            return $list;
-        }
-        return array();
-    }
+    // public function get_by_publisher(?bool $visible = true, User $publisher, int $limit = 10, int $offset = 0) : array {
+    //     if (isset($visible)) {
+    //         $visible = $visible ? 1 : 0;
+    //         $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `publisher` = %d LIMIT %d OFFSET %d";
+    //         $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $publisher->id(), $limit, $offset);
+    //     } else {
+    //         $sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `publisher` = %d LIMIT %d OFFSET %d";
+    //         $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $publisher->id(), $limit, $offset);
+    //     }
+    //     $result = $this->_db->query($sql);
+    //     if($result) {
+    //         for ($list = array();
+    //              $row = $result->fetch_assoc();
+    //              $list[] = new Post($this->_db, $row['id_' . Config::TABLE_POST]));
+    //         return $list;
+    //     }
+    //     return array();
+    // }
 
     /**
       * Delete a post based on its ID
@@ -123,7 +123,7 @@ class PostManager {
         $desc_ok = $post->set_description_to("");
 
         // Documents
-        $docs_ok = $post->del_all_docs();
+        // $docs_ok = $post->del_all_docs();
         return $visib_ok & $title_ok & $desc_ok & $docs_ok;
     }
 }

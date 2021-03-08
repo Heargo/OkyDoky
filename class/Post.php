@@ -92,27 +92,27 @@ class Post {
      * @param Document[] $documents are the new documents of the post.
      * @return bool True if successful
      */
-	public function set_document_links(Document[] $documents) {
-		$all_docs_linked_ok = true;
-		foreach ($documents as $doc) {
-			$all_docs_linked_ok &= $doc->bound($this);
-		}
-        return $all_docs_linked_ok;
-	}
+	// public function set_document_links(array $documents) {
+	// 	$all_docs_linked_ok = true;
+	// 	foreach ($documents as $doc) {
+	// 		$all_docs_linked_ok &= $doc->bound($this);
+	// 	}
+ //        return $all_docs_linked_ok;
+	// }
 
 	/**
      * Gets how many upvotes are they for this post
      *
      * @return int number_of_votes
      */
-	public function get_nb_up_votes() : int;
+	// public function get_nb_up_votes() : int;
 	
 	/**
      * Gets how many downvotes are they for this post
      *
      * @return int number_of_votes
      */
-	public function get_nb_down_votes() : int;
+	// public function get_nb_down_votes() : int;
 	
 	/**
      * Upvotes the post by a given user
@@ -120,7 +120,7 @@ class Post {
      * @param User $u the user who upvote
      * @return bool True if successful
      */
-	public function upvote(User $u) : bool;
+	// public function upvote(User $u) : bool;
 
 	/**
      * Downvotes the post by a given user
@@ -128,16 +128,16 @@ class Post {
      * @param User $u the user who downvote
      * @return bool True if successful
      */
-	public function downvote(User $u) : bool;
+	// public function downvote(User $u) : bool;
 
 	/**
      * Gets all documents related to the post
      *
      * @return Document[] documents
      */
-	public function get_documents() : array {
-		return $GLOBALS['docs']-> get_by_post($this);
-	}
+	// public function get_documents() : array {
+	// 	return $GLOBALS['docs']-> get_by_post($this);
+	// }
 
 	/**
      * Deletes a given document related to the post
@@ -145,28 +145,28 @@ class Post {
      * @throw InvalidDocument If the given document isn't in the post document list
      * @return bool True if successful
      */
-	public function del_document(Document $document)
-	{
-		if (contains($document, get_documents()) {
-			return $GLOBALS['docs']->del_document($document);
-		} else {
-			throw new InvalidDocument('You can\'t delete the document "' . $document->id() . '" from that post!');
-		}
-	}
+	// public function del_document(Document $document)
+	// {
+	// 	if (contains($document, get_documents()) {
+	// 		return $GLOBALS['docs']->del_document($document);
+	// 	} else {
+	// 		throw new InvalidDocument('You can\'t delete the document "' . $document->id() . '" from that post!');
+	// 	}
+	// }
 
 	/**
      * Deletes all documents related to the post
      *
      * @return bool True if successful
      */
-	public function del_all_docs()
-	{
-		$operationValid = true;
-		foreach ($this->get_documents() as $document) {
-			$operationValid &= $this->del_document($document);
-		}
-		return $operationValid;
-	}
+	// public function del_all_docs()
+	// {
+	// 	$operationValid = true;
+	// 	foreach ($this->get_documents() as $document) {
+	// 		$operationValid &= $this->del_document($document);
+	// 	}
+	// 	return $operationValid;
+	// }
 
 	/**
      * Sets the visibility of the post
