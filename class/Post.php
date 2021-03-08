@@ -50,16 +50,16 @@ class Post {
     public function id_community() { return $this->_id_community;}
 
     /** Return the post's creation date */
-	public function date() : { return $this->_date;}
+	public function date() { return $this->_date;}
 
 	/** Return the post's title */
-	public function title() : { return $this->_title;}
+	public function title() { return $this->_title;}
 	
 	/** Return the post's description */
-	public function description() : { return $this->_description;}
+	public function description() { return $this->_description;}
 
 	/** Return the post's visibility */
-	public function is_visible() : { return $this->_visible;}
+	public function is_visible() { return $this->_visible;}
 	
 	/**
      * Sets the post title
@@ -92,7 +92,7 @@ class Post {
      * @param Document[] $documents are the new documents of the post.
      * @return bool True if successful
      */
-	public function set_document_links(Document[] $documents) {
+	public function set_document_links(array $documents) {
 		$all_docs_linked_ok = true;
 		foreach ($documents as $doc) {
 			$all_docs_linked_ok &= $doc->bound($this);
@@ -105,14 +105,18 @@ class Post {
      *
      * @return int number_of_votes
      */
-	public function get_nb_up_votes() : int;
+	public function get_nb_up_votes() : int {
+          return 0;
+     }
 	
 	/**
      * Gets how many downvotes are they for this post
      *
      * @return int number_of_votes
      */
-	public function get_nb_down_votes() : int;
+	public function get_nb_down_votes() : int{
+          return 0;
+     }
 	
 	/**
      * Upvotes the post by a given user
@@ -120,7 +124,9 @@ class Post {
      * @param User $u the user who upvote
      * @return bool True if successful
      */
-	public function upvote(User $u) : bool;
+	public function upvote(User $u) : bool{
+          return false;
+     }
 
 	/**
      * Downvotes the post by a given user
@@ -128,14 +134,18 @@ class Post {
      * @param User $u the user who downvote
      * @return bool True if successful
      */
-	public function downvote(User $u) : bool;
+	public function downvote(User $u) : bool{
+          return false;
+     }
 
 	/**
      * Gets all documents related to the post
      *
      * @return Document[] documents
      */
-	public function get_documents() : Document[];
+	public function get_documents() : array{
+          return null;
+     }
 
 	/**
      * Sets the visibility of the post
@@ -143,12 +153,16 @@ class Post {
      * @param 
      * @return bool True if successful
      */
-	public function set_visible(bool $visib) : bool;
+	public function set_visible(bool $visib) : bool{
+          return false;
+     }
 
 	/**
      * Deletes the post
      *
      * @return bool True if successful
      */
-	public function delete_post() : bool;
+	public function delete_post() : bool{
+          return false;
+     }
 }
