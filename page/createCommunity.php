@@ -22,9 +22,9 @@
 		<!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
 		<input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
 		<!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
-		<label for="file" class="fileUploadLabel cursor"><img src="./img/svg/upload.svg"></label>
+		<label id ="uploadbtn" for="file" class="fileUploadLabel cursor"><img src="./img/svg/upload.svg"></label>
 		<input class="fileUploadInput" id="file" name="file" type="file"/>
-
+		<img id="preview" class="hidden" src="#" alt="preview">
 		<!-- Description -->
 		<textarea class="descriptionInput" type="text" name="description" placeholder="Description."></textarea>
 		
@@ -36,4 +36,6 @@
 
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="<?= Routes::url_for('/js/imagePreview.js')?>"></script>
 </html>
