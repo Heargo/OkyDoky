@@ -15,5 +15,7 @@
 
 <?php include 'bottomnav.php'; ?>
 
+<?php include 'backgroundItems.php'; ?>
+
 </body>
 </html>

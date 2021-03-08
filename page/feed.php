@@ -58,6 +58,7 @@
 
 <?php include 'bottomnav.php'; ?>
 
+<?php include 'backgroundItems.php'; ?>
 </body>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 </html>
