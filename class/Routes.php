@@ -17,14 +17,16 @@ class Routes {
      * eg : lier /community à liste_communities.php (celles visible par l'utilisateur courrant) 
      * et /community/uneCommunauté à display_community.php : 
      * $ROUTES->bound_get("/community", "liste_communities.php")
-     *        ->bound_get("/community/(.+)", "display_community.php");
+     *        ->bound_get("/community/(\w+)", "display_community.php");
      *
      * @param string $regex A regular expression representing the URL.
      * @param string $filename The name of the file to include.
+     * @param callable $before An optional function to call before including $filename.
+     *        This funtion should take an **optional** array, reprensenting matching groups of $regex.
      * @return $this So you can easily chain URL registration.
      */
-    public function bound_get(string $regex, string $filename) {
-        $this->_regex_get['#^' . $regex . '/?$#'] = $filename;
+    public function bound_get(string $regex, string $filename, ?callable $before = null) {
+        $this->_regex_get['#^' . $regex . '/?$#'] = array($filename, $before);
         return $this;
     }
 
@@ -44,7 +46,7 @@ class Routes {
      *        This is **not** a sanitizing/validating tool.
      * @return $this So you can easily chain URL registration.
      */
-    public function bound_post(string $regex, callable $func, ?array $required_fields=null){
+    public function bound_post(string $regex, callable $func, ?array $required_fields = null){
         $this->_regex_post['#^' . $regex . '/?$#'] = array($func, $required_fields);
         return $this;
     }
@@ -57,20 +59,33 @@ class Routes {
 
         $match = null;
         if ($method === "GET") {
-            foreach ($this->_regex_get as $regex => $filename) {
-                if (preg_match($regex, self::get_url(), $match)){
-                    global $PAGE;
-                    isset($PAGE) ? : $PAGE = array();
-                    $PAGE["url"] = self::get_url();
-                    $PAGE["match"] = $match;
-                    include $filename;
-                }
-            }
+            $this->_execute_get();
         } else if ($method === "POST") {
-            foreach ($this->_regex_post as $regex => list($func, $req_fields)) {
-                if (preg_match($regex, self::get_url(), $match)){
-                    if (!isset($req_fields) || self::are_fields_valid($req_fields, $_POST)) $func($match);
-                }
+            $this->_execute_post();
+        }
+    }
+
+    /**
+     * Process GET requests
+     */
+    private function _execute_get() {
+        foreach ($this->_regex_get as $regex => list($filename, $before)) {
+            if (preg_match($regex, self::get_url(), $match)){
+                if ($before) $before($match);
+                $GLOBALS['page']['url'] = self::get_url();
+                $GLOBALS['page']['match'] = $match;
+                include $filename;
+            }
+        }
+    }
+
+    /**
+     * Process POST requests
+     */
+    private function _execute_post() {
+        foreach ($this->_regex_post as $regex => list($func, $req_fields)) {
+            if (preg_match($regex, self::get_url(), $match)){
+                if (!isset($req_fields) || self::are_fields_valid($req_fields, $_POST)) $func($match);
             }
         }
     }
