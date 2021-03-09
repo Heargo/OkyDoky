@@ -40,3 +40,17 @@ function signup(?array $match) {
     $root = Config::URL_SUBDIR(false);
     header("Location: $root/login");
 }
+
+function verify_user_email(?array $match) {
+    if (!empty($match['user']) && !empty($match['token'])) {
+        $user = $GLOBALS['users']->get_by_nickname($match['user']);
+        if ($user) {
+            $token_ok = $user->validate_email_token($match['token']);
+            $GLOBALS['page']['error_validate_token'] = !$token_ok;
+        } else {
+            $GLOBALS['page']['error_validate_user'] = true;
+        }
+    } else {
+        $GLOBALS['page']['error_validate'] = true;
+    }
+}
