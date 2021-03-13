@@ -7,6 +7,14 @@ class Config {
     public const DB_PASSWORD = '<PASSWORD>';
     public const DB_NAME = '<BDD>';
 
+    // SMTP
+    public const SMTP_HOST = 'smtp.example.com';
+    public const SMTP_USER = '<USER>';
+    public const SMTP_PASS = '<PASSWORD>';
+    public const SMTP_FROM = self::SMTP_USER;
+    public const IS_SMTPS  = true;
+    public const SMTP_PORT = 465;
+
     // Tables
     public const TABLE_DOCUMENT = 'document';
     public const TABLE_USER = 'user';

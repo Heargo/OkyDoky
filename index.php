@@ -9,7 +9,10 @@ error_reporting(E_ALL);
 
 /// Autoinclude class
 spl_autoload_register(function ($class_name) {
-    include 'class/' . $class_name . '.php';
+    $class = 'class/' . $class_name . '.php';
+    $library = 'lib/' . str_replace('\\', '/', $class_name) . '.php';
+    if (file_exists($class)) include $class;
+    if (file_exists($library)) include $library;
 });
 require 'class/tools.php';
 class_alias('Permission', 'P');
@@ -23,8 +26,13 @@ $GLOBALS['users'] = new UserManager($DB);
 $GLOBALS['db'] = $DB;
 
 /// Routes
-$ROUTES = new Routes();
-include('view.php');
-include('action.php');
-$ROUTES->execute();
+foreach (glob("action/*.php") as $filename) {
+    include $filename;
+}
+if (php_sapi_name() != 'cli') {
+    $ROUTES = new Routes();
+    include('action.php');
+    include('view.php');
+    $ROUTES->execute();
+}
 
