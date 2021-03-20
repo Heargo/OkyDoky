@@ -9,6 +9,7 @@ $user = Config::TABLE_USER;
 $community = Config::TABLE_COMMUNITY;
 $resource = Config::TABLE_RESOURCE;
 $post = Config::TABLE_POST;
+$vote = Config::TABLE_VOTE;
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 0;");
 
@@ -27,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `$user` (
     `new_email` varchar(255) NULL,
     
     PRIMARY KEY (`id_$user`),
-    UNIQUE KEY `nickname` (`nickname`),
-    UNIQUE KEY `email` (`email`)
+    UNIQUE KEY (`nickname`),
+    UNIQUE KEY (`email`)
 );"
 );
 
@@ -88,11 +89,25 @@ CREATE TABLE IF NOT EXISTS `$community` (
     PRIMARY KEY (`id_$community`),
     FOREIGN KEY (`cover`) REFERENCES `$resource`(`id_$resource`),
     FOREIGN KEY (`highlight_post`) REFERENCES `$post`(`id_$post`),
-    UNIQUE KEY `name` (`name`)
+    UNIQUE KEY (`name`)
+);"
+);
+
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$vote` (
+    `id_$vote` int unsigned NOT NULL AUTO_INCREMENT,
+    `post` int unsigned NOT NULL,
+    `user` int unsigned NOT NULL,
+    `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `mark` enum('up','down') NOT NULL,
+    
+    PRIMATE KEY (`id_$vote`),
+    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`),
+    FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`)
 );"
 );
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 1;");
 
-unset($document, $user, $community, $resource, $post);
+unset($document, $user, $community, $resource, $post, $vote);
 

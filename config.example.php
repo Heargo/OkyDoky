@@ -22,6 +22,7 @@ class Config {
     public const TABLE_USER_COMMUNITY = 'user_community';
     public const TABLE_RESOURCE = 'resource';
     public const TABLE_POST = 'post';
+    public const TABLE_VOTE = 'vote';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
