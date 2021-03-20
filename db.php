@@ -7,6 +7,7 @@ $DB = new mysqli(Config::DB_HOST, Config::DB_USER, Config::DB_PASSWORD, Config::
 $document = Config::TABLE_DOCUMENT;
 $user = Config::TABLE_USER;
 $community = Config::TABLE_COMMUNITY;
+$user_comm = Config::TABLE_USER_COMMUNITY;
 $resource = Config::TABLE_RESOURCE;
 $post = Config::TABLE_POST;
 $vote = Config::TABLE_VOTE;
@@ -104,6 +105,21 @@ CREATE TABLE IF NOT EXISTS `$vote` (
     PRIMARY KEY (`id_$vote`),
     FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`),
     FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`)
+);"
+);
+
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$user_comm` (
+    `id_$user_comm` int unsigned NOT NULL AUTO_INCREMENT,
+    `user` int unsigned NOT NULL,
+    `community` int unsigned NOT NULL,
+    `join_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `permission` int unsigned NOT NULL,
+    `certified` tinyint(1) NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (`id_$user_comm`),
+    FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`),
+    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`)
 );"
 );
 
