@@ -15,7 +15,7 @@
 
 <section class="shareContainer">
 	<!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
-	<form enctype="multipart/form-data" action="<?= Routes::url_for('####')?>" method="post">
+	<form enctype="multipart/form-data" action="<?= Routes::url_for('/createCommunity')?>" method="post">
 		<!-- Titre -->
 		<input class="titleInput" type="text" name="name" placeholder="Nom de la communauté">
 

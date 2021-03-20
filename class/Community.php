@@ -10,20 +10,21 @@ class Community{
     private $_description;
     private $_highlight_post;
 
-    public function _construct(mysqli $db, int $id){
+    public function __construct(mysqli $db, int $id){
+        $this->_id = $id;
+        $this->_db = $db;
+        if (!is_id_correct($this->_db, Config::TABLE_COMMUNITY, $this->id())) {
+            throw new InvalidID('id "' . $this->id() . '" in table "' . Config::TABLE_COMMUNITY . '" isn`t correct.');
+        }
         $sql = "SELECT * FROM `%s` WHERE `id_%s` = $id";
         $sql = sprintf($sql, Config::TABLE_COMMUNITY, Config::TABLE_COMMUNITY, $id);
 
-        $result = $this->_db->query($sql);
-        if($result) {
-            $row = $result->fetch_assoc();
-            $this->$_id = $row["id_community"];
-            $this->$_name = $row["name"];
-            $this->$_display_name = $row["display_name"];
-            $this->$_cover = $row["cover"];
-            $this->$_description = $row["description"];
-            $this->$_highlight_post = $row["highlight_post"]; 
-        }
+        $row = $db->query($sql)->fetch_assoc();
+        $this->_name = $row["name"];
+        $this->_display_name = $row["display_name"];
+        $this->_cover = $row["cover"];
+        $this->_description = $row["description"];
+        $this->_highlight_post = $row["highlight_post"]; 
     }
 
 
@@ -31,10 +32,10 @@ class Community{
      * Get the unique name of the community
      */
     public function id(){
-        return $_id;
+        return $this->_id;
     }
     public function get_name(){
-        return $_name;
+        return $this->_name;
     }
 
     /**
@@ -42,28 +43,28 @@ class Community{
      */
     public function set_display_name(String $display_name){
         $_display_name = $display_name;
-        $sql = "UPDATE `%s` SET `display_name` = '$display_name' WHERE `%s`.`id_%s` = $_id;";
+        $sql = "UPDATE `%s` SET `display_name` = '$display_name' WHERE `%s`.`id_%s` = $this->_id ;";
         $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
-        return $_db->query($sql);
+        return $this->_db->query($sql);
     }
     /**
      * Get the display name of the community
      */
     public function get_display_name(){
-        return $_display_name;
+        return $this->_display_name;
     }
 
     public function set_description(String $description){
         $_description = $description;
-        $sql = "UPDATE `%s` SET `description` = '$description' WHERE `%s`.`id_%s` = $_id;";
+        $sql = "UPDATE `%s` SET `description` = '$description' WHERE `%s`.`id_%s` = $this->_id;";
         $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
-        return $_db->query($sql);
+        return $this->_db->query($sql);
     }
     /**
      * Get a community's description
      */
     public function get_description(){
-        return $_description;
+        return $this->_description;
     }
 
     /**
@@ -78,9 +79,10 @@ class Community{
      * Function to add an user to a communtity
      */
     public function recruit(User $user) : bool {
-        $average_nb = (new P(P::AVERAGE))->get();
-        $sql = "INSERT INTO `%s` (`id_%s`, `id_%s`, `join_date`, `permissions`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$_id,$average_nb, $user->is_certified($this));
+        $average_nb = (new Permission(Permission::AVERAGE));
+        $sql = "INSERT INTO `%s` (`%s`, `%s`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$this->_id,0/**$average_nb*/,0);
+        echo $sql;
         return $this->_db->query($sql);
     }
 
@@ -88,11 +90,16 @@ class Community{
      * Function to remove an user from a community
      */
     public function leave(User $user) : bool {
-        $sql = "DELETE FROM `%s` WHERE `id_%s` = %s;";
+        $sql = "DELETE FROM `%s` WHERE `%s` = %s;";
         $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $user->id());
         return $this->_db->query($sql);
     }
-
+    public function update_cover(int $id_cover){
+        $sql = "UPDATE `%s` SET `cover` = '$id_cover' WHERE `%s`.`id_%s` = $this->_id;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        echo $sql;
+        return (bool) $this->_db->query($sql);
+    }
     /**
      * Set cover for a community
      */
@@ -119,7 +126,14 @@ class Community{
             $sql = sprintf($sql, Config::TABLE_RESOURCE, $file_url, $file_path, Config::TABLE_RESOURCE, $id);
             $success = $this->_db->query($sql);
 
-            $_cover = $id;
+            $this->_cover = $id;
+            //$success = update_cover($id);
+
+            //Update de la cover
+            $sql = "UPDATE `%s` SET `cover` = '$this->_cover' WHERE `%s`.`id_%s` = $this->_id;";
+            $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+            echo $sql;
+            $success =  $this->_db->query($sql);
             return $success;
         }
         else{
@@ -129,10 +143,17 @@ class Community{
             $sql = "INSERT INTO `%s` (`url`,`path`) VALUES ('%s';'%s')";
             $sql = sprintf($sql, Config::TABLE_RESOURCE, $file_url, $file_path);
             $success = $this->_db->query($sql);
-            $_cover =(int) $this->_db->insert_id;
+            $this->_cover =(int) $this->_db->insert_id;
+            //$success = update_cover($id);
+
+            //update de la cover
+            $sql = "UPDATE `%s` SET `cover` = '$this->_cover' WHERE `%s`.`id_%s` = $this->_id;";
+            $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+            $success =  $this->_db->query($sql);
             return $success;
         }
-    } 
+    }
+    
 
 
     public function set_owner($user){
