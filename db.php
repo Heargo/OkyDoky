@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `$vote` (
     `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `mark` enum('up','down') NOT NULL,
     
-    PRIMATE KEY (`id_$vote`),
+    PRIMARY KEY (`id_$vote`),
     FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`),
     FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`)
 );"
