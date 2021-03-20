@@ -30,10 +30,22 @@ class Community{
     /**
      * Get the unique name of the community
      */
+    public function id(){
+        return $_id;
+    }
     public function get_name(){
         return $_name;
     }
 
+    /**
+     * Set the display name of the community
+     */
+    public function set_display_name(String $display_name){
+        $_display_name = $display_name;
+        $sql = "UPDATE `%s` SET `display_name` = '$display_name' WHERE `%s`.`id_%s` = $_id;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        return $_db->query($sql);
+    }
     /**
      * Get the display name of the community
      */
@@ -41,6 +53,12 @@ class Community{
         return $_display_name;
     }
 
+    public function set_description(String $description){
+        $_description = $description;
+        $sql = "UPDATE `%s` SET `description` = '$description' WHERE `%s`.`id_%s` = $_id;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        return $_db->query($sql);
+    }
     /**
      * Get a community's description
      */
@@ -76,6 +94,54 @@ class Community{
     }
 
     /**
+     * Set cover for a community
+     */
+    public function set_cover(array $document){
+        // if file isn't empty and not too large
+        if ($document['size'] != 0 && $document['size'] < 50000000) {
+            if (!is_writable(Config::DIR_COVER)) {
+                throw new NotWritable('Directory ' . Config::DIR_COVER . ' is not writable');
+            }
+            // insert tmp path to DB
+            $sql = "INSERT INTO `%s` (`path`) VALUES ('%s')";
+            $sql = sprintf($sql, Config::TABLE_RESOURCE, $document['tmp_name']);
+            $this->_db->query($sql);
+
+            // move tmp file to permanent path
+            $id = (int) $this->_db->insert_id;
+            $file_name = basename($id . '_' . $document['name']);
+            $file_path = Config::DIR_COVER . $file_name;
+            move_uploaded_file($document['tmp_name'], $file_path);
+
+            // update DB with real path
+            $file_url = 'http://' . Config::URL_ROOT() . 'data/cover/' . $file_name;
+            $sql = "UPDATE `%s` SET `url` = '%s', `path` = '%s' WHERE `id_%s` = '%d'";
+            $sql = sprintf($sql, Config::TABLE_RESOURCE, $file_url, $file_path, Config::TABLE_RESOURCE, $id);
+            $success = $this->_db->query($sql);
+
+            $_cover = $id;
+            return $success;
+        }
+        else{
+            //if the image can't be used -> use default one
+            $file_url = 'http://' . Config::URL_ROOT() . 'data/cover/default.png';
+            $file_path = Config::DIR_COVER . 'default.png';
+            $sql = "INSERT INTO `%s` (`url`,`path`) VALUES ('%s';'%s')";
+            $sql = sprintf($sql, Config::TABLE_RESOURCE, $file_url, $file_path);
+            $success = $this->_db->query($sql);
+            $_cover =(int) $this->_db->insert_id;
+            return $success;
+        }
+    } 
+
+
+    public function set_owner($user){
+        if($user->add_perm(P::OWNER, $this)){
+            return true;
+        }
+        return false;        
+    }
+    /**
      * Find members with permissions in that community
      */
     public function get_members(?int $flags = null) : array{
@@ -93,8 +159,6 @@ class Community{
     public function get_cover() : string{
         return "";
     }
-    
-    public function set_cover(array $cover) : bool{return false;}
 
     public function get_nb_members(int $flags = null) : int{
         return 0;

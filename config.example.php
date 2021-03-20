@@ -25,6 +25,7 @@ class Config {
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
+    public const DIR_COVER = __DIR__ . '/data/cover/';
 
     //URLs
     public const URL_ROOT = 'example.com/okydoky/';
