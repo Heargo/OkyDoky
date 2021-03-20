@@ -18,7 +18,7 @@
 		$urlIMG=$doc->url(); /*"./data/document" . */
 	?>
         
-        <div class="postImg">
+    <div class="postImg">
 		<!-- user -->
 		<div class="postEnTete">
 			<a href="#"><img src="./img/img1.jpg" alt="profil"></a>
@@ -58,17 +58,7 @@
 
 <?php include 'bottomnav.php'; ?>
 
+<?php include 'backgroundItems.php'; ?>
 </body>
-<script type="text/javascript">
-	
-window.onscroll = function(ev) {
-
-	if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight -2) {
-		console.log("je suis en bas !");
-		console.log("faire la requete ajax");
-		console.log("modif la page");
-	}
-};
-
-</script>
+<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 </html>
