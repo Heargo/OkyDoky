@@ -57,4 +57,6 @@ function verify_user_email(?array $match) {
     } else {
         $GLOBALS['page']['error_validate'] = true;
     }
+    $root = Config::URL_SUBDIR(false);
+    header("Location: $root/login"); // @todo page/verify.php to replace this redirection
 }
