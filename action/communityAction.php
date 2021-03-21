@@ -6,6 +6,6 @@ function create_community(?array $match){
     $description = $_POST['description'];
     $user = User::current();
     $GLOBALS['communities']->add_community($name,$disp_name,$description,$user,$_FILES['file']);
-    $root = empty($root) ? '/' : $root;
-    header('Location: ' . $root);
+    $root = Config::URL_SUBDIR(false);
+    header("Location: $root/feed");
 }

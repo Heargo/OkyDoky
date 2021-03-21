@@ -82,7 +82,6 @@ class Community{
         $average_nb = (new Permission(Permission::AVERAGE));
         $sql = "INSERT INTO `%s` (`%s`, `%s`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
         $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$this->_id,0/**$average_nb*/,0);
-        echo $sql;
         return $this->_db->query($sql);
     }
 
@@ -97,7 +96,6 @@ class Community{
     public function update_cover(int $id_cover){
         $sql = "UPDATE `%s` SET `cover` = '$id_cover' WHERE `%s`.`id_%s` = $this->_id;";
         $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
-        echo $sql;
         return (bool) $this->_db->query($sql);
     }
     /**
@@ -132,7 +130,6 @@ class Community{
             //Update de la cover
             $sql = "UPDATE `%s` SET `cover` = '$this->_cover' WHERE `%s`.`id_%s` = $this->_id;";
             $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
-            echo $sql;
             $success =  $this->_db->query($sql);
             return $success;
         }
@@ -182,7 +179,12 @@ class Community{
     }
 
     public function get_nb_members(int $flags = null) : int{
-        return 0;
+        $sql = "SELECT COUNT(*) FROM `%s` WHERE `%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_COMMUNITY, $this->_id);
+        $result = $this->_db->query($sql);
+        $row = mysqli_fetch_row($result);
+        return $row[0];
+        
     }
 
     public function ban(User $user) : bool{return false;}
