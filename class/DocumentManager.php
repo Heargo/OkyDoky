@@ -26,7 +26,26 @@ class DocumentManager {
             return null;
        }
     }
-    //public get_by_post(Post $p);
+
+    /**
+     * Get document(s) bound to a post
+     *
+     * @return Document[] Array of documents.
+     */
+    public function get_by_post(Post $p) : ?array {
+        $sql = "SELECT `id_%s` FROM `%s` WHERE `post` = %d";
+        $sql = sprintf($sql, Config::TABLE_DOCUMENT, Config::TABLE_DOCUMENT, $p->id());
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            for ($list = array();
+                 $row = $result->fetch_row();
+                 $list[] = new Document($this->_db, $row[0]));
+            return $list;
+        }
+        return null;
+    }
+
 
     /**
      * Get an array of documents
