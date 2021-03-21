@@ -33,16 +33,10 @@ class CommunityManager {
                 $tmp_community->recruit($user);
                 //$tmp_community->set_owner($user);
             }
-           
-
-
             return $id;
         }
         else{
             return null;
         }
-
     }
-
-    
 }

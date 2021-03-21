@@ -22,6 +22,7 @@
 			  <?php
 			}
 			?>
+
 			  <!-- Next and previous buttons -->
 			  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
 			  <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -87,10 +88,6 @@
 <?php include 'bottomnav.php'; ?>
 
 </div>
-
-
-
-
 
 <section id="communitiesContainer" class="communityList hidden">
 	<img onclick="switchComs();" class="cross" src="./img/svg/cross.svg">

@@ -34,6 +34,7 @@ class Community{
     public function id(){
         return $this->_id;
     }
+  
     public function get_name(){
         return $this->_name;
     }
@@ -47,6 +48,7 @@ class Community{
         $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         return $this->_db->query($sql);
     }
+  
     /**
      * Get the display name of the community
      */
@@ -60,6 +62,7 @@ class Community{
         $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         return $this->_db->query($sql);
     }
+
     /**
      * Get a community's description
      */
@@ -150,8 +153,6 @@ class Community{
             return $success;
         }
     }
-    
-
 
     public function set_owner($user){
         if($user->add_perm(P::OWNER, $this)){
@@ -198,4 +199,5 @@ class Community{
     public function get_certified_members() : array{return null;}
 
     public function get_active_members(?int $days) : array{return null;}
+
 }

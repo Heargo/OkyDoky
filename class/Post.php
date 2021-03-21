@@ -154,7 +154,6 @@ class Post {
 		}
 	}
     
-
 	/**
 	 * Deletes all documents related to the post
 	 *
