@@ -16,7 +16,6 @@ function showSlides(n) {
   var captionText = document.getElementById("caption");
   var numberText = document.getElementById("number");
   var descText = document.getElementById("descriptionCommu");
-  
 
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
@@ -28,6 +27,7 @@ function showSlides(n) {
   captionText.innerHTML = slides[slideIndex-1].childNodes[1].alt;
   numberText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.number;
   descText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.description;
+  changeCommu(slides[slideIndex-1].childNodes[1].dataset.idCommu);
 }
 
 function switchComs(){
@@ -40,3 +40,20 @@ function switchComs(){
 	var body = document.body;
 	body.classList.toggle("blocScroll"); 
 }
+
+function changeCommu(id){
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function(){
+    if (this.readyState ==4 && this.status ==200) {
+     console.log(this.response);
+     console.log("j'ai changé");
+    }
+  };
+
+  xhr.open("POST","./ajax/community/current",true);
+  xhr.responseType="text";
+  xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+  xhr.send(id);
+}
+
+
