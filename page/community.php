@@ -98,7 +98,7 @@
 	$i = 1;
 	foreach($communities as $comm){
 		?>
-		<div onclick="showSpecificSlide($i);switchComs();">
+		<div onclick="showSpecificSlide(<?php echo "$i"; ?>);switchComs();">
 			<img class="communityPreview" src="<?=$comm->get_cover()?>">
 			<p class="communityPreviewLabel"><?=$comm->get_display_name()?></p>
 		</div>
