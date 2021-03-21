@@ -17,7 +17,7 @@ class PostManager {
 	 * @throw UserCantInteract If the user cannot create a post for this community
 	 * @param Document[] $documents Array of documents coming from $_FILES. 
 	 */
-	public function add_post(User $publisher, Community $commu, string $title, string $description, array $documents) : bool {
+	public function add_post(User $publisher, Community $commu, string $title, string $description, array $documents, bool $visible = true) : ?int {
 		/* TODO if (!$publisher->can(P::INTERACT, $community)) {
 			throw new UserCantInteract("User ".$publisher->nickname()." cannot interact with ".$community->get_name()."'s community!");
 		} TODO */
@@ -26,14 +26,16 @@ class PostManager {
 		$creation_ok = $this->_db->query($sql);
 		$description_ok = false;
 		$documents_ok = false;
+		$id_post = $this->_db->insert_id;
 		if ($creation_ok) {
 			// the post we are creating
-			$post = new Post($this->_db, $this->_db->insert_id);
+			$post = new Post($this->_db, $id_post);
 			$description_ok = $post->set_description_to($description);
 			$documents_ok = $post->set_document_links($documents);
+			$post->set_visible($visible);
+			return $id_post;
 		}
-		
-		return $creation_ok && $description_ok && $documents_ok;
+		return null;
 	}
 
 	/**

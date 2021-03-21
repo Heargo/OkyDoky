@@ -33,8 +33,8 @@ class Post {
 		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $id);
 		$row = $db->query($sql)->fetch_assoc();
 	
-		$this->_publisher = $row['publisher'];
-		$this->_id_community = $row['community'];
+		$this->_publisher = $GLOBALS['users']->get_by_id($row['publisher']);
+		$this->_id_community = $GLOBALS['communities']->get_by_id($row['community']);
 		$this->_date = $row['date'];
 		$this->_title = $row['title'];
 		$this->_description = $row['description'];
@@ -105,22 +105,62 @@ class Post {
 	 *
 	 * @return int number_of_votes
 	 */
-	// public function get_nb_up_votes() : int;
-	
+	public function get_nb_up_votes() {
+		$sql = "SELECT COUNT(*) FROM `%s` WHERE `post` = '%d' AND `mark` = 'up'";
+		$sql = sprintf($sql, Config::TABLE_VOTE, $this->id());
+		return $db->query($sql);
+	}
+
 	/**
 	 * Gets how many downvotes are they for this post
 	 *
 	 * @return int number_of_votes
 	 */
-	// public function get_nb_down_votes() : int;
+	public function get_nb_down_votes() {
+		$sql = "SELECT COUNT(*) FROM `%s` WHERE `post` = '%d' AND `mark` = 'down'";
+		$sql = sprintf($sql, Config::TABLE_VOTE, $this->id());
+		return $db->query($sql);
+	}
 	
+	/**
+	 * Check if the post is voted by a given user
+	 *
+	 * @param User $u the user who upvote
+	 * @return int : 0 if no vote, -1 if downvote, 1 if upvote
+	 */
+	public function hasUservoted(User $u) {
+		$sql = "SELECT `mark` FROM `%s` WHERE `post` = '%d' AND `user` = '%d'";
+		$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+		if ($row = $db->query($sql)->fetch_assoc()) {
+			return $row['mark'] == 'up' ? 1 : -1;
+		}
+		return 0;
+	}
+
 	/**
 	 * Upvotes the post by a given user
 	 *
 	 * @param User $u the user who upvote
 	 * @return bool True if successful
 	 */
-	// public function upvote(User $u) : bool;
+	public function upvote(User $u) {
+		switch ($this->hasUservoted($u)) {
+			case -1:
+				$sql = "DELETE FROM `%s` WHERE `post` = '%d' AND `user` = '%d'";
+				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				return $this->_db->query($sql) && $this->upvote($u);
+			case 0:
+				$sql = "INSERT INTO `%s` (`post`, `user`, `mark`) VALUES ('%d','%d','up')";
+				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				return $this->_db->query($sql);
+			case 1:
+				$sql = "DELETE FROM `%s` WHERE `post` = '%d' AND `user` = '%d'";
+				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				return $this->_db->query($sql);
+			default:
+				return 1;
+		}
+	}
 
 	/**
 	 * Downvotes the post by a given user
@@ -128,7 +168,24 @@ class Post {
 	 * @param User $u the user who downvote
 	 * @return bool True if successful
 	 */
-	// public function downvote(User $u) : bool;
+	public function downvote(User $u) {
+		switch ($this->hasUservoted($u)) {
+			case 1:
+				$sql = "DELETE FROM `%s` WHERE `post` = '%d' AND `user` = '%d'";
+				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				return $this->_db->query($sql) && $this->downvote($u);
+			case 0:
+				$sql = "INSERT INTO `%s` (`post`, `user`, `mark`) VALUES ('%d','%d','down')";
+				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				return $this->_db->query($sql);
+			case -1:
+				$sql = "DELETE FROM `%s` WHERE `post` = '%d' AND `user` = '%d'";
+				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				return $this->_db->query($sql);
+			default:
+				return 1;
+		}
+	}
 
 	/**
 	 * Gets all documents related to the post
@@ -136,7 +193,7 @@ class Post {
 	 * @return Document[] documents
 	 */
 	public function get_documents() : ?array {
-		return $GLOBALS['docs']-> get_by_post($this);
+		return $GLOBALS['docs']->get_by_post($this);
 	}
 
 	/**

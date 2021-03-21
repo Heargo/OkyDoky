@@ -19,7 +19,7 @@
 	</div>
 	
 	<a class="bottomNavElement" href="./community">
-		<img class="small-bubble noselect" src="./img/img1.jpg" alt="communauté">
+		<img class="small-bubble noselect" src="<?= $GLOBALS["communities"]->get_by_id($_SESSION["current_community"])->get_cover();?>" alt="communauté">
 	</a>
 </nav>
 

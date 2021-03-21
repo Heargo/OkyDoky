@@ -20,8 +20,12 @@
 	else {
 
 		$commTmp = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
-		foreach ($GLOBALS["posts"]->get_by_community($commTmp) as $post) { 
+		$postsToShow = $GLOBALS["posts"]->get_by_community($commTmp);
+		$cHasPosts = false;
+		foreach ($postsToShow as $post) {
+			$cHasPosts = true; 
 			$publisher = $post->publisher();
+			$titrePost = $post->title();
 			$pName = $publisher->nickname();
 			$profile_pic = $publisher->profile_pic();
 			$docs = $post->get_documents();
@@ -37,8 +41,13 @@
 		<!-- user -->
 		<div class="postEnTete">
 			<a href="#"><?php echo "<img src='$profile_pic' alt='profil'>"; ?></a>
-			<a href="#"><?php echo "$pName"; ?></a>
+			<a href="#"><?= $pName ?></a>
 		</div>
+		<!-- <div class="postTitre">
+			<p>
+				<?= $titrePost ?>
+			</p>
+		</div> -->
 		<!-- content -->
 		<div class="content">
 			<?php 
@@ -62,7 +71,11 @@
 	</div>
 
 <?php
-}}
+}
+if(!$cHasPosts) {
+	echo "<p>Aucun post dans cette communauté !</p>";
+}
+}
 ?>
 
 </section>

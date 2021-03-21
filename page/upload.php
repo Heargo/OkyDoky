@@ -15,7 +15,7 @@
 
 <section class="shareContainer">
 	<!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
-	<form enctype="multipart/form-data" action="<?= Routes::url_for("/document/new")?>" method="post">
+	<form enctype="multipart/form-data" action="<?= Routes::url_for("/post/new")?>" method="post">
 		<!-- Titre -->
 		<input class="titleInput" type="text" name="title" placeholder="Titre de votre document.">
 
@@ -28,7 +28,7 @@
 		<!-- Description -->
 		<textarea class="descriptionInput" type="text" name="description" placeholder="Description."></textarea>
 
-		<select id="communitySelected">
+		<select id="communitySelected" name="community" >
 		<?php
 		$communities = User::current()->get_communities();
 		foreach($communities as $comm){

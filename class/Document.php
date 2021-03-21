@@ -72,7 +72,7 @@ class Document {
     public function bound(Post $p) : bool {
         $id = $p->id();
         $sql = "UPDATE `%s` SET `post` = %d WHERE `id_%s` = %d";
-        $sql = sprintf($sql, Config::TABLE_DOCMENT, $id, Config::TABLE_DOCMENT, $this->id());
+        $sql = sprintf($sql, Config::TABLE_DOCUMENT, $id, Config::TABLE_DOCUMENT, $this->id());
         $ok = $this->_db->query($sql);
         return (bool) $ok;
     }
