@@ -3,3 +3,5 @@ data/community/*
 data/document/*
 data/user/*
 
+*.png
+*.jpeg
