@@ -175,7 +175,11 @@ class Community{
     }
 
     public function get_cover() : string{
-        return "";
+        $sql = "SELECT `url` FROM `%s` WHERE `id_%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_RESOURCE, Config::TABLE_RESOURCE, $this->_cover);
+        $result = $this->_db->query($sql);
+        $row = mysqli_fetch_row($result);
+        return $row[0];
     }
 
     public function get_nb_members(int $flags = null) : int{
