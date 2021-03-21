@@ -82,7 +82,14 @@ class User {
     /**
      * Get url to profile pic
      */
-    public function profile_pic() : string { return $this->_profile_picture_url; }
+    public function profile_pic() : string {
+        if (isset($this->_profile_picture_url)) {
+            $url = $this->_profile_picture_url;
+            $url = "/img/" . $url;
+            return Routes::url_for($url);
+        }
+        return Routes::url_for("/img/img1.jpg");
+    }
     
     // COMMUNITY INTERACTIONS
 
