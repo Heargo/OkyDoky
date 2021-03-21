@@ -97,12 +97,26 @@ class User {
      * Get array of communities followed by user.
      * 
      * @param $flags int|null representing a Permission. 
-     *        Will return only communities matching the flag(s)
+     *        Will return only communities matching the flag(s) if specified.
+     * @return Community[] Array of communities.
+     * @todo limit request ?
      * 
      * eg: $myuser->get_communities(P::OWNER); // will return communities where user is the owner
      *     $myuser->get_communities(P::VIEW); // will return communities where user is not banned from
      */
-    //public function get_communities(?int $flags=null) : array;
+    public function get_communities(?int $flags=null) : array {
+        $sql = "SELECT `community` FROM `%s` WHERE `user` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id());
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            for ($list = array();
+                 $row = $result->fetch_row();
+                 $list[] = new Community($this->_db, $row[0]));
+            return $list;
+        }
+        return array();
+    }
 
     /**
      * Make the user join a community
