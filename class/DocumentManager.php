@@ -7,7 +7,7 @@ class DocumentManager {
     /**
      * DB connection
      */
-    private mysqli $_db;
+    private $_db;
 
     /**
      * Instaciate a manager for a DB connection
@@ -61,6 +61,7 @@ class DocumentManager {
      * @param array $document A file from the global array $_FILES like $_FILES['profile_picture'].
      * @param bool $visible Should the document be visible by an average user.
      * @param int|null Return the ID of the document added. Null type means an error occured.
+     * @throw NotWritable If Config::DIR_DOCUMENT is not writable.
      */
     public function add_document(array $document, bool $visible = true) : ?int {
         $visible = $visible ? 1 : 0;

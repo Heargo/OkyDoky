@@ -12,18 +12,16 @@
 	<?php include 'topnav.php'; ?>
 
 	<div class="carroussel">
-			<!-- Full-width images with number text -->
-			  <div class="mySlides">
-			      <img src="./img/img_woods_wide.jpg" alt ="Communauté 1" data-number="3k" data-description="L’université Savoie Mont Blanc est désormait sur OkyDoky !" data-idCommu='1'>
+			<?php 
+			$communities = User::current()->get_communities();
+			foreach($communities as $comm){
+				?>
+				<div class="mySlides">
+			      <img src="<?=$comm->get_cover()?>" alt ="<?=$comm->get_display_name()?>" data-number="<?=$comm->get_nb_members()?>" data-description="<?=$comm->get_description()?>" data-idCommu='1'>
 			  </div>
-
-			  <div class="mySlides">
-			      <img src="./img/img_5terre_wide.jpg" alt ="Communauté 2" data-number="120" data-description="Avis a tous les fans de voyage !" data-idCommu='2'>
-			  </div>
-
-			  <div class="mySlides">
-			      <img src="./img/img_snow_wide.jpg" alt ="Communauté 3" data-number="120M"  data-description="Avis a tous les fans de neige !" data-idCommu='3'>
-			  </div>
+			  <?php
+			}
+			?>
 
 			  <!-- Next and previous buttons -->
 			  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -40,7 +38,7 @@
 	<div class="descCommuContainer">
 		<p id="descriptionCommu"></p>
 	</div>
-	<section id="communityContentContainer">
+	<section id="communityContentContainer" class="hidden">
 		<h2 class="communityTitle">Mis en avant</h2>
 		<div class="postImg">
 			<!-- user -->
@@ -91,28 +89,23 @@
 
 </div>
 
-
-
-
-
 <section id="communitiesContainer" class="communityList hidden">
 	<img onclick="switchComs();" class="cross" src="./img/svg/cross.svg">
 	<h3>My communities</h3>	
 	<!-- faire un tableau -->
 	<div class="flex-coms-container">
-		<div onclick="showSpecificSlide(1);switchComs();">
-			<img class="communityPreview" src="./img/img_woods_wide.jpg">
-			<p class="communityPreviewLabel">Community 1</p>
+	<?php
+	$i = 1;
+	foreach($communities as $comm){
+		?>
+		<div onclick="showSpecificSlide($i);switchComs();">
+			<img class="communityPreview" src="<?=$comm->get_cover()?>">
+			<p class="communityPreviewLabel"><?=$comm->get_display_name()?></p>
 		</div>
-		<div onclick="showSpecificSlide(2);switchComs();">
-			<img class="communityPreview" src="./img/img_5terre_wide.jpg">
-			<p class="communityPreviewLabel">Community 1</p>
-		</div>
-		<div onclick="showSpecificSlide(3);switchComs();">
-			<img class="communityPreview" src="./img/img_snow_wide.jpg">
-			<p class="communityPreviewLabel">Community of...</p>
-		</div>
-		
+		<?php
+		$i++;
+	}
+		?>
 	</div>
 </section>
 

@@ -18,13 +18,8 @@ class User {
     private $_description;
     private $_profile_picture_url;
     private $_email;
-
-    /**
-     * Used by view to know wich page to see on feed
-     *
-     * This attribute is bound to instance, not to DB.
-     */
-    public $current_community;
+    /** not yet confirmed email */
+    private $_new_email;
 
 
     //// METHODS
@@ -51,6 +46,7 @@ class User {
         $this->_description = $row['description'];
         $this->_profile_picture_url = $row['profile_picture'];
         $this->_email = $row['email'];
+        $this->_new_email = $row['new_email'];
     }
 
     /**
@@ -79,6 +75,11 @@ class User {
     public function email() : ?string { return $this->_email; }
 
     /**
+     * Get new email
+     */
+    public function new_email() : ?string { return $this->_new_email; }
+
+    /**
      * Get url to profile pic
      */
     public function profile_pic() : string { return $this->_profile_picture_url; }
@@ -89,12 +90,26 @@ class User {
      * Get array of communities followed by user.
      * 
      * @param $flags int|null representing a Permission. 
-     *        Will return only communities matching the flag(s)
+     *        Will return only communities matching the flag(s) if specified.
+     * @return Community[] Array of communities.
+     * @todo limit request ?
      * 
      * eg: $myuser->get_communities(P::OWNER); // will return communities where user is the owner
      *     $myuser->get_communities(P::VIEW); // will return communities where user is not banned from
      */
-    //public function get_communities(?int $flags=null) : array;
+    public function get_communities(?int $flags=null) : array {
+        $sql = "SELECT `community` FROM `%s` WHERE `user` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id());
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            for ($list = array();
+                 $row = $result->fetch_row();
+                 $list[] = new Community($this->_db, $row[0]));
+            return $list;
+        }
+        return array();
+    }
 
     /**
      * Make the user join a community
@@ -105,29 +120,74 @@ class User {
 
     /**
      * Send an email to verify its authenticity
+     *
+     * @return bool True if successfule
      */
-    //private function _verify_email() : bool;
+    private function _send_verify_email() : bool {
+        $token = bin2hex(random_bytes(50));
+        $url = 'https://' . Config::URL_ROOT(false) . "/verify/" . $this->nickname() . "/$token";
+
+        $sql = "UPDATE %s SET `email_token` = '%s' WHERE `id_%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER, $token, Config::TABLE_USER, $this->id());
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            $sender = new MailSender($this);
+            $sender->verify($url);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Change the email if the token is valid
+     *
+     * @param string $token The token sent by email.
+     * @return bool True if successful.
+     */
+    public function validate_email_token(string $token) : bool {
+        $sql = 'SELECT `new_email`,`email_token` FROM %s WHERE `id_%s` = %d';
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER, $this->id());
+        $result = $this->_db->query($sql);
+
+        $token_match = false;
+        $update_ok = false;
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $token_match = $token == $row['email_token'];
+            if ($token_match) {
+                $sql = "UPDATE %s SET `new_email` = NULL, `email_token` = NULL, `email` = '%s', `email_verified` = 1 WHERE `id_%s` = %d";
+                $sql = sprintf($sql, Config::TABLE_USER, $row['new_email'], Config::TABLE_USER, $this->id());
+                echo $sql . PHP_EOL;
+                $update_ok = $this->_db->query($sql);
+
+                if ($update_ok) {
+                    $this->_email = $row['new_email'];
+                    $this->_new_email = null;
+                }
+            }
+        }
+        return $token_match && $update_ok;
+    }
 
     /**
      * Change user email.
      *
-     * TODO : This email must be confirmed.
-     * @return bool True if successful
+     * @return bool True if successful.
      */
     public function set_email_to(string $new_email) : bool {
         $sanitized_email = filter_var($new_email, FILTER_SANITIZE_EMAIL);
         if (filter_var($sanitized_email, FILTER_VALIDATE_EMAIL)) {
-            $sql = "UPDATE `%s` SET `email` = '%s', `email_verified` = 0 WHERE `id_%s` = %s";
+            $sql = "UPDATE `%s` SET `new_email` = '%s', `email_verified` = 0 WHERE `id_%s` = %s";
             $sql = sprintf($sql, Config::TABLE_USER, $sanitized_email, Config::TABLE_USER, $this->id());
             $update_ok = $this->_db->query($sql);
 
             if ($update_ok) {
-                $this->_email = $sanitized_email; //only if confirmed. So we need to stock old and new. Fix it
+                $this->_new_email = $sanitized_email;
             }
+            $mail_ok = $this->_send_verify_email();
 
-            //$this->_verify_email();
-
-            return $update_ok;
+            return $update_ok && $mail_ok;
         }
         return false;
     }
@@ -254,18 +314,24 @@ class User {
 
     /**
      * Add a permission (or several) for a user on a community
+     *
+     * @param bool True if successful.
      */
-    //public function add_perm(int $flags, Community $comm);
+    //public function add_perm(int $flags, Community $comm) : bool;
 
     /**
      * Delete a permission (or several) for a user on a community
+     *
+     * @param bool True if successful.
      */
-    //public function del_perm(int $flags, Community $comm);
+    //public function del_perm(int $flags, Community $comm) : bool;
 
     /**
      * Set a permission (or several) for a user on a community
+     *
+     * @param bool True if successful.
      */
-    //public function set_perm(int $flags, Community $comm);
+    //public function set_perm(int $flags, Community $comm) : bool;
 
     public function __toString() : string {
         return '('.$this->id().') '. $this->nickname();
