@@ -6,10 +6,10 @@
 class Document {
 
     /** DB connection */
-    private mysqli $_db;
+    private $_db;
 
     /** ID of the document */
-    private int $_id;
+    private $_id;
 
     /**
      * Instanciate a document from an ID
@@ -59,10 +59,23 @@ class Document {
     public function set_visible(bool $visible) : bool {
         $visible = $visible ? 1 : 0;
         $sql = "UPDATE `%s` SET `visible` = '%d' WHERE `id_%s` = %d";
-        $sql = sprintf($sql, Config::TABLE_DOCUMENT, $visible, Config::TABLE_DOCUMENT, $this->_id);
+        $sql = sprintf($sql, Config::TABLE_DOCUMENT, $visible, Config::TABLE_DOCUMENT, $this->id());
         return (bool) $this->_db->query($sql);
     }
 
+    /**
+     * Bound a document to a post
+     *
+     * @param Post $p the post that own the document.
+     * @return bool True if successful.
+     */
+    public function bound(Post $p) : bool {
+        $id = $p->id();
+        $sql = "UPDATE `%s` SET `post` = %d WHERE `id_%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_DOCMENT, $id, Config::TABLE_DOCMENT, $this->id());
+        $ok = $this->_db->query($sql);
+        return (bool) $ok;
+    }
     /**
      * Is the document deleted
      *

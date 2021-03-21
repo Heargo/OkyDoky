@@ -12,6 +12,9 @@ class NotUniqueEmail extends Exception {}
 /** The specified nickname is already used */
 class NotUniqueNickname extends Exception {}
 
+/** The user's email is missing */
+class MissingEmail extends Exception {}
+
 /**
  * Is the ID unique in DB
  *

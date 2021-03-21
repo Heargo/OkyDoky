@@ -38,5 +38,25 @@ function signup(?array $match) {
     if (!$success) { $GLOBALS['page']['error_signup'] = true; }
 
     $root = Config::URL_SUBDIR(false);
-    header("Location: $root/login");
+    if ($success) {
+        header("Location: $root/confirmation");
+    } else {
+        header("Location: $root/login");
+    }
+}
+
+function verify_user_email(?array $match) {
+    if (!empty($match['user']) && !empty($match['token'])) {
+        $user = $GLOBALS['users']->get_by_nickname($match['user']);
+        if ($user) {
+            $token_ok = $user->validate_email_token($match['token']);
+            $GLOBALS['page']['error_validate_token'] = !$token_ok;
+        } else {
+            $GLOBALS['page']['error_validate_user'] = true;
+        }
+    } else {
+        $GLOBALS['page']['error_validate'] = true;
+    }
+    $root = Config::URL_SUBDIR(false);
+    header("Location: $root/login"); // @todo page/verify.php to replace this redirection
 }
