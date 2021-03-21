@@ -53,7 +53,7 @@ function changeCommu(id){
   xhr.open("POST","./ajax/community/current",true);
   xhr.responseType="text";
   xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-  xhr.send(id);
+  xhr.send("id="+id);
 }
 
 
