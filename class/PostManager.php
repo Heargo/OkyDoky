@@ -21,21 +21,19 @@ class PostManager {
 		/* TODO if (!$publisher->can(P::INTERACT, $community)) {
 			throw new UserCantInteract("User ".$publisher->nickname()." cannot interact with ".$community->get_name()."'s community!");
 		} TODO */
-		$sql = "INSERT INTO `%s` (`publisher`, `id_community`) VALUES ('%d','%d')";
-		$sql = sprintf($sql, Config::TABLE_POST, $publisher->id(), /*TODO $commu->id() TODO*/ 1);
+		$sql = "INSERT INTO `%s` (`publisher`, `community`, `title`) VALUES ('%d','%d','%s')";
+		$sql = sprintf($sql, Config::TABLE_POST, $publisher->id(), $commu->id(), $title);
 		$creation_ok = $this->_db->query($sql);
-		$title_ok = false;
 		$description_ok = false;
 		$documents_ok = false;
 		if ($creation_ok) {
 			// the post we are creating
 			$post = new Post($this->_db, $this->_db->insert_id);
-			$title_ok = $post->set_title_to($title);
 			$description_ok = $post->set_description_to($description);
 			$documents_ok = $post->set_document_links($documents);
 		}
 		
-		return $creation_ok & $title_ok & $description_ok & $documents_ok;
+		return $creation_ok && $description_ok && $documents_ok;
 	}
 
 	/**
@@ -60,7 +58,7 @@ class PostManager {
 	public function get_by_community(Community $community, bool $visible = true, int $limit = 10, int $offset = 0) {
 		$visible = $visible ? 1 : 0;
 		$sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d LIMIT %d OFFSET %d";
-		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, /*TODO $community->id() TODO*/1, $limit, $offset);
+		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $community->id(), $limit, $offset);
 		$result = $this->_db->query($sql);
 		if ($result) {
 			for ($list = array();
@@ -105,16 +103,8 @@ class PostManager {
 		// Visibility
 		$visib_ok = $post->set_visible(false);
 		
-		// Title
-		$title_ok = $post->set_title_to("");
-		
-		// Description
-		$desc_ok = $post->set_description_to("");
-
 		// Documents
-        /* TODO
-		// $docs_ok = $post->del_all_docs();
-        TODO */
-		return $visib_ok & $title_ok & $desc_ok & $docs_ok;
+        $docs_ok = $post->del_all_docs();
+        return $visib_ok & $title_ok & $desc_ok & $docs_ok;
 	}
 }

@@ -6,10 +6,10 @@
 class Document {
 
     /** DB connection */
-    private mysqli $_db;
+    private $_db;
 
     /** ID of the document */
-    private int $_id;
+    private $_id;
 
     /**
      * Instanciate a document from an ID
