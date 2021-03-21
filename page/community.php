@@ -14,15 +14,15 @@
 	<div class="carroussel">
 			<!-- Full-width images with number text -->
 			  <div class="mySlides">
-			      <img src="./img/img_woods_wide.jpg" alt ="Communauté 1" data-number="3k" data-description="L’université Savoie Mont Blanc est désormait sur OkyDoky !">
+			      <img src="./img/img_woods_wide.jpg" alt ="Communauté 1" data-number="3k" data-description="L’université Savoie Mont Blanc est désormait sur OkyDoky !" data-idCommu='1'>
 			  </div>
 
 			  <div class="mySlides">
-			      <img src="./img/img_5terre_wide.jpg" alt ="Communauté 2" data-number="120" data-description="Avis a tous les fans de voyage !" >
+			      <img src="./img/img_5terre_wide.jpg" alt ="Communauté 2" data-number="120" data-description="Avis a tous les fans de voyage !" data-idCommu='2'>
 			  </div>
 
 			  <div class="mySlides">
-			      <img src="./img/img_snow_wide.jpg" alt ="Communauté 3" data-number="120M"  data-description="Avis a tous les fans de neige !">
+			      <img src="./img/img_snow_wide.jpg" alt ="Communauté 3" data-number="120M"  data-description="Avis a tous les fans de neige !" data-idCommu='3'>
 			  </div>
 
 			  <!-- Next and previous buttons -->
