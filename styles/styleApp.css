@@ -31,7 +31,7 @@ h1{
 --------------- NAV BARS ---------------
 ----------------------------------------*/
 
-nav, .topNav{
+.bottomNav, .topNav{
 	background-color:#F1F2F6 ; 
 	display: flex;
 	position: fixed;
@@ -52,12 +52,12 @@ nav, .topNav{
 	font-size: 35px;
 }
 
-nav{
+.bottomNav{
 	justify-content: center;
 	border-top:solid 1px #2F3542;
 	bottom: 0;
 }
-nav .bottomNavElement {
+.bottomNav .bottomNavElement {
 	margin: 6%;
 }
 
@@ -781,8 +781,15 @@ form{
 	transform: scale(1.3);
 }
 
+/************Ecran de confirmation************/
 
-
+h1.confirmation{
+	font-size: 6rem;
+}
+h2.confirmation{
+	text-align: justify;
+	font-size: 1rem;
+}
 
 /*ANIMATION DU BACKGROUND*/
 
@@ -790,10 +797,11 @@ form{
 .bg{
 	display: none;
 	position: fixed;
-	top: 0;
+	top: 100px;
     width: 100%;
     height:100vh;
 }
+
 @media screen and (min-width: 1200px) {
   .bg{
   	display: initial;

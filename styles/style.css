@@ -54,7 +54,7 @@ nav{
   background-color: #4bc0c8;
   /*border-bottom: 1px solid #E4E4E4;*/
   width: 100%;
-  z-index: 2;
+  z-index: 200;
   height: 50px;
 }
 
@@ -63,6 +63,7 @@ nav{
   font-size: 2rem;
   text-decoration: none;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .top-left-name-absolute{

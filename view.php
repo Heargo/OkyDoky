@@ -8,6 +8,6 @@ $ROUTES->bound_get('/document', 'page/upload_document.php')
        ->bound_get('/top', 'page/top.php')
        ->bound_get('/search', 'page/search.php')
        ->bound_get('/community', 'page/community.php')
-       ->bound_get('/bg', 'page/backgroundItems.php')
+       ->bound_get('/confirmation', 'page/mailconfirmation.php')
        ->bound_get('/c/(\w+)/post/(\w+)', 'page/publication.php')
 ;
