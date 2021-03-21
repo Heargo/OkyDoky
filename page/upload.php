@@ -29,9 +29,14 @@
 		<textarea class="descriptionInput" type="text" name="description" placeholder="Description."></textarea>
 
 		<select id="communitySelected">
-			<option value="valeur1" selected>USMB</option>
-			<option value="valeur2">CMI</option>
-			<option value="valeur3">Vive les pates</option>
+		<?php
+		$communities = User::current()->get_communities();
+		foreach($communities as $comm){
+			?>
+			<option value="<?=$comm->id()?>" selected><?=$comm->get_display_name()?></option>
+			<?php
+		}
+		?>
 		</select>
 		
 		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>
