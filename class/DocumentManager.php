@@ -7,7 +7,7 @@ class DocumentManager {
     /**
      * DB connection
      */
-    private mysqli $_db;
+    private $_db;
 
     /**
      * Instaciate a manager for a DB connection

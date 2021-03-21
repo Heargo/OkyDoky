@@ -135,7 +135,7 @@ class Post {
 	 *
 	 * @return Document[] documents
 	 */
-	public function get_documents() {
+	public function get_documents() : ?array {
 		return $GLOBALS['docs']-> get_by_post($this);
 	}
 
@@ -146,18 +146,14 @@ class Post {
 	 * @return bool True if successful
 	 */
 
-    /* TODO
-
-	// public function del_document(Document $document)
-	// {
-	// 	if (contains($document, get_documents()) {
-	// 		return $GLOBALS['docs']->del_document($document);
-	// 	} else {
-	// 		throw new InvalidDocument('You can\'t delete the document "' . $document->id() . '" from that post!');
-	// 	}
-	// }
+    public function del_document(Document $document) {
+		if (in_array($document, $this->get_documents())) {
+			return $GLOBALS['docs']->del_document($document->id());
+		} else {
+			throw new InvalidDocument('You can\'t delete the document "' . $document->id() . '" from that post!');
+		}
+	}
     
-    TODO */
 
 	/**
 	 * Deletes all documents related to the post
@@ -165,18 +161,14 @@ class Post {
 	 * @return bool True if successful
 	 */
 
-    /* TODO
-
-	// public function del_all_docs()
-	// {
-	// 	$operationValid = true;
-	// 	foreach ($this->get_documents() as $document) {
-	// 		$operationValid &= $this->del_document($document);
-	// 	}
-	// 	return $operationValid;
-	// }
+	public function del_all_docs() {
+		$operationValid = true;
+		foreach ($this->get_documents() as $document) {
+			$operationValid &= $this->del_document($document);
+		}
+		return $operationValid;
+	}
     
-    TODO */
 
 	/**
 	 * Sets the visibility of the post
