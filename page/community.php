@@ -17,7 +17,7 @@
 			foreach($communities as $comm){
 				?>
 				<div class="mySlides">
-			      <img src="<?=$comm->get_cover()?>" alt ="<?=$comm->get_display_name()?>" data-number="<?=$comm->get_nb_members()?>" data-description="<?=$comm->get_description()?>" data-idCommu='1'>
+			      <img src="<?=$comm->get_cover()?>" alt ="<?=$comm->get_display_name()?>" data-number="<?=$comm->get_nb_members()?>" data-description="<?=$comm->get_description()?>" data-idCommu="<?=$comm->id()?>">
 			  </div>
 			  <?php
 			}

@@ -27,7 +27,7 @@ function showSlides(n) {
   captionText.innerHTML = slides[slideIndex-1].childNodes[1].alt;
   numberText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.number;
   descText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.description;
-  changeCommu(slides[slideIndex-1].childNodes[1].dataset.idCommu);
+  changeCommu(slides[slideIndex-1].childNodes[1].dataset.idcommu);
 }
 
 function switchComs(){
@@ -45,8 +45,7 @@ function changeCommu(id){
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function(){
     if (this.readyState ==4 && this.status ==200) {
-     console.log(this.response);
-     console.log("j'ai changé");
+     console.log("community changed");
     }
   };
 
