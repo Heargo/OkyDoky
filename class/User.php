@@ -21,13 +21,6 @@ class User {
     /** not yet confirmed email */
     private $_new_email;
 
-    /**
-     * Used by view to know wich page to see on feed
-     *
-     * This attribute is bound to instance, not to DB.
-     */
-    public $current_community;
-
 
     //// METHODS
 
