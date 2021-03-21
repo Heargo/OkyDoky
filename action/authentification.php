@@ -38,7 +38,11 @@ function signup(?array $match) {
     if (!$success) { $GLOBALS['page']['error_signup'] = true; }
 
     $root = Config::URL_SUBDIR(false);
-    header("Location: $root/login");
+    if ($success) {
+        header("Location: $root/confirmation");
+    } else {
+        header("Location: $root/login");
+    }
 }
 
 function verify_user_email(?array $match) {
