@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class MailSender {
-    private User $_user;
+    private $_user;
 
     public function __construct(User $user) {
         $this->_user = $user;

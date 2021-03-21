@@ -13,16 +13,31 @@
 <section id="verticalScrollContainer">
 
 
-<?php foreach($GLOBALS["docs"]->get_documents(true) as $doc) { 
-	if ($doc->is_visible()){
-		$urlIMG=$doc->url(); /*"./data/document" . */
-	?>
+<?php 
+	if($_SESSION["current_community"] == 0) {
+		echo "<p>Aucune communauté rejointe !</p>";
+	}
+	else {
+
+		$commTmp = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
+		foreach ($GLOBALS["posts"]->get_by_community($commTmp) as $post) { 
+			$publisher = $post->publisher();
+			$pName = $publisher->nickname();
+			$profile_pic = $publisher->profile_pic();
+			$docs = $post->get_documents();
+			foreach ($docs as $doc) {
+				if($doc->is_visible()) {
+					$urlIMG = $doc->url();
+					break;
+				}
+			}
+		?>
         
     <div class="postImg">
 		<!-- user -->
 		<div class="postEnTete">
-			<a href="#"><img src="./img/img1.jpg" alt="profil"></a>
-			<a href="#">Pseudo</a>
+			<a href="#"><?php echo "<img src='$profile_pic' alt='profil'>"; ?></a>
+			<a href="#"><?php echo "$pName"; ?></a>
 		</div>
 		<!-- content -->
 		<div class="content">
@@ -47,8 +62,7 @@
 	</div>
 
 <?php
-	} 
-}
+}}
 ?>
 
 </section>

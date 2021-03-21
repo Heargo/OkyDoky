@@ -24,6 +24,7 @@ require('db.php');
 $GLOBALS['docs'] = new DocumentManager($DB);
 $GLOBALS['users'] = new UserManager($DB);
 $GLOBALS['communities'] = new CommunityManager($DB);
+$GLOBALS['posts'] = new PostManager($DB);
 $GLOBALS['db'] = $DB;
 
 /// Routes
