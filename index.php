@@ -27,7 +27,6 @@ $GLOBALS['communities'] = new CommunityManager($DB);
 $GLOBALS['posts'] = new PostManager($DB);
 $GLOBALS['db'] = $DB;
 if(!isset($_SESSION["current_community"])){
-    unset($_SESSION["current_community"]);
     $_SESSION["current_community"]=0;
 }
 /// Routes
