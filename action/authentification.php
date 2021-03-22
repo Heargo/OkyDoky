@@ -3,7 +3,7 @@
 function signin(?array $match) {
     $email = filter_var($_POST['login'], FILTER_SANITIZE_EMAIL);
     //Later, we should sanitize better, and handle SQL injection attack
-    $password = strtolower(trim($_POST['password']));
+    $password = $_POST['password'];
 
     $user = null;
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -32,7 +32,7 @@ function signin(?array $match) {
 function signup(?array $match) {
     $nickname = strtolower(trim($_POST['nickname']));
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $pwd = trim($_POST['password']);
+    $pwd = $_POST['password'];
 
     $success=false;
     if (trim($nickname) && filter_var($email, FILTER_VALIDATE_EMAIL) && trim($pwd)) {
