@@ -18,7 +18,11 @@ function signin(?array $match) {
     $root = Config::URL_SUBDIR(false);
 
     if ($success) {
+        if(!empty($_SESSION["current_community"]=User::current()->get_communities())){
+            $_SESSION["current_community"]=User::current()->get_communities()[0]->id();
+        }
         header("Location: $root/feed");
+        
     } else {
         $GLOBALS['page']['error_signin'] = true;
         header("Location: $root/login");

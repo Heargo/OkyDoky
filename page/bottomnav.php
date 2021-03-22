@@ -19,7 +19,18 @@
 	</div>
 	
 	<a class="bottomNavElement" href="./community">
-		<img class="small-bubble noselect" src="<?= $GLOBALS["communities"]->get_by_id($_SESSION["current_community"])->get_cover();?>" alt="communauté">
+	<?php 
+	if(empty(User::current()->get_communities())){
+		?>
+		<img id="previewCommunityBottomNav" class="small-bubble noselect" src="./img/default_community.png" alt="communauté">
+		<?php
+	}
+	else{
+		?>
+		<img id="previewCommunityBottomNav" class="small-bubble noselect" src="<?= $GLOBALS["communities"]->get_by_id($_SESSION["current_community"])->get_cover();?>" alt="communauté">
+		<?php
+	}
+	?>
 	</a>
 </nav>
 

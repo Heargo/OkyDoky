@@ -1,8 +1,10 @@
-var slideIndex = 1;
+var carrousel = document.getElementById("carroussel");
+var slideIndex = parseInt(carrousel.dataset.current);
 showSlides(slideIndex);
 
 // Next/previous controls
 function plusSlides(n) {
+  console.log("je passe a suiv")
   showSlides(slideIndex += n);
 }
 //showSpecificSlide
@@ -16,6 +18,7 @@ function showSlides(n) {
   var captionText = document.getElementById("caption");
   var numberText = document.getElementById("number");
   var descText = document.getElementById("descriptionCommu");
+  var navPreview = document.getElementById("previewCommunityBottomNav");
 
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
@@ -27,6 +30,7 @@ function showSlides(n) {
   captionText.innerHTML = slides[slideIndex-1].childNodes[1].alt;
   numberText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.number;
   descText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.description;
+  navPreview.setAttribute("src",slides[slideIndex-1].childNodes[1].src);
   changeCommu(slides[slideIndex-1].childNodes[1].dataset.idcommu);
 }
 

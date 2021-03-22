@@ -27,6 +27,7 @@ class CommunityManager {
             $id = (int) $this->_db->insert_id;
             
             if($tmp_community = new Community($this->_db, $id)){
+                $_SESSION["current_community"] = $id;
                 $tmp_community->set_display_name($disp_name);
                 $tmp_community->set_description($description);
                 $tmp_community->set_cover($document);

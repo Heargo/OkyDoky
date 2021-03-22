@@ -14,11 +14,10 @@
 
 
 <?php 
-	if($_SESSION["current_community"] == 0) {
+	if(empty(User::current()->get_communities())) {
 		echo "<p>Aucune communauté rejointe !</p>";
 	}
-	else {
-
+	else {		
 		$commTmp = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
 		$postsToShow = $GLOBALS["posts"]->get_by_community($commTmp);
 		$cHasPosts = false;

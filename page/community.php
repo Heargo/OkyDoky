@@ -11,7 +11,7 @@
 
 	<?php include 'topnav.php'; ?>
 
-	<div class="carroussel">
+	<div id ="carroussel" class="carroussel" data-current="<?=$_SESSION["current_community"]?>">
 			<?php 
 			$communities = User::current()->get_communities();
 			foreach($communities as $comm){
