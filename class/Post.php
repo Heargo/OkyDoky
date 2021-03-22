@@ -148,14 +148,17 @@ class Post {
 			case -1:
 				$sql = "DELETE FROM `%s` WHERE `post` = '%d' AND `user` = '%d'";
 				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				var_dump($sql);
 				return $this->_db->query($sql) && $this->upvote($u);
 			case 0:
 				$sql = "INSERT INTO `%s` (`post`, `user`, `mark`) VALUES ('%d','%d','up')";
 				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				var_dump($sql);
 				return $this->_db->query($sql);
 			case 1:
 				$sql = "DELETE FROM `%s` WHERE `post` = '%d' AND `user` = '%d'";
 				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
+				var_dump($sql);
 				return $this->_db->query($sql);
 			default:
 				return 0;

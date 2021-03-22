@@ -28,6 +28,7 @@
 			$pName = $publisher->nickname();
 			$profile_pic = $publisher->profile_pic();
 			$docs = $post->get_documents();
+			$voted = $post->hasUserVoted(User::current());
 			foreach ($docs as $doc) {
 				if($doc->is_visible()) {
 					$urlIMG = $doc->url();
@@ -36,7 +37,7 @@
 			}
 		?>
         
-    <div class="postImg">
+    <div class="postImg" id="<?=$post->id()?>">
 		<!-- user -->
 		<div class="postEnTete">
 			<a href="#"><?php echo "<img src='$profile_pic' alt='profil'>"; ?></a>
@@ -58,8 +59,43 @@
 		<div class="postReactions">
 			<div class="left">
 				<a href="#"><img src="./img/svg/comment.svg"></a>
-				<a id="upVote" href="#"><img src="./img/svg/arrow-up.svg"></a>
-				<a id="downVote" href="#"><img src="./img/svg/arrow-down.svg"></a>
+
+				<?php  
+				if ($voted==1){
+					?>
+					<label class="upVote cursor" for="upVoteInput-<?=$post->id()?>"><img src="./img/svg/arrow-up-green.svg"></label>
+					<?php 
+				}else{
+					?>
+					<label class="upVote cursor" for="upVoteInput-<?=$post->id()?>"><img src="./img/svg/arrow-up.svg"></label>
+					<?php 
+				}
+				?>
+				<input id="upVoteInput-<?=$post->id()?>" type="submit" form="upVote-<?=$post->id()?>" class="hidden"></input>
+
+
+				<?php  
+				if ($voted==-1){
+					?>
+					<label class="downVote cursor" for="downVoteInput-<?=$post->id()?>"><img src="./img/svg/arrow-down-orange.svg"></label>
+					<?php 
+				}else{
+					?>
+					<label class="downVote cursor" for="downVoteInput-<?=$post->id()?>"><img src="./img/svg/arrow-down.svg"></label>
+					<?php 
+				}
+				?>
+				<input id="downVoteInput-<?=$post->id()?>" type="submit" form="downVote-<?=$post->id()?>" class="hidden"></input>
+
+
+				<form id="upVote-<?=$post->id()?>" class="hidden" method="POST" action="<?= Routes::url_for('/voteU')?>">
+					<input type="hidden" name="idpost" value="<?=$post->id()?>">
+				</form>
+
+
+				<form id="downVote-<?=$post->id()?>" class="hidden"  method="POST" action="<?= Routes::url_for('/voteD')?>">
+					<input type="hidden" name="idpost" value="<?=$post->id()?>">
+				</form>
 				<!-- <a href="#"><img src="./img/svg/like.svg"></a>
 				<p>12</p> -->
 			</div>

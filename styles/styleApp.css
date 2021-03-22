@@ -152,6 +152,7 @@ Fil d'actu
 	padding: 20px;
 	padding-bottom: 80px;
 	max-width: 600px;
+	z-index: 50;
 }
 
 
@@ -201,7 +202,7 @@ Fil d'actu
 	margin-left: 10px;
 }
 
-#upVote, #downVote{
+.upVote, .downVote{
 	margin: 0 20px; 
 	transform: scale(2);
 }
