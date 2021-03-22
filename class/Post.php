@@ -123,6 +123,15 @@ class Post {
 	}
 	
 	/**
+	 * Gets a percentage of upvotes over the total number of votes
+	 *
+	 * @return float number_of_votes
+	 */
+	public function get_percent_up_down() {
+		return 100 * $this->get_nb_up_votes() / ($this->get_nb_up_votes() + $this->get_nb_down_votes());
+	}
+
+	/**
 	 * Check if the post is voted by a given user
 	 *
 	 * @param User $u the user who upvote
