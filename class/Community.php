@@ -138,9 +138,9 @@ class Community{
         }
         else{
             //if the image can't be used -> use default one
-            $file_url = 'http://' . Config::URL_ROOT() . 'data/cover/default.png';
-            $file_path = Config::DIR_COVER . 'default.png';
-            $sql = "INSERT INTO `%s` (`url`,`path`) VALUES ('%s';'%s')";
+            $file_url = 'http://' . Config::URL_ROOT() . 'img/default_community.png';
+            $file_path = 'img/default_community.png';
+            $sql = "INSERT INTO `%s` (`url`,`path`) VALUES ('%s','%s')";
             $sql = sprintf($sql, Config::TABLE_RESOURCE, $file_url, $file_path);
             $success = $this->_db->query($sql);
             $this->_cover =(int) $this->_db->insert_id;
