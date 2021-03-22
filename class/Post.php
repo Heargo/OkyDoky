@@ -108,7 +108,7 @@ class Post {
 	public function get_nb_up_votes() {
 		$sql = "SELECT COUNT(*) FROM `%s` WHERE `post` = '%d' AND `mark` = 'up'";
 		$sql = sprintf($sql, Config::TABLE_VOTE, $this->id());
-		return $db->query($sql);
+		return $this->_db->query($sql)->fetch_row()[0];
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Post {
 	public function get_nb_down_votes() {
 		$sql = "SELECT COUNT(*) FROM `%s` WHERE `post` = '%d' AND `mark` = 'down'";
 		$sql = sprintf($sql, Config::TABLE_VOTE, $this->id());
-		return $db->query($sql);
+		return $this->_db->query($sql)->fetch_row()[0];
 	}
 	
 	/**
@@ -128,10 +128,10 @@ class Post {
 	 * @param User $u the user who upvote
 	 * @return int : 0 if no vote, -1 if downvote, 1 if upvote
 	 */
-	public function hasUservoted(User $u) {
+	public function hasUserVoted(User $u) {
 		$sql = "SELECT `mark` FROM `%s` WHERE `post` = '%d' AND `user` = '%d'";
 		$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
-		if ($row = $db->query($sql)->fetch_assoc()) {
+		if ($row = $this->_db->query($sql)->fetch_assoc()) {
 			return $row['mark'] == 'up' ? 1 : -1;
 		}
 		return 0;
@@ -158,7 +158,7 @@ class Post {
 				$sql = sprintf($sql, Config::TABLE_VOTE, $this->id(), $u->id());
 				return $this->_db->query($sql);
 			default:
-				return 1;
+				return 0;
 		}
 	}
 
