@@ -4,5 +4,4 @@ data/document/*
 data/user/*
 data/cover/*
 
-*.png
-*.jpeg
+
