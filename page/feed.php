@@ -29,6 +29,7 @@
 			$profile_pic = $publisher->profile_pic();
 			$docs = $post->get_documents();
 			$voted = $post->hasUserVoted(User::current());
+			$prct = $post->get_percent_up_down();
 			foreach ($docs as $doc) {
 				if($doc->is_visible()) {
 					$urlIMG = $doc->url();
@@ -86,7 +87,14 @@
 				}
 				?>
 				<input id="downVoteInput-<?=$post->id()?>" type="submit" form="downVote-<?=$post->id()?>" class="hidden"></input>
-
+				<?php 	
+					if ($prct>50) {
+						?><p class="prctQuality green"><?php 	
+					}else{
+						?><p class="prctQuality red"><?php 
+					}
+				 ?>
+				<?= $prct ?></p>
 
 				<form id="upVote-<?=$post->id()?>" class="hidden" method="POST" action="<?= Routes::url_for('/voteU')?>">
 					<input type="hidden" name="idpost" value="<?=$post->id()?>">
