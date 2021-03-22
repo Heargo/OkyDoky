@@ -58,8 +58,10 @@
 		<div class="postReactions">
 			<div class="left">
 				<a href="#"><img src="./img/svg/comment.svg"></a>
-				<a href="#"><img src="./img/svg/like.svg"></a>
-				<p>12</p>
+				<a id="upVote" href="#"><img src="./img/svg/arrow-up.svg"></a>
+				<a id="downVote" href="#"><img src="./img/svg/arrow-down.svg"></a>
+				<!-- <a href="#"><img src="./img/svg/like.svg"></a>
+				<p>12</p> -->
 			</div>
 			<div class="right">
 				<a href="#"><img src="./img/svg/share.svg"></a>

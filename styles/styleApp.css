@@ -201,6 +201,11 @@ Fil d'actu
 	margin-left: 10px;
 }
 
+#upVote, #downVote{
+	margin: 0 20px; 
+	transform: scale(2);
+}
+
 .postReactions{
 	padding: 0 3%; 
 	display: flex;
