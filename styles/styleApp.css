@@ -115,11 +115,13 @@ h1{
 }
 
 .small-bubble{
+	object-fit: cover;
 	border-radius: 100%;
 	width: 36px;
 	height: 36px;
 }
 .small-bubble-2{
+	object-fit: cover;
 	margin-top:5px; 
 	border-radius: 100%;
 	width: 40px;
@@ -185,6 +187,7 @@ Fil d'actu
 }
 
 .postEnTete img{
+	object-fit: cover;
 	margin-top: 4px;
 	border-radius: 100%;
 	width: 40px;
