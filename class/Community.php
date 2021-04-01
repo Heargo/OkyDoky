@@ -104,6 +104,13 @@ class Community{
     /**
      * Set cover for a community
      */
+    public function user_in(User $user){
+        $sql = "SELECT COUNT(1) FROM %s WHERE `community` = %d AND `user` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id(), $user->id());
+        $result = $this->_db->query($sql);
+        $is_in = ((int) $result->fetch_row()[0]) >= 1;
+        return $is_in;
+    }
     public function set_cover(array $document){
         // if file isn't empty and not too large
         if ($document['size'] != 0 && $document['size'] < 50000000) {
