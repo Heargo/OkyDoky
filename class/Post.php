@@ -128,8 +128,8 @@ class Post {
 	 * @return float number_of_votes
 	 */
 	public function get_percent_up_down() {
-		if ($this->get_nb_up_votes() + $this->get_nb_down_votes()) {
-			return 50;
+		if (($this->get_nb_up_votes() + $this->get_nb_down_votes()) == 0) {
+			return;
 		}
 		return 100 * $this->get_nb_up_votes() / ($this->get_nb_up_votes() + $this->get_nb_down_votes());
 	}
