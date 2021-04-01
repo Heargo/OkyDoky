@@ -40,4 +40,16 @@ class CommunityManager {
             return null;
         }
     }
+    public function search_community(String $research){
+        $sql = "SELECT `id_%s` FROM `%s` WHERE `display_name` LIKE '$research%%'";
+        $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_row();
+				 $list[] = new Community($this->_db, $row[0]));
+			return $list;
+		}
+		return array();
+    }
 }
