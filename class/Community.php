@@ -92,8 +92,8 @@ class Community{
      * Function to remove an user from a community
      */
     public function leave(User $user) : bool {
-        $sql = "DELETE FROM `%s` WHERE `%s` = %s;";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $user->id());
+        $sql = "DELETE FROM `%s` WHERE `%s` = %s AND `%s` = %s;";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $user->id(),Config::TABLE_COMMUNITY,$this->_id);
         return $this->_db->query($sql);
     }
     public function update_cover(int $id_cover){
