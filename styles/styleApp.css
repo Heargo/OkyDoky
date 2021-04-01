@@ -356,10 +356,13 @@ form{
 
 /*SEARCH*/
 #searchForm{
-margin-top:-10px;
-width: 100%;
-	user-select: none;
-  	-webkit-user-select: none;
+	position: relative;
+	top: 50px;
+	margin: 0 auto;
+	max-width: 600px;
+	padding: 10px;
+	background-color: #F1F2F6;
+	z-index: 200;
 }
 
 #searchBar{
@@ -376,6 +379,48 @@ width: 100%;
 	width: 100%;
 	justify-content: space-around;
 
+}
+.communityPreviewSearch{
+	display: flex;
+	height: 100px;
+	margin:5px 0;
+	width: 100%;
+	border-radius: 20px;
+	background-color: white;
+}
+
+.communityImgSearch{
+	width: 40%;
+	
+	object-fit: cover;
+	border-radius: 20px;
+}
+.communityLabelSearch{
+	position: relative;
+	width: 60%;
+	padding: 0.3rem;
+}
+.communityLabelSearch .title{
+	font-weight: bold;
+	text-align: center;
+}
+.descriptionCommuSearch{
+	padding: 0.1rem;
+	font-size: 0.8rem;
+}
+.communityButtonSearch{
+	position: absolute;
+	bottom: 0;
+	right: 5px;
+	width: 60px;
+	margin: 0 auto;
+	text-align: center;
+	border: solid 1px #2F3542;
+	border-radius: 40px;
+}
+
+textarea:focus, input:focus{
+    outline: none;
 }
 
 

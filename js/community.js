@@ -1,6 +1,12 @@
+try{
 var carrousel = document.getElementById("carroussel");
-var slideIndex = parseInt(carrousel.dataset.current);
+var slideIndex = getSlideOfID(parseInt(carrousel.dataset.current));
 showSlides(slideIndex);
+}catch(error){
+}
+
+
+
 
 // Next/previous controls
 function plusSlides(n) {
@@ -10,6 +16,19 @@ function plusSlides(n) {
 //showSpecificSlide
 function showSpecificSlide(n) {
   showSlides(slideIndex = n);
+}
+
+
+function getSlideOfID(id){
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+
+  for (i = 0; i < slides.length; i++) {
+    if (slides[i].childNodes[1].dataset.idcommu==id){
+      console.log("Pour l'id de commu "+id+" l'index est "+(i+1))
+      return parseInt(i)+1;
+    }
+  }
 }
 
 function showSlides(n) {
@@ -26,12 +45,20 @@ function showSlides(n) {
     slides[i].style.display = "none";
   }
 
+  console.log("show slide"+slideIndex)
+  //console.log("je passe a la commu"+slides[slideIndex-1].childNodes[1].dataset.idcommu)
+  console.log(slides[slideIndex-1].childNodes[1])
+  //console.log(slides[slideIndex].childNodes[1])
+
+
   slides[slideIndex-1].style.display = "block";
   captionText.innerHTML = slides[slideIndex-1].childNodes[1].alt;
   numberText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.number;
   descText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.description;
   navPreview.setAttribute("src",slides[slideIndex-1].childNodes[1].src);
+ 
   changeCommu(slides[slideIndex-1].childNodes[1].dataset.idcommu);
+  
 }
 
 function switchComs(){
@@ -48,6 +75,7 @@ function switchComs(){
 function changeCommu(id){
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function(){
+
     if (this.readyState ==4 && this.status ==200) {
      console.log("community changed");
     }

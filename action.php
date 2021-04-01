@@ -7,4 +7,7 @@ $ROUTES->bound_post('/signin', 'signin', ['login', 'password'])
        ->bound_post("/voteU", 'voteU')
        ->bound_post("/voteD", 'voteD')
        ->bound_post("/ajax/community/current", 'set_community', ['id'])
+       ->bound_post("/ajax/search", 'search', ['tosearch'])
+       ->bound_post("/ajax/JoinOrLeave", 'JoinOrLeaveCommu', ['idCommu'])
+
 ;

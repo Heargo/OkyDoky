@@ -11,9 +11,11 @@
 
 	<?php include 'topnav.php'; ?>
 
+<?php 
+$communities = User::current()->get_communities();
+if (sizeof($communities)>0){ ?>
 	<div id ="carroussel" class="carroussel" data-current="<?=$_SESSION["current_community"]?>">
 			<?php 
-			$communities = User::current()->get_communities();
 			foreach($communities as $comm){
 				?>
 				<div class="mySlides">
@@ -85,7 +87,6 @@
 		</div>
 	</section>
 
-<?php include 'bottomnav.php'; ?>
 
 </div>
 
@@ -108,6 +109,35 @@
 		?>
 	</div>
 </section>
+<?php
+}
+else{
+	?>
+	<section id="verticalScrollContainer">
+	<?php 
+	$allcoms=$GLOBALS["communities"]->search_community("");
+	foreach ($allcoms as $key => $com) {?>
+
+	<div id="idCom-<?=$com->id()?>" class="communityPreviewSearch">
+		<div>
+			<img class="communityImgSearch" src="<?=$com->get_cover();?>" alt="<?=$com->get_display_name();?>">
+			<div class="communityLabelSearch">
+				<p class="title"><?=$com->get_display_name();?></p>
+				<p><?=$com->get_description();?></p>
+			</div>
+		</div>
+		<button onclick="joinOrLeave(<?=$com->id()?>);">Join</button>
+	</div>
+	<?php 
+	}
+	?>
+</section>
+<script src="<?= Routes::url_for('/js/searchAjax.js')?>"></script>
+<?php 
+}
+?>
+
+<?php include 'bottomnav.php'; ?>
 
 
 <script src="<?= Routes::url_for('/js/community.js')?>"></script>
