@@ -297,19 +297,44 @@ class User {
     /**
      * Get array of posts written by user
      * 
-     * @param $comm Community|null if you want posts from a specific community
+     * @param $comm Community|null if you want posts from a specific community.
+     * @param $visible bool|null if the post are visible, not visible, or all.
+     * @param $limit int the limit of Post to return.
+     * @param $offset int the offset of posts.
+     * @return Post[] an array of posts.
      */
-    //public function get_posts(?Community $comm) : array;
+    public function get_posts(?Community $comm = null, bool $visible = true, int $limit = 10, int $offset = 0) : array {
+		$visible = $visible ? 1 : 0;
+		$sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `publisher` = %d LIMIT %d OFFSET %d";
+		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $this->id(), $limit, $offset);
+        if (isset($comm)) {
+            $sql .= " WHERE `community` = " . $comm->id();
+        }
+
+		$result = $this->_db->query($sql);
+		if($result) {
+			for ($list = array();
+				 $row = $result->fetch_row();
+				 $list[] = new Post($this->_db, $row[0]));
+			return $list;
+		}
+
+		return array();
+    }
 
     /**
      * User giving a good evaluation for a post
      */
-    //public function up_vote(Post $post);
+    public function upvote(Post $post) : bool {
+        return $post->upvote($this);
+    }
 
     /**
      * User giving a bad evaluation for a post
      */
-    //public function down_vote(Post $post);
+    public function downvote(Post $post) : bool {
+        return $post->downvote($this);
+    }
 
     /**
      * Check if a user has a certain permission
