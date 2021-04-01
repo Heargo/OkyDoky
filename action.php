@@ -9,5 +9,5 @@ $ROUTES->bound_post('/signin', 'signin', ['login', 'password'])
        ->bound_post("/ajax/community/current", 'set_community', ['id'])
        ->bound_post("/ajax/search", 'search', ['tosearch'])
        ->bound_post("/ajax/JoinOrLeave", 'JoinOrLeaveCommu', ['idCommu'])
-
+       ->bound_post("/ajax/moreposts", 'more_posts', ['offset'])
 ;
