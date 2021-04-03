@@ -1,14 +1,8 @@
 <?php 
 
-function return_output($file){
-    ob_start();
-    include $file;
-    return ob_get_clean();
-}
-
 function more_posts(?array $match) {
     $comm = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
-    $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
+    $posts = $GLOBALS["posts"]->get_by_community($comm, true, 2, (int) $_POST['offset']);
 
     $result = array();
     foreach($posts as $post) {
@@ -25,7 +19,7 @@ function more_posts(?array $match) {
                 break;
             }
         }
-        ob_end_clean();
+        if (ob_get_length()) ob_end_clean();
         ob_start();
         include "page/post_standalone.php";
         $content = ob_get_clean();
