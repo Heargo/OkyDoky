@@ -203,6 +203,7 @@ Fil d'actu
 }
 
 .upVote, .downVote{
+	margin-bottom:6px;
 	margin-left:20px; 
 	transform: scale(2);
 }

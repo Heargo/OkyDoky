@@ -5,8 +5,10 @@ function voteU(?array $match) {
 	$post =(int)$_POST["idpost"];
 	$postobj = $GLOBALS["posts"]->get_by_id($post);
 	$res =  $postobj->upvote($user);
-	header("Location: ./feed#$post");
-
+	$v = $postobj->hasUserVoted(User::current());
+	$prct=$postobj->get_percent_up_down();
+	$response = array($v,$prct);
+	echo json_encode($response);
 }
 function voteD(?array $match) {
 
@@ -14,6 +16,9 @@ function voteD(?array $match) {
 	$post =(int)$_POST["idpost"];
 	$postobj = $GLOBALS["posts"]->get_by_id($post);
 	$res =  $postobj->downvote($user);
-	header("Location: ./feed#$post");
+	$v = $postobj->hasUserVoted(User::current());
+	$prct=$postobj->get_percent_up_down();
+	$response = array($v,$prct);
+	echo json_encode($response);
 
 }

@@ -24,46 +24,30 @@
 				<?php  
 				if ($voted==1){
 					?>
-					<label class="upVote cursor" for="upVoteInput-<?=$post->id()?>"><img src="./img/svg/arrow-up-green.svg"></label>
+					<img id="upVoteIcon-<?=$post->id()?>" class="upVote cursor" onclick="vote(<?=$post->id()?>,1);" src="./img/svg/arrow-up-green.svg">
 					<?php 
 				}else{
 					?>
-					<label class="upVote cursor" for="upVoteInput-<?=$post->id()?>"><img src="./img/svg/arrow-up.svg"></label>
+					<img id="upVoteIcon-<?=$post->id()?>" class="upVote cursor" onclick="vote(<?=$post->id()?>,1);" src="./img/svg/arrow-up.svg">
 					<?php 
-				}
-				?>
-				<input id="upVoteInput-<?=$post->id()?>" type="submit" form="upVote-<?=$post->id()?>" class="hidden"></input>
-
-
-				<?php  
+				} 
 				if ($voted==-1){
 					?>
-					<label class="downVote cursor" for="downVoteInput-<?=$post->id()?>"><img src="./img/svg/arrow-down-orange.svg"></label>
+					<img id="downVoteIcon-<?=$post->id()?>" class="downVote cursor" onclick="vote(<?=$post->id()?>,-1);" src="./img/svg/arrow-down-orange.svg">
 					<?php 
 				}else{
 					?>
-					<label class="downVote cursor" for="downVoteInput-<?=$post->id()?>"><img src="./img/svg/arrow-down.svg"></label>
+					<img id="downVoteIcon-<?=$post->id()?>" class="downVote cursor" onclick="vote(<?=$post->id()?>,-1);" src="./img/svg/arrow-down.svg">
 					<?php 
 				}
-				?>
-				<input id="downVoteInput-<?=$post->id()?>" type="submit" form="downVote-<?=$post->id()?>" class="hidden"></input>
-				<?php 	
 					if ($prct>50) {
-						?><p class="prctQuality green"><?php 	
+						?><p id="prctQualityText-<?=$post->id()?>" class="prctQuality green"><?php 	
 					}else{
-						?><p class="prctQuality red"><?php 
+						?><p id="prctQualityText-<?=$post->id()?>" class="prctQuality red"><?php 
 					}
-				 ?>
-				<?= $prct ?></p>
+					$prct ?>
+					</p>
 
-				<form id="upVote-<?=$post->id()?>" class="hidden" method="POST" action="<?= Routes::url_for('/voteU')?>">
-					<input type="hidden" name="idpost" value="<?=$post->id()?>">
-				</form>
-
-
-				<form id="downVote-<?=$post->id()?>" class="hidden"  method="POST" action="<?= Routes::url_for('/voteD')?>">
-					<input type="hidden" name="idpost" value="<?=$post->id()?>">
-				</form>
 				<!-- <a href="#"><img src="./img/svg/like.svg"></a>
 				<p>12</p> -->
 			</div>
