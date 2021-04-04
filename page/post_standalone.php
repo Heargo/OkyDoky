@@ -45,7 +45,7 @@
 					}else{
 						?><p id="prctQualityText-<?=$post->id()?>" class="prctQuality red"><?php 
 					}
-					$prct ?>
+					echo $prct ?>
 					</p>
 
 				<!-- <a href="#"><img src="./img/svg/like.svg"></a>
