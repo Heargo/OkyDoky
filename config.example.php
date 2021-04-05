@@ -23,6 +23,8 @@ class Config {
     public const TABLE_RESOURCE = 'resource';
     public const TABLE_POST = 'post';
     public const TABLE_VOTE = 'vote';
+    public const TABLE_COMMENT = 'comment';
+    public const TABLE_LIKE = 'like';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';

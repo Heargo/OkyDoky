@@ -4,13 +4,15 @@ require_once("config.php");
 
 $DB = new mysqli(Config::DB_HOST, Config::DB_USER, Config::DB_PASSWORD, Config::DB_NAME);
 
-$document = Config::TABLE_DOCUMENT;
-$user = Config::TABLE_USER;
+$document  = Config::TABLE_DOCUMENT;
+$user      = Config::TABLE_USER;
 $community = Config::TABLE_COMMUNITY;
 $user_comm = Config::TABLE_USER_COMMUNITY;
-$resource = Config::TABLE_RESOURCE;
-$post = Config::TABLE_POST;
-$vote = Config::TABLE_VOTE;
+$resource  = Config::TABLE_RESOURCE;
+$post      = Config::TABLE_POST;
+$vote      = Config::TABLE_VOTE;
+$comment   = Config::TABLE_COMMENT;
+$like      = Config::TABLE_LIKE;
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 0;");
 
@@ -123,7 +125,34 @@ CREATE TABLE IF NOT EXISTS `$user_comm` (
 );"
 );
 
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$comment` (
+    `id_$comment` int unsigned NOT NULL AUTO_INCREMENT,
+    `post` int unsigned NOT NULL,
+    `author` int unsigned NOT NULL,
+    `text` tinytext NOT NULL,
+    `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `visible` tinyint(1) NOT NULL DEFAULT 0,
+    
+    PRIMARY KEY (`id_$comment`),
+    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`),
+    FOREIGN KEY (`author`) REFERENCES `$user`(`id_$user`)
+);"
+);
+
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$like` (
+    `comment` int unsigned NOT NULL,
+    `user` int unsigned NOT NULL,
+    `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (`comment`,`user`),
+    FOREIGN KEY (`comment`) REFERENCES `$comment`(`id_$comment`) ON DELETE CASCADE,
+    FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`)
+);"
+);
+
 $DB->query("SET FOREIGN_KEY_CHECKS = 1;");
 
-unset($document, $user, $community, $resource, $post, $vote);
+unset($document, $user, $community, $resource, $post, $vote, $comment, $like);
 
