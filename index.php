@@ -25,6 +25,7 @@ $GLOBALS['docs'] = new DocumentManager($DB);
 $GLOBALS['users'] = new UserManager($DB);
 $GLOBALS['communities'] = new CommunityManager($DB);
 $GLOBALS['posts'] = new PostManager($DB);
+$GLOBALS['comments'] = new CommentManager($DB);
 $GLOBALS['db'] = $DB;
 if(!isset($_SESSION["current_community"])){
     $_SESSION["current_community"]=0;
