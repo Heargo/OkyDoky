@@ -697,61 +697,7 @@ textarea:focus, input:focus{
 
 
 
-/*selectorCommunityProfil*/
-.communitySelectorProfil{
-	height: 90px;
-	margin: 0 auto;
-	padding: 5px;
-	max-width: 550px;
-	background-color: white;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
-}
 
-.horizontal-scroll{
-	display: flex;
-	flex-direction: row;
-	height: 100%;
-	overflow-y: hidden;
-	overflow-x: auto;
-}
-.horizontal-scroll div{
-	margin: 0 5px;
-}
-
-.communityPreview-profil{
-	position: relative;
-	width: 120px;
-	height:80px;
-	object-fit: cover;
-	border-radius: 10px;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.checkfilter{
-	position: relative;
-	transform: scale(2) translateY(-120%) translateX(70%);
-}
-
-.communityPreviewLabel-profil{
-	position: relative;
-	top: -25px;
-	margin:0 1rem;
-	text-align: center;
-	font-family: 'Caveat Brush', cursive;
-	font-size: 0.8rem;
-	background-color: white;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.blurryOverlayProfilFilter{
-	filter: blur(1px);
-}
-
-.communityList h3{
-	font-family: 'Caveat Brush', cursive;
-	font-size: 2.4rem;
-	font-weight: normal;
-}
 
 
 
@@ -1052,3 +998,154 @@ h2.confirmation{
     }
 
 }
+
+.profilContainer{
+	width: 100%;
+}
+.generalInfo{
+	display: flex;
+	flex-direction: column;
+}
+.generalInfo-top{
+	display: flex;
+}
+
+.pictprofil{
+	border-radius: 100%;
+}
+
+.profil-infos-container{
+	width: 100%;
+}
+
+.logocertifier{
+	position: absolute;
+	transform: scale(0.5) translateX(-40%) translateY(-50%);
+}
+.nameprofil{
+	transform: translateX(10px) translateY(50%);
+}
+.roleprofil{
+	display: flex;
+	flex-wrap: wrap;
+	width:80%; 
+	list-style: none;
+	transform: translateX(5px) translateY(30px);
+}
+.roleprofil li{
+	margin: 0.2rem;
+	padding: 0.3rem 0.5rem;
+	border-radius: 20px;
+	font-size: 0.8rem;
+}
+
+.generalInfo-bottom{
+	display: flex;
+	flex-direction: row-reverse;
+	margin-bottom: 20px;
+}
+
+.modiferprofil{
+	margin-top: 10px;
+	margin-left:10px; 
+	color: green;
+}
+
+.followersContainer img, .nbPostContainer img{
+	transform: scale(0.7);
+}
+
+/* --------  PARAMETRES -----------*/
+
+#pageparametres{
+	display: none;
+	z-index: 100;
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	background-color: white;
+	width: 90%;
+	height: 500px;
+}
+
+#pageparametres .cadre{
+	height: 50px;
+	width: 450px;
+	text-decoration-style: none;
+	font-size: 0.9em;
+}
+
+
+.right-container{
+	position: absolute;
+	right: 0;
+	padding: 0.5rem;
+}
+
+/*profil*/
+.pictprofil{
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+}
+
+
+/* -------- LIST OF PROFIL's COMMU -----------*/
+
+.communitySelectorProfil{
+    height: 90px;
+    margin: 0 auto;
+    padding: 5px;
+    width: 100%;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.horizontal-scroll{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    padding-bottom: 17px; /* Increase/decrease this value for cross-browser compatibility */
+    box-sizing: content-box; /* So the width will be 100% + 17px */
+
+}
+.horizontal-scroll div{
+    margin: 0 5px;
+}
+
+.communityPreview-profil{
+    position: relative;
+    width: 120px;
+    height:80px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.checkfilter{
+    position: relative;
+    transform: scale(2) translateY(-120%) translateX(70%);
+}
+
+.communityPreviewLabel-profil{
+    position: relative;
+    top: -25px;
+    margin:0 1rem;
+    text-align: center;
+    font-family: 'Caveat Brush', cursive;
+    font-size: 0.8rem;
+    background-color: white;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.blurryOverlayProfilFilter{
+    filter: blur(1px);
+}
+
+
+
+
+

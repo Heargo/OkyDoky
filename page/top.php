@@ -33,47 +33,37 @@
 </div>
 
 
+<!-- du + au - like (a faire) -->
+<?php 
+	if(empty(User::current()->get_communities())) {
+		echo "<p>Aucune communauté rejointe !</p>";
+	} else {		
+		$commTmp = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
+		$postsToShow = $GLOBALS["posts"]->get_by_community($commTmp);
+		$cHasPosts = false;
+		foreach ($postsToShow as $post) {
+			$cHasPosts = true; 
+			$publisher = $post->publisher();
+			$titrePost = $post->title();
+			$pName = $publisher->nickname();
+			$profile_pic = $publisher->profile_pic();
+			$docs = $post->get_documents();
+			$voted = $post->hasUserVoted(User::current());
+			$prct = $post->get_percent_up_down();
+			foreach ($docs as $doc) {
+				if($doc->is_visible()) {
+					$urlIMG = $doc->url();
+					break;
+				}
+			}
+            //include "post_standalone.php";
+            //ne doit plus exister à terme, tout en JS
+        }
 
-
-
-<!-- fil actu du plus au moins liké -->
-
-<?php foreach($GLOBALS["docs"]->get_documents(true) as $doc) { 
-	if ($doc->is_visible()){
-		$urlIMG=$doc->url(); /*"./data/document" . */
-	?>
-        
-        <div class="postImg">
-		<!-- user -->
-		<div class="postEnTete">
-			<a href="#"><img src="./img/img1.jpg" alt="profil"></a>
-			<a href="#">Pseudo</a>
-		</div>
-		<!-- content -->
-		<div class="content">
-			<?php 
-			echo "<img src='$urlIMG' alt='content'>";
-			?>
-			
-		</div>
-		<!-- reactions -->
-		<div class="postReactions">
-			<div class="left">
-				<a href="#"><img src="./img/svg/comment.svg"></a>
-				<a href="#"><img src="./img/svg/like.svg"></a>
-				<p>12</p>
-			</div>
-			<div class="right">
-				<a href="#"><img src="./img/svg/share.svg"></a>
-				<a href="#"><img src="./img/svg/bookmark.svg"></a>
-			</div>
-			
-		</div>
-	</div>
-
-<?php
-	} 
-}
+        if(!$cHasPosts) {
+            echo "<p>Aucun post dans cette communauté !</p>";
+        }
+    }
 ?>
 
 </section>
@@ -85,4 +75,5 @@
 
 </body>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 </html>
