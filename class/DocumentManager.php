@@ -19,7 +19,7 @@ class DocumentManager {
     /**
      * Get a document by its ID
      */
-    public function get_by_id(int $id){
+    public function get_by_id(int $id) : ?Document {
         try {
             return new Document($this->_db, $id);
         } catch (InvalidID $e) {

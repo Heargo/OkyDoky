@@ -41,25 +41,25 @@ class Post {
 		$this->_visible = $row['visible'];
 	}
 	/** Return the post's ID */
-	public function id() { return $this->_id;}
+	public function id() { return $this->_id; }
 
 	/** Return the post's publisher */
-	public function publisher() { return $this->_publisher;}
+	public function publisher() { return $this->_publisher; }
 	
 	/** Return the post's community */
-	public function id_community() { return $this->_id_community;}
+	public function id_community() { return $this->_id_community; }
 
 	/** Return the post's creation date */
-	public function date() { return $this->_date;}
+	public function date() { return $this->_date; }
 
 	/** Return the post's title */
-	public function title() { return $this->_title;}
+	public function title() { return $this->_title; }
 	
 	/** Return the post's description */
-	public function description() { return $this->_description;}
+	public function description() { return $this->_description; }
 
 	/** Return the post's visibility */
-	public function is_visible() { return $this->_visible;}
+	public function is_visible() { return $this->_visible; }
 	
 	/**
 	 * Sets the post title

@@ -58,7 +58,7 @@ class Document {
      */
     public function set_visible(bool $visible) : bool {
         $visible = $visible ? 1 : 0;
-        $sql = "UPDATE `%s` SET `visible` = '%d' WHERE `id_%s` = %d";
+        $sql = "UPDATE `%s` SET `visible` = %d WHERE `id_%s` = %d";
         $sql = sprintf($sql, Config::TABLE_DOCUMENT, $visible, Config::TABLE_DOCUMENT, $this->id());
         return (bool) $this->_db->query($sql);
     }
