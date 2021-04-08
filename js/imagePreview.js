@@ -8,11 +8,14 @@ function readURL(input) {
     	}
     
    		reader.readAsDataURL(input.files[0]); // convert to base64 string
-   		//on change l'appercu et le bouton
-   		var btn = document.getElementById('uploadbtn');
-   		btn.classList.add('btn-when-preview');
-   		var preview = document.getElementById('preview');
-   		preview.classList.remove('hidden');
+   		
+      try{
+        //on change l'appercu et le bouton
+      var btn = document.getElementById('uploadbtn');
+      btn.classList.add('btn-when-preview');
+      var preview = document.getElementById('preview');
+      preview.classList.remove('hidden');
+    }catch(error){}
   }
 }
 

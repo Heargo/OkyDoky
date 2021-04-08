@@ -62,7 +62,14 @@ class User {
     /**
      * Get display name
      */
-    public function display_name() : ?string { return $this->_display_name; }
+    public function display_name() : ?string {
+        if ( $this->_display_name == ""){
+            return $this->_nickname;
+        }else{
+            return $this->_display_name;
+        }
+        
+    }
 
     /**
      * Get description
@@ -90,6 +97,47 @@ class User {
         }
         return Routes::url_for("/img/img1.jpg");
     }
+
+    //SETTERS
+
+    /**
+     * set nickname
+     */
+    public function set_nickname($n){
+        $id=$this->_id;
+        $sql="UPDATE `user` SET `nickname` = '$n' WHERE `user`.`id_user` = $id;";
+        $result = $this->_db->query($sql);
+        if($result){
+            $this->_nickname=$n;
+        }
+         
+    }
+
+    /**
+     * set display name
+     */
+    public function set_display_name($d_n){
+        
+        $id=$this->_id;
+        $sql="UPDATE `user` SET `display_name` = '$d_n' WHERE `user`.`id_user` = $id;";
+        $result = $this->_db->query($sql);
+        if($result){
+            $this->_display_name=$d_n;
+        }
+    }
+
+    /**
+     * set description
+     */
+    public function set_description($d){
+        $id=$this->_id;
+        $sql="UPDATE `user` SET `description` = '$d' WHERE `user`.`id_user` = $id;";
+        $result = $this->_db->query($sql);
+        if($result){
+            $this->_description=$d;
+        }
+    }
+
     
     // COMMUNITY INTERACTIONS
 

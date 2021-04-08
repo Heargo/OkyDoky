@@ -25,7 +25,8 @@
 		<!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
 		<label id ="uploadbtn" for="file" class="fileUploadLabel cursor"><img src="./img/svg/upload.svg"></label>
 		<input class="fileUploadInput" id="file" name="file" type="file"/>
-		<img id="preview" class="hidden" src="#" alt="preview">
+		<img id="preview" class="hidden preview" src="#" alt="preview">
+		
 		<!-- Description -->
 		<textarea class="descriptionInput" type="text" name="description" placeholder="Description."></textarea>
 

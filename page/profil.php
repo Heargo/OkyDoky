@@ -53,11 +53,11 @@
 					<!-- IMG PROFIL -->
 					<img class="pictprofil" src="<?= User::is_connected() ? User::current()->profile_pic() : "anonyme" ?>" alt="profil">
 					<!-- MODIF  -->
-					<p class="modiferprofil cursor"> Modifier <img src="https://img.icons8.com/fluent/48/000000/pencil-tip.png"  style="width:15px;"/> </p>
+					<a href="<?= Routes::url_for("/profil-edit")?>"class="modiferprofil cursor"> Modifier <img src="https://img.icons8.com/fluent/48/000000/pencil-tip.png" /></a>
 				</div>
 				
 				<div class="profil-infos-container">
-					<h2 class="nameprofil"><?= User::is_connected() ? User::current()->nickname() : "anonyme" ?> <img class="logocertifier" src="https://img.icons8.com/nolan/64/approval.png"/></h2>
+					<h2 class="nameprofil"><?= User::is_connected() ? User::current()->display_name() : "anonyme" ?> <img class="logocertifier" src="https://img.icons8.com/nolan/64/approval.png"/></h2>
 					<ul class="roleprofil">
 						<li style="background-color: red;">Original</li>
 						<li style="background-color: green;">drole</li>

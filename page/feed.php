@@ -24,7 +24,7 @@
 			$cHasPosts = true; 
 			$publisher = $post->publisher();
 			$titrePost = $post->title();
-			$pName = $publisher->nickname();
+			$pName = $publisher->display_name();
 			$profile_pic = $publisher->profile_pic();
 			$docs = $post->get_documents();
 			$voted = $post->hasUserVoted(User::current());
