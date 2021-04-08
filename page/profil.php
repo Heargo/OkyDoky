@@ -32,7 +32,7 @@
 </div>
 <div id="page">
 	<div class="topBar">
-	<img onclick="window.history.back();" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
+	<img onclick="document.location.href='<?= Routes::url_for('/feed')?>'" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
 	<div class="right-container">
 		<!-- AFFICHAGE DES FAVORIS -->
 		<a href=""><img src="https://img.icons8.com/ios/50/000000/bookmark-ribbon--v2.png" name="favorilogo" class="logofavori"/></a>
