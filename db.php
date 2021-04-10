@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `$post` (
     `community` int unsigned NULL,
     `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `title` varchar(100) NOT NULL,
-    `description` tinytext NULL,
+    `description` longtext NULL,
     `visible` tinyint(1) NOT NULL DEFAULT 0,
 
     PRIMARY KEY (`id_$post`),
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `$comment` (
     `id_$comment` int unsigned NOT NULL AUTO_INCREMENT,
     `post` int unsigned NOT NULL,
     `author` int unsigned NOT NULL,
-    `text` tinytext NOT NULL,
+    `text` longtext NOT NULL,
     `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `visible` tinyint(1) NOT NULL DEFAULT 0,
     

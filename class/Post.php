@@ -60,6 +60,9 @@ class Post {
 
 	/** Return the post's visibility */
 	public function is_visible() { return $this->_visible; }
+
+	/** Return the post's comments */
+	public function comments() { return $GLOBALS['comments']->get_by_post($this); }
 	
 	/**
 	 * Sets the post title

@@ -3,6 +3,9 @@
 		<div class="postEnTete">
 			<a href="#"><?php echo "<img src='$profile_pic' alt='profil'>"; ?></a>
 			<a href="#"><?= $pName ?></a>
+            <?php if($isComment): ?>
+                <img onclick="window.history.back();" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+            <?php endif ?>
 		</div>
 		<!-- <div class="postTitre">
 			<p>
@@ -11,33 +14,40 @@
 		</div> -->
 		<!-- content -->
 		<div class="content">
-			<?php 
-			echo "<img src='$urlIMG' alt='content'>";
-			?>
-			
+            <?php if($isComment): ?>
+            <h4><?=$titrePost?></h4>
+            <?php endif ?>
+
+            <img src='<?=$urlIMG?>' alt='content'>
+
+            <?php if($isComment): ?>
+            <p><?=$description?></p>
+            <?php endif ?>
 		</div>
 		<!-- reactions -->
 		<div class="postReactions">
 			<div class="left">
-				<a href="#"><img src="./img/svg/comment.svg"></a>
+            <?php if(!$isComment): ?>
+            <a href="<?=$urlComment?>"><img src="<?= Routes::url_for('/img/svg/comment.svg')?>"></a>
+            <?php endif ?>
 
 				<?php  
 				if ($voted==1){
 					?>
-					<img id="upVoteIcon-<?=$post->id()?>" class="upVote cursor" onclick="vote(<?=$post->id()?>,1);" src="./img/svg/arrow-up-green.svg">
+                    <img id="upVoteIcon-<?=$post->id()?>" class="upVote cursor" onclick="vote(<?=$post->id()?>,1);" src="<?= Routes::url_for('/img/svg/arrow-up-green.svg')?>">
 					<?php 
 				}else{
 					?>
-					<img id="upVoteIcon-<?=$post->id()?>" class="upVote cursor" onclick="vote(<?=$post->id()?>,1);" src="./img/svg/arrow-up.svg">
+                    <img id="upVoteIcon-<?=$post->id()?>" class="upVote cursor" onclick="vote(<?=$post->id()?>,1);" src="<?= Routes::url_for('/img/svg/arrow-up.svg')?>">
 					<?php 
 				} 
 				if ($voted==-1){
 					?>
-					<img id="downVoteIcon-<?=$post->id()?>" class="downVote cursor" onclick="vote(<?=$post->id()?>,-1);" src="./img/svg/arrow-down-orange.svg">
+                    <img id="downVoteIcon-<?=$post->id()?>" class="downVote cursor" onclick="vote(<?=$post->id()?>,-1);" src="<?= Routes::url_for('/img/svg/arrow-down-orange.svg')?>">
 					<?php 
 				}else{
 					?>
-					<img id="downVoteIcon-<?=$post->id()?>" class="downVote cursor" onclick="vote(<?=$post->id()?>,-1);" src="./img/svg/arrow-down.svg">
+                    <img id="downVoteIcon-<?=$post->id()?>" class="downVote cursor" onclick="vote(<?=$post->id()?>,-1);" src="<?= Routes::url_for('/img/svg/arrow-down.svg')?>">
 					<?php 
 				}
 					if ($prct>50) {
@@ -52,8 +62,8 @@
 				<p>12</p> -->
 			</div>
 			<div class="right">
-				<a href="#"><img src="./img/svg/share.svg"></a>
-				<a href="#"><img src="./img/svg/bookmark.svg"></a>
+                <a href="#"><img src="<?= Routes::url_for('/img/svg/share.svg')?>"></a>
+                <a href="#"><img src="<?= Routes::url_for('/img/svg/bookmark.svg')?>"></a>
 			</div>
 			
 		</div>

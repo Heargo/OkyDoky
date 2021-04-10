@@ -10,7 +10,7 @@ $ROUTES->bound_get('/document', 'page/upload_document.php')
        ->bound_get('/community', 'page/community.php')
        ->bound_get('/profil', 'page/profil.php')
        ->bound_get('/profil-edit', 'page/modify.php')
-       ->bound_get('/c/(\w+)/post/(\w+)', 'page/publication.php')
+       ->bound_get('/c/(?<comm>\w+)/post/(?<id>\w+)', 'page/publication.php', 'format_publication')
        ->bound_get('/verify/(?<user>\w+)/(?<token>\w+)', 'page/verify.php', 'verify_user_email')
        ->bound_get('/confirmation', 'page/mailconfirmation.php')
 ;

@@ -14,6 +14,7 @@
 
 
 <?php 
+    // @TODO remove this section
 	if(empty(User::current()->get_communities())) {
 		echo "<p>Aucune communauté rejointe !</p>";
 	} else {		

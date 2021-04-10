@@ -58,7 +58,7 @@ class Comment {
      *
      * @return string Date formated like DD/MM/YY H:M:S.
       */
-    public function date() : string { return date('d/m/Y H:i:s', $this->_date); }
+    public function date() : string { return date('d/m/Y H:i', $this->_date); }
 
     /** Get the text of the comment */
     public function text() : string { return $this->_text; }
@@ -117,6 +117,18 @@ class Comment {
             $sql = sprintf($sql, Config::TABLE_LIKE, $this->id(), $u->id());
         }
         return (bool) $this->_db->query($sql);
+    }
+
+    /**
+     * Return the number of likes
+     *
+     * @return int the number of user who liked the comment.
+     */
+    public function nb_likes() : int {
+        $sql = "SELECT COUNT(1) FROM `%s` WHERE `comment` = %d";
+        $sql = sprintf($sql, Config::TABLE_LIKE, $this->id());
+        $nb = $this->_db->query($sql)->fetch_row()[0]; // COUNT returns something
+        return $nb;
     }
 
     public function set_visible(bool $visible) : bool {

@@ -71,9 +71,9 @@ class Routes {
     private function _execute_get() {
         foreach ($this->_regex_get as $regex => list($filename, $before)) {
             if (preg_match($regex, self::get_url(), $match)){
-                if ($before) $before($match);
                 $GLOBALS['page']['url'] = self::get_url();
                 $GLOBALS['page']['match'] = $match;
+                if (isset($before)) $before($match);
                 include $filename;
             }
         }
