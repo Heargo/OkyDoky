@@ -23,7 +23,7 @@
 			<div class="center">
 				<h2 class="form-title" id="login"><span>or</span>Login</h2>
 				<div class="form-holder">
-					<input type="text" name="login" class="input" placeholder="Email" />
+					<input type="text" name="login" class="input" placeholder="Email/Nickname" />
 					<input type="password" name="password" class="input" placeholder="Password" />
 				</div>
 				<input type="submit" value="Login"class="submit-btn"></input>

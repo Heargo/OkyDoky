@@ -7,15 +7,10 @@
                 <img onclick="window.history.back();" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
             <?php endif ?>
 		</div>
-		<!-- <div class="postTitre">
-			<p>
-				<?= $titrePost ?>
-			</p>
-		</div> -->
 		<!-- content -->
 		<div class="content">
             <?php if($isComment): ?>
-            <h4><?=$titrePost?></h4>
+            <h4 class="postTitre"><?=$titrePost?></h4>
             <?php endif ?>
 
             <img src='<?=$urlIMG?>' alt='content'>

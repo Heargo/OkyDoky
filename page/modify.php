@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Modify the profile</title>
+	<title>Modify the profil</title>
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
 	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/styleApp.css')?>">
@@ -31,10 +31,6 @@
 		<img id="preview" class="previewImgProfil" src="<?= User::is_connected() ? User::current()->profile_pic() : 'preview' ?>" alt="preview">
 		<label id ="uploadbtnProfil" for="file" class="fileUploadLabelProfil cursor">Changer...</label>
 		<input class="fileUploadInput" id="file" name="file" type="file" />
-
-		<!-- Nom -->
-		<H3> Nom de compte </H3>
-		<input class="nameInput" type="text" name="nickname" value="<?= User::is_connected() ? User::current()->nickname() : 'Nom' ?>"> 
 
 		<!-- Nom d'utilisateur -->
 		<H3> Pseudo </H3>
