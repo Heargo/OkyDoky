@@ -97,7 +97,7 @@ class Community{
     public function recruit(User $user, bool $owner = false) : bool {
         $average_nb = (new Permission(Permission::AVERAGE));
         $sql = "INSERT INTO `%s` (`%s`, `%s`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$this->_id,$bool ? 256 : 0,0);
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$this->_id,$owner ? 256 : 0,0);
         return $this->_db->query($sql);
     }
 
@@ -189,8 +189,18 @@ class Community{
     /**
      * Find members with permissions in that community
      */
-    public function get_members(?int $flags = null) : array{
-        return null;
+    public function get_members(){
+        $sql = "SELECT * FROM `%s` WHERE `%s` = $this->_id";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY);
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_assoc();
+				 $list[] = new User($this->_db, $row['user']));
+			return $list;
+		}
+		return array();
+
     }
     
 
@@ -217,6 +227,7 @@ class Community{
         return $row[0];
         
     }
+    
 
     public function ban(User $user) : bool{return false;}
 
@@ -224,7 +235,24 @@ class Community{
 
     public function get_certified_members() : array{return null;}
 
-    public function get_active_members(?int $days) : array{return null;}
+    public function get_active_members() : array{
+        $members = $this->get_members();
+        $sorted_members = array();
+        foreach($members as $m){
+            $mid = $m->id();
+            $sql = "SELECT COUNT(*) FROM `%s` WHERE `%s` = %d AND `publisher` = %d LIMIT 5";
+            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_COMMUNITY, $this->_id,$mid);
+            $result = $this->_db->query($sql);
+            $row = mysqli_fetch_row($result);
+            if ($row[0] != 0){
+                $sorted_members[$mid] = $row[0];
+            }
+            
+
+        }
+        arsort($sorted_members);
+        return $sorted_members;
+    }
 
 
 }
