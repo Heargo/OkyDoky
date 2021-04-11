@@ -68,6 +68,6 @@
 		</div>
 		<!-- descritpion -->
 		<?php if($isComment): ?>
-        <p class="postdescritp"><?=$description?></p>
-        <?php endif ?>
+		<p class="postdescritp"><?=$description?></p>
+		<?php endif ?>
 	</div>

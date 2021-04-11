@@ -15,14 +15,24 @@
 <?php 
 $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name().'/post/'.$GLOBALS['page']['post']->id().'/new');
 ?>
-<form enctype="multipart/form-data" action="<?=$r?>" method="post"> 
-	<input class="" type="text" name="commentaire">
-	<label class="" for="submit-comment"></label>
-	<input type="submit" id="submit-comment" name="submit">
-</form>
 
 
-<div class="commentaires" style="width : 100%;">
+
+<div class="commentaires">
+	<div>
+	<a href="#">
+		<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
+	</a>
+    <p class="comment">
+        <form class="commentaire-form" enctype="multipart/form-data" action="<?=$r?>" method="post"> 
+			<textarea class="commentaire-form-textarea" type="text" name="commentaire" placeholder="Ecrivez un commentaire"></textarea>
+			<label class="submit-comm-label" for="submit-comment">
+				<img src="<?=Routes::url_for('/img/svg/send.svg')?>">
+			</label>
+			<input class="hidden" type="submit" id="submit-comment" name="submit">
+		</form>	
+</div>
+
     <?php foreach($GLOBALS['page']['post']->comments() as $c){ ?>
 	<div>
 		<a href="#">
