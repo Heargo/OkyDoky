@@ -85,6 +85,7 @@ class DocumentManager {
     public function add_document(array $document, bool $visible = true) : ?int {
         $visible = $visible ? 1 : 0;
 
+        // @todo change size
         // if file isn't empty and not too large
         if ($document['size'] != 0 && $document['size'] < 50000000) {
             if (!is_writable(Config::DIR_DOCUMENT)) {

@@ -29,6 +29,7 @@ class Config {
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
     public const DIR_COVER = __DIR__ . '/data/cover/';
+    public const DIR_PROFILE_PIC = __DIR__ . '/data/user/';
 
     //URLs
     public const URL_ROOT = 'example.com/okydoky/';

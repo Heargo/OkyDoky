@@ -16,7 +16,7 @@ class User {
     private $_nickname;
     private $_display_name;
     private $_description;
-    private $_profile_picture_url;
+    private $_profile_picture_name;
     private $_email;
     /** not yet confirmed email */
     private $_new_email;
@@ -44,7 +44,7 @@ class User {
         $this->_nickname = $row['nickname'];
         $this->_display_name = $row['display_name'];
         $this->_description = $row['description'];
-        $this->_profile_picture_url = $row['profile_picture'];
+        $this->_profile_picture_name = $row['profile_picture'];
         $this->_email = $row['email'];
         $this->_new_email = $row['new_email'];
     }
@@ -90,9 +90,9 @@ class User {
      * Get url to profile pic
      */
     public function profile_pic() : string {
-        if (isset($this->_profile_picture_url)) {
-            $url = $this->_profile_picture_url;
-            $url = "/img/" . $url;
+        if (isset($this->_profile_picture_name)) {
+            $url = $this->_profile_picture_name;
+            $url = "/data/user/" . $url;
             return Routes::url_for($url);
         }
         return Routes::url_for("/img/img1.jpg");
@@ -114,9 +114,11 @@ class User {
     }
 
     /**
-     * set display name
+     * Change the display name
+     *
+     * @return bool True if successful.
      */
-    public function set_display_name($d_n){
+    public function set_display_name($d_n) : bool {
         
         $id=$this->_id;
         $sql="UPDATE `user` SET `display_name` = '$d_n' WHERE `user`.`id_user` = $id;";
@@ -124,6 +126,7 @@ class User {
         if($result){
             $this->_display_name=$d_n;
         }
+        return (bool) $result;
     }
 
     /**
@@ -307,14 +310,45 @@ class User {
      * @param $pic array is a picture from $_FILES.
      * @return bool True if successful.
      */
-    //public function set_profile_picture(array $pic) : bool;
+    public function set_profile_picture(array $pic) : bool {
+        
+        // @todo change size
+        if ($pic['size'] != 0 && $pic['size'] < 50000000) {
 
-    /**
-     * Change the display name
-     *
-     * @return bool True if successful.
-     */
-    //public function set_display_name(string $nickname) : bool;
+            if (!is_writable(Config::DIR_DOCUMENT)) {
+                throw new NotWritable('Directory ' . Config::DIR_USER . ' is not writable');
+            }
+
+            // remove old profile picture
+            $sql = "SELECT profile_picture FROM `%s` WHERE `id_%s` = %d";
+            $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER, $this->id());
+            $previous_name = $this->_db->query($sql)->fetch_row()[0];
+
+            if(isset($previous_name)) {
+                $previous_path = Config::DIR_PROFILE_PIC . $previous_name;
+                if (file_exists($previous_path)) {
+                    unlink($previous_path);
+                }
+            }
+
+            // move tmp file to permanent path
+            $ext = pathinfo($pic['name'], PATHINFO_EXTENSION); 
+            $file_name = basename(sha1($this->id() . $this->nickname() . $pic['name']) . '.' . $ext);
+            $file_path = Config::DIR_PROFILE_PIC . $file_name;
+            move_uploaded_file($pic['tmp_name'], $file_path);
+
+            // update DB 
+            $sql = "UPDATE `%s` SET `profile_picture` = '%s' WHERE `id_%s` = %d";
+            $sql = sprintf($sql, Config::TABLE_USER, $file_name, Config::TABLE_USER, $this->id());
+            $this->_db->query($sql);
+
+            // update Model
+            $url = $this->_profile_picture_name = $file_name;
+
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Connect user if password is correct
