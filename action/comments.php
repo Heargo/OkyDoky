@@ -1,6 +1,6 @@
 <?php
 
-function format_publication(?array $match) {
+function add_comment(?array $match) {
     $post = $GLOBALS['posts']->get_by_id((int) $match['id']);
 
     if (!isset($post)) {
@@ -15,6 +15,9 @@ function format_publication(?array $match) {
         return;
     }
 
-    $GLOBALS['page']['post']= $post;
-    return $post;
+    //Sanitize is done inside
+    $GLOBALS['comments']->add_comment(User::current(), $post, $_POST['commentaire']);
+
+    $root = Config::URL_SUBDIR(false);
+    header("Location: $root" . '/c/' . $post->id_community()->get_name() . '/post/' . $post->id());
 }
