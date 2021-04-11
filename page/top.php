@@ -13,7 +13,7 @@
 
 <section id="verticalScrollContainer">
 
-<div class="BestUserContainer">
+<div class="BestUserContainer hidden">
 	<div class="profilMisEnAvant">
 		<h3>Certifiés</h3>
 		<ul>

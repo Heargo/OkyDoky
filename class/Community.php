@@ -24,7 +24,7 @@ class Community{
         $this->_display_name = $row["display_name"];
         $this->_cover = $row["cover"];
         $this->_description = $row["description"];
-        $this->_highlight_post = $row["highlight_post"]; 
+        $this->_highlight_post = $row['highlight_post'];
     }
 
 
@@ -73,18 +73,31 @@ class Community{
     /**
      * Get a community's highlight post (A refaire, récupérer le post dans la bdd)
      */
-    // public function get_highlight_post() : Post {
-    //     Post $post = new Post($_db,$_highlight_post);
-    //     return $post;
-    // }
+    public function get_highlight_post() : Post {
+        if($this->_highlight_post != NULL){
+            $post = new Post($this->_db,$this->_highlight_post);
+            return $post;
+        }
+        return NULL;
+    }
 
+    public function set_highlight_post(){
+        $higherPost = $GLOBALS['posts']->get_by_most_votes($this);
+        if(sizeof($higherPost) != 0){
+            $highlight_id = $higherPost[0]->id();
+            $sql = "UPDATE `%s` SET `highlight_post` = '$highlight_id' WHERE `%s`.`id_%s` = %d";
+            $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$this->id());
+            return $this->_db->query($sql);
+        }
+        return NULL;
+    }
     /**
      * Function to add an user to a communtity
      */
-    public function recruit(User $user) : bool {
+    public function recruit(User $user, bool $owner = false) : bool {
         $average_nb = (new Permission(Permission::AVERAGE));
         $sql = "INSERT INTO `%s` (`%s`, `%s`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$this->_id,0/**$average_nb*/,0);
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$this->_id,$bool ? 256 : 0,0);
         return $this->_db->query($sql);
     }
 
@@ -167,6 +180,12 @@ class Community{
         }
         return false;        
     }
+    public function get_owner(){
+        $sql = "SELECT * FROM `%s` WHERE `permission` = %d AND `community` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,256,$this->id());
+        $res = $this->_db->query($sql)->fetch_assoc();
+        return $GLOBALS['users']->get_by_id((int)$res['user']);
+    }
     /**
      * Find members with permissions in that community
      */
@@ -179,7 +198,7 @@ class Community{
      * Get the posts of a community
      */
     public function get_posts(int $limit = 10, int $offset = 0 ) : array{
-        return null;
+        return $GLOBALS['posts']->get_by_community($this);
     }
 
     public function get_cover() : string{
