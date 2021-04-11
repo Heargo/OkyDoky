@@ -38,8 +38,7 @@
 
 		<!-- Bio -->
 		<H3> Bio </H3>
-		<textarea class="descriptionInput" type="text" name="description"><?=User::current()->description()?>
-		</textarea>
+		<textarea class="descriptionInput" type="text" name="description"><?=trim(User::current()->description())?></textarea>
 
 		
 		<!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
