@@ -23,6 +23,11 @@ function more_posts(?array $match) {
     $comm = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
     if ($_POST['page']=="top"){
         $posts = $GLOBALS["posts"]->get_by_most_votes($comm, true, 2, (int) $_POST['offset']);
+
+        foreach ($posts as $key => $p) {
+            echo $p->id();
+        }
+      
     }else{
         $posts = $GLOBALS["posts"]->get_by_community($comm, true, 2, (int) $_POST['offset']);
     }
@@ -37,6 +42,7 @@ function more_posts(?array $match) {
         $result[$post->id()] = $content;
     }
     ob_start();
+
 
     echo json_encode($result);
 }

@@ -20,7 +20,7 @@ function markEmpty(bool, section) {
 
 var OFFSET = OFFSET || 0;
 var IDS = [];
-function moreposts(page) {
+function moreposts(page="feed") {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'ajax/moreposts', true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
