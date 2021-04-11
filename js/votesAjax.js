@@ -1,4 +1,7 @@
 function vote(id,value){
+  if (typeof route === 'undefined') {
+    route="."
+  }
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function(){
 
@@ -12,15 +15,15 @@ function vote(id,value){
 
         //les boutons up/down vote
         if (voteValue==1){
-          up.setAttribute("src","./img/svg/arrow-up-green.svg")
-          down.setAttribute("src","./img/svg/arrow-down.svg")
+          up.setAttribute("src",route+"/img/svg/arrow-up-green.svg")
+          down.setAttribute("src",route+"/img/svg/arrow-down.svg")
         }
         else if (voteValue==0){
-          up.setAttribute("src","./img/svg/arrow-up.svg")
-          down.setAttribute("src","./img/svg/arrow-down.svg")
+          up.setAttribute("src",route+"/img/svg/arrow-up.svg")
+          down.setAttribute("src",route+"/img/svg/arrow-down.svg")
         }else{
-          up.setAttribute("src","./img/svg/arrow-up.svg")
-          down.setAttribute("src","./img/svg/arrow-down-orange.svg")
+          up.setAttribute("src",route+"/img/svg/arrow-up.svg")
+          down.setAttribute("src",route+"/img/svg/arrow-down-orange.svg")
         }
         //prct
         if (prctValeur!=null){
@@ -40,7 +43,8 @@ function vote(id,value){
   };
 
   if (value>0){
-    xhr.open("POST","./voteU",true);
+      console.log(route+"/voteU")
+      xhr.open("POST",route+"/voteU",true);
   }
   else{
     xhr.open("POST","./voteD",true);

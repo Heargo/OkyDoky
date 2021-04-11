@@ -20,14 +20,13 @@
 
             <img src='<?=$urlIMG?>' alt='content'>
 
-            <?php if($isComment): ?>
-            <p><?=$description?></p>
-            <?php endif ?>
+            
 		</div>
 		<!-- reactions -->
 		<div class="postReactions">
 			<div class="left">
             <?php if(!$isComment): ?>
+            <!-- commentaire -->
             <a href="<?=$urlComment?>"><img src="<?= Routes::url_for('/img/svg/comment.svg')?>"></a>
             <?php endif ?>
 
@@ -67,4 +66,8 @@
 			</div>
 			
 		</div>
+		<!-- descritpion -->
+		<?php if($isComment): ?>
+        <p class="postdescritp"><?=$description?></p>
+        <?php endif ?>
 	</div>

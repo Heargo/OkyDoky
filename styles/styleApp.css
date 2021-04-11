@@ -784,8 +784,8 @@ textarea:focus, input:focus{
 	max-width: 600px;
 }
 
-.content p{
-	margin-top: 1rem;
+.postdescritp{
+	padding:0 1rem;
 	text-align: justify;
 	font-size: 0.8rem;
 }

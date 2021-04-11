@@ -10,8 +10,18 @@
 
 
 <section class="uniquePost">
-
 <?php load_post($GLOBALS['page']['post'],true); ?>
+
+<?php 
+$r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name().'/post/'.$GLOBALS['page']['post']->id().'/new');
+?>
+<form enctype="multipart/form-data" action="<?=$r?>" method="post"> 
+	<input class="" type="text" name="commentaire">
+	<label class="" for="submit-comment"></label>
+	<input type="submit" id="submit-comment" name="submit">
+</form>
+
+
 <div class="commentaires" style="width : 100%;">
     <?php foreach($GLOBALS['page']['post']->comments() as $c){ ?>
 	<div>
@@ -36,4 +46,9 @@
 
 
 </body>
+<script type="text/javascript">
+	var route="<?=Config::URL_SUBDIR(false)?>";
+</script>
+<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+
 </html>
