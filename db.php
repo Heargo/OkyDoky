@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `$user` (
     `nickname` varchar(40) NOT NULL,
     `email` varchar(255) NULL,
     `display_name` varchar(100) NULL,
-    `profile_picture` varchar(15) NULL,
+    `profile_picture` varchar(45) NULL,
     `description` tinytext NULL,
     `join_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `pwd_hash` varchar(255) NULL,
