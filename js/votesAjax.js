@@ -43,11 +43,10 @@ function vote(id,value){
   };
 
   if (value>0){
-      console.log(route+"/voteU")
       xhr.open("POST",route+"/voteU",true);
   }
   else{
-    xhr.open("POST","./voteD",true);
+    xhr.open("POST",route+"/voteD",true);
   }
   xhr.responseType="json";
   xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
