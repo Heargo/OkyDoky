@@ -39,7 +39,7 @@
 		echo "<p>Aucune communauté rejointe !</p>";
 	} else {		
 		$commTmp = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
-		$postsToShow = $GLOBALS["posts"]->get_by_community($commTmp);
+		$postsToShow = $GLOBALS["posts"]->get_by_most_votes($commTmp);
 		$cHasPosts = false;
 		foreach ($postsToShow as $post) {
 			$cHasPosts = true; 
@@ -74,6 +74,9 @@
 <?php include 'backgroundItems.php'; ?>
 
 </body>
+<script type="text/javascript">
+	var page = "top";
+</script>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 </html>

@@ -20,18 +20,19 @@ function markEmpty(bool, section) {
 
 var OFFSET = OFFSET || 0;
 var IDS = [];
-function moreposts() {
+function moreposts(page) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'ajax/moreposts', true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
+    console.log("heyy")
+    console.log(page)
     xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             var rep = this.response;
             var rep = JSON.parse(rep);
-
             var posts_section = document.querySelector("section#verticalScrollContainer");
-
+            console.log(page)
+            console.log(this.response)
             if (isEmpty(rep)) {
                 markEmpty(true, posts_section);
             } else {
@@ -50,16 +51,26 @@ function moreposts() {
         }
     }
 
-    xhr.send("offset=" + OFFSET.toString());
+    xhr.send("offset=" + OFFSET.toString()+"&page="+page);
+
 }
 
 window.onload = function() { // might be moved
-    moreposts(); // loads first posts at load time
+    try{
+        moreposts(page); // loads first posts at load time
+    }catch{
+        moreposts();
+    }
+    
 }
 
 window.onscroll = function(ev) {
 
 	if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight -2) {
-        moreposts();
+        try{
+        moreposts(page); // loads first posts at load time
+        }catch{
+            moreposts();
+        }
 	}
 };

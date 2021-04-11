@@ -21,7 +21,12 @@ function load_post(Post $post, $isComment = false) {
 
 function more_posts(?array $match) {
     $comm = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
-    $posts = $GLOBALS["posts"]->get_by_community($comm, true, 2, (int) $_POST['offset']);
+    if ($_POST['page']=="top"){
+        $posts = $GLOBALS["posts"]->get_by_most_votes($comm, true, 2, (int) $_POST['offset']);
+    }else{
+        $posts = $GLOBALS["posts"]->get_by_community($comm, true, 2, (int) $_POST['offset']);
+    }
+    
 
     $result = array();
     foreach($posts as $post) {

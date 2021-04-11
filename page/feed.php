@@ -55,6 +55,7 @@
 
 <?php include 'backgroundItems.php'; ?>
 </body>
+
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 
