@@ -21,15 +21,15 @@
 	<!-- checkboxes -->
 	<div class="checkboxList">
 		<div>
-			<input type="checkbox" id="commu" name="commu" value="commu" checked>
+			<input type="radio" id="commu" name="typeSearch" value="commu" checked>
 			<label for="commu">Communauté</label>
 		</div>
 		<div>
-			<input type="checkbox" id="profil" name="profil" value="profil">
+			<input type="radio" id="profil" name="typeSearch" value="profil">
 			<label for="profil">Profil</label>
 		</div>
 		<div>
-			<input type="checkbox" id="doc" name="doc" value="doc">
+			<input type="radio" id="doc" name="typeSearch" value="doc">
 			<label for="doc">Document</label>
 		</div>
 	</div>
