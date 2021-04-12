@@ -20,16 +20,37 @@
 	</a>
 
 <!-- DANS LES PARAMETRES ...  -->
-		<div class="cadre">
-			<a href=""> Changer mon mot de passe </a>
-		</div>
-		<div class="cadre">
-			<a href=""> Déconnexion  </a>
-		</div>
-		<div class="cadre">
-			<a href=""> Supprimer mon compte </a>
-		</div>
+
+<section class="shareContainer">
+	
+	<form enctype="multipart/form-data" action="<?= Routes::url_for('/parameters-user-profil')?>" method="post">
+
+
+		<!-- Mdp -->
+		<H3> Changer mon Mot De Passe </H3>
+		<input class="mdpchangeInput" type="text" name="display_name" value="***********">
+
+		<H3>Validez les modifications</H3>
+		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>
+		<input id ="submit" type="submit" value="create" />	
+
+		<!-- deco -->
+		<H3> Se déconnecter </H3>
+		<input type="submit" name="deconnexion" value="Se déconnecter" >
+ 		
+
+		<!-- Supprimer compte -->
+		<H3> Supprimer mon compte </H3>
+		<input type="submit" name="supprcpt" value="Supprimer mon compte" >
+		
+		
+	</form>
+
+</section>
+
 </div>
+
+
 <div id="page">
 	<div class="topBar">
 	<img onclick="document.location.href='<?= Routes::url_for('/feed')?>'" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
@@ -43,7 +64,7 @@
 	
 	</div>
 
-
+<!-- LA PAGE DE PROFIL -->
 
 <section id="verticalScrollContainer">
 	<div class="profilContainer">
