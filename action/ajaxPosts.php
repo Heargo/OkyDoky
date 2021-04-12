@@ -28,11 +28,7 @@ function more_posts(?array $match) {
             echo $p->id();
         }
       
-    }
-    elseif($_POST['page']=="profil"){
-        $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
-    }
-    else{
+    }else{
         $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
     }
     
@@ -50,8 +46,7 @@ function more_posts(?array $match) {
 
     echo json_encode($result);
 }
-
-function load_highlight_post(?array $match){
+function send_highlight_post(?array $match){
     //@TODO Si l'utilisateur connecté a les droits
     $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
     $hp = $comm->get_highlight_post();
@@ -61,4 +56,11 @@ function load_highlight_post(?array $match){
     else{
         echo "<p>Pas de posts mis en avant... C'est triste</p>";
     }
+}
+function load_admin_container(){
+    $currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+    include "page/admin-team_standalone.php";
+}
+function send_admin_container(?array $match){
+    load_admin_container();
 }

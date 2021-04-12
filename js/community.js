@@ -59,7 +59,7 @@ function showSlides(n) {
     
     changeCommu(slides[slideIndex-1].childNodes[1].dataset.idcommu);
     loadHP();
-  
+    loadAC();
 }
 
 function switchComs(){
@@ -105,6 +105,25 @@ function loadHP(){
         }
     };
     xhr.open("POST","./ajax/hp",true);
+    xhr.send();
+}
+
+function loadAC(){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if (this.readyState ==4 && this.status ==200) {
+            var post = this.response;
+            console.log(post);
+            //on supprime les resultats précédents
+			communityContentContainer = document.getElementById("communityContentContainer");
+            var ac_zone = communityContentContainer.children[2];
+            communityContentContainer.removeChild(ac_zone);
+      
+            //on écrit les nouveaux results
+            communityContentContainer.insertAdjacentHTML('beforeend', this.response);
+        }
+    };
+    xhr.open("POST","./ajax/ac",true);
     xhr.send();
 }
 
