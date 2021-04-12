@@ -28,7 +28,11 @@ function more_posts(?array $match) {
             echo $p->id();
         }
       
-    }else{
+    }
+    elseif($_POST['page']=="profil"){
+        $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
+    }
+    else{
         $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
     }
     
@@ -45,4 +49,8 @@ function more_posts(?array $match) {
 
 
     echo json_encode($result);
+}
+
+function get_user_post(){
+    
 }

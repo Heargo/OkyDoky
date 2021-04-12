@@ -14,43 +14,17 @@
 
 
 <body>
-<div id="pageparametres" class="cadre">
-	<a href=javascript:void(0); onclick="closeparametre()">
-		<img src="https://img.icons8.com/windows/64/000000/macos-close.png"/>
-	</a>
-
 <!-- DANS LES PARAMETRES ...  -->
-
-<section class="shareContainer">
-	
-	<form enctype="multipart/form-data" action="<?= Routes::url_for('/parameters-user-profil')?>" method="post">
-
-
-		<!-- Mdp -->
-		<H3> Changer mon Mot De Passe </H3>
-		<input class="mdpchangeInput" type="text" name="display_name" value="***********">
-
-		<H3>Validez les modifications</H3>
-		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>
-		<input id ="submit" type="submit" value="create" />	
-
-		<!-- deco -->
-		<H3> Se déconnecter </H3>
-		<input type="submit" name="deconnexion" value="Se déconnecter" >
- 		
-
-		<!-- Supprimer compte -->
-		<H3> Supprimer mon compte </H3>
-		<input type="submit" name="supprcpt" value="Supprimer mon compte" >
-		
-		
-	</form>
-
-</section>
-
+<div id="pageparametres" class="cadre">
+		<img onclick="closeparametre()" src="<?= Routes::url_for('/img/svg/cross.svg')?>"/>
+		<h4>Settings</h4>
+		<div class="options">
+			<a href=""> Changer mon mot de passe </a>
+			<a href="<?= Routes::url_for('/disconnect')?>"> Déconnexion  </a>
+			<a href=""> Supprimer mon compte </a>
+		</div>
 </div>
-
-
+<!-- RESTE DE LA PAGE -->
 <div id="page">
 	<div class="topBar">
 	<img onclick="document.location.href='<?= Routes::url_for('/feed')?>'" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
@@ -115,7 +89,7 @@ if (sizeof($communities)>0){ ?>
 			foreach($communities as $comm){
 				$idCom = $comm->id();
 				?>
-			   	<div onclick="switchFilter(<?=$idCom?>);console.log('filtre appliqué-<?=$idCom?>');">
+			   	<div onclick="switchFilter(<?=$idCom?>);console.log('filtre appliqué-<?=$idCom?>');switchItemComs(coms, <?=$idCom?>)">
 					<img id="community-<?=$idCom?>" class="communityPreview-profil" src="<?=$comm->get_cover()?>"alt ="<?=$comm->get_display_name()?>">
 					<p id="label-<?=$idCom?>" class="communityPreviewLabel-profil"><?=$comm->get_display_name()?></p>
 					<img id="check-<?=$idCom?>" class="checkfilter hidden" src="./img/svg/checkwhite.svg">
@@ -160,15 +134,36 @@ else{
 			}
 </script>
 <script type="text/javascript">
+	var coms=[]
+
+	function switchItemComs(arr, value) {
+		if (arr.includes(value)){
+			var index = arr.indexOf(value);
+			if (index > -1) {
+				arr.splice(index, 1);
+			}
+		}else{
+			arr.push(value);
+		}
+		console.log(coms);
+	}
 	function switchFilter(n){
-    //on toogle la visibilité du nom et du check
-    var label = document.getElementById("label-"+n);
-    label.classList.toggle("hide");
-    var check = document.getElementById("check-"+n);
-    check.classList.toggle("hidden");
-    //l'opacité et le scroll du fond
-    var toBlurry = document.getElementById("community-"+n);
-    toBlurry.classList.toggle("blurryOverlayProfilFilter"); 
-}</script>
+	    //on toogle la visibilité du nom et du check
+	    var label = document.getElementById("label-"+n);
+	    label.classList.toggle("hide");
+	    var check = document.getElementById("check-"+n);
+	    check.classList.toggle("hidden");
+	    //l'opacité et le scroll du fond
+	    var toBlurry = document.getElementById("community-"+n);
+	    toBlurry.classList.toggle("blurryOverlayProfilFilter"); 
+
+	   
+	}
+</script>
+<script type="text/javascript">
+	var page = "profil";
+</script>
+<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 </html>
 

@@ -1127,11 +1127,37 @@ h2.confirmation{
 	height: 500px;
 }
 
-#pageparametres .cadre{
-	height: 50px;
-	width: 450px;
-	text-decoration-style: none;
-	font-size: 0.9em;
+#pageparametres h4{
+	font-family: 'Caveat Brush', cursive;
+	font-weight: normal;
+	font-size: 3rem;
+	text-align: center;
+	
+}
+
+#pageparametres img{
+	position: absolute;
+	right: 10px; 
+	top: 10px;
+}
+
+#pageparametres .options{
+	display: flex;
+	margin-top: 10px;
+	flex-direction: column;
+	align-items: center;
+	list-style: none;
+}
+#pageparametres .options a {
+	width:80%; 
+	max-width: 280px;
+	margin:1rem 0;
+	padding: 0.5rem 1rem;
+	text-decoration: none;
+	color: #2F3542;
+	background-color: #F1F2F6;
+	border-radius: 20px;
+
 }
 
 
