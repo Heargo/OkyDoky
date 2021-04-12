@@ -1,26 +1,32 @@
 <?php
 
+/**
+ * A proper way to handle URLs
+ */
 class Routes {
 
+    /** An array containing GET URLs as regex */
     private $_regex_get = array();
+
+    /** An array containing GET URLs as regex */
     private $_regex_post = array();
 
-    public function __construct(){
-    }
-
     /** 
-     * Lier une URL à une vue
+     * Bound a URL to a view page
      *
      * eg : lier /community à liste_communities.php (celles visible par l'utilisateur courrant) 
      * et /community/uneCommunauté à display_community.php : 
      * $ROUTES->bound_get("/community", "liste_communities.php")
-     *        ->bound_get("/community/(.+)", "display_community.php");
+     *        ->bound_get("/community/(\w+)", "display_community.php");
      *
-     * @param $regex une expression régulière représentant une URL
-     * @param $filename le nom de la vue à inclure
+     * @param string $regex A regular expression representing the URL.
+     * @param string $filename The name of the file to include.
+     * @param callable $before An optional function to call before including $filename.
+     *        This funtion should take an **optional** array, reprensenting matching groups of $regex.
+     * @return $this So you can easily chain URL registration.
      */
-    public function bound_get(string $regex, string $filename){
-        $this->_regex_get['#^' . $regex . '/?$#'] = $filename;
+    public function bound_get(string $regex, string $filename, ?callable $before = null) {
+        $this->_regex_get['#^' . $regex . '/?$#'] = array($filename, $before);
         return $this;
     }
 
@@ -32,51 +38,64 @@ class Routes {
      * $ROUTES->bound_post("/document/new", 'upload_document', ['file'] )
      *        ->bound_post("/document/del", 'delete_document', ['id'] );
      *
-     * @param $regex une expression régulière représentant une URL
-     * @param $func le nom de la fonction à appeler, sous forme de string.
-     *        Cette fonction est appelé en passant en paramètre le groupe capturé par
-     *        $regex, si il y un catching group dans la regex.
-     * @param $required_fields string[] (optionnel) est un tableau de string,
-     *        qui représente les champs requis par votre fonction $func.
-     *        Cette dernière n'est pas pas appeller si tout les champs passé
-     *        ne sont pas renseigné. Ceci dit, la validité des champs n'est
-     *        pas vérifiés, le soin vous est laissez.
+     * @param string $regex A regular expression representing the URL.
+     * @param callable $func Name of the function to call, as string.
+     *        This funtion should take an **optional** array, reprensenting matching groups of $regex.
+     * @param string[] $required_fields An **optional** array of string representing the name of field
+     *        from $_POST that are required by your $func. If a field is missing in $_POST, $func won't be called.
+     *        This is **not** a sanitizing/validating tool.
+     * @return $this So you can easily chain URL registration.
      */
-    public function bound_post(string $regex, callable $func, ?array $required_fields=null){
+    public function bound_post(string $regex, callable $func, ?array $required_fields = null){
         $this->_regex_post['#^' . $regex . '/?$#'] = array($func, $required_fields);
         return $this;
     }
 
+    /**
+     * Process the request
+     */
     public function execute(){
         $method = $_SERVER['REQUEST_METHOD'];
 
         $match = null;
         if ($method === "GET") {
-            foreach ($this->_regex_get as $regex => $filename) {
-                if (preg_match($regex, self::get_url(), $match)){
-                    global $PAGE;
-                    isset($PAGE) ? : $PAGE = array();
-                    $PAGE["url"] = self::get_url();
-                    $PAGE["match"] = $match;
-                    include $filename;
-                }
-            }
+            $this->_execute_get();
         } else if ($method === "POST") {
-            foreach ($this->_regex_post as $regex => list($func, $req_fields)) {
-                if (preg_match($regex, self::get_url(), $match)){
-                    if (!isset($req_fields) || are_fields_valid($req_fields, $_POST)) $func($match);
-                }
+            $this->_execute_post();
+        }
+    }
+
+    /**
+     * Process GET requests
+     */
+    private function _execute_get() {
+        foreach ($this->_regex_get as $regex => list($filename, $before)) {
+            if (preg_match($regex, self::get_url(), $match)){
+                $GLOBALS['page']['url'] = self::get_url();
+                $GLOBALS['page']['match'] = $match;
+                if (isset($before)) $before($match);
+                include $filename;
             }
         }
     }
 
     /**
-     * Renvoie le chemin demandé par l'utilisateur
-     *
-     * Si l'URL est sb.sinux.sh/leonards/okydoky/community
-     *   => /community est retourné
+     * Process POST requests
      */
-    public static function get_url() {
+    private function _execute_post() {
+        foreach ($this->_regex_post as $regex => list($func, $req_fields)) {
+            if (preg_match($regex, self::get_url(), $match)){
+                if (!isset($req_fields) || self::are_fields_valid($req_fields, $_POST)) $func($match);
+            }
+        }
+    }
+
+    /**
+     * Get the URL the user requested
+     *
+     * @return string If the URL is example.com/okydoky/community, /community is returned.
+     */
+    public static function get_url() : string {
         // Pourquoi ne pas utiliser directement la ligne 1 de cette fonction ?
         // Parceque le chemin retourner ne serait pas le bon s'il se situe dans un sous-répertoire.
         //          monsupersiteamoi.com    /truc/bidule/machin/chouette
@@ -86,7 +105,13 @@ class Routes {
 
     }
 
-    public static function are_fields_valid(array $required_fields, array $post){
+    /**
+     * Check whenever all files have been filled
+     *
+     * @param array $required_filds A list of string, reprensenting the fields to be present in $post.
+     * @param array $post Usualy $_POST.
+     */
+    public static function are_fields_valid(array $required_fields, array $post) : bool {
         $res = true;
         foreach($required_fields as $field){
             if (!isset($post[$field])) {
@@ -97,6 +122,7 @@ class Routes {
         return $res;
     }
 
+    /** Convinient way to get the true URL in view if your instance is in a subdirectory */
     public static function url_for(string $ressource_path) {
         return Config::URL_SUBDIR(false) . $ressource_path;
     }

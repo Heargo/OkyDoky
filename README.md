@@ -6,6 +6,8 @@ Pour connecter la base de donnée, il faut créer un fichier `config.php` avec p
 
 Il faut également modifier le fichier `.htaccess` pour remplacer `/user/` par le vrai sous-répetoire de votre installation (ou remplacer par `/` si l'installation est à la racine).
 
+Php doit avoir les droit d'écriture dans le dossier data.
+
 ## Working
 
 - Upload de document (sur `/post`)

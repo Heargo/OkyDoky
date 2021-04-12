@@ -7,11 +7,29 @@ class Config {
     public const DB_PASSWORD = '<PASSWORD>';
     public const DB_NAME = '<BDD>';
 
+    // SMTP
+    public const SMTP_HOST = 'smtp.example.com';
+    public const SMTP_USER = '<USER>';
+    public const SMTP_PASS = '<PASSWORD>';
+    public const SMTP_FROM = self::SMTP_USER;
+    public const IS_SMTPS  = true;
+    public const SMTP_PORT = 465;
+
     // Tables
     public const TABLE_DOCUMENT = 'document';
+    public const TABLE_USER = 'user';
+    public const TABLE_COMMUNITY = 'community';
+    public const TABLE_USER_COMMUNITY = 'user_community';
+    public const TABLE_RESOURCE = 'resource';
+    public const TABLE_POST = 'post';
+    public const TABLE_VOTE = 'vote';
+    public const TABLE_COMMENT = 'comment';
+    public const TABLE_LIKE = 'like';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
+    public const DIR_COVER = __DIR__ . '/data/cover/';
+    public const DIR_PROFILE_PIC = __DIR__ . '/data/user/';
 
     //URLs
     public const URL_ROOT = 'example.com/okydoky/';
