@@ -36,7 +36,7 @@ function vote(id,value){
           }
           
         }
-        prct.innerHTML = prctValeur;
+        prct.innerHTML = prctValeur !== null ? prctValeur + "%" : prctValeur;
 
         
     }
