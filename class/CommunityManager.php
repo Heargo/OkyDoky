@@ -17,6 +17,16 @@ class CommunityManager {
             return null;
        }
     }
+    public function get_by_name(string $name){
+        $sql = "SELECT `id_%s` FROM `%s` WHERE `name` = '%s'";
+        $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$name);
+        $res = $this->_db->query($sql);
+        if ($res) {
+            $row = $res->fetch_row();
+			return new Community($this->_db,(int) $row[0]);
+		}
+		return null;
+    }
     /** 
      * Add a community to the db
     */
@@ -40,8 +50,8 @@ class CommunityManager {
             return null;
         }
     }
-    public function search_community(String $research){
-        $sql = "SELECT `id_%s` FROM `%s` WHERE `display_name` LIKE '$research%%'";
+    public function search_community(string $research){
+        $sql = "SELECT `id_%s` FROM `%s` WHERE `display_name` LIKE '%%$research%%'";
         $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         $res = $this->_db->query($sql);
         if ($res) {

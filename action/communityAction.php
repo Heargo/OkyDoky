@@ -1,7 +1,7 @@
 <?php
 
 function create_community(?array $match){
-    $name = strtolower(str_replace(' ', '_',$_POST['name']));
+    $name = strtolower(str_replace(' ', '-',trim($_POST['name'])));
     $disp_name = $_POST['name'];
     $description = $_POST['description'];
     $user = User::current();
