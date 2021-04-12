@@ -44,18 +44,26 @@ if (sizeof($communities)>0){ ?>
 		<h2 class="communityTitle">Mis en avant</h2>
 		<?php
 			$currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
-			load_post($GLOBALS['posts']->get_by_most_votes($currentCom)[0]);
+			$highlight_post  = $GLOBALS['posts']->get_by_most_votes($currentCom);
+			if(sizeof($highlight_post) != 0){
+				load_post($highlight_post[0]);
+			}
+			else{
+				echo "<p>Pas de posts mis en avant... C'est triste</p>";
+			}
+			
 		?>
 		<div class="adminTeamContainer">
 			<!-- createur -->
-			<div class="creator" onclick="document.location.href='./user/pseudo'">
+			<div class="creator" onclick="document.location.href='./user/<?=$currentCom->get_owner()->nickname()?>'">
 				<h3>Créateur</h3>
-				<img src="./img/img1.jpg" alt="profil">
 				<?php
-					$currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
-					$creator = $currentCom->get_owner()->display_name();
-					echo "<p>$creator</p>";
+					$creator = $currentCom->get_owner();
+					$creatorname = $currentCom->get_owner()->display_name();
+
 				?>
+				<img src=<?=$creator->profile_pic()?> alt="profil">
+				<p><?=$creatorname?></p>
 			</div>
 			<!-- equipe -->
 			<div class="team hidden">

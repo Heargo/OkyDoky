@@ -13,22 +13,36 @@
 
 <section id="verticalScrollContainer">
 
-<div class="BestUserContainer hidden">
+<div class="BestUserContainer">
 	<div class="profilMisEnAvant">
-		<h3>Certifiés</h3>
-		<ul>
+		<h3 class="hidden">Certifiés</h3>
+		<ul class="hidden">
 			<li onclick="document.location.href='./user/Bouba'"><img src="./img/img1.jpg"></li>
 			<li onclick="document.location.href='./user/JeSuisMalin'"><img src="./img/img1.jpg"></li>
 			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
 			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
 		</ul>
 		<h3>Les + actifs</h3>
-		<ul>
-			<li onclick="document.location.href='./user/Bouba'"><img src="./img/img1.jpg"></li>
-			<li onclick="document.location.href='./user/JeSuisMalin'"><img src="./img/img1.jpg"></li>
-			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
-			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
-		</ul>
+		<?php
+			echo "<ul>";
+			if(!empty(User::current()->get_communities())) {
+				$currentComm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+				$active_members = $currentComm->get_active_members();
+				if(sizeof($active_members) != 0){
+					foreach($active_members as $key => $value){
+						$tmpUser = new User($GLOBALS['db'], $key);
+						?>
+						<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+						<?php
+					}
+				}
+				else{
+					echo "<p>Aucun utilisateur n'est actif... Quel dommage...</p>";
+				}
+				
+			}
+			echo "</ul>";
+		?>
 	</div>
 </div>
 
