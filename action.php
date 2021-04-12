@@ -11,5 +11,5 @@ $ROUTES->bound_post('/signin', 'signin', ['login', 'password'])
        ->bound_post("/ajax/JoinOrLeave", 'JoinOrLeaveCommu', ['idCommu'])
        ->bound_post("/ajax/moreposts", 'more_posts', ['offset'])
        ->bound_post("/modify-user-profil", 'modify_profil')
-       ->bound_post('/c/(?<comm>\w+)/post/(?<id>\w+)/new', 'add_comment', ['commentaire'])
+       ->bound_post('/c/(?<comm>[\w|-]+)/post/(?<id>\w+)/new', 'add_comment', ['commentaire'])
 ;
