@@ -867,7 +867,9 @@ textarea:focus, input:focus{
 
 .comment-like i {
 	position: absolute; 
-	right:0;
+	margin-top:5px; 
+	right:10px;
+	font-size: 0.7rem;
 }
 
 

@@ -45,7 +45,55 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 		<span class="comment-like" >
             <img src="<?= Routes::url_for('/img/svg/like.svg') //handle red heart ?>">
             <?= $c->nb_likes() ?>
-            <i style='position: absolute; right:0;'><?=$c->date()?></i>
+            <i>
+        	<?php 
+        		$datetime1=date_create($c->date());
+        		$datetime2=date_create(date("Y-d-m H:i:s"));
+        		$interval = date_diff($datetime1, $datetime2);
+        		//années
+        		if ($interval->y>0){
+        			//pluriel
+        			if($interval->y>1){
+        				echo($interval->format("%y ans"));
+	        		}
+	        		//singulier
+	        		else{
+	        			echo($interval->format("%y an"));
+	        		}
+        		}
+        		//mois
+        		elseif($interval->m>0){
+					echo($interval->format("%m mois"));
+        		}
+        		//jours
+        		elseif($interval->d>0){
+        			//pluriel
+        			if($interval->d>1){
+        				echo($interval->format("%i jours"));
+	        		}
+	        		//singulier
+	        		else{
+	        			echo($interval->format("%i jour"));
+	        		}
+        		}
+        		//heures
+        		elseif($interval->i>0){
+        			//pluriel
+        			if($interval->i>1){
+        				echo($interval->format("%i minutes"));
+	        		}
+	        		//singulier
+	        		else{
+	        			echo($interval->format("%i minute"));
+	        		}
+        		}
+        		//minute
+        		elseif($interval->s>0){
+        			echo($interval->format("%s secondes"));
+        		}
+  				
+        	?>
+            </i>
 		</span>
 		</p>
 		

@@ -15,8 +15,11 @@ function add_comment(?array $match) {
         return;
     }
 
-    //Sanitize is done inside
-    $GLOBALS['comments']->add_comment(User::current(), $post, $_POST['commentaire']);
+    if (!empty(trim($_POST['commentaire']))){
+        //Sanitize is done inside
+        $GLOBALS['comments']->add_comment(User::current(), $post, $_POST['commentaire']);
+    }
+   
 
     $root = Config::URL_SUBDIR(false);
     header("Location: $root" . '/c/' . $post->id_community()->get_name() . '/post/' . $post->id());

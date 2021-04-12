@@ -4,7 +4,7 @@
 			<a href="#"><?php echo "<img src='$profile_pic' alt='profil'>"; ?></a>
 			<a href="#"><?= $pName ?></a>
             <?php if($isComment): ?>
-                <img onclick="window.history.back();" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+                <img onclick="location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
             <?php endif ?>
 		</div>
 		<!-- content -->
