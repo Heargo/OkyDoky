@@ -134,7 +134,7 @@ class Post {
 		if (($this->get_nb_up_votes() + $this->get_nb_down_votes()) == 0) {
 			return;
 		}
-		return (int) (100 * $this->get_nb_up_votes() / ($this->get_nb_up_votes() + $this->get_nb_down_votes()));
+		return round(100 * $this->get_nb_up_votes() / ($this->get_nb_up_votes() + $this->get_nb_down_votes()));
 	}
 
 	/**
