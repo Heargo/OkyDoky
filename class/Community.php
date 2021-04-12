@@ -72,13 +72,20 @@ class Community{
 
     /**
      * Get a community's highlight post (A refaire, récupérer le post dans la bdd)
+     * @todo Si hp = NULL dans la bdd -> get_by_most_votes sinon hp
      */
-    public function get_highlight_post() : Post {
-        if($this->_highlight_post != NULL){
+    public function get_highlight_post() : ?Post {
+        if($this->_highlight_post != null){
             $post = new Post($this->_db,$this->_highlight_post);
             return $post;
         }
-        return NULL;
+        else{
+            $posts = $GLOBALS['posts']->get_by_most_votes($this);
+            if(sizeof($posts) != 0){
+                return $posts[0];
+            }
+        }
+        return null;
     }
 
     public function set_highlight_post(){

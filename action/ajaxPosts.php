@@ -51,6 +51,14 @@ function more_posts(?array $match) {
     echo json_encode($result);
 }
 
-function get_user_post(){
-    
+function load_highlight_post(?array $match){
+    //@TODO Si l'utilisateur connecté a les droits
+    $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+    $hp = $comm->get_highlight_post();
+    if(isset($hp)){
+        load_post($hp);
+    }
+    else{
+        echo "<p>Pas de posts mis en avant... C'est triste</p>";
+    }
 }
