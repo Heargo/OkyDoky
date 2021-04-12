@@ -29,8 +29,8 @@
 			<label for="profil">Profil</label>
 		</div>
 		<div>
-			<input type="radio" id="doc" name="typeSearch" value="doc">
-			<label for="doc">Document</label>
+			<input type="radio" id="post" name="typeSearch" value="post">
+			<label for="post">Post</label>
 		</div>
 	</div>
 </form>

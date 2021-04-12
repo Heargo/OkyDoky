@@ -1,4 +1,4 @@
-function search(txt){
+function search(txt, typeSearch){
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if (this.readyState ==4 && this.status ==200) {
@@ -6,7 +6,7 @@ function search(txt){
 			//on supprime les resultats précédents
 			verticalScrollContainer = document.getElementById("verticalScrollContainer");
 			  while (verticalScrollContainer.firstChild) {
-			    verticalScrollContainer.removeChild(verticalScrollContainer.lastChild);
+				verticalScrollContainer.removeChild(verticalScrollContainer.lastChild);
 			  }
 			//on écrit les nouveaux results
 			verticalScrollContainer.insertAdjacentHTML('afterbegin', this.response);
@@ -17,16 +17,20 @@ function search(txt){
 		}
 	};
 
-	xhr.open("POST","ajax/search",true);
+	xhr.open("POST","ajax/search/"+typeSearch,true);
 	xhr.responseType="text";
 	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xhr.send("tosearch="+txt);
 
 }
 
-function runSearchBar(txt){
-  	//console.log(txt)
-	search(txt);
+function runSearchBar(txt, typeSearch){
+	var searchTo = "";
+	for(i = 0; i < typeSearch.length; i++) {
+		if(typeSearch[i].checked)
+			searchTo = typeSearch[i].value;
+	}
+	search(txt, searchTo);
 }
 
 
@@ -54,8 +58,8 @@ function joinOrLeave(id){
 try{
 	search("");
 	const searchbar = document.getElementById("searchBar");
-
+	const radioTypeSearch = document.getElementsByName("typeSearch");
 	searchBar.addEventListener('keyup', function(){
-	    searchBar.addEventListener('focus', runSearchBar(this.value));
+		searchBar.addEventListener('focus', runSearchBar(this.value, radioTypeSearch));
 	});
 }catch(error){}

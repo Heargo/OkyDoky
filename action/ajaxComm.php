@@ -10,7 +10,7 @@ function join_community(?array $match) {
     $tempcomm->recruit(User::current());
 }
 	
-function search(?array $match){
+function searchCommu(?array $match){
 	$allcoms=$GLOBALS["communities"]->search_community($_POST["tosearch"]);
 	foreach ($allcoms as $key => $com) {?>
 

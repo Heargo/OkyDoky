@@ -141,6 +141,24 @@ class PostManager {
 		}
 		return array();
 	}
+	/**
+	 * Get an array of posts by the search value
+	 *
+	 * @param String $researh the string to find in post titles
+	 * @return Posts[] An array of posts.
+	 */
+	public function search_post_by_title(String $research){
+        $sql = "SELECT p.`id_%s` FROM `%s` p JOIN `%s` uc ON uc.community = p.community WHERE p.title LIKE '%%$research%%' AND uc.user = %d";
+        $sql = sprintf($sql, Config::TABLE_POST,Config::TABLE_POST,Config::TABLE_USER_COMMUNITY, User::current()->id());
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_row();
+				 $list[] = new Post($this->_db, $row[0]));
+			return $list;
+		}
+		return array();
+    }
 
 	/**
 	  * Delete a post based on its ID

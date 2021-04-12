@@ -62,3 +62,10 @@ function load_highlight_post(?array $match){
         echo "<p>Pas de posts mis en avant... C'est triste</p>";
     }
 }
+
+function searchPost(?array $match){
+    $allposts=$GLOBALS["posts"]->search_post_by_title($_POST["tosearch"]);
+    foreach ($allposts as $key => $post) {
+        echo load_post($post); 
+    }
+}
