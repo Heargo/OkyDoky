@@ -84,12 +84,12 @@
 $communities = User::current()->get_communities();
 if (sizeof($communities)>0){ ?>
 <div class="communitySelectorProfil">
-    <div class="horizontal-scroll">
+    <div id="boxesContainer" class="horizontal-scroll">
     	<?php 
 			foreach($communities as $comm){
 				$idCom = $comm->id();
 				?>
-			   	<div onclick="switchFilter(<?=$idCom?>);console.log('filtre appliqué-<?=$idCom?>');switchItemComs(coms, <?=$idCom?>)">
+			   	<div onclick="switchFilter(<?=$idCom?>);">
 					<img id="community-<?=$idCom?>" class="communityPreview-profil" src="<?=$comm->get_cover()?>"alt ="<?=$comm->get_display_name()?>">
 					<p id="label-<?=$idCom?>" class="communityPreviewLabel-profil"><?=$comm->get_display_name()?></p>
 					<img id="check-<?=$idCom?>" class="checkfilter hidden" src="./img/svg/checkwhite.svg">
@@ -134,36 +134,42 @@ else{
 			}
 </script>
 <script type="text/javascript">
-	var coms=[]
-
-	function switchItemComs(arr, value) {
-		if (arr.includes(value)){
-			var index = arr.indexOf(value);
-			if (index > -1) {
-				arr.splice(index, 1);
-			}
-		}else{
-			arr.push(value);
-		}
-		console.log(coms);
-	}
 	function switchFilter(n){
-	    //on toogle la visibilité du nom et du check
-	    var label = document.getElementById("label-"+n);
-	    label.classList.toggle("hide");
-	    var check = document.getElementById("check-"+n);
-	    check.classList.toggle("hidden");
-	    //l'opacité et le scroll du fond
-	    var toBlurry = document.getElementById("community-"+n);
-	    toBlurry.classList.toggle("blurryOverlayProfilFilter"); 
+		var  boxes = document.getElementById("boxesContainer").childNodes;
+		for (var i = 0; i < boxes.length; i++) {
+			
+			if (i%2!=0){
+				boxe = boxes[i]
+				var c= boxe.childNodes;
+				var toBlurry = c[1];
+				var label = c[3];
+				var check = c[5];
+				if (check.id=="check-"+n){
+					//on toogle la visibilité du nom et du check
+				    label.classList.toggle("hide");
+				    check.classList.toggle("hidden");
+				    //l'opacité et le scroll du fond
+				    toBlurry.classList.toggle("blurryOverlayProfilFilter"); 
+				}else{
+					//on toogle la visibilité du nom et du check
+				    label.classList.remove("hide");
+				    check.classList.add("hidden");
+				    //l'opacité et le scroll du fond
+				    toBlurry.classList.remove("blurryOverlayProfilFilter"); 
+				}
+			}
+			
+
+		}
+	    
 
 	   
 	}
 </script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	var page = "profil";
 </script>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
-<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script> -->
 </html>
 
