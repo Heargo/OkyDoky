@@ -24,15 +24,13 @@ function moreposts(page="feed") {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'ajax/moreposts', true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    console.log("heyy")
-    console.log(page)
     xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             var rep = this.response;
             var rep = JSON.parse(rep);
             var posts_section = document.querySelector("section#verticalScrollContainer");
-            console.log(page)
-            console.log(this.response)
+            /*console.log(page)
+            console.log(this.response)*/
             if (isEmpty(rep)) {
                 markEmpty(true, posts_section);
             } else {

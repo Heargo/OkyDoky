@@ -2,9 +2,6 @@ body{
 	font-family: Caveat Brush;
 	background-color: #E5E5E5;
 }
-#page{
-	opacity: 1;
-}
 /* -------- PARTIE NAV TOP PROFIL -----------*/
 
 .flecheretour, .logoparametre, .logofavori {
@@ -17,7 +14,7 @@ body{
 	width: 6%;
 }
 .logoparametre{
-	left: 90%;	 
+	left: 90%;	
 }
 
 .logofavori{
@@ -97,7 +94,7 @@ body{
 
 /* -------- CADRES PROFIL -----------*/
 
-/*.descrip .cadre, .cadre{
+.descrip .cadre, .cadre{
 	margin-top: 100px;
 	width: 100%;
 	height: 100px;
@@ -108,7 +105,7 @@ body{
 	font-size: 1.2em;
 
 }
-*/
+
 
 
 /* -------- COMMU PROFIL -----------*/
@@ -160,42 +157,4 @@ body{
 .blurryOverlayProfilFilter{
     filter: blur(1px);
 }
-
-/* --------  PARAMETRES -----------*/
-
-#pageparametres{
-	display: none;
-	z-index: 100;
-	position: absolute;
-	top: 30%;
-	background-color: white;
-	width: 500px;
-	height: 500px;
-}
-
-#pageparametres .cadre{
-	height: 50px;
-	width: 450px;
-	text-decoration-style: none;
-	font-size: 0.9em;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
