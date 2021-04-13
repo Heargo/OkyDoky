@@ -22,13 +22,14 @@ function load_post(Post $post, $isComment = false) {
 function more_posts(?array $match) {
     $comm = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
     if ($_POST['page']=="top"){
-        $posts = $GLOBALS["posts"]->get_by_most_votes($comm, true, 10, (int) $_POST['offset']);
-
-        foreach ($posts as $key => $p) {
-            echo $p->id();
-        }
-      
-    }else{
+        $posts = $GLOBALS["posts"]->get_by_most_votes($comm, true, 10, (int) $_POST['offset']);      
+    }
+    elseif ($_POST['page']=="profil"){
+        $user=  $GLOBALS["users"]->get_by_id($_POST['user']);
+        $comm=$GLOBALS["communities"]->get_by_id($_POST['comm']);
+        $posts = $GLOBALS["posts"]->get_by_user_and_community($user,$comm, true, 10, (int) $_POST['offset']);
+    }
+    else{
         $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
     }
     

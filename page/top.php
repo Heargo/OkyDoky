@@ -90,6 +90,8 @@
 </body>
 <script type="text/javascript">
 	var page = "top";
+	var user = "none";
+	var comm = "current";
 </script>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>

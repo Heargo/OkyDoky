@@ -8,11 +8,6 @@
   <link rel="stylesheet" href="<?= Routes::url_for('/styles/styleApp.css')?>">
 </head>
 
-
-  
-
-
-
 <body>
 <!-- DANS LES PARAMETRES ...  -->
 <div id="pageparametres" class="cadre">
@@ -41,7 +36,7 @@
 
 <!-- LA PAGE DE PROFIL -->
 
-<section id="verticalScrollContainer">
+<section id="ProfilMainContainer">
 	<div class="profilContainer">
 		<div class="generalInfo">
 			<div class="generalInfo-top">
@@ -53,12 +48,7 @@
 				</div>
 				
 				<div class="profil-infos-container">
-					<h2 class="nameprofil"><?= User::is_connected() ? User::current()->display_name() : "anonyme" ?> <img class="logocertifier" src="https://img.icons8.com/nolan/64/approval.png"/></h2>
-					<ul class="roleprofil">
-						<li style="background-color: red;">Original</li>
-						<li style="background-color: green;">drole</li>
-						<li style="background-color: orange;">maitre du css</li>
-					</ul>
+					<h2 class="nameprofil"><?= User::is_connected() ? User::current()->display_name() : "anonyme" ?></h2>
 				</div>
 				
 			</div>
@@ -93,7 +83,9 @@ if (sizeof($communities)>0){ ?>
 			   	<div onclick="switchFilter(<?=$idCom?>);">
 					<img id="community-<?=$idCom?>" class="communityPreview-profil" src="<?=$comm->get_cover()?>"alt ="<?=$comm->get_display_name()?>">
 					<p id="label-<?=$idCom?>" class="communityPreviewLabel-profil"><?=$comm->get_display_name()?></p>
-					<img id="check-<?=$idCom?>" class="checkfilter hidden" src="./img/svg/checkwhite.svg">
+					
+					<img id="check-<?=$idCom?>" class="checkfilter-certif hidden" src="https://img.icons8.com/nolan/64/approval.png"/>
+					<!-- SI PAS CERTIF <img id="check-<?=$idCom?>" class="checkfilter hidden" src="./img/svg/checkwhite.svg"> -->
 				</div>
 			  <?php
 			}
@@ -108,12 +100,17 @@ else{
 <?php 
 }
 ?>
+</div>
+<ul class="roleprofil">
+	<li style="background-color: red;">Original</li>
+	<li style="background-color: green;">drole</li>
+	<li style="background-color: orange;">maitre du css</li>
+</ul>
+</section>
+
+<section id="verticalScrollContainer">
 	
-	<div class="postprofil">
-	<!-- POUR UNE PUBLICATION -->
-	</div>
-		
-	</section>
+</section>
 
 </div>
 
@@ -134,7 +131,16 @@ else{
 
 			}
 </script>
+<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script type="text/javascript">
+	var page = "profil";
+	var user = <?=User::current()->id()?>;
+	var comm = -1;
+</script>
+
+<script type="text/javascript">
+
 	function switchFilter(n){
 		var  boxes = document.getElementById("boxesContainer").childNodes;
 		for (var i = 0; i < boxes.length; i++) {
@@ -147,10 +153,11 @@ else{
 				var check = c[5];
 				if (check.id=="check-"+n){
 					//on toogle la visibilité du nom et du check
-				    label.classList.toggle("hide");
-				    check.classList.toggle("hidden");
+				    label.classList.add("hide");
+				    check.classList.remove("hidden");
 				    //l'opacité et le scroll du fond
-				    toBlurry.classList.toggle("blurryOverlayProfilFilter"); 
+				    toBlurry.classList.add("blurryOverlayProfilFilter"); 
+				    comm=n;
 				}else{
 					//on toogle la visibilité du nom et du check
 				    label.classList.remove("hide");
@@ -159,18 +166,21 @@ else{
 				    toBlurry.classList.remove("blurryOverlayProfilFilter"); 
 				}
 			}
-			
+		//on supprime les posts
+		verticalScrollContainer = document.getElementById("verticalScrollContainer");
+		  while (verticalScrollContainer.firstChild) {
+			verticalScrollContainer.removeChild(verticalScrollContainer.lastChild);
+		  }	
 
 		}
+		moreposts(page,user,comm,true);
 	    
 
 	   
 	}
+	switchFilter(<?=$_SESSION["current_community"]?>)
 </script>
-<!-- <script type="text/javascript">
-	var page = "profil";
-</script>
-<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
-<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script> -->
+
+
 </html>
 

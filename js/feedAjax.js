@@ -20,7 +20,12 @@ function markEmpty(bool, section) {
 
 var OFFSET = OFFSET || 0;
 var IDS = [];
-function moreposts(page="feed") {
+function moreposts(page="feed",user="none",comm="current",reset=false) {
+
+    if (reset){
+        OFFSET=0;
+        IDS=[];
+    }
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'ajax/moreposts', true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -48,14 +53,13 @@ function moreposts(page="feed") {
 
         }
     }
-
-    xhr.send("offset=" + OFFSET.toString()+"&page="+page);
+    xhr.send("offset=" + OFFSET.toString()+"&page="+page+"&user="+user+"&comm="+comm);
 
 }
 
 window.onload = function() { // might be moved
     try{
-        moreposts(page); // loads first posts at load time
+        moreposts(page,user,comm); // loads first posts at load time
     }catch{
         moreposts();
     }
@@ -66,7 +70,7 @@ window.onscroll = function(ev) {
 
 	if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight -2) {
         try{
-        moreposts(page); // loads first posts at load time
+        moreposts(page,user,comm); // loads first posts at load time
         }catch{
             moreposts();
         }

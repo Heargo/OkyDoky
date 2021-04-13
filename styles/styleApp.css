@@ -145,7 +145,7 @@ h1{
 Fil d'actu
 --------*/
 
-#verticalScrollContainer{
+#verticalScrollContainer, #ProfilMainContainer{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -156,6 +156,9 @@ Fil d'actu
 	padding-bottom: 80px;
 	max-width: 600px;
 	z-index: 50;
+}
+#ProfilMainContainer{
+	padding-bottom: 0px;
 }
 
 
@@ -1089,9 +1092,9 @@ h2.confirmation{
 .roleprofil{
 	display: flex;
 	flex-wrap: wrap;
-	width:80%; 
+	margin-top: 20px;
+	width:100%; 
 	list-style: none;
-	transform: translateX(5px) translateY(30px);
 }
 .roleprofil li{
 	margin: 0.2rem;
@@ -1213,11 +1216,18 @@ h2.confirmation{
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: black;
 }
 
 .checkfilter{
     position: relative;
     transform: scale(2) translateY(-120%) translateX(70%);
+}
+
+.checkfilter-certif{
+	position: relative;
+	transform: scale(1) translateY(-140%) translateX(45%);
+	filter:brightness(1.7);
 }
 
 .communityPreviewLabel-profil{
@@ -1232,5 +1242,5 @@ h2.confirmation{
 }
 
 .blurryOverlayProfilFilter{
-    filter: blur(1px);
+    filter: blur(1px) brightness(0.7);
 }
