@@ -133,6 +133,7 @@ class Community{
     }
     public function set_cover(array $document){
         // if file isn't empty and not too large
+        var_dump($document['size']);
         if ($document['size'] != 0 && $document['size'] < 50000000) {
             if (!is_writable(Config::DIR_COVER)) {
                 throw new NotWritable('Directory ' . Config::DIR_COVER . ' is not writable');
@@ -179,6 +180,7 @@ class Community{
             $success =  $this->_db->query($sql);
             return $success;
         }
+
     }
 
     public function set_owner($user){

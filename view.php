@@ -14,4 +14,5 @@ $ROUTES->bound_get('/document', 'page/upload_document.php')
        ->bound_get('/c/(?<comm>[\w|-]+)/post/(?<id>\w+)', 'page/publication.php', 'format_publication')
        ->bound_get('/verify/(?<user>[\w|-]+)/(?<token>\w+)', 'page/verify.php', 'verify_user_email')
        ->bound_get('/confirmation', 'page/mailconfirmation.php')
+       ->bound_get('/modify-community', 'page/modifyCommunity.php')
 ;

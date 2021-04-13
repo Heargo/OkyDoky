@@ -352,6 +352,12 @@ form{
 	object-fit: cover;
 	border-radius: 100%;
 }
+.previewImgCommu{
+	width: 80%;
+	height: 50%;
+	object-fit: cover;
+}
+
 
 .btn-when-preview{
 	position: absolute;
