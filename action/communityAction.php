@@ -21,5 +21,5 @@ function modify_commu(?array $match){
     }    
 
     $root = Config::URL_SUBDIR(false);
-    header("Location: $root/feed");
+    header("Location: $root/community");
 }

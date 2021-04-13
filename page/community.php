@@ -11,8 +11,12 @@
 
 	<?php include 'topnav.php'; ?>
 
-<?php 
+<?php
+
 $communities = User::current()->get_communities();
+
+$isAdmin=false;
+
 if (sizeof($communities)>0){ ?>
 	<div id ="carroussel" class="carroussel" data-current="<?=$_SESSION["current_community"]?>">
 			<?php 
@@ -30,8 +34,7 @@ if (sizeof($communities)>0){ ?>
 			  <a class="next" onclick="plusSlides(1)">&#10095;</a>
 
 			  <!-- dots -->
-			  <img onclick="switchComs();" class="dotsButton cursor" src="./img/svg/three-dots.svg">
-			  <!-- Image text -->
+			  <img onclick="switchComs();" class="dotsButton cursor" src="./img/svg/three-dots.svg">			  <!-- Image text -->
 			  <div class="caption-container">
 			    <p id="caption"></p>
 			    <p id="number"></p>
@@ -39,6 +42,9 @@ if (sizeof($communities)>0){ ?>
 	</div>
 	<div class="descCommuContainer">
 		<p id="descriptionCommu"></p>
+		<?php if($isAdmin){ ?>
+			<a class="editCommubtn" href="<?= Routes::url_for('/modify-community')?>">Modifier la communauté<img  src="<?= Routes::url_for('/img/svg/edit.svg')?>"></a>
+		<?php } ?>
 	</div>
 	<section id="communityContentContainer">
 		<h2 class="communityTitle">Mis en avant</h2>

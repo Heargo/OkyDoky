@@ -36,7 +36,7 @@
 		<?php 
 			$desc = trim($commu->get_description());
 		?>
-		<textarea class="descriptionInput" type="text" name="description"><?php echo $desc;?></textarea>
+		<textarea class="descriptionInputCommu" type="text" name="description"><?php echo $desc;?></textarea>
 		
 		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>
 		<input id ="submit" type="submit" value="create" />	
@@ -44,7 +44,7 @@
 
 </section>
 
-
+<?php include 'backgroundItems.php'; ?>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="<?= Routes::url_for('/js/imagePreview.js')?>"></script>
