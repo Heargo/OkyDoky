@@ -19,9 +19,10 @@
 		<img onclick="closeparametre()" src="<?= Routes::url_for('/img/svg/cross.svg')?>"/>
 		<h4>Settings</h4>
 		<div class="options">
-			<a href=""> Changer mon mot de passe </a>
+			<a href="<?= Routes::url_for("/profil-edit?type=mail")?>"> Changer mon adresse mail </a>
+			<a href="<?= Routes::url_for("/profil-edit?type=password")?>"> Changer mon mot de passe </a>
 			<a href="<?= Routes::url_for('/disconnect')?>"> Déconnexion  </a>
-			<a href=""> Supprimer mon compte </a>
+			<a href="<?= Routes::url_for("/profil-edit?type=delete")?>"> Supprimer mon compte </a>
 		</div>
 </div>
 <!-- RESTE DE LA PAGE -->

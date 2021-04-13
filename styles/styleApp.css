@@ -309,6 +309,7 @@ form{
 .descriptionInput{	
 	height: 100px;
 	padding: 0.4rem;
+	resize: none;
 }
 
 .fileUploadLabel{
@@ -322,7 +323,6 @@ form{
 }
 
 .fileUploadLabelProfil{
-	
 	width: 80px;
 	font-size: 0.8rem;
 	padding: 0.3rem;
@@ -375,6 +375,11 @@ form{
 
 #submit{
 	display: none;
+}
+.shareContainer h3{
+		color: grey;
+		font-size: 0.9em;
+		margin-top: 22px;
 }
 
 
