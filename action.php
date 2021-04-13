@@ -15,6 +15,7 @@ $ROUTES->bound_post('/signin', 'signin', ['login', 'password'])
        ->bound_post('/ajax/hp','send_highlight_post')
        ->bound_post('/ajax/ac','send_admin_container')
        ->bound_post("/modify-user-profil", 'modify_profil')
+       ->bound_post("/modify-community", 'modify_commu')
        ->bound_post('/c/(?<comm>[\w|-]+)/post/(?<id>\w+)/new', 'add_comment', ['commentaire'])
        
 ;
