@@ -48,7 +48,7 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
             <i>
         	<?php 
         		$datetime1=date_create($c->date());
-        		$datetime2=date_create(date("Y-d-m H:i:s"));
+        		$datetime2=date_create(date("Y-m-d H:i:s"));
         		$interval = date_diff($datetime1, $datetime2);
         		//années
         		if ($interval->y>0){
@@ -69,14 +69,25 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
         		elseif($interval->d>0){
         			//pluriel
         			if($interval->d>1){
-        				echo($interval->format("%i jours"));
+        				echo($interval->format("%d jours"));
 	        		}
 	        		//singulier
 	        		else{
-	        			echo($interval->format("%i jour"));
+	        			echo("hier");
 	        		}
         		}
-        		//heures
+                //heures
+                elseif($interval->h>0){
+                    //pluriel
+                    if($interval->h>1){
+                        echo($interval->format("%h heures"));
+                    }
+                    //singulier
+                    else{
+                        echo($interval->format("%h heure"));
+                    }
+                }
+        		//minutes
         		elseif($interval->i>0){
         			//pluriel
         			if($interval->i>1){
@@ -87,7 +98,7 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 	        			echo($interval->format("%i minute"));
 	        		}
         		}
-        		//minute
+        		//seconde
         		elseif($interval->s>0){
         			echo($interval->format("%s secondes"));
         		}
