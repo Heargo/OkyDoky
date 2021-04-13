@@ -423,7 +423,7 @@ class User {
      * Gives common communities between the user and another
      * 
      * @param $user User the second user
-     * @return int[] the list of community ids
+     * @return int[] array of common community 
      */
     public function common_communities_with(User $user) : array{
         $users = array($this, $user);
@@ -442,7 +442,7 @@ class User {
         }
         foreach($commsArray[0] as $c){
             if(in_array($c,$commsArray[1])){
-                $common_comm[] =(int) $c;
+                $common_comm[] = $GLOBALS['communities']->get_by_id((int) $c);
             }
         }
         return $common_comm;
