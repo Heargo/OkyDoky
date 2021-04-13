@@ -196,6 +196,6 @@ class PostManager {
 		
 		// Documents
         $docs_ok = $post->del_all_docs();
-        return $visib_ok & $title_ok & $desc_ok & $docs_ok;
+        return $visib_ok & $docs_ok;
 	}
 }

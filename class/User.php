@@ -417,6 +417,36 @@ class User {
     public function downvote(Post $post) : bool {
         return $post->downvote($this);
     }
+    // PROFIL INTERACTION
+
+    /** 
+     * Gives common communities between the user and another
+     * 
+     * @param $user User the second user
+     * @return int[] array of common community 
+     */
+    public function common_communities_with(User $user) : array{
+        $users = array($this, $user);
+        $commsArray = array();
+        $common_comm = array();
+        foreach($users as $u){
+            $sql = "SELECT c.id_%s FROM `%s` c JOIN `%s` uc ON c.id_%s = uc.%s WHERE uc.`user` = %s ";
+            $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$u->id());
+            $res = $this->_db->query($sql);
+            if ($res) {
+                for ($list = array();
+                    $row = $res->fetch_assoc();
+                    $list[] = $row['id_community']);
+            }
+            $commsArray[] = $list;
+        }
+        foreach($commsArray[0] as $c){
+            if(in_array($c,$commsArray[1])){
+                $common_comm[] = $GLOBALS['communities']->get_by_id((int) $c);
+            }
+        }
+        return $common_comm;
+    }
 
     /**
      * Check if a user has a certain permission
@@ -450,7 +480,16 @@ class User {
     public function __toString() : string {
         return '('.$this->id().') '. $this->nickname();
     }
+    /**
+     * Test if two users are the same
+     * 
+     * @param User the second user
+     * @return bool if they are the same or not
+     */
 
+    public function equals(User $user) : bool {
+        return $this->id() === $user->id();
+    }
 
     //// STATIC
 
