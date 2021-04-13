@@ -72,6 +72,29 @@ class PostManager {
 	}
 
 	/**
+	 * Get an array of posts by community
+	 *
+	 * @param bool|null $visible Filter if posts are marked as visible or not. Null will return both.
+	 * @param Community $community The community where we are searching in
+	 * @param int $limit Limits the number of posts you want.
+	 * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
+	 * @return Posts[] An array of posts.
+	 */
+	public function get_by_user_and_community(User $user, Community $community, bool $visible = true, int $limit = 10, int $offset = 0) {
+		$visible = $visible ? 1 : 0;
+		$sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d AND `publisher` = %d LIMIT %d OFFSET %d";
+		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $community->id(), $publisher->id(), $limit, $offset);
+		$result = $this->_db->query($sql);
+		if ($result) {
+			for ($list = array();
+				 $row = $result->fetch_assoc();
+				 $list[] = new Post($this->_db, $row['id_' . Config::TABLE_POST]));
+			return $list;
+		}
+		return array();
+	}
+
+	/**
 	 * Get an array of posts by publisher
 	 *
 	 * @param bool|null $visible Filter if posts are marked as visible or not. Null will return both.
