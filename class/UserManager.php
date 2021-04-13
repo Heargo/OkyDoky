@@ -118,6 +118,25 @@ class UserManager {
     }
 
     /**
+     * Get an array of users by the search value
+     *
+     * @param String $researh the string to find in user nicknames
+     * @return User[] An array of users.
+     */
+    public function search_user_by_nickname_or_display_name(String $research){
+        $sql = "SELECT `id_%s` FROM `%s` WHERE nickname LIKE '%%$research%%' OR display_name LIKE '%%$research%%'";
+        $sql = sprintf($sql, Config::TABLE_USER,Config::TABLE_USER);
+        $res = $this->_db->query($sql);
+        if ($res) {
+            for ($list = array();
+                 $row = $res->fetch_row();
+                 $list[] = new User($this->_db, $row[0]));
+            return $list;
+        }
+        return array();
+    }
+
+    /**
      * Delete a user
      *
      * @return bool True if successful.
