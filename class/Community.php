@@ -199,8 +199,8 @@ class Community{
      * Find members with permissions in that community
      */
     public function get_members(){
-        $sql = "SELECT * FROM `%s` WHERE `%s` = $this->_id";
-        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY);
+        $sql = "SELECT * FROM `%s` WHERE `%s` = %d";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY,$this->_id);
         $res = $this->_db->query($sql);
         if ($res) {
 			for ($list = array();
@@ -242,7 +242,19 @@ class Community{
 
     public function unban(User $user) : bool{return false;}
 
-    public function get_certified_members() : array{return null;}
+    public function get_certified_members() : array{
+        $members = array();
+        $sql = "SELECT %s FROM `%s` WHERE `%s` = %d AND `%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, Config::TABLE_COMMUNITY,$this->id(),"certified", 1);
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_assoc();
+				 $list[] = new User($this->_db, $row['user']));
+			return $list;
+		}
+		return array();
+    }
 
     public function get_active_members() : array{
         $members = $this->get_members();
