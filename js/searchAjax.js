@@ -2,7 +2,6 @@ function search(txt, typeSearch){
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if (this.readyState ==4 && this.status ==200) {
-			
 			//on supprime les resultats précédents
 			verticalScrollContainer = document.getElementById("verticalScrollContainer");
 			  while (verticalScrollContainer.firstChild) {
@@ -56,10 +55,25 @@ function joinOrLeave(id){
 
 
 try{
-	search("");
+	search("","commu");
 	const searchbar = document.getElementById("searchBar");
 	const radioTypeSearch = document.getElementsByName("typeSearch");
 	searchBar.addEventListener('keyup', function(){
 		searchBar.addEventListener('focus', runSearchBar(this.value, radioTypeSearch));
+	});
+	
+
+	const commuRadio = document.getElementById("commu");
+	const profilRadio = document.getElementById("profil");
+	const docuRadio = document.getElementById("post");
+	console.log(commuRadio);
+	commuRadio.addEventListener('click', function(){
+		runSearchBar(searchBar.value, radioTypeSearch);
+	});
+	profilRadio.addEventListener('click', function(){
+		runSearchBar(searchBar.value, radioTypeSearch);
+	});
+	docuRadio.addEventListener('click', function(){
+		runSearchBar(searchBar.value, radioTypeSearch);
 	});
 }catch(error){}

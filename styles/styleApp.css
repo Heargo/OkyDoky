@@ -317,7 +317,7 @@ form{
 	resize: none;
 }
 .descriptionInputCommu{
-	height: 200px;
+	height: 100px;
 	width: 80%;
 	max-width: 800px;
 	padding: 0.4rem;
@@ -409,7 +409,7 @@ form{
 	max-width: 600px;
 	padding: 10px;
 	background-color: #F1F2F6;
-	z-index: 200;
+	z-index: 50;
 }
 
 #searchBar{
@@ -1096,14 +1096,19 @@ h2.confirmation{
 }
 
 .profilContainer{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: 100%;
 }
 .generalInfo{
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 }
 .generalInfo-top{
 	display: flex;
+	justify-content: left;
 }
 
 .pictprofil{
@@ -1111,6 +1116,7 @@ h2.confirmation{
 }
 
 .profil-infos-container{
+	position: relative;
 	width: 100%;
 }
 
@@ -1136,11 +1142,16 @@ h2.confirmation{
 }
 
 .generalInfo-bottom{
+	position: absolute;
 	display: flex;
 	flex-direction: row-reverse;
-	margin-bottom: 20px;
+	width: 100%;
+	margin:  20px 0px;
+	font-size: 0.9rem;
 }
-
+.profil-img-modifier-container{
+	width: 100px;
+}
 .modiferprofil{
 	margin-top: 10px;
 	margin-left:10px; 
@@ -1150,8 +1161,19 @@ h2.confirmation{
 	width: 15px;
 }
 
+.profilDescription{
+	width: 100%;
+	margin:1rem;
+	overflow-wrap: break-word;
+	padding: 0.5rem;
+	background-color: white;
+	border-radius: 5px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.05);
+}
 .followersContainer img, .nbPostContainer img{
-	transform: scale(0.7);
+	width: 32px;
+	height:auto;
+	transform: scale(1);
 }
 
 /* --------  PARAMETRES -----------*/
@@ -1225,6 +1247,8 @@ h2.confirmation{
     background-color: white;
     border-radius: 15px;
     overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .horizontal-scroll{

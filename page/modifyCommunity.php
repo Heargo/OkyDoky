@@ -36,7 +36,7 @@
 		<?php 
 			$desc = trim($commu->get_description());
 		?>
-		<textarea class="descriptionInputCommu" type="text" name="description"><?php echo $desc;?></textarea>
+		<textarea maxlength="237" class="descriptionInputCommu" type="text" name="description"><?php echo $desc;?></textarea>
 		
 		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>
 		<input id ="submit" type="submit" value="create" />	

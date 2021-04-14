@@ -19,7 +19,7 @@ function searchCommu(?array $match){
 
 		<div class="communityLabelSearch">
 			<p class="title"><?=$com->get_display_name();?></p>
-			<p class="descriptionCommuSearch"><?=$com->get_description();?></p>
+			<p class="descriptionCommuSearch"><?=$com->get_description(80);?>...</p>
 			<div class="communityButtonSearch cursor" onclick="joinOrLeave(<?=$com->id()?>);">
 			<?php if($com->user_in(User::current())){
 			?>

@@ -13,9 +13,9 @@ function modify_profil(?array $match) {
     User::current()->set_profile_picture($_FILES['file']);
 
 	//photo de profil : $_POST["file"]
-	
+	$n=User::current()->nickname();
     $root = Config::URL_SUBDIR(false);
-    header("Location: $root/profil");
+    header("Location: $root/user/$n");
 }
 
 

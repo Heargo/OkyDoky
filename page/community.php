@@ -15,7 +15,7 @@
 
 $communities = User::current()->get_communities();
 
-$isAdmin=false;
+$isAdmin=true;
 
 if (sizeof($communities)>0){ ?>
 	<div id ="carroussel" class="carroussel" data-current="<?=$_SESSION["current_community"]?>">

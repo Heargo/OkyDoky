@@ -9,6 +9,13 @@
 </head>
 
 <body>
+
+<?php 
+$myprofil=User::current()->equals($GLOBALS["page"]["userOfUrl"]);
+$user=$GLOBALS["page"]["userOfUrl"];
+
+?>
+<?php if($myprofil){ ?>
 <!-- DANS LES PARAMETRES ...  -->
 <div id="pageparametres" class="cadre">
 		<img onclick="closeparametre()" src="<?= Routes::url_for('/img/svg/cross.svg')?>"/>
@@ -20,10 +27,12 @@
 			<a href="<?= Routes::url_for("/profil-edit?type=delete")?>"> Supprimer mon compte </a>
 		</div>
 </div>
+<?php } ?>
 <!-- RESTE DE LA PAGE -->
 <div id="page">
 	<div class="topBar">
-	<img onclick="document.location.href='<?= Routes::url_for('/feed')?>'" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
+	<img onclick="document.location.href='<?= Routes::url_for('/feed')?>'" class="backArrow cursor" src="<?= Routes::url_for('/img/svg/arrow-back-fill.svg')?>">
+	<?php if($myprofil){ ?>
 	<div class="right-container">
 		<!-- AFFICHAGE DES FAVORIS -->
 		<a href=""><img src="https://img.icons8.com/ios/50/000000/bookmark-ribbon--v2.png" name="favorilogo" class="logofavori"/></a>
@@ -31,7 +40,7 @@
 		<a href=javascript:void(0); onclick="afficheparameter()">
 		<img src="https://img.icons8.com/ios/50/000000/settings--v1.png" class="logoparametre"/> </a>
 	</div>
-	
+	<?php } ?>
 	</div>
 
 <!-- LA PAGE DE PROFIL -->
@@ -40,39 +49,40 @@
 	<div class="profilContainer">
 		<div class="generalInfo">
 			<div class="generalInfo-top">
-				<div>
+				<div class="profil-img-modifier-container">
 					<!-- IMG PROFIL -->
-					<img class="pictprofil" src="<?= User::is_connected() ? User::current()->profile_pic() : "anonyme" ?>" alt="profil">
+					<img class="pictprofil" src="<?=$user->profile_pic()?>" alt="profil">
+					<?php if($myprofil){ ?>
 					<!-- MODIF  -->
 					<a href="<?= Routes::url_for("/profil-edit")?>"class="modiferprofil cursor"> Modifier <img src="https://img.icons8.com/fluent/48/000000/pencil-tip.png" /></a>
+					<?php } ?>
 				</div>
 				
 				<div class="profil-infos-container">
-					<h2 class="nameprofil"><?= User::is_connected() ? User::current()->display_name() : "anonyme" ?></h2>
+					<h2 class="nameprofil"><?=$user->display_name()?></h2>
+					<div class="generalInfo-bottom">
+						<!-- POSTS -->
+						<div class="nbPostContainer">
+							<img src="<?= Routes::url_for('/img/svg/document-outline.svg')?>" class="logocptpost"/>	
+							XXxxx
+						</div>
+						<!-- FOLLOWERS -->
+						<div class="followersContainer">
+							<img src="<?= Routes::url_for('/img/svg/user-outlined.svg')?>" class="logocptperso"/>
+							XXxxx
+						</div>
+					</div>
+
 				</div>
+
 				
 			</div>
-			<div class="generalInfo-bottom">
-				<!-- POSTS -->
-				<div class="nbPostContainer">
-					<img src="./img/svg/document-outline.svg" class="logocptpost"/>	
-					XX
-				</div>
-				<!-- FOLLOWERS -->
-				<div class="followersContainer">
-					<img src="./img/svg/user-outlined.svg" class="logocptperso"/>
-					XX
-				</div>					
-			</div>
-
-			
 		</div>
-		<p class="profilDescription"><?= User::is_connected() ? User::current()->description() : "anonyme" ?> </p>
+		<p class="profilDescription"><?=$user->description()?> </p>
 	</div>
-
 <!-- RECUPERER LES COMMUNAUTES  -->
 <?php 
-$communities = User::current()->get_communities();
+$communities = $user->get_communities();
 if (sizeof($communities)>0){ ?>
 <div class="communitySelectorProfil">
     <div id="boxesContainer" class="horizontal-scroll">
@@ -135,8 +145,9 @@ else{
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script type="text/javascript">
 	var page = "profil";
-	var user = <?=User::current()->id()?>;
+	var user = <?=$user->id()?>;
 	var comm = -1;
+	var route = "<?=Config::URL_SUBDIR(false)?>"+"/";
 </script>
 
 <script type="text/javascript">
