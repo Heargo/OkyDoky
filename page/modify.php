@@ -9,7 +9,10 @@
 <body>
 
 <div class="topBar">
-	<img onclick="location.href='<?=Routes::url_for('/profil')?>'" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
+	<?php $n= User::current()->nickname();
+	$url=Routes::url_for("/user/$n");
+	?>
+	<img onclick="location.href='<?=$url?>'" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
 	<h1 class="noselect profilEditTitle">Votre profil</h1>
 </div>
 

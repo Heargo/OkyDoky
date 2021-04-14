@@ -147,7 +147,7 @@ else{
 	var page = "profil";
 	var user = <?=$user->id()?>;
 	var comm = -1;
-	var route = "<?=Config::URL_SUBDIR(false)?>"+"/";
+	var route = "<?=Config::URL_SUBDIR(false)?>";
 </script>
 
 <script type="text/javascript">

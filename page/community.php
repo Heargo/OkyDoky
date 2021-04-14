@@ -117,5 +117,6 @@ else{
 
 
 <script src="<?= Routes::url_for('/js/community.js')?>"></script>
+<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 </body>
 </html>

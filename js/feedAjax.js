@@ -27,10 +27,12 @@ function moreposts(page="feed",user="none",comm="current",reset=false) {
         IDS=[];
     }
     if (typeof route === 'undefined') {
-    route=""
+    r=""
+    }else{
+        r=route+"/";
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', route+'ajax/moreposts', true);
+    xhr.open('POST', r+'ajax/moreposts', true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
