@@ -66,8 +66,8 @@ class Community{
     /**
      * Get a community's description
      */
-    public function get_description(){
-        return $this->_description;
+    public function get_description(?int $length = null){
+        return substr($this->_description,0,$length);
     }
 
     /**
