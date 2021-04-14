@@ -1,11 +1,17 @@
     <div class="postImg" id="<?=$post->id()?>">
 		<!-- user -->
 		<div class="postEnTete">
-			<a href="#"><?php echo "<img src='$profile_pic' alt='profil'>"; ?></a>
-			<a href="#"><?= $pName ?></a>
-            <?php if($isComment): ?>
-                <img onclick="location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
-            <?php endif ?>
+			<?php $n=$publisher->nickname();
+			$url=Routes::url_for("/user/$n");
+			?>
+			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
+				<p><?php echo "<img src='$profile_pic' alt='profil'>"; ?></p>
+				<p><?= $pName ?></p>
+			</div>
+			<?php if($isComment): ?>
+	                <img onclick="location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+	        <?php endif ?>
+			
 		</div>
 		<!-- content -->
 		<div class="content">

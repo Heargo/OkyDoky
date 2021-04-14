@@ -189,10 +189,13 @@ Fil d'actu
 
 .postEnTete{
 	display: flex;
-	align-content: center;
+	align-content: left;
 	height: 50px;
 }
 
+.cliquable{
+	display: flex;
+}
 .postEnTete img{
 	object-fit: cover;
 	margin-top: 4px;
@@ -200,8 +203,7 @@ Fil d'actu
 	width: 40px;
 	height: 40px;
 }
-.postEnTete a{
-	text-decoration: none;
+.postEnTete p{
 	color:#2F3542;
 	line-height: 50px;
 	font-size: 1.3rem;
@@ -886,6 +888,7 @@ textarea:focus, input:focus{
 	height: 30px;
 	border-radius: 100%;
 	margin: 0 0.3rem;
+	object-fit: cover;
 }
 
 .commentaires .comment-pseudo{

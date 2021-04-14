@@ -20,9 +20,7 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 
 <div class="commentaires">
 	<div>
-	<a href="#">
-		<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
-	</a>
+	<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
     <p class="comment">
         <form class="commentaire-form" enctype="multipart/form-data" action="<?=$r?>" method="post"> 
 			<textarea class="commentaire-form-textarea" type="text" name="commentaire" placeholder="Ecrivez un commentaire"></textarea>
@@ -35,7 +33,8 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 
     <?php foreach($GLOBALS['page']['post']->comments() as $c){ ?>
 	<div>
-		<a href="#">
+        <?php $n=$c->author()->nickname(); ?>
+		<a href="<?=Routes::url_for("/user/$n")?>">
 			<img class="comment-img" src="<?= $c->author()->profile_pic() ?>" alt="profil">
 		</a>
         <p class="comment">
