@@ -449,34 +449,55 @@ class User {
     }
 
     /**
-     * Check if a user has a certain permission
-     *
-     * @param $flags a constant from class P or a group of constant joined by a "|" (pipe)
-     * @return bool True if user has ALL permissions specified in $flags
+     * Check if a user is certified regarding a community
      */
-    //public function can(int $flags, Community $comm) : bool;
+    public function is_certified(Community $comm) : bool {
+        $sql = "SELECT `certified` FROM `%s` WHERE `user` = %d AND `community` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id(), $comm->id());
+
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            $is = (int) $result->fetch_row()[0];
+            return $is == 1;
+        }
+        return false;
+    }
 
     /**
-     * Add a permission (or several) for a user on a community
+     * Get the permission object, that represent the permission of a user on a community
      *
-     * @param bool True if successful.
+     * @param $comm Community The community you want the permission of.
+     * @return Permission|null The object representing the permission of $this on $comm. null if fails.
      */
-    //public function add_perm(int $flags, Community $comm) : bool;
+    public function perm(Community $comm) : ?Permission {
+        $sql = "SELECT permission FROM `%s` WHERE `user` = %d AND `community` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id(), $comm->id());
 
-    /**
-     * Delete a permission (or several) for a user on a community
-     *
-     * @param bool True if successful.
-     */
-    //public function del_perm(int $flags, Community $comm) : bool;
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            $nb = (int) $result->fetch_row()[0];
+            return $nb >= 0 ? new Permission($nb) : null;
+        }
+        return null;
+    }
 
     /**
      * Set a permission (or several) for a user on a community
      *
      * @param bool True if successful.
      */
-    //public function set_perm(int $flags, Community $comm) : bool;
+    public function set_perm(Community $comm, Permission $p) : bool {
+        $nb = $p->get();
+        $sql = "UPDATE `%s` SET `permission` = %d WHERE `user` = %d AND `community` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $nb, $this->id(), $comm->id());
+        return (bool) $this->_db->query($sql);
+    }
 
+    /**
+     * Stringify to `(id) nickname` format. For debug purpose.
+     */
     public function __toString() : string {
         return '('.$this->id().') '. $this->nickname();
     }
