@@ -81,8 +81,16 @@ $user=$GLOBALS["page"]["userOfUrl"];
 		<p class="profilDescription"><?=$user->description()?> </p>
 	</div>
 <!-- RECUPERER LES COMMUNAUTES  -->
-<?php 
-$communities = $user->get_communities();
+<?php
+
+//on recupere tt les commu si c'est son profil
+if ($myprofil){
+	$communities = $user->get_communities();
+}
+//sinon on recupère que les commnautés en commun
+else{
+	$communities = $user->common_communities_with(User::current());
+}
 if (sizeof($communities)>0){ ?>
 <div class="communitySelectorProfil">
     <div id="boxesContainer" class="horizontal-scroll">
@@ -93,9 +101,9 @@ if (sizeof($communities)>0){ ?>
 			   	<div onclick="switchFilter(<?=$idCom?>);">
 					<img id="community-<?=$idCom?>" class="communityPreview-profil" src="<?=$comm->get_cover()?>"alt ="<?=$comm->get_display_name()?>">
 					<p id="label-<?=$idCom?>" class="communityPreviewLabel-profil"><?=$comm->get_display_name()?></p>
+					<img id="check-<?=$idCom?>" class="checkfilter hidden" src="<?= Routes::url_for('/img/svg/checkwhite.svg')?>">
 					
-					<img id="check-<?=$idCom?>" class="checkfilter-certif hidden" src="https://img.icons8.com/nolan/64/approval.png"/>
-					<!-- SI PAS CERTIF <img id="check-<?=$idCom?>" class="checkfilter hidden" src="./img/svg/checkwhite.svg"> -->
+					<!-- SI CERTIF <img id="check-<?=$idCom?>" class="checkfilter-certif hidden" src="https://img.icons8.com/nolan/64/approval.png"/> -->
 				</div>
 			  <?php
 			}
