@@ -15,9 +15,7 @@
 		</div>
 		<!-- content -->
 		<div class="content">
-            <?php if($isComment): ?>
             <h4 class="postTitre"><?=$titrePost?></h4>
-            <?php endif ?>
 
             <img src='<?=$urlIMG?>' alt='content'>
 

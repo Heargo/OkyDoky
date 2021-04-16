@@ -74,7 +74,9 @@ class User {
     /**
      * Get description
      */
-    public function description() : ?string { return $this->_description; }
+    public function description(?int $length = null) : ?string {
+        return substr($this->_description,0,$length); 
+    }
 
     /**
      * Get email
