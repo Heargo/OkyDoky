@@ -372,6 +372,7 @@ class User {
      */
     public function disconnect() : void {
         unset($_SESSION['user']);
+        $_SESSION["current_community"]=0;
     }
 
     // POSTS INTERACTIONS

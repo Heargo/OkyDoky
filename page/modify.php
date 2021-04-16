@@ -71,7 +71,7 @@ elseif($_GET["type"]=="mail"){
 elseif($_GET["type"]=="password"){
 	?>
 	<!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
-	<form enctype="multipart/form-data" action="<?= Routes::url_for('/modify-user-email')?>" method="post">
+	<form enctype="multipart/form-data" action="<?= Routes::url_for('/modify-user-password')?>" method="post">
 		<!-- Nom d'utilisateur -->
 		<H3> Ancien mot de passe </H3>
 		<input class="titleInput" autocomplete="new-password" type="password" name="oldpassword">
