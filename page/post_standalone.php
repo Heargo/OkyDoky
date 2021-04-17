@@ -3,11 +3,21 @@
 		<div class="postEnTete">
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
+			$canManage=$publisher==User::current();
+			$postID=$post->id();
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
 				<p><?php echo "<img src='$profile_pic' alt='profil'>"; ?></p>
 				<p><?= $pName ?></p>
 			</div>
+			<!-- 3 points pour le post -->
+			<?php if($canManage && !$isComment): ?>
+	                <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor dotsForPost" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
+	                <ul id="Settings-<?=$postID?>" class="menuSettings hidden">
+	                	<a href="">Editer</a>
+	                	<a href="">Supprimer</a>
+	                </ul>
+	        <?php endif ?>
 			<?php if($isComment): ?>
 	                <img onclick="location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 	        <?php endif ?>

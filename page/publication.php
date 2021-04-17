@@ -21,7 +21,7 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 <div class="commentaires">
 	<div>
 	<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
-    <p class="comment">
+    <p class="commentForm">
         <form class="commentaire-form" enctype="multipart/form-data" action="<?=$r?>" method="post"> 
 			<textarea class="commentaire-form-textarea" type="text" name="commentaire" placeholder="Ecrivez un commentaire"></textarea>
 			<label class="submit-comm-label" for="submit-comment">
@@ -32,8 +32,11 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 </div>
 
     <?php foreach($GLOBALS['page']['post']->comments() as $c){ ?>
-	<div>
-        <?php $n=$c->author()->nickname(); ?>
+	<div class="commentaireAlone">
+        <?php $n=$c->author()->nickname();
+        $canManage=$c->author()==User::current();
+        $postID=$c->id();
+        ?>
 		<a href="<?=Routes::url_for("/user/$n")?>">
 			<img class="comment-img" src="<?= $c->author()->profile_pic() ?>" alt="profil">
 		</a>
@@ -106,7 +109,14 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
             </i>
 		</span>
 		</p>
-		
+        <!-- ... for commentaire -->
+        <?php if($canManage): ?>
+            <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor three-dots-comment" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
+            <ul id="Settings-<?=$postID?>" class="menuSettings menuSettingsCommentaire hidden">
+                <a href="">Editer</a>
+                <a href="">Supprimer</a>
+            </ul>
+        <?php endif ?>
 	</div>
     <?php } ?>
 </div>

@@ -53,3 +53,18 @@ function vote(id,value){
   xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
   xhr.send("idpost="+id);
 }
+
+function toogleSettingsOfPost(id){
+    //on cache tout le autres menus
+    var allMenus = document.getElementsByClassName("menuSettings");
+    var menu = document.getElementById("Settings-"+id);
+    for (var i = 0; i < allMenus.length; i++) {
+      if (allMenus[i] !=menu){
+        allMenus[i].classList.add("hidden")
+      }
+    }
+    //on affiche le bon
+    menu.classList.toggle("hidden");
+
+}
+

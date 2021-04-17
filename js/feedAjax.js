@@ -18,6 +18,7 @@ function markEmpty(bool, section) {
     }
 }
 
+
 var OFFSET = OFFSET || 0;
 var IDS = [];
 function moreposts(page="feed",user="none",comm="current",reset=false) {
