@@ -275,5 +275,18 @@ class Community{
         return $sorted_members;
     }
 
+    public function certify_user(User $user){
+        $sql = "UPDATE `%s` SET `certified` = '%s' WHERE `%s` = %s AND `%s` = %s ";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,1,Config::TABLE_COMMUNITY, $this->id(),Config::TABLE_USER,$user->id());
+        return $this->_db->query($sql);
+    }
+
+    public function uncertify_user(User $user){
+        $sql = "UPDATE `%s` SET `certified` = '%s' WHERE `%s` = %s AND `%s` = %s ";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,0,Config::TABLE_COMMUNITY, $this->id(),Config::TABLE_USER,$user->id());
+        return $this->_db->query($sql);
+    }
+
+    
 
 }
