@@ -4,6 +4,7 @@
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
 			$canManage=$publisher==User::current();
+			$isAdminCommu=false;
 			$postID=$post->id();
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
@@ -14,7 +15,9 @@
 			<?php if($canManage && !$isComment): ?>
 	                <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor dotsForPost" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
 	                <ul id="Settings-<?=$postID?>" class="menuSettings hidden">
-	                	<a href="">Editer</a>
+	                	<?php if($isAdminCommu): ?>
+	                	<a href="">Mettre en avant</a>
+	                	<?php endif ?>
 	                	<a href="">Supprimer</a>
 	                </ul>
 	        <?php endif ?>
