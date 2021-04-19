@@ -35,7 +35,6 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 	<div class="commentaireAlone">
         <?php $n=$c->author()->nickname();
         $canManage=$c->author()==User::current();
-        $isAdminCommu=true;
         $postID=$c->id();
         ?>
 		<a href="<?=Routes::url_for("/user/$n")?>">
@@ -114,9 +113,6 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
         <?php if($canManage): ?>
             <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor three-dots-comment" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
             <ul id="Settings-<?=$postID?>" class="menuSettings menuSettingsCommentaire hidden">
-                
-                <a href="">Mettre en avant</a>
-                
                 <a href="">Supprimer</a>
             </ul>
         <?php endif ?>
