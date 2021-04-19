@@ -25,6 +25,7 @@ class Config {
     public const TABLE_VOTE = 'vote';
     public const TABLE_COMMENT = 'comment';
     public const TABLE_LIKE = 'like';
+    public const TABLE_LABEL = 'label';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
