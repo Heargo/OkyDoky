@@ -139,6 +139,25 @@ class PostManager {
 	}
 
 	/**
+	 * Get number of posts by publisher
+	 *
+	 * @param bool|null $visible Filter if posts are marked as visible or not. Null will return both.
+	 * @param Publisher $publisher The publisher where we are searching in
+	 * @return int Number of posts.
+	 */
+	public function get_num_by_publisher(User $publisher, bool $visible = true) {
+		$visible = $visible ? 1 : 0;
+		$sql = "SELECT COUNT(1) as c FROM `%s` WHERE `visible` = %d AND `publisher` = %d";
+		$sql = sprintf($sql, Config::TABLE_POST, $visible, $publisher->id());
+		$result = $this->_db->query($sql);
+		if($result) {
+			$row = $result->fetch_assoc();
+			return $row["c"];
+		}
+		return 0;
+	}
+
+	/**
 	 * Get an array of posts by most votes
 	 *
 	 * @param bool|null $visible Filter if posts are marked as visible or not. Null will return both.

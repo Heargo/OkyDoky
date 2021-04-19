@@ -64,7 +64,7 @@ $user=$GLOBALS["page"]["userOfUrl"];
 						<!-- POSTS -->
 						<div class="nbPostContainer">
 							<img src="<?= Routes::url_for('/img/svg/document-outline.svg')?>" class="logocptpost"/>	
-							XXxxx
+							<?=$GLOBALS["posts"]->get_num_by_publisher($user)?>
 						</div>
 						<!-- FOLLOWERS -->
 						<div class="followersContainer">
