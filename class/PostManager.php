@@ -72,7 +72,26 @@ class PostManager {
 	}
 
 	/**
-	 * Get an array of posts by community
+	 * Get number of posts by community
+	 *
+	 * @param bool|null $visible Filter if posts are marked as visible or not. Null will return both.
+	 * @param Community $community The community where we are searching in
+	 * @return int Number of posts.
+	 */
+	public function get_num_by_community(Community $community, bool $visible = true) {
+		$visible = $visible ? 1 : 0;
+		$sql = "SELECT COUNT(1) as c FROM `%s` WHERE `visible` = %d AND `community` = %d";
+		$sql = sprintf($sql, Config::TABLE_POST, $visible, $community->id());
+		$result = $this->_db->query($sql);
+		if ($result) {
+			$row = $result->fetch_assoc();
+			return $row["c"];
+		}
+		return 0;
+	}
+
+	/**
+	 * Get an array of posts by community and user
 	 *
 	 * @param bool|null $visible Filter if posts are marked as visible or not. Null will return both.
 	 * @param Community $community The community where we are searching in
@@ -93,6 +112,8 @@ class PostManager {
 		}
 		return array();
 	}
+
+
 
 	/**
 	 * Get an array of posts by publisher
