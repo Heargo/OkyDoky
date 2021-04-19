@@ -137,6 +137,55 @@ class UserManager {
     }
 
     /**
+     * Get an array of users by community by most likes
+     *
+     * @param Community $community The community where we are searching in
+     * @param bool|null $visible Filter if user are marked as visible or not. Null will return both.
+     * @param int $limit Limits the number of users you want.
+     * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
+     * @return User[] An array of users.
+     */
+    public function get_user_by_most_likes_in_community(Community $c, bool $visible = true, int $limit = 10, int $offset = 0) {
+        $sql = 'SELECT p.publisher, vPlus.c, vMinus.c
+                FROM `%1$s` p 
+                LEFT OUTER JOIN 
+                    (SELECT p1.publisher, COUNT(v1.mark) AS c
+                        FROM `%1$s` p1
+                        JOIN `%2$s` v1 ON v1.post = p1.id_%1$s 
+                        WHERE p1.visible = %3$d 
+                        AND p1.community = %4$d
+                        AND v1.mark = "%5$s" 
+                        GROUP BY v1.post, p1.publisher) 
+                    vPlus
+                ON vPlus.publisher = p.publisher
+                LEFT OUTER JOIN 
+                    (SELECT p2.publisher, COUNT(v2.mark) AS c
+                        FROM `%1$s` p2 
+                        JOIN `%2$s` v2 ON v2.post = p2.id_%1$s
+                        WHERE p2.visible = %3$d
+                        AND p2.community = %4$d 
+                        AND v2.mark = "%6$s" 
+                        GROUP BY v2.post, p2.publisher)
+                    vMinus
+                ON vMinus.publisher = p.publisher
+                WHERE p.visible = %3$d 
+                AND p.community = %4$d
+                ORDER BY (IFNULL(vPlus.c, 0) - IFNULL(vMinus.c, 0)) DESC, vPlus.c DESC, p.date DESC
+                LIMIT %7$d OFFSET %8$d';
+        $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_VOTE, $visible, $c->id(),"up", "down", $limit, $offset);
+        echo "$sql";
+        exit;
+        $result = $this->_db->query($sql);
+        if($result) {
+            for ($list = array();
+                 $row = $result->fetch_assoc();
+                 $list[] = new User($this->_db, $row['publisher']));
+            return $list;
+        }
+        return array();
+    }
+
+    /**
      * Delete a user
      *
      * @return bool True if successful.

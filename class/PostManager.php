@@ -192,7 +192,7 @@ class PostManager {
 				ON vMinus.id_%1$s = p.id_%1$s
 				WHERE p.visible = %3$d 
 				AND p.community = %4$d
-				ORDER BY (IFNULL(vPlus.c, 0) - IFNULL(vMinus.c, 0)) DESC 
+				ORDER BY (IFNULL(vPlus.c, 0) - IFNULL(vMinus.c, 0)) DESC, vPlus.c DESC, p.date DESC 
 				LIMIT %7$d OFFSET %8$d';
 		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_VOTE, $visible, $c->id(),"up", "down", $limit, $offset);
 		$result = $this->_db->query($sql);
