@@ -43,7 +43,7 @@ if (sizeof($communities)>0){ ?>
 	<div class="descCommuContainer">
 		<p id="descriptionCommu"></p>
 		<?php if($isAdmin){ ?>
-			<a class="editCommubtn" href="<?= Routes::url_for('/modify-community')?>">Modifier la communauté<img  src="<?= Routes::url_for('/img/svg/edit.svg')?>"></a>
+			<a class="editCommubtn" href="<?= Routes::url_for('/panel-admin')?>">Panel administrateur<img  src="<?= Routes::url_for('/img/svg/edit.svg')?>"></a>
 		<?php } ?>
 	</div>
 	<section id="communityContentContainer">
