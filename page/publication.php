@@ -33,7 +33,8 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 
     <?php foreach($GLOBALS['page']['post']->comments() as $c){ ?>
 	<div class="commentaireAlone">
-        <?php $n=$c->author()->nickname();
+        <?php
+        $n=$c->author()->nickname();
         $canManage=$c->author()==User::current();
         $postID=$c->id();
         ?>
@@ -45,8 +46,8 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
             <?= $c->text() ?>
 		<br>
 		<span class="comment-like" >
-            <img src="<?= Routes::url_for('/img/svg/like.svg') //handle red heart ?>">
-            <?= $c->nb_likes() ?>
+            <a class="cursor" onclick="like(<?= $c->id() ?>)"><img id="like_comment_<?=$c->id()?>" src="<?= $c->hasUserLiked(User::current()) ? Routes::url_for("/img/svg/heart-full.svg") : Routes::url_for("/img/svg/heart-empty.svg"); ?>"></a>
+            <span id="nb_likes_comment_<?= $c->id(); ?>"><?= $c->nb_likes() ?></span>
             <i>
         	<?php 
         		$datetime1=date_create($c->date());
@@ -127,5 +128,6 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 	var route="<?=Config::URL_SUBDIR(false)?>";
 </script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/likesAjax.js')?>"></script>
 
 </html>

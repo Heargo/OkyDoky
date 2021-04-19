@@ -102,9 +102,12 @@ class Community{
      * Function to add an user to a communtity
      */
     public function recruit(User $user, bool $owner = false) : bool {
-        $average_nb = (new Permission(Permission::AVERAGE));
-        $sql = "INSERT INTO `%s` (`%s`, `%s`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$this->_id,$owner ? 256 : 0,0);
+        $average_nb = (new Permission(P::AVERAGE));
+        if ($owner) {
+            $average->add(P::OWNER);
+        }
+        $sql = "INSERT INTO `%s` (`user`, `community`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $user->id(),$this->_id, $average_nb, 0);
         return $this->_db->query($sql);
     }
 

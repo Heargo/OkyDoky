@@ -19,5 +19,5 @@ $ROUTES->bound_post('/signin', 'signin', ['login', 'password'])
        ->bound_post("/modify-user-password", 'modify_password')
        ->bound_post("/modify-community", 'modify_commu')
        ->bound_post('/c/(?<comm>[\w|-]+)/post/(?<id>\w+)/new', 'add_comment', ['commentaire'])
-       
+       ->bound_post('/c/(?<comm>[\w|-]+)/post/(?<id>\w+)/like', 'like', ['id_comment'])
 ;

@@ -44,11 +44,13 @@ class Permission {
     const MOD_AVERAGE_NODES = 1<<10;
     /** Can the user remove AVERAGE nodes */
     const MOD_MODERATOR_NODES = 1<<11;
+    /** Can the user modify the highlight post */
+    const MOD_HIGHLIGHT_POST = 1<<12;
 
     // Only the OWNER can modify admin's permission nodes
 
     /** Can do anything, regardless of the other permissions */
-    const OWNER = 1<<12;
+    const OWNER = 1<<13;
 
     // Quick way to set multiple nodes
     // THOSE ARE NORE ROLES, AND DOEST NOT INHERIT
