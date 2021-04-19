@@ -252,4 +252,22 @@ class Post {
 		$sql = sprintf($sql, Config::TABLE_POST, $visib ? 1 : 0, Config::TABLE_POST, $this->id());
 		return $this->_db->query($sql);
 	}
+
+	/**
+	 * Show up a post in his community
+	 *
+	 * @param User $whoTryTo who tries to show up a post
+	 * @return bool True if successful
+	 */
+	public function showup(User $whoTryTo) : bool {
+		$commu = new Community($this->id_community());
+		$perm = $whoTryTo->perm($this->$commu);
+		if ($perm->can(MOD_HIGHLIGHT_POST)) {
+			$sql = "UPDATE `%s` SET `highlight_post` = %d WHERE `id_%s` = %s";
+			$sql = sprintf($sql, Config::TABLE_COMMUNITY, $this->id(), Config::TABLE_COMMUNITY, $commu->id());
+			return $this->_db->query($sql);
+		}
+		return false;
+	}
+
 }
