@@ -287,6 +287,16 @@ class Community{
         return $this->_db->query($sql);
     }
 
+    public function set_label(User $user, string $label_text, string $color){
+        $sql = "INSERT INTO `%s` (`user`,`community`,`label_name`,`color`) VALUES ('%s','%s','%s','%s');";
+        $sql = sprintf($sql,Config::TABLE_LABEL,$user->id(),$this->id(),$label_text,$color);
+        return $this->_db->query($sql);
+    }
     
+    public function delete_label(int $id_label){
+        $sql = "DELETE FROM `%s` WHERE `id_%s` = %s ";
+        $sql = sprintf($sql, Config::TABLE_LABEL,Config::TABLE_LABEL, $id_label);
+        return $this->_db->query($sql);
+    }
 
 }
