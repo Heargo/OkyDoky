@@ -466,6 +466,25 @@ class User {
         }
         return false;
     }
+    /**
+     * Certify an user in a community
+     * 
+     * @param Community The community where you want to be certified
+     * @return bool if it worked or not
+     */
+    public function certify_in_comm(Community $comm){
+        return $comm->certify_user($this);
+    }
+    
+    /**
+     * Uncertify an user in a community
+     * 
+     * @param Community The community where you want to be uncertified
+     * @return bool if it worked or not
+     */
+    public function uncertify_in_comm(Community $comm){
+        return $comm->uncertify_user($this);
+    }
 
     /**
      * Get the permission object, that represent the permission of a user on a community
