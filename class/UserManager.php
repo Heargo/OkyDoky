@@ -137,6 +137,27 @@ class UserManager {
     }
 
     /**
+     * Get an array of users by community by ancienty
+     *
+     * @param Community $community The community where we are searching in
+     * @param bool|null $visible Filter if user are marked as visible or not. Null will return both.
+     * @param int $limit Limits the number of users you want.
+     * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
+     * @return User[] An array of users.
+     */
+    public function get_by_ancienty_community(Community $c, bool $visible = true, int $limit = 10, int $offset = 0) {
+        $sql = "SELECT `id_%1$s` u FROM `%1$s` JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = '%3$s' ORDER BY uc.join_date LIMIT %4$d OFFSET %5$d";
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
+        $result = $this->_db->query($sql);
+        if($result) {
+            for ($list = array();
+                 $row = $result->fetch_assoc();
+                 $list[] = new User($this->_db, $row['id_' . Config::TABLE_USER]));
+            return $list;
+        }
+        return array();
+    }
+    /**
      * Get an array of users by community by most likes
      *
      * @param Community $community The community where we are searching in
