@@ -13,6 +13,7 @@ $post      = Config::TABLE_POST;
 $vote      = Config::TABLE_VOTE;
 $comment   = Config::TABLE_COMMENT;
 $like      = Config::TABLE_LIKE;
+$label     = Config::TABLE_LABEL;
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 0;");
 
@@ -151,8 +152,20 @@ CREATE TABLE IF NOT EXISTS `$like` (
     FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`)
 );"
 );
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$label` (
+    `id_$label` int unsigned NOT NULL,
+    `user` int unsigned NOT NULL,
+    `community` int unsigned NOT NULL,
+    `label_name` varchar(40) NOT NULL,
+    `color` varchar(7) NOT NULL,
+    
+    PRIMARY KEY (`id_$label`),
+    FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`),
+    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`)
+);");
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 1;");
 
-unset($document, $user, $community, $resource, $post, $vote, $comment, $like);
+unset($document, $user, $community, $resource, $post, $vote, $comment, $like, $label);
 
