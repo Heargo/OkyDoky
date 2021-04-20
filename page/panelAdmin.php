@@ -62,7 +62,34 @@ if ($isAdmin) {
 
 <?php elseif($_GET["page"]=="users"): ?>
 
-<!-- page admin users -->
+<form id="searchFormCommu" class="noselect" enctype="multipart/form-data">
+	<!-- searchBar -->
+	<input id="searchBar" type="search" name="search" placeholder="Utilisateurs de la communauté...">
+	<input type="hidden" name="searchFormCommu">
+</form>
+
+<section id="verticalScrollContainer" class="inAdminPanel">
+	<div class="profilPreviewSearch">
+		<div class="profilPreviewSearchAdmin cursor" onclick="location.href='/user/user/hearstgo'">
+			<img class="pictprofilPreviewSearch" src="/user/data/user/77fdd05413d64f48614a5bbd8ad2fbaa8e256c94.jpg" alt="NAME">
+			<div>
+				<h4 class="nameSearchPreview">Exemple</h4>
+				<h4 class="nicknameSearchPreview">@exemple</h4>
+			</div>
+		</div>
+		<!-- POUR TEST LE VISUEL -->
+		<?php 
+		$userID=1; //à generer via la recherche ajax 
+		?>
+		<img onclick="toogleSettingsOfUser(<?=$userID?>);" class="userManageButton cursor" src="<?= Routes::url_for('/img/svg/user-cog.svg')?>" alt="manageUser">
+		<ul id="Settings-<?=$userID?>" class="menuSettings hidden">
+			<?php if($isOwner): ?>
+			<a href="">Ajouter a l'équipe</a>
+			<?php endif ?>
+			<a href="">Bannir</a>
+		</ul>
+	</div>
+</section>
 
 <?php elseif($_GET["page"]=="posts"): ?>
 
@@ -81,6 +108,25 @@ if ($isAdmin) {
 
 <?php include 'bottomnavAdmin.php'; ?>
 </body>
+
+<script type="text/javascript">
+	
+function toogleSettingsOfUser(id){
+    //on cache tout le autres menus
+    var allMenus = document.getElementsByClassName("menuSettings");
+    var menu = document.getElementById("Settings-"+id);
+    for (var i = 0; i < allMenus.length; i++) {
+      if (allMenus[i] !=menu){
+        allMenus[i].classList.add("hidden")
+      }
+    }
+    //on affiche le bon
+    menu.classList.toggle("hidden");
+
+}
+
+</script>
+
 </html>
 	
 

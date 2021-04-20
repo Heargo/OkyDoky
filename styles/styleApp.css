@@ -421,6 +421,16 @@ form{
 	background-color: #F1F2F6;
 	z-index: 50;
 }
+
+#searchFormCommu{
+	position: relative;
+	margin: 0 auto;
+	max-width: 600px;
+	padding: 10px;
+	background-color: #F1F2F6;
+	z-index: 50;
+}
+
 #verticalScrollContainer.searchResults{
 	justify-content: flex-start;
 	align-items: flex-start;
@@ -434,6 +444,10 @@ form{
 	border: 0;
 	border-radius: 20px;
 }
+#searchFormCommu #searchBar{
+	padding: 0.3rem 1rem;
+}
+
 .checkboxList{
 	display: flex;
 	margin-top: 10px;
@@ -485,6 +499,7 @@ textarea:focus, input:focus{
 }
 
 .profilPreviewSearch{
+	position: relative;
 	display: flex;
 	height: 50px;
 	margin:5px 0;
@@ -905,6 +920,11 @@ textarea:focus, input:focus{
 	flex-direction: column;
 	background-color: white;
 	max-width: 200px;
+}
+
+.inAdminPanel .menuSettings{
+	top: 4px;
+	right: 50px;
 }
 
 .menuSettings a {
@@ -1402,7 +1422,9 @@ h2.confirmation{
 .adminpageContainer{
 	margin-top: 10px;
 }
-
+#verticalScrollContainer.inAdminPanel{
+	top: 0;
+}
 .adminpageContainer .preview{
 	position: relative;
 	width: 100%;
@@ -1433,4 +1455,16 @@ h2.confirmation{
     font-size: 1.3rem;
     box-shadow: 4px 4px 4px rgb(0 0 0 / 25%);
     font-family: 'Caveat Brush', cursive;
+}
+
+.profilPreviewSearchAdmin{
+	display: flex;
+}
+
+.userManageButton{
+	position: absolute;
+	height: 40px;
+	width: auto;
+	top:5px ;
+	right: 10px;
 }

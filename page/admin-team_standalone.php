@@ -7,16 +7,27 @@
             $creatorname = $currentCom->get_owner()->display_name();
 
         ?>
-        <img src=<?=$creator->profile_pic()?> alt="profil">
+        <img src="<?=$creator->profile_pic()?>" alt="profil">
         <p><?=$creatorname?></p>
     </div>
     <!-- equipe -->
-    <div class="team hidden">
+    <div class="team">
+        <?php 
+        $team = array();
+        //$team = $currentCom->get_team();
+        ?>
         <h3>L'équipe</h3>
         <ul>
-            <li onclick="document.location.href='./user/Bouba'"><img src="./img/img1.jpg"><p>B.</p></li> <!-- B. est l'initiale du pseudo (Bouba) -->
-            <li onclick="document.location.href='./user/JeSuisMalin'"><img src="./img/img1.jpg"><p>J.</p></li> <!-- J. est l'initiale du pseudo (JeSuisMalin) -->
-            <li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"><p>L.</p></li> <!-- etc -->
+        <?php 
+        foreach ($team as $key => $membre) {
+            $init = $membre->display_name()[0];
+            $urlUser=Routes::url_for('/img/svg/users.svg')
+            ?>
+            <li onclick="document.location.href='./user/Bouba'"><img src="<?=$membre->profile_pic()?>"><p><?=$init?>.</p></li> <!-- B. est l'initiale du pseudo (Bouba) -->
+            <?php 
+        }
+        ?>
+        <li onclick="document.location.href='?page=users'"><img src="<?=Routes::url_for('/img/svg/add-circle.svg')?>"></li>
         </ul>
 
     </div>
