@@ -302,4 +302,23 @@ class Community{
         return $this->_db->query($sql);
     }
 
+
+    /**
+     * Get all label of the user in the community
+     * 
+     * @param User the user you want the label from
+     * @return array associative array : id_label, label_name, color
+     */
+    public function get_label(User $user){
+        $sql = "SELECT `id_label`,`label_name`,`color` FROM `%s` WHERE `%s` = %s AND `%s` = %s ";
+        $sql = sprintf($sql, Config::TABLE_LABEL, Config::TABLE_COMMUNITY, $this->id(), Config::TABLE_USER, $user->id());
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_assoc();
+				 $list[] = $row);
+			return $list;
+		}
+		return array();
+    } 
 }
