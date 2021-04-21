@@ -13,6 +13,9 @@
 <?php 
 $myprofil=User::current()->equals($GLOBALS["page"]["userOfUrl"]);
 $user=$GLOBALS["page"]["userOfUrl"];
+$isAdmin=false;
+
+
 
 ?>
 <?php if($myprofil){ ?>
@@ -120,13 +123,41 @@ else{
 ?>
 </div>
 <ul class="roleprofil">
-	<li style="background-color: red;">Original <img src="<?=Routes::url_for('/img/svg/cross.svg')?>"></li>
-	<li style="background-color: green;">drole <img src="<?=Routes::url_for('/img/svg/cross.svg')?>"></li>
-	<li style="background-color: orange;">maitre du css <img src="<?=Routes::url_for('/img/svg/cross.svg')?>"></li>
-	<li onclick="toogleformlabel();" class="exceptionRoleProfil"><img src="<?=Routes::url_for('/img/svg/add-circle.svg')?>"></li>
+	<?php $labels=[1] ?>
+	<?php foreach ($labels as $key => $label) {
+		?>
+
+		<li style="background-color: red;">Original 
+			<?php if($isAdmin || $myprofil ){ ?>
+			<img src="<?=Routes::url_for('/img/svg/cross.svg')?>">
+			<?php } ?>
+		</li>
+		<li style="background-color: green;">drole 
+			<?php if($isAdmin || $myprofil ){ ?>
+			<img src="<?=Routes::url_for('/img/svg/cross.svg')?>">
+			<?php } ?>
+		</li>
+		<li style="background-color: orange;">maitre du css 
+			<?php if($isAdmin || $myprofil ){ ?>
+			<img src="<?=Routes::url_for('/img/svg/cross.svg')?>">
+			<?php } ?>
+		</li>
+
+		<?php 
+	} ?>
+
+	
+	
+
+	<!-- addbutton -->
+	<?php if($isAdmin){ ?>
+		<li onclick="toogleformlabel();" class="exceptionRoleProfil">
+			<img src="<?=Routes::url_for('/img/svg/add-circle.svg')?>">
+		</li>
+	<?php } ?>
 </ul>
 
-<?php if(true){ ?>
+<?php if($isAdmin){ ?>
 <!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
 <form id="labelForm" class="labelForm hidden" enctype="multipart/form-data" action="<?=Routes::url_for('/addLabel/'.$GLOBALS["page"]["userOfUrl"]->nickname())?>" method="post">
 	<!-- Nom label -->
