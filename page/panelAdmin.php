@@ -182,29 +182,6 @@ function toogleSettingsOfUser(id){
 
 </html>
 	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <?php
 }else{
 	header("Location: ./feed");

@@ -13,7 +13,7 @@
 <?php 
 $myprofil=User::current()->equals($GLOBALS["page"]["userOfUrl"]);
 $user=$GLOBALS["page"]["userOfUrl"];
-$isAdmin=false;
+$isAdmin=true;
 
 
 
@@ -47,7 +47,6 @@ $isAdmin=false;
 	</div>
 
 <!-- LA PAGE DE PROFIL -->
-
 <section id="ProfilMainContainer">
 	<div class="profilContainer">
 		<div class="generalInfo">
@@ -123,26 +122,17 @@ else{
 ?>
 </div>
 <ul class="roleprofil">
-	<?php $labels=[1] ?>
-	<?php foreach ($labels as $key => $label) {
+	<?php 
+
+	$labels=$GLOBALS["communities"]->get_by_id($_SESSION["current_community"])->get_label($user);
+	foreach ($labels as $key => $label) {
 		?>
 
-		<li style="background-color: red;">Original 
+		<li style="background-color: <?=$label["color"]?> ;"><?=$label["label_name"]?> 
 			<?php if($isAdmin || $myprofil ){ ?>
-			<img src="<?=Routes::url_for('/img/svg/cross.svg')?>">
+			<img onclick="deleteLabel(<?=$label["id_label"]?>)" class="cursor" src="<?=Routes::url_for('/img/svg/cross.svg')?>">
 			<?php } ?>
 		</li>
-		<li style="background-color: green;">drole 
-			<?php if($isAdmin || $myprofil ){ ?>
-			<img src="<?=Routes::url_for('/img/svg/cross.svg')?>">
-			<?php } ?>
-		</li>
-		<li style="background-color: orange;">maitre du css 
-			<?php if($isAdmin || $myprofil ){ ?>
-			<img src="<?=Routes::url_for('/img/svg/cross.svg')?>">
-			<?php } ?>
-		</li>
-
 		<?php 
 	} ?>
 
@@ -194,6 +184,10 @@ else{
 		var f =document.getElementById("labelForm")
 
 		f.classList.toggle("hidden")
+	}
+
+	function deleteLabel(id){
+		console.log("AJAX TO DO")
 	}
 
 

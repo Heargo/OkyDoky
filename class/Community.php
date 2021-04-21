@@ -314,10 +314,10 @@ class Community{
         $sql = sprintf($sql, Config::TABLE_LABEL, Config::TABLE_COMMUNITY, $this->id(), Config::TABLE_USER, $user->id());
         $res = $this->_db->query($sql);
         if ($res) {
-			for ($list = array();
-				 $row = $res->fetch_assoc();
-				 $list[] = $row);
-			return $list;
+            while ($row = $res->fetch_assoc()) {
+                $list[] = $row;
+            }
+            return $list;
 		}
 		return array();
     } 
