@@ -1248,12 +1248,72 @@ h2.confirmation{
 	width:100%; 
 	list-style: none;
 }
-.roleprofil li{
+.roleprofil li,.labelInput{
 	margin: 0.2rem;
 	padding: 0.3rem 0.5rem;
 	border-radius: 20px;
 	font-size: 0.8rem;
 }
+
+.roleprofil img{
+	vertical-align: top;
+	height: 15px;
+}
+
+.roleprofil .exceptionRoleProfil{
+	margin: 0.2rem;
+	padding: 0;
+	height: 24px;
+}
+.roleprofil .exceptionRoleProfil img{
+	height: 24px;
+}
+
+#ProfilMainContainer .labelForm{
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 100%;
+	max-width: 280px;
+	margin-top: 10px;
+}
+
+.labelForm .submitUploadLabel{
+	position: absolute;
+	right: 0;
+	padding: 0;
+	height: 30px;
+	width:30px;
+	line-height: 30px;
+}
+
+.labelInput::placeholder{
+	color: black;
+}
+.labelForm .submitUploadLabel img{
+	transform: scale(.8);
+}
+
+.labelInput{
+	border:0;
+}
+
+.colorLabel{
+	height: 30px;
+	width:30px;
+	margin-left: 5px;
+	border-radius: 100%;
+	background-color: black;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.colorInput{
+	visibility: hidden;
+}
+
+
+
 
 .generalInfo-bottom{
 	position: absolute;

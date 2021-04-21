@@ -120,10 +120,25 @@ else{
 ?>
 </div>
 <ul class="roleprofil">
-	<li style="background-color: red;">Original</li>
-	<li style="background-color: green;">drole</li>
-	<li style="background-color: orange;">maitre du css</li>
+	<li style="background-color: red;">Original <img src="<?=Routes::url_for('/img/svg/cross.svg')?>"></li>
+	<li style="background-color: green;">drole <img src="<?=Routes::url_for('/img/svg/cross.svg')?>"></li>
+	<li style="background-color: orange;">maitre du css <img src="<?=Routes::url_for('/img/svg/cross.svg')?>"></li>
+	<li onclick="toogleformlabel();" class="exceptionRoleProfil"><img src="<?=Routes::url_for('/img/svg/add-circle.svg')?>"></li>
 </ul>
+
+<?php if(true){ ?>
+<!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
+<form id="labelForm" class="labelForm hidden" enctype="multipart/form-data" action="<?=Routes::url_for('/addLabel/'.$GLOBALS["page"]["userOfUrl"]->nickname())?>" method="post">
+	<!-- Nom label -->
+	<input id="previewLabel" class="labelInput" type="text" name="label_text" placeholder="Nom de l'étiquette">
+	<!-- couleur -->
+	<label class="colorLabel" id="color_front" for="colorpicker"></label>
+	<input id="colorpicker" class="colorInput" type="color" name="color" ></input>	
+	<label for="submit" class="submitUploadLabel cursor"><img src="<?=Routes::url_for('/img/svg/check.svg')?>"></label>
+	<input id ="submit" type="submit" value="create" />	
+</form>
+<?php } ?>
+
 </section>
 
 <section id="verticalScrollContainer">
@@ -133,6 +148,26 @@ else{
 </div>
 
 </body>
+<!-- script pour colorpicker -->
+<script type="text/javascript">
+	var label = document.getElementById("color_front");
+	var input = document.getElementById("colorpicker");
+	var text = document.getElementById("previewLabel");
+
+	input.addEventListener("change", function(){
+  		label.style.backgroundColor = input.value;
+  		text.style.backgroundColor = input.value;
+	});
+
+	function toogleformlabel() {
+		var f =document.getElementById("labelForm")
+
+		f.classList.toggle("hidden")
+	}
+
+
+</script>
+
 
 <!-- FONCTIONS POUR AFFICHAGE DES PARAMETRES -->
 <script type="text/javascript">
