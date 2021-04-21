@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `$label` (
     `id_$label` int unsigned NOT NULL,
     `user` int unsigned NOT NULL,
     `community` int unsigned NOT NULL,
-    `label_name` varchar(40) NOT NULL,
+    `label_name` varchar(25) NOT NULL,
     `color` varchar(7) NOT NULL,
     
     PRIMARY KEY (`id_$label`),
