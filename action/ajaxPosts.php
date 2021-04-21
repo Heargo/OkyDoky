@@ -29,6 +29,9 @@ function more_posts(?array $match) {
         $comm=$GLOBALS["communities"]->get_by_id($_POST['comm']);
         $posts = $GLOBALS["posts"]->get_by_user_and_community($user,$comm, true, 10, (int) $_POST['offset']);
     }
+    elseif ($_POST['page']=="admin"){
+        $posts = $GLOBALS["posts"]->get_by_community($comm, false, 10, (int) $_POST['offset']);
+    }
     else{
         $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
     }

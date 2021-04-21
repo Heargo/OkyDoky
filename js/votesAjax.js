@@ -4,7 +4,7 @@ function vote(id,value){
   }
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function(){
-    console.log(route+"/voteU")
+    //console.log(route+"/voteU")
     if (this.readyState ==4 && this.status ==200) {
         var voteValue = this.response[0];
         var prctValeur = this.response[1]

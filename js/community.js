@@ -45,9 +45,9 @@ function showSlides(n) {
         slides[i].style.display = "none";
     }
 
-    console.log("show slide"+slideIndex)
+    //console.log("show slide"+slideIndex)
     //console.log("je passe a la commu"+slides[slideIndex-1].childNodes[1].dataset.idcommu)
-    console.log(slides[slideIndex-1].childNodes[1])
+    //console.log(slides[slideIndex-1].childNodes[1])
     //console.log(slides[slideIndex].childNodes[1])
 
 

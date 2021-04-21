@@ -12,7 +12,7 @@ function search(txt, typeSearch){
 		}
 		else if (this.readyState ==4){
 			console.log("ERREUR");
-			console.log(this);
+			//console.log(this);
 		}
 	};
 
@@ -38,12 +38,12 @@ function joinOrLeave(id){
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if (this.readyState ==4 && this.status ==200) {
-			console.log(this.response);
+			//console.log(this.response);
 			window.location.href = "./community";
 		}
 		else if (this.readyState ==4){
 			console.log("ERREUR");
-			console.log(this);
+			//console.log(this);
 		}
 	};
 
@@ -66,7 +66,7 @@ try{
 	const commuRadio = document.getElementById("commu");
 	const profilRadio = document.getElementById("profil");
 	const docuRadio = document.getElementById("post");
-	console.log(commuRadio);
+	//console.log(commuRadio);
 	commuRadio.addEventListener('click', function(){
 		runSearchBar(searchBar.value, radioTypeSearch);
 	});
