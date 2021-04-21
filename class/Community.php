@@ -314,6 +314,7 @@ class Community{
         $sql = sprintf($sql, Config::TABLE_LABEL, Config::TABLE_COMMUNITY, $this->id(), Config::TABLE_USER, $user->id());
         $res = $this->_db->query($sql);
         if ($res) {
+            $list=array();
             while ($row = $res->fetch_assoc()) {
                 $list[] = $row;
             }
