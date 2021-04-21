@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `$like` (
 );
 $DB->query("
 CREATE TABLE IF NOT EXISTS `$label` (
-    `id_$label` int unsigned NOT NULL,
+    `id_$label` int unsigned NOT NULL AUTO_INCREMENT,
     `user` int unsigned NOT NULL,
     `community` int unsigned NOT NULL,
     `label_name` varchar(25) NOT NULL,
