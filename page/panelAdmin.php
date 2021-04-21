@@ -110,16 +110,13 @@ if ($isAdmin) {
 			<?php 
 		}
 		else{
-			echo "<p>Pas de posts mis en avant... C'est triste</p>";
+			echo "<p>Pas de posts mis en avant.</p>";
 		}
 		?>
 		<br>
 		<?php
 
-		$hiddenPosts =[];
-		foreach ($hiddenPosts as $key => $post) {
-			load_post($post);
-		}
+		$hiddenPosts =$GLOBALS["posts"]->get_by_community($comm, false, 10, 0);
 		if (sizeof($hiddenPosts)==0) {
 			?>
 			<p>Il n'y as aucun post modéré dans cette communauté.</p>
@@ -128,25 +125,29 @@ if ($isAdmin) {
 
 		?>
 	</section>
-
+	<script type="text/javascript">
+		var page = "admin";
+		var user = -1;
+		var comm = -1;
+		var route = "<?=Config::URL_SUBDIR(false)?>";
+	</script>
+	<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 	<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+
 <?php elseif($_GET["page"]=="coms"): ?>
 	<section id="verticalScrollContainer" class="inAdminPanel">
 		<div class="commentaires">
 			<?php 
-			$commentsDel =[];
-
-			if (sizeof($commentsDel)!=0) {
+			$commentsDel = [];
+			if(sizeof($commentsDel)!=0) {
 				foreach ($commentsDel as $key => $c) {
 					load_comment($c);
 				}
 			}else{
 				?>
 				<p class="centerTxt">Il n'y à aucun commentaire supprimé sur cette communauté.</p>
-				<?php 
+				<?php
 			}
-
-
 
 			?>
 		</div>

@@ -2,20 +2,23 @@ function isEmpty(obj) {
     return Object.keys(obj).length === 0;
 }
 
-function markEmpty(bool, section) {
-    var alreadyPresent = document.getElementById("emptyFlux");
-    if (bool) {
-        if (!alreadyPresent) {
-            var empty = document.createElement("p");
-            empty.id = "emptyFlux";
-            empty.innerHTML = "Il n'y a plus rien à charger :'(";
-            section.appendChild(empty);
-        }
-    } else {
-        if (alreadyPresent) {
-            alreadyPresent.remove();
+function markEmpty(bool, section,page) {
+    if (page=="feed"){
+        var alreadyPresent = document.getElementById("emptyFlux");
+        if (bool) {
+            if (!alreadyPresent) {
+                var empty = document.createElement("p");
+                empty.id = "emptyFlux";
+                empty.innerHTML = "Il n'y a plus rien à charger :'(";
+                section.appendChild(empty);
+            }
+        } else {
+            if (alreadyPresent) {
+                alreadyPresent.remove();
+            }
         }
     }
+    
 }
 
 
@@ -43,9 +46,9 @@ function moreposts(page="feed",user="none",comm="current",reset=false) {
             /*console.log(page)
             console.log(this.response)*/
             if (isEmpty(rep)) {
-                markEmpty(true, posts_section);
+                markEmpty(true, posts_section,page);
             } else {
-                markEmpty(false, posts_section);
+                markEmpty(false, posts_section,page);
                 Object.entries(rep).forEach(([id, post_html]) => {
                     if(!IDS.includes(id)) {
                         IDS.push(id);
@@ -68,8 +71,7 @@ window.onload = function() { // might be moved
         moreposts(page,user,comm); // loads first posts at load time
     }catch{
         moreposts();
-    }
-    
+    }    
 }
 
 window.onscroll = function(ev) {
