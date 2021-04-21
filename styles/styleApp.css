@@ -306,12 +306,23 @@ form{
 	height: 100%;
 }
 
-.titleInput, .descriptionInput,.descriptionInputCommu{
+.titleInput, .descriptionInput,.descriptionInputCommu,.delInput{
 	margin: 10px 0;
 	border:0;
 	width: 300px;
 	border-radius: 5px;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.delInput{
+	height: 30px;
+	padding: 0.4rem;
+	background-color: white;
+	transition: all ease 0.2s;
+}
+
+.delInput:hover{
+	transform: scale(1.05);
 }
 
 .titleInput{
@@ -1527,4 +1538,8 @@ h2.confirmation{
 	width: auto;
 	top:5px ;
 	right: 10px;
+}
+
+.centerTxt{
+	text-align: center;
 }

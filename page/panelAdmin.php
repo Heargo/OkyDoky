@@ -40,65 +40,117 @@ if ($isAdmin) {
 	
 <?php if($_GET["page"]=="home"): ?>
 
-<div class="preview">
-	<img class="cover" src="<?=$comm->get_cover()?>">
-	<div class="infos">
-		<p><?=$comm->get_display_name()?></p>
-		<p><?=$comm->get_nb_members()?></p>
+	<div class="preview">
+		<img class="cover" src="<?=$comm->get_cover()?>">
+		<div class="infos">
+			<p><?=$comm->get_display_name()?></p>
+			<p><?=$comm->get_nb_members()?></p>
+		</div>
 	</div>
-</div>
 
-<div class="descCommuContainer">
-		<p id="descriptionCommu"><?=$comm->get_description()?></p>
-		<?php if($isAdmin){ ?>
-			<a class="editCommubtn" href="<?= Routes::url_for('/modify-community')?>">Modifier la communauté<img  src="<?= Routes::url_for('/img/svg/edit.svg')?>"></a>
-		<?php } ?>
-</div>
-<section id="communityContentContainer">
-<?php load_admin_container(); ?>
+	<div class="descCommuContainer">
+			<p id="descriptionCommu"><?=$comm->get_description()?></p>
+			<?php if($isAdmin){ ?>
+				<a class="editCommubtn" href="<?= Routes::url_for('/modify-community')?>">Modifier la communauté<img  src="<?= Routes::url_for('/img/svg/edit.svg')?>"></a>
+			<?php } ?>
+	</div>
+	<section id="communityContentContainer">
+	<?php load_admin_container(); ?>
 
-</section>
+	</section>
 
 
 <?php elseif($_GET["page"]=="users"): ?>
 
-<form id="searchFormCommu" class="noselect" enctype="multipart/form-data">
-	<!-- searchBar -->
-	<input id="searchBar" type="search" name="search" placeholder="Utilisateurs de la communauté...">
-	<input type="hidden" name="searchFormCommu">
-</form>
+	<form id="searchFormCommu" class="noselect" enctype="multipart/form-data">
+		<!-- searchBar -->
+		<input id="searchBar" type="search" name="search" placeholder="Utilisateurs de la communauté...">
+		<input type="hidden" name="searchFormCommu">
+	</form>
 
-<section id="verticalScrollContainer" class="inAdminPanel">
-	<div class="profilPreviewSearch">
-		<div class="profilPreviewSearchAdmin cursor" onclick="location.href='/user/user/hearstgo'">
-			<img class="pictprofilPreviewSearch" src="/user/data/user/77fdd05413d64f48614a5bbd8ad2fbaa8e256c94.jpg" alt="NAME">
-			<div>
-				<h4 class="nameSearchPreview">Exemple</h4>
-				<h4 class="nicknameSearchPreview">@exemple</h4>
+	<section id="verticalScrollContainer" class="inAdminPanel">
+		<div class="profilPreviewSearch">
+			<div class="profilPreviewSearchAdmin cursor" onclick="location.href='/user/user/hearstgo'">
+				<img class="pictprofilPreviewSearch" src="/user/data/user/77fdd05413d64f48614a5bbd8ad2fbaa8e256c94.jpg" alt="NAME">
+				<div>
+					<h4 class="nameSearchPreview">Exemple</h4>
+					<h4 class="nicknameSearchPreview">@exemple</h4>
+				</div>
 			</div>
+			<!-- POUR TEST LE VISUEL -->
+			<?php 
+			$userID=1; //à generer via la recherche ajax 
+			?>
+			<img onclick="toogleSettingsOfUser(<?=$userID?>);" class="userManageButton cursor" src="<?= Routes::url_for('/img/svg/user-cog.svg')?>" alt="manageUser">
+			<ul id="Settings-<?=$userID?>" class="menuSettings hidden">
+				<?php if($isOwner): ?>
+				<a href="">Ajouter a l'équipe</a>
+				<?php endif ?>
+				<a href="">Bannir</a>
+			</ul>
 		</div>
-		<!-- POUR TEST LE VISUEL -->
-		<?php 
-		$userID=1; //à generer via la recherche ajax 
-		?>
-		<img onclick="toogleSettingsOfUser(<?=$userID?>);" class="userManageButton cursor" src="<?= Routes::url_for('/img/svg/user-cog.svg')?>" alt="manageUser">
-		<ul id="Settings-<?=$userID?>" class="menuSettings hidden">
-			<?php if($isOwner): ?>
-			<a href="">Ajouter a l'équipe</a>
-			<?php endif ?>
-			<a href="">Bannir</a>
-		</ul>
-	</div>
-</section>
+	</section>
 
 <?php elseif($_GET["page"]=="posts"): ?>
 
-<!-- page admin posts -->
+	<section id="verticalScrollContainer" class="inAdminPanel">
+		<h2 class="communityTitle">Mis en avant</h2>
+		<?php
+		$currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+		$highlight_post  = $GLOBALS['posts']->get_by_most_votes($currentCom);
 
+		if(sizeof($highlight_post) != 0){
+			load_post($highlight_post[0]);
+
+			?>
+			<form enctype="multipart/form-data" action="<?= Routes::url_for('')?>" method="post">
+				<input type="submit" class="delInput cursor" name="delMiseAvant" value="Supprimer la mise en avant">
+				<input type="number" name="idPost" value="<?=$highlight_post[0]->id()?>" hidden>
+			</form>
+			<?php 
+		}
+		else{
+			echo "<p>Pas de posts mis en avant... C'est triste</p>";
+		}
+		?>
+		<br>
+		<?php
+
+		$hiddenPosts =[];
+		foreach ($hiddenPosts as $key => $post) {
+			load_post($post);
+		}
+		if (sizeof($hiddenPosts)==0) {
+			?>
+			<p>Il n'y as aucun post modéré dans cette communauté.</p>
+			<?php 
+		}
+
+		?>
+	</section>
+
+	<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <?php elseif($_GET["page"]=="coms"): ?>
+	<section id="verticalScrollContainer" class="inAdminPanel">
+		<div class="commentaires">
+			<?php 
+			$commentsDel =[];
 
-<!-- page admin commentaires -->
+			if (sizeof($commentsDel)!=0) {
+				foreach ($commentsDel as $key => $c) {
+					load_comment($c);
+				}
+			}else{
+				?>
+				<p class="centerTxt">Il n'y à aucun commentaire supprimé sur cette communauté.</p>
+				<?php 
+			}
 
+
+
+			?>
+		</div>
+	</section>
 
 <?php endif ?>
 </section>
