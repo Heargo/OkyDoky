@@ -80,11 +80,16 @@ if ($isAdmin) {
 			<!-- POUR TEST LE VISUEL -->
 			<?php 
 			$userID=1; //à generer via la recherche ajax 
+			$isInTeam=false;//same
 			?>
 			<img onclick="toogleSettingsOfUser(<?=$userID?>);" class="userManageButton cursor" src="<?= Routes::url_for('/img/svg/user-cog.svg')?>" alt="manageUser">
 			<ul id="Settings-<?=$userID?>" class="menuSettings hidden">
 				<?php if($isOwner): ?>
-				<a href="">Ajouter a l'équipe</a>
+					<?php if($isInTeam): ?>
+					<a href="">Supprimer de l'équipe</a>
+					<?php else: ?>
+					<a href="">Ajouter a l'équipe</a>
+					<?php endif ?>
 				<?php endif ?>
 				<a href="">Certifier</a>
 				<a href="">Bannir</a>
