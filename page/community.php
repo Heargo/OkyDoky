@@ -50,9 +50,9 @@ if (sizeof($communities)>0){ ?>
 		<h2 class="communityTitle">Mis en avant</h2>
 		<?php
 			$currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
-			$highlight_post  = $GLOBALS['posts']->get_by_most_votes($currentCom);
-			if(sizeof($highlight_post) != 0){
-				load_post($highlight_post[0]);
+			$highlight_post = $currentCom->get_highlight_post();
+			if(isset($highlight_post) && $highlight_post->is_visible()){
+				load_post($highlight_post);
 			}
 			else{
 				echo "<p>Pas de posts mis en avant... C'est triste</p>";
