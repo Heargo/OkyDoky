@@ -73,6 +73,9 @@ class CommentManager {
     public function del_comment(Comment $c) : bool {
         $sql = "DELETE FROM `%s` WHERE `id_%s` = %d";
         $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, $c->id());
+        ?>
+        <script>console.log(<?= var_dump($c) ?>)</script>
+        <?php
         return (bool) $this->_db->query($sql);
     }
 

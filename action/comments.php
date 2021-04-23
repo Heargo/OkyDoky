@@ -148,9 +148,15 @@ function load_comment($c){
         <?php if($canManage): ?>
             <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor three-dots-comment" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
             <ul id="Settings-<?=$postID?>" class="menuSettings menuSettingsCommentaire hidden">
-                <a href="">Supprimer</a>
+                <p onclick="del_comment(<?= $c->id() ?>)">Supprimer</p>
             </ul>
         <?php endif ?>
     </div>
     <?php 
+}
+
+function delete_comment(?array $match){
+    $comment = $GLOBALS['comments']->get_by_id($_POST['id']);
+    $GLOBALS['comments']->del_comment($comment);
+
 }
