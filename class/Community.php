@@ -104,10 +104,10 @@ class Community{
     public function recruit(User $user, bool $owner = false) : bool {
         $average_nb = (new Permission(P::AVERAGE));
         if ($owner) {
-            $average->add(P::OWNER);
+            $average_nb->add(P::OWNER);
         }
-        $sql = "INSERT INTO `%s` (`user`, `community`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $user->id(),$this->_id, $average_nb, 0);
+        $sql = "INSERT INTO `%s` (`user`, `community`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%d','%s');";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $user->id(),$this->_id, $average_nb->get(), 0);
         return $this->_db->query($sql);
     }
 
@@ -194,7 +194,7 @@ class Community{
     }
     public function get_owner(){
         $sql = "SELECT * FROM `%s` WHERE `permission` = %d AND `community` = %d";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,256,$this->id());
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,8207,$this->id());
         $res = $this->_db->query($sql)->fetch_assoc();
         return $GLOBALS['users']->get_by_id((int)$res['user']);
     }

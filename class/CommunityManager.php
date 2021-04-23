@@ -42,7 +42,6 @@ class CommunityManager {
                 $tmp_community->set_description($description);
                 $tmp_community->set_cover($document);
                 $tmp_community->recruit($user,true);
-                //$tmp_community->set_owner($user);
             }
             return $id;
         }
