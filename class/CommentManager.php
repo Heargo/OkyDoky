@@ -33,9 +33,9 @@ class CommentManager {
      *
      * @return Comment[] Array of comment.
      */
-    public function get_by_post(Post $p) : ?array {
-        $sql = "SELECT `id_%s` FROM `%s` WHERE `post` = %d";
-        $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, $p->id());
+    public function get_by_post(Post $p, bool $visible = true) : ?array {
+        $sql = "SELECT `id_%s` FROM `%s` WHERE `post` = %d AND `visible` = %d";
+        $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, $p->id(), $visible);
         $result = $this->_db->query($sql);
 
         if ($result) {
@@ -71,9 +71,7 @@ class CommentManager {
     }
 
     public function deleteComment(Comment $c) : bool {
-        $sql = "DELETE FROM `%s` WHERE `id_%s` = %d";
-        $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, $c->id());
-        return (bool) $this->_db->query($sql);
+        return $c->set_visible(false);
     }
 
 }
