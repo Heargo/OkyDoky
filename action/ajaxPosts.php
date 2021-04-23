@@ -58,7 +58,7 @@ function send_highlight_post(?array $match){
     //@TODO Si l'utilisateur connecté a les droits
     $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
     $hp = $comm->get_highlight_post();
-    if(isset($hp)){
+    if(isset($hp) && $hp->is_visible()){
         load_post($hp);
     }
     else{
