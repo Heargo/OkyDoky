@@ -73,7 +73,10 @@
 				<p>12</p> -->
 			</div>
 			<div class="right">
-                <a href="#"><img src="<?= Routes::url_for('/img/svg/share.svg')?>"></a>
+                <button class="copy-to-clipboard cursor" data-clipboard-text="<?=Config::URL_ROOT(false) . $urlComment?>">
+                    <img src="<?= Routes::url_for('/img/svg/share.svg')?>">
+                    <img class="hidden" src="<?= Routes::url_for('/img/svg/check.svg')?>">
+                </button>
                 <a href="#"><img src="<?= Routes::url_for('/img/svg/bookmark.svg')?>"></a>
 			</div>
 			

@@ -93,7 +93,9 @@ if ($isAdmin) {
 
 <?php elseif($_GET["page"]=="posts"): ?>
 
-	<section id="verticalScrollContainer" class="inAdminPanel">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <script src="<?= Routes::url_for('/js/share.js')?>"></script>
+    <section id="verticalScrollContainer" class="inAdminPanel">
 		<h2 class="communityTitle">Mis en avant</h2>
 		<?php
 		$currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);

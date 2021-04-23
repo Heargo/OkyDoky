@@ -879,6 +879,12 @@ textarea:focus, input:focus{
 
 /* Un seul post*/
 
+button.copy-to-clipboard{
+    background: none!important;
+    border: none;
+    padding: 0!important;
+}
+
 .uniquePost{
 	display: flex;
 	flex-direction: column;
