@@ -70,7 +70,7 @@ class CommentManager {
         return null;
     }
 
-    public function del_comment(Comment $c) : bool {
+    public function deleteComment(Comment $c) : bool {
         $sql = "DELETE FROM `%s` WHERE `id_%s` = %d";
         $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, $c->id());
         return (bool) $this->_db->query($sql);
