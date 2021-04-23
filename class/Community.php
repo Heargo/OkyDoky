@@ -57,7 +57,7 @@ class Community{
     }
 
     public function set_description(String $description){
-        $_description = $description;
+        $this->_description = $description;
         $sql = "UPDATE `%s` SET `description` = '$description' WHERE `%s`.`id_%s` = $this->_id;";
         $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         return $this->_db->query($sql);
@@ -88,14 +88,23 @@ class Community{
         return null;
     }
 
-    public function set_highlight_post(){
-        $higherPost = $GLOBALS['posts']->get_by_most_votes($this);
-        if(sizeof($higherPost) != 0){
-            $highlight_id = $higherPost[0]->id();
-            $sql = "UPDATE `%s` SET `highlight_post` = '$highlight_id' WHERE `%s`.`id_%s` = %d";
-            $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$this->id());
-            return $this->_db->query($sql);
+    public function set_highlight_post(int $id = 0){
+        if($this->_highlight_post == NULL && $id == 0){
+            $higherPost = $GLOBALS['posts']->get_by_most_votes($this);
+            if(sizeof($higherPost) != 0){
+                $highlight_id = $higherPost[0]->id();
+                $sql = "UPDATE `%s` SET `highlight_post` = '$highlight_id' WHERE `%s`.`id_%s` = %d";
+                $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$this->id());
+                return $this->_db->query($sql);
+            }
         }
+        else{
+            $sql = "UPDATE `%s` SET `highlight_post` = '$id' WHERE `%s`.`id_%s` = $this->_id;";
+            $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+            return $this->_db->query($sql);
+
+        }
+        
         return NULL;
     }
     /**
@@ -191,6 +200,9 @@ class Community{
             return true;
         }
         return false;        
+    }
+    public function promote(User $user,Permission $p){
+        return $user->set_perm($this,$p);
     }
     public function get_owner(){
         $sql = "SELECT * FROM `%s` WHERE `permission` = %d AND `community` = %d";

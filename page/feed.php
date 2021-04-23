@@ -58,5 +58,6 @@
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="<?= Routes::url_for('/js/share.js')?>"></script>
+<script src="<?= Routes::url_for('/js/post.js')?>"></script>
 
 </html>

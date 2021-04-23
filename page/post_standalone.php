@@ -4,7 +4,7 @@
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
 			$canManage=$publisher==User::current();
-			$isAdminCommu=false;
+			$isAdminCommu=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
 			$postID=$post->id();
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
@@ -16,9 +16,9 @@
 	                <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor dotsForPost" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
 	                <ul id="Settings-<?=$postID?>" class="menuSettings hidden">
 	                	<?php if($isAdminCommu): ?>
-	                	<a href="">Mettre en avant</a>
+	                	<a onclick="set_highlight_post(<?=$postID?>)"  href="">Mettre en avant</a>
 	                	<?php endif ?>
-	                	<a href="">Supprimer</a>
+	                	<a onclick="delete_post(<?=$postID?>)"href="">Supprimer</a>
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>
@@ -86,3 +86,5 @@
 		<p class="postdescritp"><?=$description?></p>
 		<?php endif ?>
 	</div>
+
+	

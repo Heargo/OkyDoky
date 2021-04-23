@@ -50,6 +50,10 @@ function more_posts(?array $match) {
 
     echo json_encode($result);
 }
+
+function del_post(?array $match){
+    return $GLOBALS['posts']->del_post($GLOBALS['posts']->get_by_id($_POST['id']));
+}
 function send_highlight_post(?array $match){
     //@TODO Si l'utilisateur connecté a les droits
     $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
@@ -60,6 +64,10 @@ function send_highlight_post(?array $match){
     else{
         echo "<p>Pas de posts mis en avant... C'est triste</p>";
     }
+}
+function set_highlight_post(?array $match){
+    $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+    $comm->set_highlight_post($_POST['id']);
 }
 function searchPost(?array $match){
     $allposts=$GLOBALS["posts"]->search_post_by_title($_POST["tosearch"]);
