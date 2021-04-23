@@ -69,7 +69,7 @@ $isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['cur
 							<?=$GLOBALS["posts"]->get_num_by_publisher($user)?>
 						</div>
 						<!-- FOLLOWERS -->
-						<div class="followersContainer">
+						<div class="followersContainer hidden">
 							<img src="<?= Routes::url_for('/img/svg/user-outlined.svg')?>" class="logocptperso"/>
 							XXxxx
 						</div>
@@ -103,9 +103,16 @@ if (sizeof($communities)>0){ ?>
 			   	<div onclick="switchFilter(<?=$idCom?>,'<?=$GLOBALS["page"]["userOfUrl"]->nickname()?>');">
 					<img id="community-<?=$idCom?>" class="communityPreview-profil" src="<?=$comm->get_cover()?>"alt ="<?=$comm->get_display_name()?>">
 					<p id="label-<?=$idCom?>" class="communityPreviewLabel-profil"><?=$comm->get_display_name()?></p>
-					<img id="check-<?=$idCom?>" class="checkfilter hidden" src="<?= Routes::url_for('/img/svg/checkwhite.svg')?>">
 					
-					<!-- SI CERTIF <img id="check-<?=$idCom?>" class="checkfilter-certif hidden" src="https://img.icons8.com/nolan/64/approval.png"/> -->
+					<?php if ($user->is_certified($comm)) {
+						?>
+						<img id="check-<?=$idCom?>" class="checkfilter-certif hidden" src="https://img.icons8.com/nolan/64/approval.png"/>
+						<?php 
+					}else{
+						?>
+						<img id="check-<?=$idCom?>" class="checkfilter hidden" src="<?= Routes::url_for('/img/svg/checkwhite.svg')?>">
+						<?php 
+					} ?>
 				</div>
 			  <?php
 			}
