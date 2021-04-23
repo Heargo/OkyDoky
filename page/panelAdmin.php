@@ -86,6 +86,7 @@ if ($isAdmin) {
 				<?php if($isOwner): ?>
 				<a href="">Ajouter a l'équipe</a>
 				<?php endif ?>
+				<a href="">Certifier</a>
 				<a href="">Bannir</a>
 			</ul>
 		</div>

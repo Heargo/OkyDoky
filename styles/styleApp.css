@@ -880,9 +880,9 @@ textarea:focus, input:focus{
 /* Un seul post*/
 
 button.copy-to-clipboard{
-    background: none!important;
+    background: none;
     border: none;
-    padding: 0!important;
+    padding: 0;
 }
 
 .uniquePost{

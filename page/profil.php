@@ -13,7 +13,7 @@
 <?php 
 $myprofil=User::current()->equals($GLOBALS["page"]["userOfUrl"]);
 $user=$GLOBALS["page"]["userOfUrl"];
-$isAdmin=true;
+$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);;
 
 
 
@@ -100,7 +100,7 @@ if (sizeof($communities)>0){ ?>
 			foreach($communities as $comm){
 				$idCom = $comm->id();
 				?>
-			   	<div onclick="switchFilter(<?=$idCom?>);">
+			   	<div onclick="switchFilter(<?=$idCom?>,'<?=$GLOBALS["page"]["userOfUrl"]->nickname()?>');">
 					<img id="community-<?=$idCom?>" class="communityPreview-profil" src="<?=$comm->get_cover()?>"alt ="<?=$comm->get_display_name()?>">
 					<p id="label-<?=$idCom?>" class="communityPreviewLabel-profil"><?=$comm->get_display_name()?></p>
 					<img id="check-<?=$idCom?>" class="checkfilter hidden" src="<?= Routes::url_for('/img/svg/checkwhite.svg')?>">
@@ -121,30 +121,8 @@ else{
 }
 ?>
 </div>
-<ul class="roleprofil">
-	<?php 
-
-	$labels=$GLOBALS["communities"]->get_by_id($_SESSION["current_community"])->get_label($user);
-	foreach ($labels as $key => $label) {
-		?>
-
-		<li style="background-color: <?=$label["color"]?> ;"><?=$label["label_name"]?> 
-			<?php if($isAdmin || $myprofil ){ ?>
-			<img onclick="deleteLabel(<?=$label["id_label"]?>)" class="cursor" src="<?=Routes::url_for('/img/svg/cross.svg')?>">
-			<?php } ?>
-		</li>
-		<?php 
-	} ?>
-
+<ul id="roleprofilContainer" class="roleprofil">
 	
-	
-
-	<!-- addbutton -->
-	<?php if($isAdmin){ ?>
-		<li onclick="toogleformlabel();" class="exceptionRoleProfil">
-			<img src="<?=Routes::url_for('/img/svg/add-circle.svg')?>">
-		</li>
-	<?php } ?>
 </ul>
 
 <?php if($isAdmin){ ?>
@@ -152,6 +130,8 @@ else{
 <form id="labelForm" class="labelForm hidden" enctype="multipart/form-data" action="<?=Routes::url_for('/addLabel/'.$GLOBALS["page"]["userOfUrl"]->nickname())?>" method="post">
 	<!-- Nom label -->
 	<input id="previewLabel" class="labelInput" type="text" name="label_text" placeholder="Nom de l'étiquette">
+	<!-- idcommu -->
+	<input id="idcommu" type="number" name="idcommu" hidden="">
 	<!-- couleur -->
 	<label class="colorLabel" id="color_front" for="colorpicker"></label>
 	<input id="colorpicker" class="colorInput" type="color" name="color" ></input>	
@@ -169,99 +149,20 @@ else{
 </div>
 
 </body>
-<!-- script pour colorpicker -->
-<script type="text/javascript">
-	var label = document.getElementById("color_front");
-	var input = document.getElementById("colorpicker");
-	var text = document.getElementById("previewLabel");
-
-	input.addEventListener("change", function(){
-  		label.style.backgroundColor = input.value;
-  		text.style.backgroundColor = input.value;
-	});
-
-	function toogleformlabel() {
-		var f =document.getElementById("labelForm")
-
-		f.classList.toggle("hidden")
-	}
-
-	function deleteLabel(id){
-		console.log("AJAX TO DO")
-	}
-
-
-</script>
-
-
-<!-- FONCTIONS POUR AFFICHAGE DES PARAMETRES -->
-<script type="text/javascript">
-			function afficheparameter(){
-				document.getElementById('pageparametres').style.display = 'block';
-				document.getElementById('page').style.opacity = '0.2';
-
-				//document.getElementById(pageparametres).style.displat = none;
-			}
-
-			function closeparametre(){
-				document.getElementById('pageparametres').style.display = 'none';
-				document.getElementById('page').style.opacity = '1';
-
-			}
-</script>
-<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
-<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script type="text/javascript">
 	var page = "profil";
 	var user = <?=$user->id()?>;
 	var comm = -1;
 	var route = "<?=Config::URL_SUBDIR(false)?>";
 </script>
-
-<script type="text/javascript">
-
-	function switchFilter(n){
-		var  boxes = document.getElementById("boxesContainer").childNodes;
-		for (var i = 0; i < boxes.length; i++) {
-			
-			if (i%2!=0){
-				boxe = boxes[i]
-				var c= boxe.childNodes;
-				var toBlurry = c[1];
-				var label = c[3];
-				var check = c[5];
-				if (check.id=="check-"+n){
-					//on toogle la visibilité du nom et du check
-				    label.classList.add("hide");
-				    check.classList.remove("hidden");
-				    //l'opacité et le scroll du fond
-				    toBlurry.classList.add("blurryOverlayProfilFilter"); 
-				    comm=n;
-				}else{
-					//on toogle la visibilité du nom et du check
-				    label.classList.remove("hide");
-				    check.classList.add("hidden");
-				    //l'opacité et le scroll du fond
-				    toBlurry.classList.remove("blurryOverlayProfilFilter"); 
-				}
-			}
-		//on supprime les posts
-		verticalScrollContainer = document.getElementById("verticalScrollContainer");
-		  while (verticalScrollContainer.firstChild) {
-			verticalScrollContainer.removeChild(verticalScrollContainer.lastChild);
-		  }	
-
-		}
-		moreposts(page,user,comm,true);
-	    
-
-	   
-	}
-	switchFilter(<?=$_SESSION["current_community"]?>)
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="<?= Routes::url_for('/js/share.js')?>"></script>
-
+<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/profil.js')?>"></script>
+<script type="text/javascript">
+	switchFilter(<?=$_SESSION["current_community"]?>,'<?=$GLOBALS["page"]["userOfUrl"]->nickname()?>')
+</script>
 
 </html>
 
