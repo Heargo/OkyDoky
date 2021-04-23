@@ -154,9 +154,3 @@ function load_comment($c){
     </div>
     <?php 
 }
-
-function delete_comment(?array $match){
-    $comment = $GLOBALS['comments']->get_by_id($_POST['id']);
-    $GLOBALS['comments']->del_comment($comment);
-
-}
