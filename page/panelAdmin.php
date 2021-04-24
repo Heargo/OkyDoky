@@ -122,7 +122,7 @@ if ($isAdmin) {
 			load_post($highlight_post[0]);
 
 			?>
-			<form enctype="multipart/form-data" action="<?= Routes::url_for('')?>" method="post">
+			<form enctype="multipart/form-data" action="<?= Routes::url_for('/post/delMA')?>" method="post">
 				<input type="submit" class="delInput cursor" name="delMiseAvant" value="Supprimer la mise en avant">
 				<input type="number" name="idPost" value="<?=$highlight_post[0]->id()?>" hidden>
 			</form>

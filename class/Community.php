@@ -107,6 +107,13 @@ class Community{
         
         return NULL;
     }
+
+    public function remove_highlight_post(){
+        $sql = "UPDATE `%s` SET `highlight_post` = NULL WHERE `%s`.`id_%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$this->id());
+        return $this->_db->query($sql);
+    }
+
     /**
      * Function to add an user to a communtity
      */

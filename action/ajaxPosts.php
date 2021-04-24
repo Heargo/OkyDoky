@@ -69,6 +69,13 @@ function set_highlight_post(?array $match){
     $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
     $comm->set_highlight_post($_POST['id']);
 }
+
+function remove_PMA(?array $match){
+    $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+    $comm->remove_highlight_post();
+    header("Location: " . Routes::url_for('/panel-admin'));
+}
+
 function searchPost(?array $match){
     $allposts=$GLOBALS["posts"]->search_post_by_title($_POST["tosearch"]);
     foreach ($allposts as $key => $post) {
