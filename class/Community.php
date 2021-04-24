@@ -226,6 +226,22 @@ class Community{
 		return array();
 
     }
+
+    public function get_team(Permission $perm){
+        $sql = "SELECT * FROM `%s` WHERE `%s` = %d AND `%s` = %d";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY,$this->_id,"permission",$perm->get());
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_assoc();
+				 $list[] = new User($this->_db, $row['user']));
+			return $list;
+		}
+		return array();
+
+    }
+
+    
     
 
     /**

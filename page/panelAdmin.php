@@ -1,6 +1,6 @@
 <?php 
-$isAdmin=true;
-$isOwner=true;
+$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
+$isOwner=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
 $id = $_SESSION["current_community"];
 $comm = $GLOBALS["communities"]->get_by_id($id);
 
@@ -79,23 +79,34 @@ if ($isAdmin) {
 			</div>
 			<!-- POUR TEST LE VISUEL -->
 			<?php 
-			$userID=1; //à generer via la recherche ajax 
-			$isInTeam=false;//same
+			$userID=2; //à generer via la recherche ajax 
+			$actualUser = $GLOBALS['users']->get_by_id($userID);
+			$isInTeam= $actualUser->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
+			$isCertified = $actualUser->is_certified($comm);
 			?>
 			<img onclick="toogleSettingsOfUser(<?=$userID?>);" class="userManageButton cursor" src="<?= Routes::url_for('/img/svg/user-cog.svg')?>" alt="manageUser">
 			<ul id="Settings-<?=$userID?>" class="menuSettings hidden">
 				<?php if($isOwner): ?>
 					<?php if($isInTeam): ?>
-					<li >Supprimer de l'équipe</li>
+					<li onclick="unpromote_user(<?= $id ?>,<?=$userID?>)" id="unpromote-button">Supprimmer de l'équipe</li>
+					<li onclick="promote_user(<?= $id ?>,<?=$userID?>)" id="promote-button" class="hidden">Ajouter à l'équipe</li>
 					<?php else: ?>
-					<li >Ajouter a l'équipe</li>
+					<li onclick="unpromote_user(<?= $id ?>,<?=$userID?>)" id="unpromote-button" class="hidden">Supprimmer de l'équipe</li>
+					<li onclick="promote_user(<?= $id ?>,<?=$userID?>)" id="promote-button">Ajouter à l'équipe</li>
 					<?php endif ?>
 				<?php endif ?>
-				<li>Certifier</li>
+				<?php if($isCertified): ?>
+					<li onclick="uncertify_user(<?= $id ?>,<?=$userID?>)" id="uncertify-button">Décertifier</li>
+					<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button" class="hidden">Certifier</li>
+					<?php else: ?>
+					<li onclick="uncertify_user(<?= $id ?>,<?=$userID?>)" id="uncertify-button" class="hidden">Décertifier</li>
+					<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button">Certifier</li>
+				<?php endif ?>
 				<li >Bannir</li>
 			</ul>
 		</div>
 	</section>
+	<script src="<?= Routes::url_for('/js/panelAdmin.js')?>"></script>
 
 <?php elseif($_GET["page"]=="posts"): ?>
 
