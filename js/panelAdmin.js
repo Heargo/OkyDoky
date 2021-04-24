@@ -72,3 +72,20 @@ function unpromote_user(idComm, idUser){
     xhr.send("idComm="+idComm + "&idUser="+ idUser);
 
 }
+
+function kick_user(idComm,idUser){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200) {
+			var container = document.getElementById("verticalScrollContainer");
+			var userToRemove = document.getElementById("profil-"+idUser);
+			var throwawayNode = container.removeChild(userToRemove);
+
+		}
+	};
+
+	xhr.open("POST","./ajax/kickuser",true);
+	xhr.responseType="json";
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send("idComm="+idComm + "&idUser="+ idUser);
+}

@@ -67,9 +67,12 @@ if ($isAdmin) {
 		<input id="searchBar" type="search" name="search" placeholder="Utilisateurs de la communauté...">
 		<input type="hidden" name="searchFormCommu">
 	</form>
-
+	
 	<section id="verticalScrollContainer" class="inAdminPanel">
-		<div class="profilPreviewSearch">
+		<?php
+		$userID=2; //à generer via la recherche ajax 
+		?>
+		<div class="profilPreviewSearch" id="profil-<?=$userID?>">
 			<div class="profilPreviewSearchAdmin cursor" onclick="location.href='/user/user/hearstgo'">
 				<img class="pictprofilPreviewSearch" src="/user/data/user/77fdd05413d64f48614a5bbd8ad2fbaa8e256c94.jpg" alt="NAME">
 				<div>
@@ -79,7 +82,7 @@ if ($isAdmin) {
 			</div>
 			<!-- POUR TEST LE VISUEL -->
 			<?php 
-			$userID=2; //à generer via la recherche ajax 
+			
 			$actualUser = $GLOBALS['users']->get_by_id($userID);
 			$isInTeam= $actualUser->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
 			$isCertified = $actualUser->is_certified($comm);
@@ -102,7 +105,7 @@ if ($isAdmin) {
 					<li onclick="uncertify_user(<?= $id ?>,<?=$userID?>)" id="uncertify-button" class="hidden">Décertifier</li>
 					<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button">Certifier</li>
 				<?php endif ?>
-				<li >Bannir</li>
+				<li onclick="kick_user(<?= $id ?>,<?=$userID?>)" >Bannir</li>
 			</ul>
 		</div>
 	</section>

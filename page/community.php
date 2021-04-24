@@ -14,8 +14,10 @@
 <?php
 
 $communities = User::current()->get_communities();
+if(!empty($communities)){
+	$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
 
-$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
+}
 
 if (sizeof($communities)>0){ ?>
 	<div id ="carroussel" class="carroussel" data-current="<?=$_SESSION["current_community"]?>">

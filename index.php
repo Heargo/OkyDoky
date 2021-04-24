@@ -27,9 +27,24 @@ $GLOBALS['communities'] = new CommunityManager($DB);
 $GLOBALS['posts'] = new PostManager($DB);
 $GLOBALS['comments'] = new CommentManager($DB);
 $GLOBALS['db'] = $DB;
+
 if(!isset($_SESSION["current_community"])){
     $_SESSION["current_community"]=0;
 }
+
+
+if(User::current() != null && $_SESSION["current_community"] != 0){
+    if(!isset($_SESSION["current_community"]) || !$GLOBALS['communities']->get_by_id($_SESSION['current_community'])->user_in(User::current())){
+        $allcomsOfUser= User::current()->get_communities();
+        if(sizeof($allcomsOfUser) > 0){
+		    $_SESSION["current_community"] = $allcomsOfUser[0]->id();
+        }
+        else{
+            $_SESSION["current_community"]=0;
+        }
+    }
+}
+
 /// Routes
 foreach (glob("action/*.php") as $filename) {
     include $filename;

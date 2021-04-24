@@ -26,3 +26,9 @@ function unpromote_ajax(?array $match){
     $average = new Permission(P::AVERAGE);
     $comm->promote($user,$average);
 }
+
+function kick_user(?array $match){
+    $comm = $GLOBALS['communities']->get_by_id($_POST['idComm']);
+    $user = $GLOBALS['users']->get_by_id($_POST['idUser']);
+    $comm->leave($user);
+}
