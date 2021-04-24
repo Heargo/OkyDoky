@@ -15,8 +15,6 @@ $myprofil=User::current()->equals($GLOBALS["page"]["userOfUrl"]);
 $user=$GLOBALS["page"]["userOfUrl"];
 $isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
 
-
-
 ?>
 <?php if($myprofil){ ?>
 <!-- DANS LES PARAMETRES ...  -->

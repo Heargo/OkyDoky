@@ -14,7 +14,7 @@
     <div class="team">
         <?php 
         $team = array();
-        //$team = $currentCom->get_team();
+        //$team = $currentCom->get_team(new Permission(P::ADMIN));
         ?>
         <h3>L'équipe</h3>
         <ul>
@@ -23,7 +23,7 @@
             $init = $membre->display_name()[0];
             $urlUser=Routes::url_for('/img/svg/users.svg')
             ?>
-            <li onclick="document.location.href='./user/Bouba'"><img src="<?=$membre->profile_pic()?>"><p><?=$init?>.</p></li> <!-- B. est l'initiale du pseudo (Bouba) -->
+            <li onclick="document.location.href='./user/Bouba'"><img src="<?=$membre->profile_pic()?>"><p><?=$init?>.</p></li>
             <?php 
         }
         ?>
