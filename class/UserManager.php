@@ -137,6 +137,26 @@ class UserManager {
     }
 
     /**
+     * Get an array of users by the search value in a community
+     *
+     * @param String $researh the string to find in user nicknames
+     * @param Community $c the community we are searching in
+     * @return User[] An array of users.
+     */
+    public function search_user_by_nickname_or_display_name_in_community(String $research, Community $c){
+        $sql = "SELECT `id_%s` FROM `%s` u JOIN `%s` uc ON u.`id_%s` = uc.user WHERE uc.community = %d AND (u.nickname LIKE '%%%s%%' OR u.display_name LIKE '%%%s%%')";
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $c->id(), $research, $research);
+        $res = $this->_db->query($sql);
+        if ($res) {
+            for ($list = array();
+                 $row = $res->fetch_row();
+                 $list[] = new User($this->_db, $row[0]));
+            return $list;
+        }
+        return array();
+    }
+
+    /**
      * Get an array of users by community by ancienty
      *
      * @param Community $community The community where we are searching in

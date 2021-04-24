@@ -32,3 +32,14 @@ function kick_user(?array $match){
     $user = $GLOBALS['users']->get_by_id($_POST['idUser']);
     $comm->leave($user);
 }
+
+function searchProfilAdmin(?array $match){
+    $allusers=$GLOBALS["users"]->search_user_by_nickname_or_display_name($_POST["tosearch"]);
+    foreach ($allusers as $key => $user) {
+        load_user_admin($user); 
+    }
+}
+
+function load_user_admin(User $user) {
+    include "page/user_standalone_admin.php";
+}

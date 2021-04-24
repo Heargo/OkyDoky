@@ -3,9 +3,9 @@ function certify_user(idComm, idUser){
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
             console.log('coucou');
-            var uncertif = document.getElementById("uncertify-button");
+            var uncertif = document.getElementById("uncertify-button-"+idUser);
             uncertif.classList.toggle("hidden");
-            var certif = document.getElementById("certify-button")
+            var certif = document.getElementById("certify-button-"+idUser)
             certif.classList.toggle("hidden");
             console.log(uncertif);
             console.log(certif);
@@ -24,8 +24,8 @@ function uncertify_user(idComm, idUser){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
-            document.getElementById("uncertify-button").classList.toggle("hidden");
-            document.getElementById("certify-button").classList.toggle("hidden");
+            document.getElementById("uncertify-button-"+idUser).classList.toggle("hidden");
+            document.getElementById("certify-button-"+idUser).classList.toggle("hidden");
         }
 
      
@@ -41,8 +41,8 @@ function promote_user(idComm, idUser){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
-            document.getElementById("unpromote-button").classList.toggle("hidden");
-            document.getElementById("promote-button").classList.toggle("hidden");
+            document.getElementById("unpromote-button-"+idUser).classList.toggle("hidden");
+            document.getElementById("promote-button-"+idUser).classList.toggle("hidden");
         }
 
      
@@ -59,8 +59,8 @@ function unpromote_user(idComm, idUser){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
-            document.getElementById("unpromote-button").classList.toggle("hidden");
-            document.getElementById("promote-button").classList.toggle("hidden");
+            document.getElementById("unpromote-button-"+idUser).classList.toggle("hidden");
+            document.getElementById("promote-button-"+idUser).classList.toggle("hidden");
         }
 
      
