@@ -938,6 +938,7 @@ button.copy-to-clipboard{
 	background-color: white;
 	max-width: 200px;
 	list-style: none;
+	z-index: 100;
 }
 
 .inAdminPanel .menuSettings{
