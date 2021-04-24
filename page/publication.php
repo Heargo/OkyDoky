@@ -18,7 +18,7 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 
 
 
-<div class="commentaires">
+<div class="commentaires" id="commentairesContainer">
 	<div>
 	<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
     <p class="commentForm">

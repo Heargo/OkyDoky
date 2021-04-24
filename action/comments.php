@@ -38,13 +38,13 @@ function add_comment(?array $match) {
 }
 
 function load_comment($c){
+    
+    $n=$c->author()->nickname();
+    $canManage=$c->author()==User::current();
+    $postID=$c->id();
     ?>
-    <div class="commentaireAlone">
-        <?php
-        $n=$c->author()->nickname();
-        $canManage=$c->author()==User::current();
-        $postID=$c->id();
-        ?>
+    <div class="commentaireAlone" id="com-<?=$postID?>">
+        
         <a href="<?=Routes::url_for("/user/$n")?>">
             <img class="comment-img" src="<?= $c->author()->profile_pic() ?>" alt="profil">
         </a>

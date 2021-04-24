@@ -1,8 +1,11 @@
 function del_comment(id){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
-        console.log(this.response);
-        console.log(window.location.pathname + "/delcomment");
+       	if (this.readyState == 4 && this.status == 200) {
+	        var container = document.getElementById("commentairesContainer");
+	        var commentaireToRemove = document.getElementById("com-"+id);
+	        var throwawayNode = container.removeChild(commentaireToRemove);
+	    }
 
      
     };

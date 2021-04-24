@@ -10,7 +10,6 @@ showSlides(slideIndex);
 
 // Next/previous controls
 function plusSlides(n) {
-  console.log("je passe a suiv")
   showSlides(slideIndex += n);
 }
 //showSpecificSlide
@@ -93,7 +92,6 @@ function loadHP(){
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
             var post = this.response;
-            console.log(post);
             //on supprime les resultats précédents
 			communityContentContainer = document.getElementById("communityContentContainer");
             var hp_zone = communityContentContainer.children[1];

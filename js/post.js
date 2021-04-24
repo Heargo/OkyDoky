@@ -16,8 +16,8 @@ function delete_post(id){
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
             var container = document.getElementById("verticalScrollContainer");
-            var labelToRemove = document.getElementById(""+id);
-            var throwawayNode = container.removeChild(labelToRemove);
+            var postToRemove = document.getElementById(""+id);
+            var throwawayNode = container.removeChild(postToRemove);
         }
      
     };
