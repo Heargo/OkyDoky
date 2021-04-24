@@ -33,7 +33,7 @@ class CommentManager {
      *
      * @return Comment[] Array of comment.
      */
-    public function get_by_post(Post $p, bool $visible = true) : ?array {
+    public function get_by_post(Post $p, bool $visible = true) : array {
         $sql = "SELECT `id_%s` FROM `%s` WHERE `post` = %d AND `visible` = %d";
         $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, $p->id(), $visible);
         $result = $this->_db->query($sql);
@@ -44,7 +44,31 @@ class CommentManager {
                  $list[] = new Comment($this->_db, $row[0]));
             return $list;
         }
-        return null;
+        return [];
+    }
+
+    /**
+     * Get deleted comment(s) in a community
+     *
+     * @return Comment[] Array of comment.
+     */
+    public function get_deleted_by_community(Community $comm, int $limit = 0, int $offset = 0) : array {
+        if ($limit) {
+            $sql = "SELECT `id_%s` FROM `%s` c JOIN `%s` p ON c.post = p.id_%s WHERE p.community = %d AND c.visible = 0 ORDER BY c.date DESC LIMIT %d OFFSET %d";
+            $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, Config::TABLE_POST, Config::TABLE_POST, $comm->id(), $limit, $offset);
+        }
+        else {
+            $sql = "SELECT `id_%s` FROM `%s` c JOIN `%s` p ON c.post = p.id_%s WHERE p.community = %d AND c.visible = 0 ORDER BY c.date DESC";
+            $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, Config::TABLE_POST, Config::TABLE_POST, $comm->id());
+        }
+        $result = $this->_db->query($sql);
+        if ($result) {
+            for ($list = array();
+                 $row = $result->fetch_row();
+                 $list[] = new Comment($this->_db, $row[0]));
+            return $list;
+        }
+        return [];
     }
 
     /**

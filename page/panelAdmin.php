@@ -157,7 +157,8 @@ if ($isAdmin) {
 	<section id="verticalScrollContainer" class="inAdminPanel">
 		<div class="commentaires">
 			<?php 
-			$commentsDel = [];
+			$currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+			$commentsDel = $GLOBALS['comments']->get_deleted_by_community($currentCom);
 			if(sizeof($commentsDel)!=0) {
 				foreach ($commentsDel as $key => $c) {
 					load_comment($c);
