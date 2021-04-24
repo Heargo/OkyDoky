@@ -34,7 +34,7 @@ function kick_user(?array $match){
 }
 
 function searchProfilAdmin(?array $match){
-    $allusers=$GLOBALS["users"]->search_user_by_nickname_or_display_name($_POST["tosearch"]);
+    $allusers=$GLOBALS["users"]->search_user_by_nickname_or_display_name_in_community($_POST["tosearch"], $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]));
     foreach ($allusers as $key => $user) {
         load_user_admin($user); 
     }
