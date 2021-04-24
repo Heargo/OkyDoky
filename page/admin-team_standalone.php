@@ -13,8 +13,8 @@
     <!-- equipe -->
     <div class="team">
         <?php 
-        $team = array();
-        //$team = $currentCom->get_team(new Permission(P::ADMIN));
+        //$team = array();
+        $team = $currentCom->get_team(new Permission(P::ADMIN));
         ?>
         <h3>L'équipe</h3>
         <ul>
