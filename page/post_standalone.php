@@ -10,7 +10,9 @@
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
 				<p><?php echo "<img src='$profile_pic' alt='profil'>"; ?></p>
 				<p><?= $pName ?></p>
-				<img src="https://img.icons8.com/nolan/64/approval.png">
+				<?php if($publisher->is_certified($GLOBALS['communities']->get_by_id($_SESSION['current_community']))): ?>
+				<img class="certifiedImgPost"src="https://img.icons8.com/nolan/64/approval.png">
+				<?php endif ?>
 			</div>
 			<!-- 3 points pour le post -->
 			<?php if($canManage && !$isComment): ?>

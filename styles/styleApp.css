@@ -1479,6 +1479,13 @@ h2.confirmation{
 	filter:brightness(1.7);
 }
 
+.postEnTete .certifiedImgPost{
+	margin-top: 10px;
+	margin-left: 5px;
+	width: 32px;
+	height: 32px;
+}
+
 .communityPreviewLabel-profil{
     position: relative;
     top: -25px;
