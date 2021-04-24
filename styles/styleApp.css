@@ -937,6 +937,7 @@ button.copy-to-clipboard{
 	flex-direction: column;
 	background-color: white;
 	max-width: 200px;
+	list-style: none;
 }
 
 .inAdminPanel .menuSettings{
@@ -944,8 +945,8 @@ button.copy-to-clipboard{
 	right: 50px;
 }
 
-.menuSettings a {
-	padding: 0.2rem 0.5rem;
+.menuSettings li {
+	padding: 0.2rem 0.1rem;
 	text-decoration: none;
 	text-align: center;	
 	word-wrap: anywhere;
@@ -955,10 +956,10 @@ button.copy-to-clipboard{
    	transition: all ease 0.37s;
 }
 
-.menuSettings a:first-child {
+.menuSettings li:first-child {
    	border-top: 1px solid #2F3542;	
 }
-.menuSettings a:hover {
+.menuSettings li:hover {
 	color: white;
 	background-color: #2F3542;
 }

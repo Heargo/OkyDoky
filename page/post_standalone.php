@@ -10,15 +10,16 @@
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
 				<p><?php echo "<img src='$profile_pic' alt='profil'>"; ?></p>
 				<p><?= $pName ?></p>
+				<img src="https://img.icons8.com/nolan/64/approval.png">
 			</div>
 			<!-- 3 points pour le post -->
 			<?php if($canManage && !$isComment): ?>
 	                <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor dotsForPost" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
 	                <ul id="Settings-<?=$postID?>" class="menuSettings hidden">
 	                	<?php if($isAdminCommu): ?>
-	                	<a onclick="set_highlight_post(<?=$postID?>)"  href="">Mettre en avant</a>
+	                	<li onclick="set_highlight_post(<?=$postID?>)" >Mettre en avant</li>
 	                	<?php endif ?>
-	                	<a onclick="delete_post(<?=$postID?>)"href="">Supprimer</a>
+	                	<li onclick="delete_post(<?=$postID?>)">Supprimer</li>
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>

@@ -86,13 +86,13 @@ if ($isAdmin) {
 			<ul id="Settings-<?=$userID?>" class="menuSettings hidden">
 				<?php if($isOwner): ?>
 					<?php if($isInTeam): ?>
-					<a href="">Supprimer de l'équipe</a>
+					<li >Supprimer de l'équipe</li>
 					<?php else: ?>
-					<a href="">Ajouter a l'équipe</a>
+					<li >Ajouter a l'équipe</li>
 					<?php endif ?>
 				<?php endif ?>
-				<a href="">Certifier</a>
-				<a href="">Bannir</a>
+				<li>Certifier</li>
+				<li >Bannir</li>
 			</ul>
 		</div>
 	</section>

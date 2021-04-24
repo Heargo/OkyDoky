@@ -121,7 +121,7 @@ function load_comment($c){
         <?php if($canManage): ?>
             <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor three-dots-comment" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
             <ul id="Settings-<?=$postID?>" class="menuSettings menuSettingsCommentaire hidden">
-                <a onclick="del_comment(<?= $c->id() ?>)"href="">Supprimer</a>
+                <li onclick="del_comment(<?= $c->id() ?>)"href="">Supprimer</li>
             </ul>
         <?php endif ?>
     </div>
