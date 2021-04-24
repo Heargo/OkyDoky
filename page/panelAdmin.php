@@ -55,7 +55,7 @@ if ($isAdmin) {
 			<?php } ?>
 	</div>
 	<section id="communityContentContainer">
-	<?php load_admin_container(); ?>
+	<?php load_admin_container("panneladmin"); ?>
 
 	</section>
 

@@ -76,7 +76,7 @@ function searchPost(?array $match){
     }
 }
 
-function load_admin_container(){
+function load_admin_container($page="community"){
     $currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
     include "page/admin-team_standalone.php";
 }
