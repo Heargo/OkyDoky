@@ -164,7 +164,7 @@ if ($isAdmin) {
 				}
 			}else{
 				?>
-				<p class="centerTxt">Il n'y à aucun commentaire supprimé sur cette communauté.</p>
+				<p class="centerTxt">Il n'y a aucun commentaire supprimés sur cette communauté.</p>
 				<?php
 			}
 
