@@ -13,7 +13,11 @@
 <?php 
 $myprofil=User::current()->equals($GLOBALS["page"]["userOfUrl"]);
 $user=$GLOBALS["page"]["userOfUrl"];
-$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
+if($_SESSION['current_community']>0){
+	$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
+}else{
+	$isAdmin=false;
+}
 
 ?>
 <?php if($myprofil){ ?>
