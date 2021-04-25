@@ -25,7 +25,7 @@
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>
-	                <img onclick="location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+	                <img onclick="document.cookie='shouldBeRestored=1;path=/';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 	        <?php endif ?>
 			
 		</div>
@@ -42,7 +42,9 @@
 			<div class="left">
             <?php if(!$isComment): ?>
             <!-- commentaire -->
-            <a href="<?=$urlComment?>"><img src="<?= Routes::url_for('/img/svg/comment.svg')?>"></a>
+            <a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;path=/'">
+                <img src="<?= Routes::url_for('/img/svg/comment.svg')?>">
+            </a>
             <?php endif ?>
 
 				<?php  

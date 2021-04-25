@@ -18,20 +18,40 @@ function markEmpty(bool, section,page) {
             }
         }
     }
-    
+}
+
+function savePosts(offset, to_add_array) {
+    //Side effect : won't be updated until page is fully reloaded 
+    var previousPosts = JSON.parse(window.localStorage.getItem('posts'));
+    var newPosts = {...previousPosts,...to_add_array};
+
+    window.localStorage.setItem('posts', JSON.stringify(newPosts));
+    window.localStorage.setItem('offset', offset);
+}
+
+function retrievePosts() {
+    var posts = JSON.parse(window.localStorage.getItem('posts'));
+    var offset = JSON.parse(window.localStorage.getItem('offset'));
+    return [parseInt(offset), posts];
+}
+
+function addPostToContainer(post_html,container) {
+    var new_post = document.createElement("div");
+    new_post.innerHTML = `${post_html}`; // à creuser
+    container.appendChild(new_post.firstElementChild);
 }
 
 
 var OFFSET = OFFSET || 0;
 var IDS = [];
 function moreposts(page="feed",user="none",comm="current",reset=false) {
-
+    console.log("moreposts() called!");
     if (reset){
         OFFSET=0;
         IDS=[];
     }
     if (typeof route === 'undefined') {
-    r=""
+        r=""
     }else{
         r=route+"/";
     }
@@ -43,8 +63,7 @@ function moreposts(page="feed",user="none",comm="current",reset=false) {
             var rep = this.response;
             var rep = JSON.parse(rep);
             var posts_section = document.querySelector("section#verticalScrollContainer");
-            /*console.log(page)
-            console.log(this.response)*/
+            //save post to be retrieved when using The Cross
             if (isEmpty(rep)) {
                 markEmpty(true, posts_section,page);
             } else {
@@ -53,25 +72,28 @@ function moreposts(page="feed",user="none",comm="current",reset=false) {
                     if(!IDS.includes(id)) {
                         IDS.push(id);
                         OFFSET++;
-                        var new_post = document.createElement("div");
-                        new_post.innerHTML = `${post_html}`; // à creuser
-                        posts_section.appendChild(new_post.firstElementChild);
+                        addPostToContainer(post_html, posts_section);
                     }
                 });
             }
-
+            savePosts(OFFSET, rep);
         }
     }
     xhr.send("offset=" + OFFSET.toString()+"&page="+page+"&user="+user+"&comm="+comm);
-
 }
 
 window.onload = function() { // might be moved
-    try{
-        moreposts(page,user,comm); // loads first posts at load time
-    }catch{
-        moreposts();
-    }    
+    // This block execute last, after shouldBeRestored block in feed.php
+
+    //Load more posts only if none have been restored
+    var posts_section = document.querySelector("section#verticalScrollContainer");
+    if (posts_section.childElementCount === 0) {
+        try{
+            moreposts(page,user,comm); // loads first posts at load time
+        }catch{
+            moreposts();
+        }
+    }
 }
 
 window.onscroll = function(ev) {
