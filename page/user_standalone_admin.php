@@ -3,6 +3,7 @@ $n=$user->nickname();
 $userID=$user->id();
 $url=Routes::url_for("/user/$n");
 $comm = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
+$isItself=User::current()->id() == $userID;
 $isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
 $isOwner=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
 $id = $_SESSION["current_community"];
@@ -40,6 +41,8 @@ $id = $_SESSION["current_community"];
 			<li onclick="uncertify_user(<?= $id ?>,<?=$userID?>)" id="uncertify-button-<?=$userID?>" class="hidden">Décertifier</li>
 			<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button-<?=$userID?>">Certifier</li>
 		<?php endif ?>
+		<?php if(!$isOwner || !$isItself): ?>
 		<li onclick="kick_user(<?= $id ?>,<?=$userID?>)" >Bannir</li>
+		<?php endif ?>
 	</ul>
 </div>
