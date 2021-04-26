@@ -23,8 +23,11 @@ function promote_ajax(?array $match){
 function unpromote_ajax(?array $match){
     $comm = $GLOBALS['communities']->get_by_id($_POST['idComm']);
     $user = $GLOBALS['users']->get_by_id($_POST['idUser']);
-    $average = new Permission(P::AVERAGE);
-    $comm->promote($user,$average);
+    if(!$comm->get_owner()->equals($user)){
+        $average = new Permission(P::AVERAGE);
+        $comm->promote($user,$average);
+    }
+    
 }
 
 function kick_user(?array $match){
