@@ -34,9 +34,16 @@
 		<?php
 		$communities = User::current()->get_communities();
 		foreach($communities as $comm){
-			?>
-			<option value="<?=$comm->id()?>" selected><?=$comm->get_display_name()?></option>
-			<?php
+			if ($comm->id()==$_SESSION["current_community"]) {
+				?>
+				<option value="<?=$comm->id()?>" selected><?=$comm->get_display_name()?></option>
+				<?php
+			}else{
+				?>
+				<option value="<?=$comm->id()?>"><?=$comm->get_display_name()?></option>
+				<?php
+			}
+			
 		}
 		?>
 		</select>
