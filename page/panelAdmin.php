@@ -11,8 +11,6 @@ if ($isAdmin) {
 }
 
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>

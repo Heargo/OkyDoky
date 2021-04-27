@@ -186,11 +186,37 @@ Fil d'actu
 	padding: 0 5%;
 }
 
-.content img{
+.content .postimage{
 	width: 100%;
   	min-height: 250px;
   	max-height: 350px;
   	object-fit: cover;
+}
+
+.pdfDownloadButton{
+	max-width: 100%;
+	height: 60px;
+	margin:0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #4bc0c8;
+
+}
+
+.pdfDownloadButton a{
+	max-width: 400px;
+	text-decoration: none;
+	color: #2f3542;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.descriptionInPreview{
+	margin-top: 20px;
+	font-size: 0.9rem;
+	text-align: justify;
+	text-overflow: ellipsis;
 }
 
 .postEnTete{

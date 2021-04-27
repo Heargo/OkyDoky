@@ -1,4 +1,11 @@
+<?php 
+$typeDocument = "pdf";
+?>
+	<?php if($typeDocument == "image"): ?>
     <div class="postImg" id="<?=$post->id()?>">
+    <?php elseif($typeDocument == "pdf"): ?>
+    <div class="postPdf" id="<?=$post->id()?>">
+    <?php endif ?>
 		<!-- user -->
 		<div class="postEnTete">
 			<?php $n=$publisher->nickname();
@@ -33,9 +40,26 @@
 		<div class="content">
             <h4 class="postTitre"><?=$titrePost?></h4>
 
-            <img src='<?=$urlIMG?>' alt='content'>
+            <?php if($typeDocument == "image"): ?>
+            	<img class="postimage" src='<?=$urlIMG?>' alt='content'>
+            <?php elseif($typeDocument == "pdf"): ?>
+				<div class="pdfDownloadButton">
+					<img src="<?= Routes::url_for('/img/svg/pdf.svg')?>" alt="pdf">
+					<?php 
+					//nom du fichier
+					$name = "Nom_du_pdf" . ".pdf";
+					//url du pdf 
+					$url = "";
+					?>
+					<a href="<?=$url?>" target="_blank"><?=$name?></a>
+					<a href="<?=$url?>" download><img src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf"></a>
+					
+				</div>
+				<?php if(!$isComment): ?>
+					<p class="descriptionInPreview"><?=$post->description()?></p>
+				<?php endif ?>
+            <?php endif ?>
 
-            
 		</div>
 		<!-- reactions -->
 		<div class="postReactions">
@@ -91,5 +115,7 @@
 		<p class="postdescritp"><?=$description?></p>
 		<?php endif ?>
 	</div>
+
+
 
 	
