@@ -12,10 +12,10 @@ function create_community(?array $match){
 
 function modify_commu(?array $match){
 	$commu = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
-    if (!empty(trim($_POST["description"]))){
-    	$desc = filter_var($_POST["description"], FILTER_SANITIZE_SPECIAL_CHARS);
-        $commu->set_description($desc);
-    }
+    
+    $desc = filter_var($_POST["description"], FILTER_SANITIZE_SPECIAL_CHARS);
+    $commu->set_description($desc);
+    
     if($_FILES['file']["size"]>0){
         $commu->set_cover($_FILES['file']);
     }    

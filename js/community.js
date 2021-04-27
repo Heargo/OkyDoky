@@ -54,6 +54,12 @@ function showSlides(n) {
     captionText.innerHTML = slides[slideIndex-1].childNodes[1].alt;
     numberText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.number;
     descText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.description;
+    desc = slides[slideIndex-1].childNodes[1].dataset.description;
+    if (desc.length==0){
+      descText.classList.add("hidden")
+    }else{
+      descText.classList.remove("hidden")
+    }
     navPreview.setAttribute("src",slides[slideIndex-1].childNodes[1].src);
     
     changeCommu(slides[slideIndex-1].childNodes[1].dataset.idcommu);
@@ -111,7 +117,7 @@ function loadAC(){
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
             var post = this.response;
-            console.log(post);
+            //console.log(post);
             //on supprime les resultats précédents
 			communityContentContainer = document.getElementById("communityContentContainer");
             var ac_zone = communityContentContainer.children[2];
