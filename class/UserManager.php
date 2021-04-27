@@ -165,8 +165,8 @@ class UserManager {
      * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
      * @return User[] An array of users.
      */
-    public function get_by_ancienty_community(Community $c, bool $visible = true, int $limit = 10, int $offset = 0) {
-        $sql = "SELECT `id_%1$s` u FROM `%1$s` JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = '%3$s' ORDER BY uc.join_date LIMIT %4$d OFFSET %5$d";
+    public function get_by_ancienty_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
+        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = "%3$s" ORDER BY uc.join_date LIMIT %4$d OFFSET %5$d';
         $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
         $result = $this->_db->query($sql);
         if($result) {
@@ -186,7 +186,7 @@ class UserManager {
      * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
      * @return User[] An array of users.
      */
-    public function get_user_by_most_likes_in_community(Community $c, bool $visible = true, int $limit = 10, int $offset = 0) {
+    public function get_user_by_most_likes_in_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
         $sql = 'SELECT p.publisher, vPlus.c, vMinus.c
                 FROM `%1$s` p 
                 LEFT OUTER JOIN 
@@ -196,7 +196,7 @@ class UserManager {
                         WHERE p1.visible = %3$d 
                         AND p1.community = %4$d
                         AND v1.mark = "%5$s" 
-                        GROUP BY v1.post, p1.publisher) 
+                        GROUP BY p1.publisher) 
                     vPlus
                 ON vPlus.publisher = p.publisher
                 LEFT OUTER JOIN 
@@ -206,16 +206,15 @@ class UserManager {
                         WHERE p2.visible = %3$d
                         AND p2.community = %4$d 
                         AND v2.mark = "%6$s" 
-                        GROUP BY v2.post, p2.publisher)
+                        GROUP BY p2.publisher)
                     vMinus
                 ON vMinus.publisher = p.publisher
                 WHERE p.visible = %3$d 
                 AND p.community = %4$d
+                GROUP BY p.publisher
                 ORDER BY (IFNULL(vPlus.c, 0) - IFNULL(vMinus.c, 0)) DESC, vPlus.c DESC, p.date DESC
                 LIMIT %7$d OFFSET %8$d';
         $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_VOTE, $visible, $c->id(),"up", "down", $limit, $offset);
-        echo "$sql";
-        exit;
         $result = $this->_db->query($sql);
         if($result) {
             for ($list = array();

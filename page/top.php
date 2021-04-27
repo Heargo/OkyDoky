@@ -22,10 +22,9 @@
 			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
 			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
 		</ul>
-		<h3>Les + actifs</h3>
 		<?php
-			echo "<ul>";
 			if(!empty(User::current()->get_communities())) {
+				echo "<h3>Les + actifs</h3><ul>";
 				$currentComm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
 				$active_members = $currentComm->get_active_members();
 				if(sizeof($active_members) != 0){
@@ -40,8 +39,44 @@
 					echo "<p>Aucun utilisateur n'est actif... Quel dommage...</p>";
 				}
 				
+				echo "</ul>";
+		?>
+		<h3>Les + likés</h3>
+		<?php
+				echo "<ul>";
+				$liked_members = $GLOBALS['users']->get_user_by_most_likes_in_community($currentComm, 3);
+				
+				if(sizeof($liked_members) != 0){
+					foreach($liked_members as $m){
+						$tmpUser = $m;
+						?>
+						<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+						<?php
+					}
+				}
+				else{
+					echo "<p>Aucun utilisateur n'a posté de posts... Quel dommage...</p>";
+				}
+				
+				echo "</ul>";
+		?>
+		<h3>Les + anciens</h3>
+		<?php
+				echo "<ul>";
+				$ancient_members = $GLOBALS['users']->get_by_ancienty_community($currentComm, 3);
+				if(sizeof($ancient_members) != 0){
+					foreach($ancient_members as $m){
+						$tmpUser = $m;
+						?>
+						<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+						<?php
+					}
+				}
+				else{
+					echo "<p>Erreur : veuillez contacter un développeur afin qu'ils règlent le problème</p>";
+				}
+				echo "</ul>";
 			}
-			echo "</ul>";
 		?>
 	</div>
 </div>
