@@ -1,11 +1,8 @@
 <?php 
 $typeDocument = "image";
 ?>
-	<?php if($typeDocument == "image"): ?>
-    <div class="postImg" id="<?=$post->id()?>">
-    <?php elseif($typeDocument == "pdf"): ?>
-    <div class="postPdf" id="<?=$post->id()?>">
-    <?php endif ?>
+    <div class="postContainer" id="<?=$post->id()?>">
+
 		<!-- user -->
 		<div class="postEnTete">
 			<?php $n=$publisher->nickname();
@@ -48,12 +45,34 @@ $typeDocument = "image";
 					<img src="<?= Routes::url_for('/img/svg/pdf.svg')?>" alt="pdf">
 					<?php 
 					//nom du fichier
-					$name = "Nom_du_ddddddddddddddddddddpdf" . ".pdf";
+					$name = "Nom_du_ddddddddddddddddddddddddddddddddddddddpdf" . ".pdf";
 					//url du pdf 
 					$url = "";
 					?>
 					<a href="<?=$url?>" target="_blank"><?=$name?></a>
-					<a href="<?=$url?>" download><img class="dlaArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf"></a>
+					<a class="dlArrowA" href="<?=$url?>" download><img class="dlArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf"></a>
+					
+				</div>
+				<?php if(!$isComment): ?>
+					<p class="descriptionInPreview"><?=$post->description()?></p>
+				<?php endif ?>
+			<?php elseif($typeDocument == "code"): ?>
+				<?php 
+				$url = "";
+				?>
+				<pre style="width: 100%;max-height: 300px;" data-src="<?= Routes::url_for('/js/share.js')?>"></pre>
+				<a class="dlbuttonForCode cursor" href="<?=$url?>" download>Download</a>
+			<?php elseif($typeDocument == "autre"): ?>
+				<div class="autreDownloadButton">
+					<img src="<?= Routes::url_for('/img/svg/document-outline.svg')?>" alt="pdf">
+					<?php 
+					//nom du fichier
+					$name = "Nom_du_ddddddddddddddddddddddddddddddddddddddpdf" . ".pdf";
+					//url du pdf 
+					$url = "";
+					?>
+					<p><?=$name?></p>
+					<a class="dlArrowA" href="<?=$url?>" download><img class="dlArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf"></a>
 					
 				</div>
 				<?php if(!$isComment): ?>

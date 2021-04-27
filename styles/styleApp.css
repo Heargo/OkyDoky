@@ -169,16 +169,13 @@ Fil d'actu
 
 
 
-.postImg, .postPdf{
+.postContainer{
 	width: 100%;
 	background-color: white;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
 	margin: 10px;
 }
 
-.postPdf{
-
-}
 
 .content {
 	display:flex;
@@ -193,23 +190,48 @@ Fil d'actu
   	object-fit: cover;
 }
 
-.pdfDownloadButton{
+.pdfDownloadButton,.autreDownloadButton{
+	position: relative;
 	max-width: 100%;
 	height: 60px;
 	margin:0 auto;
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 	background-color: #4bc0c8;
-
+}
+.autreDownloadButton{
+	background-color: #c779d0;
 }
 
-.pdfDownloadButton a{
-	max-width: 400px;
+.pdfDownloadButton a,.autreDownloadButton p{
+	max-width: calc(100% - 100px);;
 	text-decoration: none;
 	color: #2f3542;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.dlbuttonForCode{
+	height: 30px;
+	width: 200px;
+	margin: 0 auto;
+	font-size: 1.4rem;
+	text-align: center; 
+	text-decoration: none;
+	color: #2f3542;
+	background-color: white;
+	border-radius: 20px;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+
+}
+
+.dlArrowA, .dlArrow{
+	width: 40px;
+	height: 40px;
+}
+.dlArrowA{
+	position: absolute;
+	right: 0;  
 }
 
 .descriptionInPreview{

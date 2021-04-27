@@ -38,7 +38,14 @@ function retrievePosts() {
 function addPostToContainer(post_html,container) {
     var new_post = document.createElement("div");
     new_post.innerHTML = `${post_html}`; // à creuser
-    container.appendChild(new_post.firstElementChild);
+    post = new_post.firstElementChild
+    container.appendChild(post);
+    pre = post.querySelector("pre");
+    if (pre!=null){
+        console.log("je rechagre")
+        Prism.highlightElement(pre);
+    }
+    
 }
 
 
