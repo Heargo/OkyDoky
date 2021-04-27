@@ -3799,4 +3799,3 @@ Prism.languages.swift['string'].inside['interpolation'].inside.rest = Prism.lang
 	};
 
 }());
-
