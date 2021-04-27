@@ -121,6 +121,7 @@ CREATE TABLE IF NOT EXISTS `$user_comm` (
     `certified` tinyint(1) NOT NULL DEFAULT 0,
     `level` int unsigned NOT NULL DEFAULT 1,
     `points` int unsigned NOT NULL DEFAULT 0,
+    `coins` int unsigned NOT NULL DEFAULT 0,
     
 
     PRIMARY KEY (`id_$user_comm`),

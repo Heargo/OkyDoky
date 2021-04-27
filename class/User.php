@@ -489,7 +489,7 @@ class User {
     /**
      * Get user's level and points in a community
      * 
-     * @param Community The community where you want to be uncertified
+     * @param Community The community where you want those numbers
      * @return int[]|null the level and points of the user in the given community
      */
     public function level_in_community(Community $comm){
@@ -502,9 +502,40 @@ class User {
     }
 
     /**
+     * Get user's coins in a community
+     * 
+     * @param Community The community where you want those numbers
+     * @return int[]|null the coins of the user in the given community
+     */
+    public function coins_in_community(Community $comm){
+        $sql = sprintf("SELECT coins FROM `%s` WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            return $result->fetch_row()[0];
+        }
+        return null;
+    }
+
+    /**
+     * Add coins to the user in a community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @param int the coins to add
+     * @return bool if it worked or not
+     */
+    public function add_coins_in_community(Community $comm, int $coins){
+        $sql = sprintf("UPDATE `%s` SET coins = (coins + %d) WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$coins,$this->id(),$comm->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Add points to the user in a community and if successful, updates the level if needed
      * 
-     * @param Community The community where you want to be uncertified
+     * @param Community The community where you want to update those numbers
      * @param int the points to add
      * @return bool if it worked or not
      */
@@ -521,8 +552,8 @@ class User {
     /**
      * Updates the level of the user in a given community
      * 
-     * @param Community The community where you want to be uncertified
-     * @return bool if it has updated or not
+     * @param Community The community where you want to update those numbers
+     * @return bool if it updated or not
      */
     public function update_level_in_community(Community $comm){
         $tabLvl = $this->level_in_community($comm);
