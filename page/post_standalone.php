@@ -1,5 +1,5 @@
 <?php 
-$typeDocument = "pdf";
+$typeDocument = "image";
 ?>
 	<?php if($typeDocument == "image"): ?>
     <div class="postImg" id="<?=$post->id()?>">
@@ -10,8 +10,8 @@ $typeDocument = "pdf";
 		<div class="postEnTete">
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
-			$canManage=$publisher==User::current();
 			$isAdminCommu=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
+			$canManage=$publisher==User::current() || $isAdminCommu;
 			$postID=$post->id();
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
@@ -47,12 +47,12 @@ $typeDocument = "pdf";
 					<img src="<?= Routes::url_for('/img/svg/pdf.svg')?>" alt="pdf">
 					<?php 
 					//nom du fichier
-					$name = "Nom_du_pdf" . ".pdf";
+					$name = "Nom_du_ddddddddddddddddddddpdf" . ".pdf";
 					//url du pdf 
 					$url = "";
 					?>
 					<a href="<?=$url?>" target="_blank"><?=$name?></a>
-					<a href="<?=$url?>" download><img src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf"></a>
+					<a href="<?=$url?>" download><img class="dlaArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf"></a>
 					
 				</div>
 				<?php if(!$isComment): ?>
