@@ -10,7 +10,8 @@ $typeDocument = "image";
 		<div class="postEnTete">
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
-			$isAdminCommu=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
+			$comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+			$isAdminCommu=User::current()->perm($comm)->is(P::ADMIN);
 			$canManage=$publisher==User::current() || $isAdminCommu;
 			$postID=$post->id();
 			?>
