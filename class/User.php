@@ -487,6 +487,60 @@ class User {
     }
 
     /**
+     * Get user's level and points in a community
+     * 
+     * @param Community The community where you want to be uncertified
+     * @return int[]|null the level and points of the user in the given community
+     */
+    public function level_in_community(Community $comm){
+        $sql = sprintf("SELECT level, points FROM `%s` WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            return $result->fetch_row();
+        }
+        return null;
+    }
+
+    /**
+     * Add points to the user in a community and if successful, updates the level if needed
+     * 
+     * @param Community The community where you want to be uncertified
+     * @param int the points to add
+     * @return bool if it worked or not
+     */
+    public function add_points_in_community(Community $comm, int $points){
+        $sql = sprintf("UPDATE `%s` SET points = (points + %d) WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$points,$this->id(),$comm->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            $this->update_level_in_community($comm);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Updates the level of the user in a given community
+     * 
+     * @param Community The community where you want to be uncertified
+     * @return bool if it has updated or not
+     */
+    public function update_level_in_community(Community $comm){
+        $tabLvl = $this->level_in_community($comm);
+        $pointsToReach = User::hmptlvlup($tabLvl[0]);
+        if ($pointsToReach <= $tabLvl[1]) {
+            $sql = sprintf("UPDATE `%s` SET level = (level + 1), points = (points - %d) WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$pointsToReach,$this->id(),$comm->id());
+            $result = $this->_db->query($sql);
+            if ($result) {
+                $this->update_level_in_community($comm);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    
+
+    /**
      * Get the permission object, that represent the permission of a user on a community
      *
      * @param $comm Community The community you want the permission of.
@@ -541,6 +595,10 @@ class User {
      */
     public static function is_connected() : bool {
         return isset($_SESSION['user']) ? gettype($_SESSION['user']) == "integer" : false;
+    }
+
+    public static function hmptlvlup(int $actualLvl) : int {
+        return 325 * (pow(1.041, ($actualLvl + 1))) - 188;
     }
 
     /**
