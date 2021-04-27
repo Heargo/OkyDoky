@@ -10,7 +10,8 @@ $typeDocument = "image";
 		<div class="postEnTete">
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
-			$isAdminCommu=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
+			$comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+			$isAdminCommu=User::current()->perm($comm)->is(P::ADMIN);
 			$canManage=$publisher==User::current() || $isAdminCommu;
 			$postID=$post->id();
 			?>
@@ -32,7 +33,7 @@ $typeDocument = "image";
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>
-	                <img onclick="document.cookie='shouldBeRestored=1;path=/';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+                    <img onclick="document.cookie='shouldBeRestored=1;path=<?= Config::URL_SUBDIR(false) ?>';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 	        <?php endif ?>
 			
 		</div>
