@@ -10,8 +10,8 @@ $typeDocument = "pdf";
 		<div class="postEnTete">
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
-			$canManage=$publisher==User::current();
 			$isAdminCommu=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
+			$canManage=$publisher==User::current() || $isAdminCommu;
 			$postID=$post->id();
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
