@@ -16,7 +16,7 @@ function like(?array $match) {
     $isLiked = false;
     $nbLikes = null;
     if (isset($cuser) && isset($post)) {
-        $community = $post->id_community();
+        $community = $post->community();
         $canInteract = $cuser->perm($community)->can(P::INTERACT);
         $comment = $GLOBALS['comments']->get_by_id((int) $_POST['id_comment']);
         if ($canInteract && isset($comment)) {

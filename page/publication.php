@@ -13,7 +13,7 @@
 <?php load_post($GLOBALS['page']['post'],true); ?>
 
 <?php 
-$r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name().'/post/'.$GLOBALS['page']['post']->id().'/new');
+$r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/post/'.$GLOBALS['page']['post']->id().'/new');
 ?>
 
 

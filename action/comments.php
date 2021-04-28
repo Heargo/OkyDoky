@@ -8,7 +8,7 @@ function is_url_comment_valid(int $id_post, string $name_comm) : bool {
         return false;
     }
 
-    $comm = $post->id_community();
+    $comm = $post->community();
     
     // Post belongs to $comm
     if ($comm->get_name() != $name_comm) {
@@ -34,7 +34,7 @@ function add_comment(?array $match) {
    
 
     $root = Config::URL_SUBDIR(false);
-    header("Location: $root" . '/c/' . $post->id_community()->get_name() . '/post/' . $post->id());
+    header("Location: $root" . '/c/' . $post->community()->get_name() . '/post/' . $post->id());
 }
 
 function load_comment($c){

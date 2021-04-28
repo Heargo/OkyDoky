@@ -8,7 +8,7 @@ function format_publication(?array $match) {
         return;
     }
 
-    $comm = $post->id_community();
+    $comm = $post->community();
     
     if ($comm->get_name() != $match['comm']) {
         header("Location: " . Config::URL_SUBDIR(false) . '/feed');
