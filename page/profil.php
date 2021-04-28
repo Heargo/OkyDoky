@@ -56,6 +56,7 @@ if($_SESSION['current_community']>0){
 				<div class="profil-img-modifier-container">
 					<!-- IMG PROFIL -->
 					<img class="pictprofil" src="<?=$user->profile_pic()?>" alt="profil">
+					
 					<?php if($myprofil){ ?>
 					<!-- MODIF  -->
 					<a href="<?= Routes::url_for("/profil-edit")?>"class="modiferprofil cursor"> Modifier <img src="https://img.icons8.com/fluent/48/000000/pencil-tip.png" /></a>
@@ -63,7 +64,20 @@ if($_SESSION['current_community']>0){
 				</div>
 				
 				<div class="profil-infos-container">
-					<h2 class="nameprofil"><?=$user->display_name()?></h2>
+					<div class="level">
+						<h2 class="nameprofil"><?=$user->display_name()?></h2>
+						<div class="containerBadge">
+							<div class="badgeformat">
+								<img src="" id="badgeIcon">
+								<p id="badgeText"></p>
+							</div>
+						</div>
+					</div>
+					<div class="barreXP">
+						<span id="infosXpNumber">
+						</span>
+						<div id="prctXp" class="XpFilled" style=""></div>
+					</div>
 					<div class="generalInfo-bottom">
 						<!-- POSTS -->
 						<div class="nbPostContainer">

@@ -11,10 +11,35 @@ $typeDocument = "image";
 			$isAdminCommu=User::current()->perm($comm)->is(P::ADMIN);
 			$canManage=$publisher==User::current() || $isAdminCommu;
 			$postID=$post->id();
+
+			//level src
+			$badges = array("1-bleu",
+						"1-rouge",
+						"1-violet",
+						"2-bleu",
+						"2-rouge",
+						"2-violet",
+						"3-bleu",
+						"3-rouge",
+						"3-violet",
+						"4-bleu",
+						"4-rouge",
+						"4-violet",
+						"5-bleu",
+						"5-rouge",
+						"5-violet",
+						"final");
+			$level = $publisher->level_in_community($comm)[0];
+			$i =round($level/2)-1;
+			$urlbadge = Routes::url_for("/img/svg/medals/".$badges[$i].".svg")
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
 				<p><?php echo "<img src='$profile_pic' alt='profil'>"; ?></p>
 				<p><?= $pName ?></p>
+				<div class="badgeformat fix">
+							<img src="<?=$urlbadge?>" id="badgeIcon">
+							<p id="badgeText" class="fix"><?=$level?></p>
+				</div>
 				<?php if($publisher->is_certified($GLOBALS['communities']->get_by_id($_SESSION['current_community']))): ?>
 				<img class="certifiedImgPost"src="https://img.icons8.com/nolan/64/approval.png">
 				<?php endif ?>

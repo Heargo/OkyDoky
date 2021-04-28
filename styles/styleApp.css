@@ -122,6 +122,13 @@ h1{
 	height: 40px;
 }
 
+.uprightcontainer{
+	display: flex;
+	align-items: center;
+}
+.uprightcontainer a {
+	text-decoration: none;
+}
 
 .small-bubble{
 	object-fit: cover;
@@ -135,6 +142,20 @@ h1{
 	border-radius: 100%;
 	width: 40px;
 	height: 40px;
+}
+.coinIcon{
+	width: 35px;
+	height: 35px;
+	margin-right: 20px;
+	
+}
+.coinIcon.animate{
+	animation: cubic-bezier(0.24, 0.21, 0.74, 0.78) beat 1s infinite alternate;
+	transform-origin: center;
+}
+/* coin animation */
+@keyframes beat{
+	to { transform: scale(1.2); }
 }
 
 .noselect {
@@ -1301,6 +1322,36 @@ h2.confirmation{
 	width: 100%;
 }
 
+
+.legendlevel{
+	position: absolute;
+	transform: translateX(20%) translateY(140%);
+	display: flex;
+	align-items: center;
+}
+
+.level{
+	position: relative;
+	right: 0;
+	display: flex;
+	align-items: center;
+}
+
+#badge{
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	transform: translateX(310%) translateY(50%);
+}
+#levelNumber{
+	font-family: 'Caveat Brush', cursive;
+	font-size: 1.4rem;
+}
+.legendlevel img{
+	height: 40px;
+	width: 40px;
+}
+
 .logocertifier{
 	position: absolute;
 	transform: scale(0.5) translateX(-40%) translateY(-50%);
@@ -1388,11 +1439,81 @@ h2.confirmation{
 	flex-direction: row-reverse;
 	width: 100%;
 	margin:  20px 0px;
+	margin-top: 50px;
 	font-size: 0.9rem;
 }
 .profil-img-modifier-container{
+	position: relative;
 	width: 100px;
 }
+
+#badgeIcon{
+	position: absolute;
+	height: 40px;
+	width: 40px;
+}
+#badgeText{
+	position: absolute;
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	font-size: 1.2rem;
+	margin-top: 2px;
+	color: white;
+	font-weight: bold;
+	z-index: 100;
+	text-shadow: 2px 2px 4px black;
+}
+#badgeText.fix{
+	line-height: 2rem;
+	margin-left: 0;
+}
+.badgeformat.fix{
+	transform: scale(.8) translateY(5px);
+}
+
+.containerBadge{
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	transform: translateX(300%) translateY(40%);
+}
+
+.badgeformat{
+	height: 40px;
+	width: 40px;
+	position: relative;
+
+}
+
+.barreXP{
+	position: relative;
+	width: 80%;
+	height: 10px;
+	transform: translateY(30px) translateX(10px);
+	background-color: white;
+	border-radius: 10px;
+	font-size: 0.5rem;
+}
+
+.XpFilled{
+	position: absolute;
+	height: 10px;
+	background-color: #42db75;
+	border-radius: 10px;
+
+}
+
+.barreXP span{
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	text-align: center;
+	z-index: 100;
+}
+
 .modiferprofil{
 	margin-top: 10px;
 	margin-left:10px; 

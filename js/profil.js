@@ -3,6 +3,23 @@
 var label = document.getElementById("color_front");
 var input = document.getElementById("colorpicker");
 var text = document.getElementById("previewLabel");
+var badges = ["1-bleu",
+			"1-rouge",
+			"1-violet",
+			"2-bleu",
+			"2-rouge",
+			"2-violet",
+			"3-bleu",
+			"3-rouge",
+			"3-violet",
+			"4-bleu",
+			"4-rouge",
+			"4-violet",
+			"5-bleu",
+			"5-rouge",
+			"5-violet",
+			"final"
+]
 
 input.addEventListener("change", function(){
 		label.style.backgroundColor = input.value;
@@ -51,7 +68,37 @@ function getLabel(n,c){
 	xhr.responseType="text";
 	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xhr.send("user="+n+"&community="+c);
-} 
+}
+
+function updatelevel(nickname,community){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200) {
+			var level = this.response["level"]
+			// change le badge
+			var badge = document.getElementById("badgeIcon");
+			var i = Math.round(level/2)-1;
+			badge.src=(route+"/img/svg/medals/"+badges[i]+".svg");
+
+			//change le niveau
+			var levelText = document.getElementById("badgeText");
+			levelText.innerHTML=level;
+
+			//change la barre d'xp
+			var infosXp = document.getElementById("infosXpNumber");
+			infosXp.innerHTML=this.response["xp_points"]+"/"+this.response["xpToNextLevel"];
+
+			var barrexp = document.getElementById("prctXp");
+			barrexp.style.width=this.response["prctCurrentXp"]+"%";
+
+		}
+	};
+
+	xhr.open("POST",route+"/ajax/getlevel",true);
+	xhr.responseType="json";
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send("user="+nickname+"&community="+community);
+}
 
 
 /*<!-- FONCTIONS POUR AFFICHAGE DES PARAMETRES -->*/
@@ -105,6 +152,9 @@ function switchFilter(n,nickname){
 
 	//on gere les labels
 	getLabel(nickname,n)
+
+	//on met a jour le niveau
+	updatelevel(nickname,n)
 
 	var inputCommu=document.getElementById("idcommu");
 	inputCommu.value=comm;
