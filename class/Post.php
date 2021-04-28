@@ -10,7 +10,7 @@ class Post {
 
 	/** Post's infos */
 	private $_publisher;
-	private $_id_community;
+	private $_community;
 	private $_date;
 	private $_title;
 	private $_description;
@@ -34,7 +34,7 @@ class Post {
 		$row = $db->query($sql)->fetch_assoc();
 	
 		$this->_publisher = $GLOBALS['users']->get_by_id($row['publisher']);
-		$this->_id_community = $GLOBALS['communities']->get_by_id($row['community']);
+		$this->_community = $GLOBALS['communities']->get_by_id($row['community']);
 		$this->_date = $row['date'];
 		$this->_title = $row['title'];
 		$this->_description = $row['description'];
@@ -47,7 +47,7 @@ class Post {
 	public function publisher() { return $this->_publisher; }
 	
 	/** Return the post's community */
-	public function id_community() { return $this->_id_community; }
+	public function community() { return $this->_community; }
 
 	/** Return the post's creation date */
 	public function date() { return $this->_date; }
@@ -260,7 +260,7 @@ class Post {
 	 * @return bool True if successful
 	 */
 	public function showup(User $whoTryTo) : bool {
-		$commu = new Community($this->id_community());
+		$commu = new Community($this->_db,$this->community());
 		$perm = $whoTryTo->perm($this->$commu);
 		if ($perm->can(MOD_HIGHLIGHT_POST)) {
 			$sql = "UPDATE `%s` SET `highlight_post` = %d WHERE `id_%s` = %s";
