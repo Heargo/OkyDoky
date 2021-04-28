@@ -7,7 +7,7 @@ $typeDocument = "image";
 		<div class="postEnTete">
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
-			$comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+			$comm = $post->community();
 			$isAdminCommu=User::current()->perm($comm)->is(P::ADMIN);
 			$canManage=$publisher==User::current() || $isAdminCommu;
 			$postID=$post->id();
@@ -40,7 +40,7 @@ $typeDocument = "image";
 							<img src="<?=$urlbadge?>" id="badgeIcon">
 							<p id="badgeText" class="fix"><?=$level?></p>
 				</div>
-				<?php if($publisher->is_certified($GLOBALS['communities']->get_by_id($_SESSION['current_community']))): ?>
+				<?php if($publisher->is_certified($comm)): ?>
 				<img class="certifiedImgPost"src="https://img.icons8.com/nolan/64/approval.png">
 				<?php endif ?>
 			</div>

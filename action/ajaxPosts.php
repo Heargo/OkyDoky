@@ -9,7 +9,7 @@ function load_post(Post $post, $isComment = false) {
     $docs = $post->get_documents();
     $voted = $post->hasUserVoted(User::current());
     $prct = $post->get_percent_up_down();
-    $urlComment = Routes::url_for('/c/' . $post->id_community()->get_name() . '/post/' . $post->id());
+    $urlComment = Routes::url_for('/c/' . $post->community()->get_name() . '/post/' . $post->id());
     foreach ($docs as $doc) {
         if($doc->is_visible()) {
             $urlIMG = $doc->url();
