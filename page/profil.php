@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Profil</title>
+	<title>OkyDoky</title>
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
-	<!-- <link rel="stylesheet" href="<?= Routes::url_for('/styles/styleProfil.css')?>"> -->
   <link rel="stylesheet" href="<?= Routes::url_for('/styles/styleApp.css')?>">
 </head>
 
@@ -152,7 +151,7 @@ else{
 <!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
 <form id="labelForm" class="labelForm hidden" enctype="multipart/form-data" action="<?=Routes::url_for('/addLabel/'.$GLOBALS["page"]["userOfUrl"]->nickname())?>" method="post">
 	<!-- Nom label -->
-	<input id="previewLabel" class="labelInput" type="text" name="label_text" placeholder="Nom de l'étiquette">
+	<input id="previewLabel" class="labelInput" type="text" name="label_text" placeholder="Nom de l'étiquette" autocomplete="off">
 	<!-- idcommu -->
 	<input id="idcommu" type="number" name="idcommu" hidden="">
 	<!-- couleur -->

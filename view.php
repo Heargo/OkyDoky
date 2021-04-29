@@ -18,4 +18,5 @@ $ROUTES->bound_get('/document', 'page/upload_document.php')
        ->bound_get('/modify-community', 'page/modifyCommunity.php')
        ->bound_get('/panel-admin', 'page/panelAdmin.php')
        ->bound_get('/404', 'page/404.php')
+       ->bound_get('/bank', 'page/bank.php')
 ;

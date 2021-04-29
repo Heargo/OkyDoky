@@ -149,7 +149,7 @@ h1{
 	margin-right: 20px;
 	
 }
-.coinIcon.animate{
+.coinIcon.animate,.collectJeton.animate{
 	animation: cubic-bezier(0.24, 0.21, 0.74, 0.78) beat 1s infinite alternate;
 	transform-origin: center;
 }
@@ -375,13 +375,25 @@ form{
 	height: 100%;
 }
 
-.titleInput, .descriptionInput,.descriptionInputCommu,.delInput{
+.titleInput,.numberinput, .descriptionInput,.descriptionInputCommu,.delInput{
 	margin: 10px 0;
 	border:0;
 	width: 300px;
 	border-radius: 5px;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
 }
+.numberinput{
+	width: 80px;
+	margin-right: 10px;
+}
+#communitySelected{
+	margin: 10px 0;
+	border:0;
+	width: 300px;
+	border-radius: 5px;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 
 .delInput{
 	height: 30px;
@@ -484,6 +496,8 @@ form{
 #submit{
 	display: none;
 }
+
+
 .shareContainer h3{
 		color: grey;
 		font-size: 0.9em;
@@ -515,6 +529,7 @@ form{
 	justify-content: flex-start;
 	align-items: flex-start;
 }
+
 
 #searchBar{
 	margin-top: 20px;
@@ -1486,25 +1501,36 @@ h2.confirmation{
 
 }
 
-.barreXP{
+.barreXP,.barreXP-T{
 	position: relative;
 	width: 80%;
 	height: 10px;
-	transform: translateY(30px) translateX(10px);
 	background-color: white;
 	border-radius: 10px;
 	font-size: 0.5rem;
 }
+.barreXP-T{
+	width: 100%;
+	height: 20px;
+	font-size: 1rem;
+}
 
-.XpFilled{
+.barreXP{
+	transform: translateY(30px) translateX(10px);
+}
+
+.XpFilled,.XpFilled-T{
 	position: absolute;
 	height: 10px;
 	background-color: #42db75;
 	border-radius: 10px;
-
 }
 
-.barreXP span{
+.XpFilled-T{
+	height: 20px;
+}
+
+.barreXP span,.barreXP-T span{
 	position: absolute;
 	margin-left: auto;
 	margin-right: auto;
@@ -1726,4 +1752,112 @@ h2.confirmation{
 
 .centerTxt{
 	text-align: center;
+}
+
+
+
+/*bank*/
+.collectJeton{
+	position: absolute;
+	width: 200px;
+	margin: 0 calc((100% - 200px) / 2);
+	transform: translateY(180px);
+	text-align: center;
+	text-decoration: none;
+	color: #2f3542;
+	font-size: 3rem;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+	border-radius: 30px;
+	font-family: 'Caveat Brush', cursive;
+
+}
+.animate2{
+	animation: cubic-bezier(0.24, 0.21, 0.74, 0.78) beat2 2s infinite alternate;
+	transform-origin: center;
+}
+/* coin animation */
+@keyframes beat2{
+	to { transform: translateY(180px) scale(1.1); }
+}
+
+.collectJeton img{
+	width: 40px;
+	height: 40px;
+	margin-left: 10px;
+	transform: translateY(5px);
+}
+
+.bankIntro{
+	margin-top:50px; 
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.whiteShadow{
+	text-shadow: rgb(255, 255, 255) 2px 0px 0px, rgb(255, 255, 255) 1.75517px 0.958851px 0px, rgb(255, 255, 255) 1.0806px 1.68294px 0px, rgb(255, 255, 255) 0.141474px 1.99499px 0px, rgb(255, 255, 255) -0.832294px 1.81859px 0px, rgb(255, 255, 255) -1.60229px 1.19694px 0px, rgb(255, 255, 255) -1.97998px 0.28224px 0px, rgb(255, 255, 255) -1.87291px -0.701566px 0px, rgb(255, 255, 255) -1.30729px -1.5136px 0px, rgb(255, 255, 255) -0.421592px -1.95506px 0px, rgb(255, 255, 255) 0.567324px -1.91785px 0px, rgb(255, 255, 255) 1.41734px -1.41108px 0px, rgb(255, 255, 255) 1.92034px -0.558831px 0px;
+
+}
+
+.vaultImg{
+	width: 100%;
+	max-width: 500px;
+	margin: 0 auto;
+}
+
+
+.jetondescription{
+	width: 90%;
+	max-width: 500px;
+	margin: 0 auto;
+	font-style: italic;
+	justify-content: all;
+}
+
+.inbank form{
+	width: 100%;
+}
+
+.numberJetonsContainer,.numberJetonsInputContainer{
+	display: flex;
+	align-items: center;
+}
+
+.numberJetonsContainer{
+	margin-bottom: 20px;
+}
+
+.numberJetonsContainer p{
+	font-family: 'Caveat Brush', cursive;
+	font-size: 3rem;
+	margin-right: 10px;
+
+}
+#communitySelected.inbank{
+	width: 200px;
+	height: 40px;
+	font-size: 1rem;
+	padding: 0.1rem;
+}
+#communitySelected:focus{
+	outline: none;
+}
+#submit.inbank{
+	display: initial;
+	margin: 10px 0;
+	padding: 0.5rem 0.8rem;
+	border:0;
+	width: 200px;
+	border-radius: 30px;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+#verticalScrollContainer.inbank{
+	top:-50px;
+	padding-top: 0;
+}
+.coinIcon.inbank{
+	margin-right: 0;
 }
