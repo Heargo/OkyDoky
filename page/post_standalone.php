@@ -1,5 +1,5 @@
 <?php 
-$typeDocument = "image";
+$typeDocument = $post->get_documents()[0]->type();
 ?>
     <div class="postContainer" id="<?=$post->id()?>">
 

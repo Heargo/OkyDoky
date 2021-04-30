@@ -30,13 +30,36 @@ class Document {
     public function id() : int { return $this->_id;}
 
     /** Return the type of the document */
-    public function type() : string {
-        return get_field_with_id($this->_db, 'type', Config::TABLE_DOCUMENT, $this->id());
+    public function type() : ?string {
+        $res = get_field_with_id($this->_db, 'type', Config::TABLE_DOCUMENT, $this->id());
+        if($res != null){
+            $tab = explode("/",$res);
+            if($tab[0] == "application"){
+                if($tab[1]=="pdf"){
+                    return "pdf";
+                }
+                elseif($tab[1]=="javascript" ||$tab[1]=="json" ||
+                        $tab[1]=="x-latex" ||$tab[1]=="x-lua" ||
+                        $tab[1]=="x-ocaml" ||$tab[1]=="x-python" ||
+                        $tab[1]=="x-swift" ||$tab[1]=="x-php"){
+                            return "code";
+                        }
+                }
+            elseif($tab[0]=="text"){
+                return "code";
+            }
+            elseif($tab[0]=="image"){
+                return "image";
+            }
+            else{return "autre";}
+        }
+        else{return null;}
     }
 
     /** Return the url of the document */
     public function url() : string {
         return get_field_with_id($this->_db, 'url', Config::TABLE_DOCUMENT, $this->id());
+        
     }
 
     /** Return the path of the document server-side */

@@ -65,17 +65,19 @@ if($_SESSION['current_community']>0){
 				<div class="profil-infos-container">
 					<div class="level">
 						<h2 class="nameprofil"><?=$user->display_name()?></h2>
+					</div>
+					<div>
 						<div class="containerBadge">
 							<div class="badgeformat">
 								<img src="" id="badgeIcon">
 								<p id="badgeText"></p>
 							</div>
 						</div>
-					</div>
-					<div class="barreXP">
-						<span id="infosXpNumber">
-						</span>
-						<div id="prctXp" class="XpFilled" style=""></div>
+						<div class="barreXP">
+							<span id="infosXpNumber">
+							</span>
+							<div id="prctXp" class="XpFilled" style=""></div>
+						</div>
 					</div>
 					<div class="generalInfo-bottom">
 						<!-- POSTS -->

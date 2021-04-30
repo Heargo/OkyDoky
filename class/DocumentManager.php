@@ -8,6 +8,10 @@ class DocumentManager {
      * DB connection
      */
     private $_db;
+    public static $authorized_mime = ["image/gif","image/jpeg","image/png","application/pdf",
+        "text/css","text/html","application/javascript","text/x-c","text/x-java-source,java",
+        "application/json","application/x-latex","application/x-lua","text/markdown","application/x-ocaml",
+        "text/plain","application/x-python","application/x-php","application/x-swift"];
 
     /**
      * Instaciate a manager for a DB connection
@@ -91,9 +95,14 @@ class DocumentManager {
             if (!is_writable(Config::DIR_DOCUMENT)) {
                 throw new NotWritable('Directory ' . Config::DIR_DOCUMENT . ' is not writable');
             }
+            
+            $type = mime_content_type($document['tmp_name']);
+            if(!in_array($type,DocumentManager::$authorized_mime)){
+                $type = "other";
+            }
             // insert tmp path to DB
-            $sql = "INSERT INTO `%s` (`type`, `path`, `visible`) VALUES ('image', '%s', '%d')";
-            $sql = sprintf($sql, Config::TABLE_DOCUMENT, $document['tmp_name'], $visible);
+            $sql = "INSERT INTO `%s` (`type`, `path`, `visible`) VALUES ('%s', '%s', '%d')";
+            $sql = sprintf($sql, Config::TABLE_DOCUMENT, $type,$document['tmp_name'], $visible);
             $this->_db->query($sql);
 
             // move tmp file to permanent path
@@ -107,7 +116,7 @@ class DocumentManager {
             $sql = "UPDATE `%s` SET `url` = '%s', `path` = '%s' WHERE `id_%s` = '%d'";
             $sql = sprintf($sql, Config::TABLE_DOCUMENT, $file_url, $file_path, Config::TABLE_DOCUMENT, $id);
             $this->_db->query($sql);
-
+        
             return $id;
         }
         return null;

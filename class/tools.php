@@ -33,7 +33,7 @@ function is_id_correct(mysqli $db, string $table, int $id) : bool {
 }
 
 /**
- * If you just want the value of a col at a certain id.
+ * If you just want the value of a col at a certain id
  * 
  * @param mysqli $db The DB connection.
  * @param string $col The field you want.
@@ -49,4 +49,11 @@ function get_field_with_id(mysqli $db, string $col, string $table, int $id) : ?s
         
         if ($result) { return $result->fetch_row()[0]; }
         return null;
+}
+
+/**
+ * HTML5 escape special character like ', < and >
+ */
+function sanitize_text(string $text) : string {
+    return filter_var($text, FILTER_SANITIZE_SPECIAL_CHARS);
 }
