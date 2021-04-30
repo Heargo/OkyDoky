@@ -122,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `$user_comm` (
     `level` int unsigned NOT NULL DEFAULT 1,
     `xpoints` int unsigned NOT NULL DEFAULT 0,
     `coins` int unsigned NOT NULL DEFAULT 0,
+    `last_collect` datetime NOT NULL DEFAULT '1900-01-01 00:00:00.000000',
     
 
     PRIMARY KEY (`id_$user_comm`),

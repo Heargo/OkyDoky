@@ -23,30 +23,29 @@ if (!sizeof($communities)>0){
 }else{
 ?>
 	<?php 
-	$alreadycollectedToday=true;
-	$nbjetons = 12;
+	$can_collect = $user->can_collect_daily_coins_at_least_one();
 	?>
 
 	<!-- bouton pour recup ses jetons -->
-	<?php if(!$alreadycollectedToday): ?>
-		<a class="collectJeton animate2" href="">Collect<img src="<?=Routes::url_for('/img/svg/coin.svg')?>"></a>
+	<?php if($can_collect): ?>
+		<a class="collectJeton animate2" href="<?=Routes::url_for('./dailies/collect_all')?>">Collect<img src="<?=Routes::url_for('/img/svg/coin.svg')?>"></a>
 	<?php endif; ?>	
 
 	<div class="bankIntro">
 		<img class="vaultImg" src="<?=Routes::url_for('/img/svg/bank.svg')?>">
 	</div>
 
-	<?php if(!$alreadycollectedToday): ?>
+	<?php if($can_collect): ?>
 		<p class="jetondescription">Les jetons vous permettent d'apporter plus de soutient à un utilisateur que via des likes. Vous obtenez 5 jetons par jour lorsque vous connectez sur cette page. Les jetons sont liés a la communauté. Vous pouvez aussi échanger des jeton pour de l'expérience !</p>
 	<?php else: ?>
 		<section id="verticalScrollContainer" class="inbank">
 			<!-- nombre de jetons -->
 			<div class="numberJetonsContainer">
-				<p id="numberOfJeton">1502</p>
+				<p id="numberOfJeton">0</p>
 				<img class="coinIcon noselect" src="<?=Routes::url_for("/img/svg/coin.svg")?>" alt="bank">
 			</div>
 
-			<form enctype="multipart/form-data" action="<?= Routes::url_for("")?>" method="post">
+			<form enctype="multipart/form-data" action="<?= Routes::url_for("/dailies/convert_coins")?>" method="post">
 			
 			<!-- selection de la communauté -->
 			<select id="communitySelected" class="inbank" name="community">
@@ -55,7 +54,7 @@ if (!sizeof($communities)>0){
 					$currentXpPoint = $user->level_in_community($comm)[1];
 					$xpToNextLevel = User::hmptlvlup($user->level_in_community($comm)[0]);
 					$prctCurrentXp= $currentXpPoint / $xpToNextLevel *100;
-					$nbjetons = 150;
+					$nbjetons = $user->coins_in_community($comm);
 					if ($comm->id()==$_SESSION["current_community"]) {
 						?>
 						<option value='{"id":<?=$comm->id()?>,"nbjetons":<?=$nbjetons?>,"currentXpPoint":<?=$currentXpPoint?>,"xpToNextLevel":<?=$xpToNextLevel?>,"prctCurrentXp":<?=$prctCurrentXp?>}' selected><?=$comm->get_display_name()?></option>
@@ -71,7 +70,7 @@ if (!sizeof($communities)>0){
 			</select>
 			<!-- input jetons -->
 			<div class="numberJetonsInputContainer">
-				<input class="numberinput" id="number" type="number" min="0" max="<?=$nbjetons?>" step="1" value="0">
+				<input class="numberinput" id="number" name="nb_coins" type="number" min="0" max="<?=$nbjetons?>" step="1" value="0">
 				<img class="coinIcon inbank noselect" src="<?=Routes::url_for("/img/svg/coin.svg")?>" alt="bank">
 			</div>
 			

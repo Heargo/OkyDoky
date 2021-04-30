@@ -533,6 +533,67 @@ class User {
     }
 
     /**
+     * Say if user can collect daily coins in a community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @return bool if yes or not its possible
+     */
+    public function can_collect_daily_coins_in_community(Community $comm){
+        $test = sprintf("SELECT DATEDIFF(NOW(), last_collect) FROM `%s` WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+        $res = $this->_db->query($test);
+        if($res) {
+            return $res->fetch_row()[0]>0;
+        }
+        return false;
+    }
+
+    /**
+     * Collect daily coins in a community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @return bool if yes or not its possible
+     */
+    public function collect_daily_coins_in_community(Community $comm){
+        if($this->can_collect_daily_coins_in_community($comm)) {
+            $this->add_coins_in_community($comm,5);
+            $sql = sprintf("UPDATE `%s` SET last_collect = NOW() WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+            $res = $this->_db->query($sql);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Say if user can collect daily coins in a community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @return bool if yes or not its possible
+     */
+    public function can_collect_daily_coins_at_least_one(){
+        $cs = $this->get_communities();
+        $canYou = false;
+        foreach ($cs as $c) {
+            if($this->can_collect_daily_coins_in_community($c)) {
+                $canYou=true;
+            }
+        }
+        return $canYou;
+    }
+
+    /**
+     * Collect all daily coins
+     * 
+     * @return int number of collected dailies
+     */
+    public function collect_all_dailies(){
+        $cs = $this->get_communities();
+        foreach ($cs as $c) {
+            $this->collect_daily_coins_in_community($c);
+        }
+    }
+
+
+    /**
      * Add xpoints to the user in a community and if successful, updates the level if needed
      * 
      * @param Community The community where you want to update those numbers

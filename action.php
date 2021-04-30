@@ -34,4 +34,6 @@ $ROUTES->bound_post('/signin', 'signin', ['login', 'password'])
        ->bound_post('/c/(?<comm>[\w|-]+)/post/(?<id>\w+)/new', 'add_comment', ['commentaire'])
        ->bound_post('/c/(?<comm>[\w|-]+)/post/(?<id>\w+)/like', 'like', ['id_comment'])
        ->bound_post('/c/(?<comm>[\w|-]+)/post/(?<id>\w+)/delcomment','delete_comment',['id'])
+       ->bound_post('/dailies/convert_coins','convert_coins')
+       ->bound_post('/dailies/collect_all','collect_all')
 ;
