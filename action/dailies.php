@@ -2,7 +2,9 @@
 
 function convert_coins(?array $match) {
 	$u = User::current();
-	$c = new Community($GLOBALS['db'],$_SESSION["current_community"]);
+	$cId = json_decode($_POST['community'])->id;
+	var_dump($cId); 
+	$c = new Community($GLOBALS['db'],$cId);
 	$coinsToConvert = $_POST['nb_coins'];
 	if (!($coinsToConvert<=0 || $coinsToConvert>$u->coins_in_community($c))) {
 		$u->add_coins_in_community($c, -$coinsToConvert);
