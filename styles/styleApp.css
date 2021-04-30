@@ -1491,7 +1491,7 @@ h2.confirmation{
 	height: 40px;
 	width: 40px;
 	position: absolute;
-	transform: translateX(300%) translateY(40%);
+	transform: translateY(40%);
 }
 
 .badgeformat{
@@ -1516,7 +1516,7 @@ h2.confirmation{
 }
 
 .barreXP{
-	transform: translateY(30px) translateX(10px);
+	transform: translateY(30px) translateX(40px);
 }
 
 .XpFilled,.XpFilled-T{
