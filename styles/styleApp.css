@@ -201,6 +201,7 @@ Fil d'actu
 .content {
 	display:flex;
 	flex-direction: column;
+	margin-top: 20px;
 	padding: 0 5%;
 }
 
@@ -272,6 +273,7 @@ Fil d'actu
 
 .cliquable{
 	display: flex;
+	width: calc(100% - 42px);
 }
 .postEnTete img{
 	object-fit: cover;
@@ -288,9 +290,25 @@ Fil d'actu
 }
 
 .upVote, .downVote{
+	height: 35px;
+	width: 35px;
 	margin-bottom:6px;
-	margin-left:20px; 
-	transform: scale(2);
+	/*margin-left:20px; 
+	transform: scale(2);*/
+}
+
+.soutenirButton{
+	height: 32px;
+	width: 32px;
+}
+.right .soutenirButton{
+	margin-right: 10px;
+}
+
+@media screen and (max-width: 330px) {
+  .right .soutenirButton{
+	margin-right: 0px;
+}
 }
 
 .green{
@@ -301,9 +319,10 @@ Fil d'actu
 	color: #feac5e!important;
 }
 
-.prctQuality{
+p.prctQuality{
 	font-weight: bold;
-	margin-left: 14px;
+	font-size: 1rem!important;
+	margin-left: 4px;
 	margin-bottom: 0.5rem;
 }
 
@@ -980,10 +999,41 @@ button.copy-to-clipboard{
 	max-width: 600px;
 }
 
+.donateForm{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 250px;
+	margin: 0 auto;
+}
+
+.donateForm div{
+	display: flex;
+	width: 120px;
+	justify-content: space-between;
+}
+
+.donateForm .numberinput{
+	height: 32px;
+	margin: 0;
+}
+
+.donateForm label{
+	padding: .3rem;
+	background-color: #feac5e;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 .postdescritp{
 	padding:0 1.5rem;
 	text-align: justify;
 	font-size: 0.8rem;
+}
+
+.namePublisher{
+	width: 100%;
+	overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .postTitre{
@@ -1675,7 +1725,15 @@ h2.confirmation{
 	filter:brightness(1.7);
 }
 
-.postEnTete .certifiedImgPost{
+.postEnTete2{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	position: absolute;
+	transform:scale(.7)translateY(-30px)translateX(40px);
+}
+
+.postEnTete2 .certifiedImgPost{
 	margin-top: 10px;
 	margin-left: 5px;
 	width: 32px;

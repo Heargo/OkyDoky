@@ -40,14 +40,17 @@ $typeDocument = $post->get_documents()[0]->type();
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
 				<p><?php echo "<img src='$profile_pic' alt='profil'>"; ?></p>
-				<p><?= $pName ?></p>
-				<div class="badgeformat fix">
-							<img src="<?=$urlbadge?>" id="badgeIcon">
-							<p id="badgeText" class="fix"><?=$level?></p>
+				<div class="postEnTete2">
+					<?php if($publisher->is_certified($comm)): ?>
+						<img class="certifiedImgPost"src="https://img.icons8.com/nolan/64/approval.png">
+					<?php endif ?>
+					<div class="badgeformat fix">
+						<img src="<?=$urlbadge?>" id="badgeIcon">
+						<p id="badgeText" class="fix"><?=$level?></p>
+					</div>
 				</div>
-				<?php if($publisher->is_certified($comm)): ?>
-				<img class="certifiedImgPost"src="https://img.icons8.com/nolan/64/approval.png">
-				<?php endif ?>
+				<p class="namePublisher"><?= $pName ?></p>
+				
 			</div>
 			<!-- 3 points pour le post -->
 			<?php if($canManage && !$isComment): ?>
@@ -62,7 +65,6 @@ $typeDocument = $post->get_documents()[0]->type();
 			<?php if($isComment): ?>
                     <img onclick="document.cookie='shouldBeRestored=1;path=<?= Config::URL_SUBDIR(false) ?>';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 	        <?php endif ?>
-			
 		</div>
 		<!-- content -->
 		<div class="content">
@@ -152,6 +154,11 @@ $typeDocument = $post->get_documents()[0]->type();
 				<p>12</p> -->
 			</div>
 			<div class="right">
+				<?php if(!$isComment): ?>
+				<a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;path=/'">
+					<img class="soutenirButton cursor" src="<?= Routes::url_for('/img/svg/coin.svg')?>">
+				</a>
+				<?php endif ?>
                 <button class="copy-to-clipboard cursor" data-clipboard-text="<?=Config::URL_ROOT(false) . $urlComment?>">
                     <img src="<?= Routes::url_for('/img/svg/share.svg')?>">
                     <img class="hidden" src="<?= Routes::url_for('/img/svg/check.svg')?>">
@@ -160,6 +167,17 @@ $typeDocument = $post->get_documents()[0]->type();
 			</div>
 			
 		</div>
+		<?php if($isComment): ?>
+			<form class="donateForm" enctype="multipart/form-data" action="<?=Routes::url_for('/donatejetons')?>" method="post">
+				<div>
+					<input type="number" name="number" class="numberinput">
+					<img class="soutenirButton" src="<?=Routes::url_for('/img/svg/coin.svg')?>">
+				</div>
+				<label for="donate">Soutenir !</label>
+				<input id="donate" type="submit" name="donate" value="donate" hidden>
+				
+			</form>
+		<?php endif ?>
 		<!-- descritpion -->
 		<?php if($isComment): ?>
 		<p class="postdescritp"><?=$description?></p>
