@@ -62,3 +62,5 @@ input.addEventListener("input", function(){
 
 updateLabel()
 updateXP()
+var infos = JSON.parse(commu.value);
+number.max = infos["nbjetons"];
