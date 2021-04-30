@@ -23,12 +23,15 @@ if (!sizeof($communities)>0){
 }else{
 ?>
 	<?php 
-	$can_collect = $user->can_collect_daily_coins_at_least_one();
+	$can_collect =$user->can_collect_daily_coins_at_least_one();
 	?>
 
 	<!-- bouton pour recup ses jetons -->
 	<?php if($can_collect): ?>
-		<a class="collectJeton animate2" href="<?=Routes::url_for('./dailies/collect_all')?>">Collect<img src="<?=Routes::url_for('/img/svg/coin.svg')?>"></a>
+		<form class="collectForm" enctype="multipart/form-data" action="<?=Routes::url_for('/dailies/collect_all')?>" method="post">
+			<label for="collect" class="collectJeton animate2">Collect<img src="<?=Routes::url_for('/img/svg/coin.svg')?>"></label>
+			<input id="collect" type="submit" name="collect" hidden>
+		</form>
 	<?php endif; ?>	
 
 	<div class="bankIntro">

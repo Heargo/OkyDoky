@@ -17,6 +17,7 @@ function updateLabel(){
 function updateXP(){
 	var infos = JSON.parse(commu.value);
 	var com = infos['id'];
+	console.log(infos)
 	var jetonInCom= infos['nbjetons'];
 	if(input.value!=""){
 		var xp = parseInt(infos["currentXpPoint"])+(parseInt(input.value)*10)

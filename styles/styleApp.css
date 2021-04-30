@@ -1757,11 +1757,13 @@ h2.confirmation{
 
 
 /*bank*/
-.collectJeton{
+
+.collectForm{
 	position: absolute;
-	width: 200px;
 	margin: 0 calc((100% - 200px) / 2);
-	transform: translateY(180px);
+}
+.collectJeton{
+	width: 200px;
 	text-align: center;
 	text-decoration: none;
 	color: #2f3542;
@@ -1778,7 +1780,7 @@ h2.confirmation{
 }
 /* coin animation */
 @keyframes beat2{
-	to { transform: translateY(180px) scale(1.1); }
+	to { transform:scale(1.1); }
 }
 
 .collectJeton img{
@@ -1812,8 +1814,8 @@ h2.confirmation{
 	width: 90%;
 	max-width: 500px;
 	margin: 0 auto;
+	margin-top: 25px;
 	font-style: italic;
-	justify-content: all;
 }
 
 .inbank form{
