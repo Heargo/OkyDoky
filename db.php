@@ -41,7 +41,7 @@ $DB->query("
 CREATE TABLE IF NOT EXISTS `$document` (
     `id_$document` int unsigned NOT NULL AUTO_INCREMENT,
     `post` int unsigned NULL,
-    `type` enum('link','image','pdf') NOT NULL,
+    `type` varchar(70) NOT NULL,
     `url` varchar(200) NULL,
     `path` varchar(200) NULL,
     `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
