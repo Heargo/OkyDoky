@@ -30,8 +30,13 @@ $typeDocument = $post->get_documents()[0]->type();
 						"5-violet",
 						"final");
 			$level = $publisher->level_in_community($comm)[0];
-			$i =round($level/2)-1;
-			$urlbadge = Routes::url_for("/img/svg/medals/".$badges[$i].".svg")
+			if ($level>32){
+				$urlbadge = Routes::url_for("/img/svg/medals/final.svg");
+			}else{
+				$i =round($level/2)-1;
+				$urlbadge = Routes::url_for("/img/svg/medals/".$badges[$i].".svg");
+			}
+			
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
 				<p><?php echo "<img src='$profile_pic' alt='profil'>"; ?></p>

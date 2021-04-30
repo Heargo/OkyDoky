@@ -77,8 +77,13 @@ function updatelevel(nickname,community){
 			var level = this.response["level"]
 			// change le badge
 			var badge = document.getElementById("badgeIcon");
-			var i = Math.round(level/2)-1;
-			badge.src=(route+"/img/svg/medals/"+badges[i]+".svg");
+			if (level>32){
+				badge.src=(route+"/img/svg/medals/final.svg");
+			}else{
+				var i = Math.round(level/2)-1;
+				badge.src=(route+"/img/svg/medals/"+badges[i]+".svg");
+			}
+			
 
 			//change le niveau
 			var levelText = document.getElementById("badgeText");
