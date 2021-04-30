@@ -1384,7 +1384,7 @@ h2.confirmation{
 
 .profil-infos-container{
 	position: relative;
-	width: 100%;
+	width: 80%;
 }
 
 
@@ -1423,6 +1423,9 @@ h2.confirmation{
 }
 .nameprofil{
 	transform: translateX(10px) translateY(50%);
+	width: 50vw;
+	overflow: hidden;
+    text-overflow: ellipsis;
 }
 .roleprofil{
 	display: flex;
