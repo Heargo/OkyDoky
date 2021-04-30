@@ -1,11 +1,11 @@
 var commu = document.getElementById("communitySelected");
 var input = document.getElementById("number");
-
+var number = document.getElementById("number");
 
 
 function updateLabel(){
-	var infos = JSON.parse(commu.value);
 	var nbjetonsLabel = document.getElementById("numberOfJeton");
+	var infos = JSON.parse(commu.value);
 	if(input.value!=""){
 		nbjetonsLabel.innerHTML=infos['nbjetons']-parseInt(input.value);
 	}else{
@@ -17,7 +17,6 @@ function updateLabel(){
 function updateXP(){
 	var infos = JSON.parse(commu.value);
 	var com = infos['id'];
-	console.log(infos)
 	var jetonInCom= infos['nbjetons'];
 	if(input.value!=""){
 		var xp = parseInt(infos["currentXpPoint"])+(parseInt(input.value)*10)
@@ -46,6 +45,8 @@ function updateXP(){
 
 commu.addEventListener("input", function(){
 		updateLabel()
+		var infos = JSON.parse(commu.value);
+		number.max = infos["nbjetons"];
 		updateXP()
 });
 
