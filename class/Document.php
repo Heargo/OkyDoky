@@ -51,6 +51,11 @@ class Document {
             elseif($tab[0]=="image"){
                 return "image";
             }
+            $filenametab = explode(".",$this->path());
+            $lastpart = $filenametab[sizeof($filenametab) - 1];
+            if($lastpart == "py"){
+                return "code";
+            }
             else{return "autre";}
         }
         else{return null;}
@@ -71,6 +76,17 @@ class Document {
     public function is_visible() : bool { 
         $int = (int) get_field_with_id($this->_db, 'visible', Config::TABLE_DOCUMENT, $this->id());
         return $int === 1;
+    }
+    
+     /**
+     * Get the name of the file
+     * 
+     * @return string the file name
+     */
+    public function filename(){
+        $filenametab = explode("/",$this->path());
+        $lastpart = $filenametab[sizeof($filenametab) - 1];
+        return $lastpart;
     }
 
     /**
@@ -105,4 +121,6 @@ class Document {
      * @return bool True if it's deleted.
      */
     public function is_deleted() : bool { return $this->path() == null; }
+
+   
 }

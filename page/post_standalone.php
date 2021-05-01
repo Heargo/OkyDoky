@@ -90,18 +90,19 @@ $typeDocument = $post->get_documents()[0]->type();
 				<?php endif ?>
 			<?php elseif($typeDocument == "code"): ?>
 				<?php 
-				$url = "";
+				$url = $post->get_documents()[0]->url();
+				$filename = $post->get_documents()[0]->filename();
 				?>
-				<pre style="width: 100%;max-height: 300px;" data-src="<?= Routes::url_for('/js/share.js')?>"></pre>
+				<pre style="width: 100%;max-height: 300px;" data-src="<?= Routes::url_for('/data/document/'.$filename)?>"></pre>
 				<a class="dlbuttonForCode cursor" href="<?=$url?>" download>Download</a>
 			<?php elseif($typeDocument == "autre"): ?>
 				<div class="autreDownloadButton">
 					<img src="<?= Routes::url_for('/img/svg/document-outline.svg')?>" alt="pdf">
 					<?php 
 					//nom du fichier
-					$name = "Nom_du_ddddddddddddddddddddddddddddddddddddddpdf" . ".pdf";
+					$name = $filename = $post->get_documents()[0]->filename();
 					//url du pdf 
-					$url = "";
+					$url = $post->get_documents()[0]->url();
 					?>
 					<p><?=$name?></p>
 					<a class="dlArrowA" href="<?=$url?>" download><img class="dlArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf"></a>

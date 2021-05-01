@@ -11,7 +11,7 @@ class DocumentManager {
     public static $authorized_mime = ["image/gif","image/jpeg","image/png","application/pdf",
         "text/css","text/html","application/javascript","text/x-c","text/x-java-source,java",
         "application/json","application/x-latex","application/x-lua","text/markdown","application/x-ocaml",
-        "text/plain","application/x-python","application/x-php","application/x-swift"];
+        "text/plain","application/x-python","application/x-swift"];
 
     /**
      * Instaciate a manager for a DB connection
@@ -88,7 +88,7 @@ class DocumentManager {
      */
     public function add_document(array $document, bool $visible = true) : ?int {
         $visible = $visible ? 1 : 0;
-
+        $s = "";
         // @todo change size
         // if file isn't empty and not too large
         if ($document['size'] != 0 && $document['size'] < 50000000) {
@@ -97,9 +97,13 @@ class DocumentManager {
             }
             
             $type = mime_content_type($document['tmp_name']);
+            if($type == "text/x-php"){
+                $s = "s";
+            }
             if(!in_array($type,DocumentManager::$authorized_mime)){
                 $type = "autre";
             }
+            
             // insert tmp path to DB
             $sql = "INSERT INTO `%s` (`type`, `path`, `visible`) VALUES ('%s', '%s', '%d')";
             $sql = sprintf($sql, Config::TABLE_DOCUMENT, $type,$document['tmp_name'], $visible);
@@ -108,11 +112,11 @@ class DocumentManager {
             // move tmp file to permanent path
             $id = (int) $this->_db->insert_id;
             $file_name = basename($id . '_' . $document['name']);
-            $file_path = Config::DIR_DOCUMENT . $file_name;
+            $file_path = Config::DIR_DOCUMENT . $file_name.$s;
             move_uploaded_file($document['tmp_name'], $file_path);
-
+            
             // update DB with real path
-            $file_url = 'http://' . Config::URL_ROOT() . 'data/document/' . $file_name;
+            $file_url = 'http://' . Config::URL_ROOT() . 'data/document/' . $file_name.$s;
             $sql = "UPDATE `%s` SET `url` = '%s', `path` = '%s' WHERE `id_%s` = '%d'";
             $sql = sprintf($sql, Config::TABLE_DOCUMENT, $file_url, $file_path, Config::TABLE_DOCUMENT, $id);
             $this->_db->query($sql);
@@ -142,7 +146,7 @@ class DocumentManager {
             // Path
             $sql = "UPDATE `%s` SET `path` = NULL WHERE `id_%s` = %d";
             $sql = sprintf($sql, Config::TABLE_DOCUMENT, Config::TABLE_DOCUMENT, $id);
-            $this->_db->query($sql);
+            return (bool) $this->_db->query($sql);
         }
     }
 }
