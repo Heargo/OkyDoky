@@ -98,7 +98,7 @@ class DocumentManager {
             
             $type = mime_content_type($document['tmp_name']);
             if(!in_array($type,DocumentManager::$authorized_mime)){
-                $type = "other";
+                $type = "autre";
             }
             // insert tmp path to DB
             $sql = "INSERT INTO `%s` (`type`, `path`, `visible`) VALUES ('%s', '%s', '%d')";
