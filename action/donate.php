@@ -8,6 +8,7 @@ function giveTo(?array $match) {
 	if ($from->coins_in_community($in) >= $hmCoins && $hmCoins > 0 && $from->id() != $to->id()) {
 		$to->add_coins_in_community($in, $hmCoins);
 		$from->add_coins_in_community($in, -$hmCoins);
+		$from->add_points_in_community($in, $hmCoins);
 	} 
 	$root = Config::URL_SUBDIR(false);
 	var_dump($_POST['urlRedirect']);

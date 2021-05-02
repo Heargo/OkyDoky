@@ -52,7 +52,11 @@ function more_posts(?array $match) {
 }
 
 function del_post(?array $match){
-    return $GLOBALS['posts']->del_post($GLOBALS['posts']->get_by_id($_POST['id']));
+    $ptd = $GLOBALS['posts']->get_by_id($_POST['id']);
+    if (User::current()->id() != $ptd->publisher()->id()) {
+        $ptd->publisher()->add_points_in_community($ptd->community(),-50);
+    }
+    return $GLOBALS['posts']->del_post($ptd);
 }
 function send_highlight_post(?array $match){
     //@TODO Si l'utilisateur connecté a les droits

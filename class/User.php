@@ -629,6 +629,19 @@ class User {
             }
             return true;
         }
+        elseif (0 > $tabLvl[1]) {
+            if ($tabLvl[1] == 1) {
+                $sql = sprintf("UPDATE `%s` SET level = 1, xpoints = 0 WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+                $result = $this->_db->query($sql);
+            } else {
+                $sql = sprintf("UPDATE `%s` SET level = (level - 1), xpoints = (xpoints + %d) WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,User::hmptlvlup($tabLvl[0]-1),$this->id(),$comm->id());
+                $result = $this->_db->query($sql);
+                if ($result) {
+                    $this->update_level_in_community($comm);
+                }
+            }
+            return true;
+        }
         return false;
     }
 

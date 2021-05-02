@@ -1,6 +1,13 @@
 <?php
+
+
+
 function delete_comment(?array $match){
-    return $GLOBALS['comments']->deleteComment($GLOBALS['comments']->get_by_id($_POST['id']));
+    $ctd = $GLOBALS['comments']->get_by_id($_POST['id']);
+    if (User::current()->id() != $ctd->author()->id()) {
+        $ctd->author()->add_points_in_community($ctd->post()->community(),-25);
+    }
+    return $GLOBALS['comments']->deleteComment($ctd);
 }
 
 function like(?array $match) {
