@@ -22,7 +22,7 @@ class PostManager {
 			throw new UserCantInteract("User ".$publisher->nickname()." cannot interact with ".$community->get_name()."'s community!");
 		} TODO */
 		$sql = "INSERT INTO `%s` (`publisher`, `community`, `title`) VALUES ('%d','%d','%s')";
-		$sql = sprintf($sql, Config::TABLE_POST, $publisher->id(), $commu->id(), $title);
+		$sql = sprintf($sql, Config::TABLE_POST, $publisher->id(), $commu->id(), sanitize_text($title));
 		$creation_ok = $this->_db->query($sql);
 		$description_ok = false;
 		$documents_ok = false;

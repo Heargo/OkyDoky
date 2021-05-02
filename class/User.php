@@ -123,6 +123,7 @@ class User {
     public function set_display_name($d_n) : bool {
         
         $id=$this->_id;
+        $d_n = sanitize_text($d_n);
         $sql="UPDATE `user` SET `display_name` = '$d_n' WHERE `user`.`id_user` = $id;";
         $result = $this->_db->query($sql);
         if($result){
@@ -136,6 +137,7 @@ class User {
      */
     public function set_description($d){
         $id=$this->_id;
+        $d = sanitize_text($d);
         $sql="UPDATE `user` SET `description` = '$d' WHERE `user`.`id_user` = $id;";
         $result = $this->_db->query($sql);
         if($result){

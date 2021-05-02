@@ -72,7 +72,7 @@ class Post {
 	 */
 	public function set_title_to(string $title) {
 		$sql = "UPDATE `%s` SET `title` = '%s' WHERE `id_%s` = %s";
-		$sql = sprintf($sql, Config::TABLE_POST, $title, Config::TABLE_POST, $this->id());
+		$sql = sprintf($sql, Config::TABLE_POST, sanitize_text($title), Config::TABLE_POST, $this->id());
 
 		return $this->_db->query($sql);
 	}
@@ -85,7 +85,7 @@ class Post {
 	 */
 	public function set_description_to(string $description) {
 		$sql = "UPDATE `%s` SET `description` = '%s' WHERE `id_%s` = %s";
-		$sql = sprintf($sql, Config::TABLE_POST, $description, Config::TABLE_POST, $this->id());
+		$sql = sprintf($sql, Config::TABLE_POST, sanitize_text($description), Config::TABLE_POST, $this->id());
 
 		return $this->_db->query($sql);
 	}

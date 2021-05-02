@@ -85,7 +85,7 @@ class CommentManager {
         $visible = $visible ? 1 : 0;
         $text = filter_var($text, FILTER_SANITIZE_SPECIAL_CHARS);
 		$sql = "INSERT INTO `%s` (`author`, `post`, `text`, `visible`) VALUES (%d,%d,'%s',%d)";
-		$sql = sprintf($sql, Config::TABLE_COMMENT, $author->id(), $p->id(), $text, $visible);
+		$sql = sprintf($sql, Config::TABLE_COMMENT, $author->id(), $p->id(), sanitize_text($text), $visible);
         $result = $this->_db->query($sql);
 
         if ($result) {
