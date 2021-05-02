@@ -45,6 +45,7 @@ function load_comment($c){
     
     $n=$c->author()->nickname();
     $canManage=$c->author()==User::current();
+    $isAdminCommu=User::current()->perm($c->post()->community())->is(P::ADMIN);
     $postID=$c->id();
     ?>
     <div class="commentaireAlone" id="com-<?=$postID?>">
@@ -122,7 +123,7 @@ function load_comment($c){
         </span>
         </p>
         <!-- ... for commentaire -->
-        <?php if($canManage): ?>
+        <?php if($canManage or $isAdminCommu): ?>
             <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor three-dots-comment" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
             <ul id="Settings-<?=$postID?>" class="menuSettings menuSettingsCommentaire hidden">
                 <li onclick="del_comment(<?= $c->id() ?>)"href="">Supprimer</li>
