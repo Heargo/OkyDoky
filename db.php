@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `$community` (
     `display_name` varchar(100) NULL,
     `cover` int unsigned NULL,
     `description` tinytext NULL,
+    `rules` text NULL,
     `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `highlight_post` int unsigned NULL,
     `is_private` tinyint(1) NOT NULL DEFAULT 0,

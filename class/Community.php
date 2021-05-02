@@ -8,6 +8,7 @@ class Community{
     private $_display_name;
     private $_cover;
     private $_description;
+    private $_rules;
     private $_highlight_post;
 
     public function __construct(mysqli $db, int $id){
@@ -24,6 +25,7 @@ class Community{
         $this->_display_name = $row["display_name"];
         $this->_cover = $row["cover"];
         $this->_description = $row["description"];
+        $this->_rules = $row['rules'];
         $this->_highlight_post = $row['highlight_post'];
     }
 
@@ -43,31 +45,65 @@ class Community{
      * Set the display name of the community
      */
     public function set_display_name(String $display_name){
-        $_display_name = $display_name;
-        $sql = "UPDATE `%s` SET `display_name` = '$display_name' WHERE `%s`.`id_%s` = $this->_id ;";
-        $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        $this->_display_name = $display_name;
+        $sql = "UPDATE `%s` SET `display_name` = '%s' WHERE `%s`.`id_%s` = $this->_id ;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,sanitize_text($display_name),Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         return $this->_db->query($sql);
     }
   
     /**
      * Get the display name of the community
+     * 
+     * @return string Community's display name
      */
     public function get_display_name(){
         return $this->_display_name;
     }
 
+    /**
+     * Set a community's description
+     * 
+     * @param string the description you want 
+     * @return bool if it worked or not
+     */
     public function set_description(String $description){
         $this->_description = $description;
-        $sql = "UPDATE `%s` SET `description` = '$description' WHERE `%s`.`id_%s` = $this->_id;";
-        $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        $sql = "UPDATE `%s` SET `description` = '%s' WHERE `%s`.`id_%s` = $this->_id;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,sanitize_text($description),Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         return $this->_db->query($sql);
     }
 
     /**
      * Get a community's description
+     * 
+     * @param int The number of character you want
+     * @return string the description 
      */
     public function get_description(?int $length = null){
         return substr($this->_description,0,$length);
+    }
+
+    /**
+     * Set a community's rules
+     * 
+     * @param string the rules you want 
+     * @return bool if it worked or not
+     */
+    public function set_rules(String $rules){
+        $this->_rules = $rules;
+        $sql = "UPDATE `%s` SET `rules` = '$rules' WHERE `%s`.`id_%s` = $this->_id;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,sanitize_text($rules),Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        return $this->_db->query($sql);
+    }
+
+     /**
+     * Get a community's rules
+     * 
+     * @param int The number of character you want
+     * @return string the rules 
+     */
+    public function rules(?int $length = null){
+        return substr($this->_rules,0,$length);
     }
 
     /**
