@@ -80,7 +80,7 @@ class Community{
      * @return string the description 
      */
     public function get_description(?int $length = null){
-        return substr($this->_description,0,$length);
+        return htmlspecialchars_decode(substr($this->_description,0,$length));
     }
 
     /**
