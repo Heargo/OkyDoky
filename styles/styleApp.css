@@ -1294,7 +1294,7 @@ h2.confirmation{
     height: 110px;
     animation: animate-big 25s linear infinite;
     animation-delay: 3s;
-    background-color: #c779d0;
+    background-color: #4bc0c8;
 }
 
 .circles li:nth-child(7){
@@ -1313,7 +1313,7 @@ h2.confirmation{
     animation: animate 25s linear infinite;
     animation-delay: 2s;
     animation-duration: 20s;
-    background-color: #4bc0c8;
+    background-color: #c779d0;
 }
 
 .circles li:nth-child(9){

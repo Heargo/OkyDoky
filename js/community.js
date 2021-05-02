@@ -2,6 +2,7 @@ try{
 var carrousel = document.getElementById("carroussel");
 var slideIndex = getSlideOfID(parseInt(carrousel.dataset.current));
 showSlides(slideIndex);
+Prism.highlightAll();
 }catch(error){
 }
 
@@ -125,6 +126,7 @@ function loadAC(){
       
             //on écrit les nouveaux results
             communityContentContainer.insertAdjacentHTML('beforeend', this.response);
+            Prism.highlightAll();
         }
     };
     xhr.open("POST","./ajax/ac",true);

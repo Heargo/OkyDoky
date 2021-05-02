@@ -155,7 +155,7 @@ $typeDocument = $post->get_documents()[0]->type();
 				<p>12</p> -->
 			</div>
 			<div class="right">
-				<?php if(!$isComment): ?>
+				<?php if(!$isComment and $publisher!=User::current()): ?>
 				<a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;path=/'">
 					<img class="soutenirButton cursor" src="<?= Routes::url_for('/img/svg/coin.svg')?>">
 				</a>
@@ -169,7 +169,7 @@ $typeDocument = $post->get_documents()[0]->type();
 			
 		</div>
 		<!-- form pour soutenir -->
-		<?php if($isComment): ?>
+		<?php if($isComment && $publisher!=User::current()): ?>
 			<form class="donateForm" enctype="multipart/form-data" action="<?=Routes::url_for('/donatejetons')?>" method="post">
 				<?php 
 				$nbjetons = User::current()->coins_in_community($comm);
