@@ -767,6 +767,12 @@ textarea:focus, input:focus{
 	box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+#descriptionCommu * {
+	width: 100%;
+	min-width: calc(300px - 0.8rem);
+	max-width: calc(700px - 0.8rem);
+}
+
 .communityTitle{
 	font-weight: normal;
 	font-size: 2.2rem;

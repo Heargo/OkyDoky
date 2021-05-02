@@ -16,7 +16,6 @@
 $communities = User::current()->get_communities();
 if(!empty($communities)){
 	$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
-
 }
 
 if (sizeof($communities)>0){ ?>
@@ -44,6 +43,7 @@ if (sizeof($communities)>0){ ?>
 	</div>
 	<div class="descCommuContainer">
 		<p id="descriptionCommu"></p>
+
 		<?php if($isAdmin){ ?>
 			<a class="editCommubtn" href="<?= Routes::url_for('/panel-admin')?>">Panel administrateur<img  src="<?= Routes::url_for('/img/svg/edit.svg')?>"></a>
 		<?php } ?>

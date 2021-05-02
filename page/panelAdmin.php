@@ -45,10 +45,9 @@ if ($isAdmin) {
 			<p><?=$comm->get_nb_members()?></p>
 		</div>
 	</div>
-
 	<div class="descCommuContainer">
 			<?php if(strlen($comm->get_description())>0): ?>
-				<p id="descriptionCommu"><?=$comm->get_description()?></p>
+				<p id="descriptionCommu"><?=$comm->get_description();?></p>
 			<?php endif ?>
 			<?php if($isAdmin){ ?>
 				<a class="editCommubtn" href="<?= Routes::url_for('/modify-community')?>">Modifier la communauté<img  src="<?= Routes::url_for('/img/svg/edit.svg')?>"></a>
