@@ -630,7 +630,7 @@ class User {
             return true;
         }
         elseif (0 > $tabLvl[1]) {
-            if ($tabLvl[1] == 1) {
+            if ($tabLvl[0] == 1) {
                 $sql = sprintf("UPDATE `%s` SET level = 1, xpoints = 0 WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
                 $result = $this->_db->query($sql);
             } else {
