@@ -176,6 +176,9 @@ $typeDocument = $post->get_documents()[0]->type();
 				?>
 				<div>
 					<input id="nbjetonstogive" type="number" name="number" class="numberinput" min="0" max="<?=$nbjetons?>">
+					<input type="hidden" name="to" value="<?= $post->publisher()->id() ?>" />
+					<input type="hidden" name="urlRedirect" value="/c/<?= $comm->get_name() ?>/post/<?= $post->id() ?>" />
+					<input type="hidden" name="in" value="<?= $comm->id() ?>" />
 					<img class="soutenirButton" src="<?=Routes::url_for('/img/svg/coin.svg')?>">
 				</div>
 				<label for="donate">Soutenir !</label>
