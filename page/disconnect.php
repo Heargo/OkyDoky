@@ -1,6 +1,6 @@
 <?php 
 
 User::current()->disconnect();
-header("Location: .");
+header("Location: ./login");
 
 ?>

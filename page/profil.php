@@ -4,7 +4,9 @@
 	<title>OkyDoky</title>
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
-  <link rel="stylesheet" href="<?= Routes::url_for('/styles/styleApp.css')?>">
+  	<link rel="stylesheet" href="<?= Routes::url_for('/styles/styleApp.css')?>">
+  	<!-- prism -->
+  	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/prism.css')?>">
 </head>
 
 <body>
@@ -185,6 +187,7 @@ else{
 <script type="text/javascript">
 	switchFilter(<?=$_SESSION["current_community"]?>,'<?=$GLOBALS["page"]["userOfUrl"]->nickname()?>')
 </script>
+<script src="<?= Routes::url_for('/js/prism.js')?>"></script>
 
 </html>
 

@@ -15,13 +15,6 @@
 
 <div class="BestUserContainer">
 	<div class="profilMisEnAvant">
-		<h3 class="hidden">Certifiés</h3>
-		<ul class="hidden">
-			<li onclick="document.location.href='./user/Bouba'"><img src="./img/img1.jpg"></li>
-			<li onclick="document.location.href='./user/JeSuisMalin'"><img src="./img/img1.jpg"></li>
-			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
-			<li onclick="document.location.href='./user/LesFous'"><img src="./img/img1.jpg"></li>
-		</ul>
 		<?php
 			if(!empty(User::current()->get_communities())) {
 				echo "<h3>Les + actifs</h3><ul>";
