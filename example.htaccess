@@ -5,3 +5,4 @@ RewriteCond %{REQUEST_URI} !^/user/index.php
 RewriteCond %{REQUEST_URI} !^/user/(img|static|styles|data|js)/.*
 RewriteRule ^.*$ /user/index.php [L,QSA]
 
+AddType application/x-httpd-php-source .phps
