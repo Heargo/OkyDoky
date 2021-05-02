@@ -25,7 +25,14 @@
 		<!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
 		<label id ="uploadbtn" for="file" class="fileUploadLabel cursor"><img src="./img/svg/upload.svg"></label>
 		<input class="fileUploadInput" id="file" name="file" type="file"/>
-		<img id="preview" class="hidden preview" src="#" alt="preview">
+		<!-- preview image -->
+		<img id="preview-img" class="hidden preview" src="#" alt="preview">
+		<!-- preview pdf -->
+		<div id="preview-pdf" class="pdfDownloadButton hidden">
+			<img src="<?= Routes::url_for('/img/svg/pdf.svg')?>" alt="pdf">
+			<p id="preview-pdf-name"></p>
+			<img class="dlArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf">
+		</div>
 		
 		<!-- Description -->
 		<textarea class="descriptionInput" type="text" name="description" placeholder="Description."></textarea>
