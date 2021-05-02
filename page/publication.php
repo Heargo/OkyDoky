@@ -43,6 +43,16 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
 </body>
 <script type="text/javascript">
 	var route="<?=Config::URL_SUBDIR(false)?>";
+
+	var input = document.getElementById("nbjetonstogive");
+	var maxi = parseInt(input.max);
+	input.addEventListener("input", function(){
+		if (input.value>maxi) {
+			input.classList.add("badinput")
+		}else{
+			input.classList.remove("badinput")
+		}
+	});
 </script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/likesAjax.js')?>"></script>

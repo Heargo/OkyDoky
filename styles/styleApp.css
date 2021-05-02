@@ -1019,6 +1019,10 @@ button.copy-to-clipboard{
 	justify-content: space-between;
 }
 
+.badinput{
+	border: 2px solid #E74C3C;
+}
+
 .donateForm .numberinput{
 	height: 32px;
 	margin: 0;
@@ -1735,9 +1739,10 @@ h2.confirmation{
 }
 
 .postEnTete2{
+	height: 75px;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
+	justify-content: flex-end;
 	position: absolute;
 	transform:scale(.7)translateY(-30px)translateX(40px);
 }

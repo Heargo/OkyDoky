@@ -168,10 +168,14 @@ $typeDocument = $post->get_documents()[0]->type();
 			</div>
 			
 		</div>
+		<!-- form pour soutenir -->
 		<?php if($isComment): ?>
 			<form class="donateForm" enctype="multipart/form-data" action="<?=Routes::url_for('/donatejetons')?>" method="post">
+				<?php 
+				$nbjetons = User::current()->coins_in_community($comm);
+				?>
 				<div>
-					<input type="number" name="number" class="numberinput">
+					<input id="nbjetonstogive" type="number" name="number" class="numberinput" min="0" max="<?=$nbjetons?>">
 					<img class="soutenirButton" src="<?=Routes::url_for('/img/svg/coin.svg')?>">
 				</div>
 				<label for="donate">Soutenir !</label>
