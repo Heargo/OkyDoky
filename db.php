@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `$user_comm` (
     `permission` int unsigned NOT NULL,
     `certified` tinyint(1) NOT NULL DEFAULT 0,
     `level` int unsigned NOT NULL DEFAULT 1,
-    `xpoints` int unsigned NOT NULL DEFAULT 0,
+    `xpoints` int NOT NULL DEFAULT 0,
     `coins` int unsigned NOT NULL DEFAULT 0,
     `last_collect` datetime NOT NULL DEFAULT '1900-01-01 00:00:00.000000',
     
