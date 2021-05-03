@@ -50,3 +50,10 @@ function JoinOrLeaveCommu(?array $match){
 		$_SESSION["current_community"] = (int) $_POST['idCommu'];
 	}
 }
+
+function get_rules(?array $match){
+    //@TODO Si l'utilisateur connecté a les droits
+    $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+    $rules = $comm->rules();
+	echo "<p>$rules</p>";
+}

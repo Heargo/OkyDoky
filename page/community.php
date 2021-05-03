@@ -63,6 +63,8 @@ if (sizeof($communities)>0){ ?>
 			}
 			
 			load_admin_container();
+
+			get_rules(array());
 		?>
 		
 	</section>

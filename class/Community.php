@@ -91,7 +91,7 @@ class Community{
      */
     public function set_rules(String $rules){
         $this->_rules = $rules;
-        $sql = "UPDATE `%s` SET `rules` = '$rules' WHERE `%s`.`id_%s` = $this->_id;";
+        $sql = "UPDATE `%s` SET `rules` = '%s' WHERE `%s`.`id_%s` = $this->_id;";
         $sql = sprintf($sql,Config::TABLE_COMMUNITY,sanitize_text($rules),Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         return $this->_db->query($sql);
     }

@@ -76,6 +76,7 @@ function showSlides(n) {
     changeCommu(slides[slideIndex-1].childNodes[1].dataset.idcommu);
     loadHP();
     loadAC();
+    loadRules();
 }
 
 function switchComs(){
@@ -148,14 +149,16 @@ function loadRules(){
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
             var rules = this.response;
-            //console.log(rules);
+            console.log(rules);
             //on supprime les resultats précédents
-      communityContentContainer = document.getElementById("communityContentContainer");
-            var rules_zone = communityContentContainer.children[3];
+            communityContentContainer = document.getElementById("communityContentContainer");
+            var rules_zone = communityContentContainer.children[2];
+            console.log(rules_zone);
             communityContentContainer.removeChild(rules_zone);
       
             //on écrit les nouveaux results
             communityContentContainer.insertAdjacentHTML('beforeend', this.response);
+            
         }
     };
     xhr.open("POST","./ajax/rules",true);
