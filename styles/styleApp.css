@@ -494,6 +494,19 @@ form{
 	transform: scale(0.3)translate(400px,-400px)  ;
 }
 
+.fileUploadLabel.btn-when-preview-not-img{
+	height: 32px;
+	width: 32px;
+	line-height: 32px;
+}
+.fileUploadLabel.btn-when-preview-not-img img{
+	transform:scale(1);
+	height: 32px;
+	width: 32px;
+	
+}
+
+
 .fileUploadInput{
 	display: none;
 }
