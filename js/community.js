@@ -6,7 +6,17 @@ Prism.highlightAll();
 }catch(error){
 }
 
-
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
 
 
 // Next/previous controls
@@ -54,7 +64,7 @@ function showSlides(n) {
     slides[slideIndex-1].style.display = "block";
     captionText.innerHTML = slides[slideIndex-1].childNodes[1].alt;
     numberText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.number;
-    descText.innerHTML = slides[slideIndex-1].childNodes[1].dataset.description;
+    descText.innerHTML = escapeHtml(slides[slideIndex-1].childNodes[1].dataset.description);
     desc = slides[slideIndex-1].childNodes[1].dataset.description;
     if (desc.length==0){
       descText.classList.add("hidden")
