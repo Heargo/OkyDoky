@@ -27,7 +27,7 @@
 		<?php 
 			$cover = $commu->get_cover();
 		?>
-		<img id="preview" class="previewImgCommu" src="<?php echo $cover;?>" alt="preview">
+		<img id="preview-img" class="previewImgCommu" src="<?php echo $cover;?>" alt="preview">
 		<label id ="uploadbtnProfil" for="file" class="fileUploadLabelProfil cursor">Changer...</label>
 		<input class="fileUploadInput" id="file" name="file" type="file" />
 
