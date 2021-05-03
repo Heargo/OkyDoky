@@ -5,6 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
 	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/styleApp.css')?>">
+	<!-- prism -->
+  	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/prism.css')?>">
 </head>
 <body>
 
@@ -33,6 +35,14 @@
 			<p id="preview-pdf-name"></p>
 			<img class="dlArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf">
 		</div>
+		<!-- preview autre -->
+		<div id="preview-autre" class="autreDownloadButton hidden">
+			<img src="<?= Routes::url_for('/img/svg/document-outline.svg')?>" alt="pdf">
+			<p id="preview-autre-name"></p>
+			<img class="dlArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf">
+		</div>
+		<!-- preview code -->
+		<pre id="preview-code" class="hidden" style="width: 100%;max-height: 300px;" data-src=""></pre>
 		
 		<!-- Description -->
 		<textarea class="descriptionInput" type="text" name="description" placeholder="Description."></textarea>
@@ -72,5 +82,6 @@
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="<?= Routes::url_for('/js/imagePreview.js')?>"></script>
+<script src="<?= Routes::url_for('/js/preview.js')?>"></script>
+<script src="<?= Routes::url_for('/js/prism.js')?>"></script>
 </html>
