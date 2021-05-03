@@ -14,6 +14,7 @@ $vote      = Config::TABLE_VOTE;
 $comment   = Config::TABLE_COMMENT;
 $like      = Config::TABLE_LIKE;
 $label     = Config::TABLE_LABEL;
+$friend    = Config::TABLE_FRIEND;
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 0;");
 
@@ -133,6 +134,19 @@ CREATE TABLE IF NOT EXISTS `$user_comm` (
 );
 
 $DB->query("
+CREATE TABLE IF NOT EXISTS `$friend` (
+    `user1` int unsigned NOT NULL,
+    `user2` int unsigned NOT NULL,
+    `ask_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `hasAccepted` tinyint(1) NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (`user1`,`user2`),
+    FOREIGN KEY (`user1`) REFERENCES `$user`(`id_$user`),
+    FOREIGN KEY (`user2`) REFERENCES `$user`(`id_$user`),
+);"
+);
+
+$DB->query("
 CREATE TABLE IF NOT EXISTS `$comment` (
     `id_$comment` int unsigned NOT NULL AUTO_INCREMENT,
     `post` int unsigned NOT NULL,
@@ -173,5 +187,5 @@ CREATE TABLE IF NOT EXISTS `$label` (
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 1;");
 
-unset($document, $user, $community, $resource, $post, $vote, $comment, $like, $label);
+unset($document, $user, $community, $user_comm, $resource, $post, $vote, $comment, $like, $label, $friend);
 

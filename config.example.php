@@ -26,6 +26,7 @@ class Config {
     public const TABLE_COMMENT = 'comment';
     public const TABLE_LIKE = 'like';
     public const TABLE_LABEL = 'label';
+    public const TABLE_FRIEND = 'friend';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
