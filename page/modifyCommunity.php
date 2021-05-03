@@ -27,7 +27,7 @@
 		<?php 
 			$cover = $commu->get_cover();
 		?>
-		<img id="preview" class="previewImgCommu" src="<?php echo $cover;?>" alt="preview">
+		<img id="preview-img" class="previewImgCommu" src="<?php echo $cover;?>" alt="preview">
 		<label id ="uploadbtnProfil" for="file" class="fileUploadLabelProfil cursor">Changer...</label>
 		<input class="fileUploadInput" id="file" name="file" type="file" />
 
@@ -37,6 +37,13 @@
 			$desc = trim($commu->get_description());
 		?>
 		<textarea maxlength="237" class="descriptionInputCommu" type="text" name="description"><?php echo $desc;?></textarea>
+		<!-- Règles -->
+		<H3> Règles de la communauté </H3>
+		<?php 
+			$rules = trim($commu->rules());
+		?>
+		<textarea maxlength="10000" class="descriptionInputCommu" type="text" name="rules"><?php echo $rules;?></textarea>
+
 		
 		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>
 		<input id ="submit" type="submit" value="create" />	
@@ -47,5 +54,5 @@
 <?php include 'backgroundItems.php'; ?>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="<?= Routes::url_for('/js/imagePreview.js')?>"></script>
+<script src="<?= Routes::url_for('/js/preview.js')?>"></script>
 </html>

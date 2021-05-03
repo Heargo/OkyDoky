@@ -42,7 +42,6 @@ function addPostToContainer(post_html,container) {
     container.appendChild(post);
     pre = post.querySelector("pre");
     if (pre!=null){
-        console.log("je rechagre")
         Prism.highlightElement(pre);
     }
     

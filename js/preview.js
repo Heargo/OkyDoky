@@ -23,26 +23,35 @@ function preview(input) {
 	if (input.files && input.files[0]) {
       var file = input.files[0];
     	var reader = new FileReader();
-
-
+      var preview_img = document.getElementById('preview-img');
       var preview_autre = document.getElementById('preview-autre');
       var preview_code = document.getElementById('preview-code');
-      var preview_img = document.getElementById('preview-img');
       var preview_pdf =document.getElementById('preview-pdf');
 
+
+      if(preview_autre==null){
+        var onlyIMG=true;
+      }else{
+        var onlyIMG=false;
+      }
+      
+      console.log(onlyIMG)
       //on lis le MIME
       var mime = file.type;
       console.log(mime);
       //IMAGE
-      if (image.includes(mime)) {
+      if (image.includes(mime) || onlyIMG) {
         reader.onload = function(e) {
           preview_img.src=e.target.result
         }
         reader.readAsDataURL(file);
 
-        preview_pdf.classList.add("hidden");
-        preview_autre.classList.add("hidden");
-        preview_code.classList.add("hidden");
+        if (!onlyIMG){
+          preview_pdf.classList.add("hidden");
+          preview_autre.classList.add("hidden");
+          preview_code.classList.add("hidden");
+        }
+
         preview_img.classList.remove('hidden');
       }
       //PDF
@@ -76,9 +85,12 @@ function preview(input) {
         preview_code.classList.add("hidden");
         preview_autre.classList.remove("hidden");
       }
-      //on change l'appercu et le bouton
-      var btn = document.getElementById('uploadbtn');
-      btn.classList.add('btn-when-preview');
+      try {
+        //on change l'appercu et le bouton
+        var btn = document.getElementById('uploadbtn');
+        btn.classList.add('btn-when-preview');
+      } catch(e) {}
+      
 
   }
 }
