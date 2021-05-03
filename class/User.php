@@ -645,7 +645,98 @@ class User {
         return false;
     }
 
+
+    /**
+     * Add a friend to this user
+     *
+     * @param $u User The user aimed to be friend by this user
+     * @return bool If it worked or not
+     */
+    public function add_friend(User $u) {
+        if ($this->isFriend($u) || $u->isFriend($this)) {
+            return false;
+        }
+        if ($u->asked_to_be_friend($this)) {
+            return $u->become_friend($this);
+        }
+        if ($this->asked_to_be_friend($u)) {
+            return $this->remove_friend($u);
+        }
+        return $this->ask_user_to_be_friend($u);
+    }
     
+    /**
+     * Say if a user is a friend of this user
+     *
+     * @param $u User The user aimed to be friend by this user
+     * @return bool If yes or no
+     */
+    public function isFriend(User $u) {
+        $sql = sprintf("SELECT * FROM `%s` WHERE `user1` = %d AND `user2` = %d AND `hasAccepted` = 1",Config::TABLE_FRIEND,$this->id(),$u->id());
+        return $this->_db->query($sql);
+    }
+    
+    /**
+     * Say if a user asked this user to be friend
+     *
+     * @param $u User The user aimed to be friend by this user
+     * @return bool If yes or no
+     */
+    public function asked_to_be_friend(User $u) {
+        $sql = sprintf("SELECT * FROM `%s` WHERE `user1` = %d AND `user2` = %d AND `hasAccepted` = 0",Config::TABLE_FRIEND,$this->id(),$u->id());
+        return $this->_db->query($sql);
+    }
+
+    /**
+     * Become friend with the given user
+     *
+     * @param $u User The given user
+     * @return bool If it worked or not
+     */
+    public function become_friend(User $u) {
+        $sql = sprintf("UPDATE `%s` SET `hasAccepted` = 1, `ask_date` = NOW() WHERE `user1` = %d AND `user2` = %d",Config::TABLE_FRIEND,$this->id(),$u->id());
+        return $this->_db->query($sql);
+    }
+
+    /**
+     * Remove friend with someone else
+     *
+     * @param $u User The given user
+     * @return bool If it worked or not
+     */
+    public function remove_friend(User $u) {
+        $sql = sprintf("DELETE FROM `%s` WHERE `user1` = %d AND `user2` = %d",Config::TABLE_FRIEND,$this->id(),$u->id());
+        return $this->_db->query($sql);
+    }
+
+    /**
+     * Create a friend request to a given user
+     *
+     * @param $u User The given user
+     * @return bool If it worked or not
+     */
+    public function ask_user_to_be_friend(User $u) {
+        $sql = sprintf("INSERT INTO `%s` (`user1`, `user2`) VALUES (%d, %d)",Config::TABLE_FRIEND,$this->id(),$u->id());
+        return $this->_db->query($sql);
+    }
+
+    /**
+     * Get all friends (or friend requests) from this user
+     *
+     * @param $friendRequests bool if we need friend requests or friends
+     * @return User[] Friends (or friend requests) from this user
+     */
+    public function get_all_friends(bool $friendRequests = false) {
+        $sql = sprintf("SELECT `user1`, `user2` FROM `%s` WHERE (`user1` = %d OR `user2` = %d) AND `hasAccepted` = %d ORDER BY `ask_date` DESC",Config::TABLE_FRIEND,$this->id(),$this->id(),!$friendRequests);
+        $result = $this->_db->query($sql);
+        if ($result) {
+            for ($list = array();
+                    $row = $res->fetch_assoc();
+                    $list[] = $row['user1'] == $this->id() ? new User($GLOBALS['db'],$row['user2']) : new User($GLOBALS['db'],$row['user1']));
+            return $list;
+        }
+        return array();
+    }
 
     /**
      * Get the permission object, that represent the permission of a user on a community
