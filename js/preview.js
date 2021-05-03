@@ -24,7 +24,6 @@ function preview(input) {
       var file = input.files[0];
     	var reader = new FileReader();
 
-
       var preview_autre = document.getElementById('preview-autre');
       var preview_code = document.getElementById('preview-code');
       var preview_img = document.getElementById('preview-img');
