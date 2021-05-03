@@ -143,4 +143,23 @@ function loadAC(){
     xhr.send();
 }
 
+function loadRules(){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if (this.readyState ==4 && this.status ==200) {
+            var rules = this.response;
+            //console.log(rules);
+            //on supprime les resultats précédents
+      communityContentContainer = document.getElementById("communityContentContainer");
+            var rules_zone = communityContentContainer.children[3];
+            communityContentContainer.removeChild(rules_zone);
+      
+            //on écrit les nouveaux results
+            communityContentContainer.insertAdjacentHTML('beforeend', this.response);
+        }
+    };
+    xhr.open("POST","./ajax/rules",true);
+    xhr.send();
+}
+
 
