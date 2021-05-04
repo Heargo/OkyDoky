@@ -53,6 +53,7 @@ if (php_sapi_name() != 'cli') {
     $ROUTES = new Routes();
     include('action.php');
     include('view.php');
+    $ROUTES->error(404, '/404', 'page/404.php');
     $ROUTES->execute();
 }
 

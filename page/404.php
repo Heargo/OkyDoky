@@ -9,7 +9,7 @@
 </head>
 <body>
 <nav>
-	<a href="<?= Routes::url_for('')?>" class="top-left-name cursor">OkyDoky</a>
+	<a href="<?= Routes::url_for('/')?>" class="top-left-name cursor">OkyDoky</a>
 	<?php if (!User::is_connected()){ ?>
 	<a href="<?= Routes::url_for('/login')?>" class="l-sButton">Sign-up/Login</a>
 	<?php } ?>

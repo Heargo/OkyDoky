@@ -11,7 +11,7 @@
 <body>
 
 <nav>
-	<a href="." class="top-left-name">OkyDoky</a>
+    <a href="<?=Routes::url_for('/');?>" class="top-left-name">OkyDoky</a>
 	<a href="./login" class="l-sButton">Sign-up/Login</a>
 </nav>
 <svg class="bg-element-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#4bc0c8" d="M0,128L80,122.7C160,117,320,107,480,133.3C640,160,800,224,960,229.3C1120,235,1280,181,1360,154.7L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>	
