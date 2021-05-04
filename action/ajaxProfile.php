@@ -20,7 +20,9 @@ function searchFriends(?array $match){
 }
 
 function askFriendAjax(?array $match){
-	User::current()->add_friend($GLOBALS["users"]->get_by_id($_POST["id"]));
+	$to = $GLOBALS["users"]->get_by_id($_POST["id"]);
+	var_dump(User::current()->add_friend($to));
+	var_dump($to->id()) ;
 }
 
 function getLevel(?array $match){
