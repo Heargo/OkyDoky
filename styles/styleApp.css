@@ -654,6 +654,17 @@ textarea:focus, input:focus{
 	margin-left: 10px;
 	font-size: 1.2rem;
 	line-height: 25px;
+	
+}
+
+.profilPreviewSearch div{
+	width: calc(100% - 70px);
+}
+
+.nameSearchPreview, .nicknameSearchPreview{
+	width: 100%;
+	overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -1628,6 +1639,7 @@ h2.confirmation{
 .profilDescription{
 	width: 100%;
 	margin:1rem;
+	margin-top: 30px;
 	overflow-wrap: break-word;
 	font-size: 0.8rem;
 	padding: 0.5rem;
@@ -1640,7 +1652,10 @@ h2.confirmation{
 	height:auto;
 	transform: scale(1);
 }
-
+.followersContainer{
+	text-decoration: none;
+	color: #2F3542;
+}
 /* --------  PARAMETRES -----------*/
 
 #pageparametres{

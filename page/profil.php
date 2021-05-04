@@ -85,11 +85,21 @@ if($_SESSION['current_community']>0){
 							<img src="<?= Routes::url_for('/img/svg/document-outline.svg')?>" class="logocptpost"/>	
 							<?=$GLOBALS["posts"]->get_num_by_publisher($user)?>
 						</div>
-						<!-- FOLLOWERS -->
-						<div class="followersContainer hidden">
+						<?php if($myprofil){ ?>
+						<!-- FRIENDS -->
+						<a href="<?= Routes::url_for('/friends')?>" class="followersContainer">
 							<img src="<?= Routes::url_for('/img/svg/user-outlined.svg')?>" class="logocptperso"/>
-							XXxxx
-						</div>
+							42
+						</a>
+					<?php }else{ ?>
+						<form  class="" enctype="multipart/form-data" action="<?=Routes::url_for('/addLabel/'.$GLOBALS["page"]["userOfUrl"]->nickname())?>" method="post">
+						<!-- idUser -->
+						<input id="idcommu" type="number" name="idcommu" hidden="">
+						<!-- submit -->
+						<label for="submit" class="submitUploadLabel cursor"><img src="<?=Routes::url_for('/img/svg/check.svg')?>"></label>
+						<input id ="submit" type="submit" value="create" />	
+					</form>
+					<?php }?>
 					</div>
 
 				</div>

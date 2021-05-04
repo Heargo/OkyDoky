@@ -11,6 +11,14 @@ function searchProfil(?array $match){
     }
 }
 
+function searchFriends(?array $match){
+	/*TODO SEARCH BY FRIENDS*/
+    $allusers=$GLOBALS["users"]->search_user_by_nickname_or_display_name_in_community($_POST["tosearch"], $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]));
+    foreach ($allusers as $key => $user) {
+        load_user($user); 
+    }
+}
+
 function getLevel(?array $match){
 	$user= $GLOBALS['users']->get_by_nickname($_POST['user']);
 
