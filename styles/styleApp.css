@@ -10,7 +10,6 @@ font-family: 'Montserrat', sans-serif;
 	margin: 0;
 	box-sizing: border-box;
 	font-family: 'Montserrat', sans-serif;
-
 }
 
 body{
@@ -418,7 +417,7 @@ form{
 	height: 100%;
 }
 
-.titleInput,.numberinput, .descriptionInput,.descriptionInputCommu,.delInput{
+.titleInput,.numberinput, .descriptionInput,.descriptionInputCommu,.delInput,.rulesInputCommu{
 	margin: 10px 0;
 	border:0;
 	width: 300px;
@@ -461,7 +460,7 @@ form{
 	padding: 0.4rem;
 	resize: none;
 }
-.descriptionInputCommu{
+.descriptionInputCommu,.rulesInputCommu{
 	height: 100px;
 	width: 80%;
 	max-width: 800px;
@@ -469,6 +468,9 @@ form{
 	resize: none;
 }
 
+.rulesInputCommu{
+	height: 300px;
+}
 .fileUploadLabel{
 	border-radius: 100%;
 	height:100px;
@@ -900,6 +902,20 @@ textarea:focus, input:focus{
 	object-fit: cover;
 }
 
+.rulesContainer{
+	width: 100%;
+	background-color: white;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.rulesContainer h3{
+	margin: 10px 0;
+    text-align: center;
+    font-weight: normal;
+    font-size: 2.7rem;
+    color: black;
+    font-family: 'Caveat Brush', cursive;
+}
 
 .communityList{
 	position: absolute;
@@ -2085,4 +2101,57 @@ h2.confirmation{
 .check{
 	height: 30px;
 	width: 30px;
+}
+
+
+#markdowContainer{
+    margin: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+#markdowContainer *{
+	margin: auto;
+	padding: initial;
+	width: calc(100%);
+	overflow-wrap: anywhere;
+}
+
+#markdowContainer ul,#markdowContainer ol{
+    padding: 0 25px;
+}
+#markdowContainer ul li,#markdowContainer ol li{
+    padding-left: 0px;
+}
+
+#markdowContainer code, #markdowContainer img{
+	display: none;	
+}
+#markdowContainer p{
+	margin: 1rem 0;
+}
+#markdowContainer :is(h1,h2,h3,h4,h5,h6){
+	text-align: initial;
+	font-weight: normal;
+    font-family: 'Caveat Brush', cursive;
+    color: #2F3542;
+}
+#markdowContainer h1{
+	font-size: 2.5rem;
+}
+#markdowContainer h2{
+	font-size: 2rem;
+}
+#markdowContainer h3{
+	font-size: 1.7rem;
+}
+#markdowContainer h4{
+	font-size: 1.3rem;
+}
+#markdowContainer h5{
+	font-size: 1.1rem;
+}
+#markdowContainer h6{
+	font-size: .9rem;
+}
+#markdowContainer a{
+	color: #4bc0c8;
 }

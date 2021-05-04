@@ -54,6 +54,10 @@ function JoinOrLeaveCommu(?array $match){
 function get_rules(?array $match){
     //@TODO Si l'utilisateur connecté a les droits
     $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
-    $rules = $comm->rules();
-	echo "<p>$rules</p>";
+    $rules = htmlspecialchars_decode($comm->rules());
+    echo "<div class='rulesContainer'>";
+    echo "<h3>Règles</h3>";
+	echo "<div id='markdowContainer'>$rules</div>";
+	echo "</div>";
+
 }

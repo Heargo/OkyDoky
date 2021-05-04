@@ -40,9 +40,9 @@
 		<!-- Règles -->
 		<H3> Règles de la communauté </H3>
 		<?php 
-			$rules = trim($commu->rules());
+			$rules = htmlspecialchars_decode($commu->rules());
 		?>
-		<textarea maxlength="10000" class="descriptionInputCommu" type="text" name="rules"><?php echo $rules;?></textarea>
+		<textarea maxlength="10000" class="rulesInputCommu" type="text" name="rules"><?php echo $rules;?></textarea>
 
 		
 		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>

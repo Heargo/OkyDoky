@@ -1,8 +1,8 @@
 try{
-var carrousel = document.getElementById("carroussel");
-var slideIndex = getSlideOfID(parseInt(carrousel.dataset.current));
-showSlides(slideIndex);
-Prism.highlightAll();
+    var carrousel = document.getElementById("carroussel");
+    var slideIndex = getSlideOfID(parseInt(carrousel.dataset.current));
+    showSlides(slideIndex);
+    Prism.highlightAll();
 }catch(error){
 }
 
@@ -149,16 +149,21 @@ function loadRules(){
     xhr.onreadystatechange = function(){
         if (this.readyState ==4 && this.status ==200) {
             var rules = this.response;
-            console.log(rules);
             //on supprime les resultats précédents
             communityContentContainer = document.getElementById("communityContentContainer");
             var rules_zone = communityContentContainer.children[2];
             console.log(rules_zone);
             communityContentContainer.removeChild(rules_zone);
       
-            //on écrit les nouveaux results
+            //on écrit les nouveaux results 
             communityContentContainer.insertAdjacentHTML('beforeend', this.response);
-            
+            //markdown
+            var converter = new showdown.Converter();
+            var mdContainer = document.getElementById("markdowContainer");
+            var html = converter.makeHtml(mdContainer.innerHTML);
+            mdContainer.innerHTML=html;
+            console.log(html)
+            var converter = new showdown.Converter();
         }
     };
     xhr.open("POST","./ajax/rules",true);
