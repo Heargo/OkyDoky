@@ -56,6 +56,7 @@ try {
             //ignore
         }
         console.log("Posts restored !");
+        clearPosts();
     }
 } catch {
     //ignore

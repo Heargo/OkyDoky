@@ -35,6 +35,12 @@ function retrievePosts() {
     return [parseInt(offset), posts];
 }
 
+function clearPosts() {
+    window.localStorage.removeItem('posts');
+    window.localStorage.removeItem('offset');
+    console.log('Storage cleared!');
+}
+
 function addPostToContainer(post_html,container) {
     var new_post = document.createElement("div");
     new_post.innerHTML = `${post_html}`; // à creuser
