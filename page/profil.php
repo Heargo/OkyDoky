@@ -92,13 +92,13 @@ if($_SESSION['current_community']>0){
 							42
 						</a>
 					<?php }else{ ?>
-						<form  class="" enctype="multipart/form-data" action="<?=Routes::url_for('/addLabel/'.$GLOBALS["page"]["userOfUrl"]->nickname())?>" method="post">
-						<!-- idUser -->
-						<input id="idcommu" type="number" name="idcommu" hidden="">
-						<!-- submit -->
-						<label for="submit" class="submitUploadLabel cursor"><img src="<?=Routes::url_for('/img/svg/check.svg')?>"></label>
-						<input id ="submit" type="submit" value="create" />	
-					</form>
+						<label  onclick="toogleFriendship(<?=$user->id()?>)" class="unfollowBTN cursor">
+							<?php if(true){ ?>
+								<img id="friendsubmit" src="<?=Routes::url_for('/img/svg/baseline-person-add-alt-1.svg')?>">
+							<?php }else{ ?>
+								<img id="friendsubmit" src="<?=Routes::url_for('/img/svg/round-person-remove-alt-1.svg')?>">
+							<?php }?>
+						</label>
 					<?php }?>
 					</div>
 

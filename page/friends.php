@@ -16,7 +16,7 @@
 
 <form id="searchFormCommu" class="noselect" enctype="multipart/form-data">
 		<!-- searchBar -->
-		<input id="searchBar" type="search" name="search" placeholder="Utilisateurs de la communauté...">
+		<input id="searchBar" type="search" name="search" placeholder="Mes amis...">
 		<input type="hidden" name="searchFormCommu">
 </form>
 	

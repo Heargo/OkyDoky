@@ -19,6 +19,10 @@ function searchFriends(?array $match){
     }
 }
 
+function askFriendAjax(?array $match){
+	User::current()->add_friend($GLOBALS["users"]->get_by_id($_POST["id"]));
+}
+
 function getLevel(?array $match){
 	$user= $GLOBALS['users']->get_by_nickname($_POST['user']);
 
