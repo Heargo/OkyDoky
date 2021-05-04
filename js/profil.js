@@ -33,6 +33,26 @@ function toogleformlabel() {
 	f.classList.toggle("hidden")
 }
 
+
+function toogleFriendship(id){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200) {
+			console.log(this.response)
+
+			document.getElementById("friendsubmit").classList.add("rotate-center")
+			setTimeout(function(){ 
+				document.getElementById("friendsubmit").classList.remove("rotate-center");
+		    }, 700);
+			
+		}
+	};
+	xhr.open("POST",route+"/ajax/askfriend",true);
+	xhr.responseType="text";
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send("id="+id);
+}
+
 function deleteLabel(id,n,c){
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){

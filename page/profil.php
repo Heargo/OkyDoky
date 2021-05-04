@@ -85,11 +85,21 @@ if($_SESSION['current_community']>0){
 							<img src="<?= Routes::url_for('/img/svg/document-outline.svg')?>" class="logocptpost"/>	
 							<?=$GLOBALS["posts"]->get_num_by_publisher($user)?>
 						</div>
-						<!-- FOLLOWERS -->
-						<div class="followersContainer hidden">
+						<?php if($myprofil){ ?>
+						<!-- FRIENDS -->
+						<a href="<?= Routes::url_for('/friends')?>" class="followersContainer">
 							<img src="<?= Routes::url_for('/img/svg/user-outlined.svg')?>" class="logocptperso"/>
-							XXxxx
-						</div>
+							42
+						</a>
+					<?php }else{ ?>
+						<label  onclick="toogleFriendship(<?=$user->id()?>)" class="unfollowBTN cursor">
+							<?php if(true){ ?>
+								<img id="friendsubmit" src="<?=Routes::url_for('/img/svg/baseline-person-add-alt-1.svg')?>">
+							<?php }else{ ?>
+								<img id="friendsubmit" src="<?=Routes::url_for('/img/svg/round-person-remove-alt-1.svg')?>">
+							<?php }?>
+						</label>
+					<?php }?>
 					</div>
 
 				</div>
