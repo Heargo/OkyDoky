@@ -1,4 +1,6 @@
+# WARNING : all "/user/" should be change accordingly to your setup
 Options +SymLinksIfOwnerMatch
+ErrorDocument 404 /user/404
 
 RewriteEngine on
 RewriteCond %{REQUEST_URI} !^/user/index.php
