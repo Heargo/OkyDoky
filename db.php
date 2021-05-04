@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `$document` (
     `visible` tinyint(1) NOT NULL DEFAULT 0,
 
     PRIMARY KEY (`id_$document`),
-    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`)
+    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`) ON DELETE CASCADE
 );"
 );
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `$post` (
 
     PRIMARY KEY (`id_$post`),
     FOREIGN KEY (`publisher`) REFERENCES `$user`(`id_$user`),
-    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`)
+    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`) ON DELETE CASCADE
 );"
 );
 
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `$community` (
     `is_private` tinyint(1) NOT NULL DEFAULT 0,
 
     PRIMARY KEY (`id_$community`),
-    FOREIGN KEY (`cover`) REFERENCES `$resource`(`id_$resource`),
+    FOREIGN KEY (`cover`) REFERENCES `$resource`(`id_$resource`) ON DELETE CASCADE,
     FOREIGN KEY (`highlight_post`) REFERENCES `$post`(`id_$post`),
     UNIQUE KEY (`name`)
 );"
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `$vote` (
     `mark` enum('up','down') NOT NULL,
     
     PRIMARY KEY (`id_$vote`),
-    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`),
+    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`) ON DELETE CASCADE,
     FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`)
 );"
 );
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `$user_comm` (
 
     PRIMARY KEY (`id_$user_comm`),
     FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`),
-    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`)
+    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`) ON DELETE CASCADE
 );"
 );
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `$comment` (
     `visible` tinyint(1) NOT NULL DEFAULT 0,
     
     PRIMARY KEY (`id_$comment`),
-    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`),
+    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`) ON DELETE CASCADE,
     FOREIGN KEY (`author`) REFERENCES `$user`(`id_$user`)
 );"
 );
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `$label` (
     
     PRIMARY KEY (`id_$label`),
     FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`),
-    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`)
+    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`) ON DELETE CASCADE
 );");
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 1;");
