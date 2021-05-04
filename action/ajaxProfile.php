@@ -13,9 +13,15 @@ function searchProfil(?array $match){
 
 function searchFriends(?array $match){
 	/*TODO SEARCH BY FRIENDS*/
-    $allusers=$GLOBALS["users"]->search_user_by_nickname_or_display_name_in_community($_POST["tosearch"], $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]));
+    $allusers=User::current()->search_by_friends($_POST["tosearch"]);
     foreach ($allusers as $key => $user) {
         load_user($user); 
+    }
+    if (trim($_POST["tosearch"])!="" && sizeof($allusers)==0) {
+    	echo "<p>Aucun résultat !</p>";
+    }
+    if (sizeof(User::current()->get_all_friends())==0) {
+    	echo "<p>Vous n'avez pas encore d'amis !</p>";
     }
 }
 

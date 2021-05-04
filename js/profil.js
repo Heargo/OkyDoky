@@ -41,9 +41,11 @@ function toogleFriendship(id){
 			console.log(this.response)
 
 			document.getElementById("friendsubmit").classList.add("rotate-center")
+			document.getElementById("followBTN").classList.toggle("waiting")
 			setTimeout(function(){ 
 				document.getElementById("friendsubmit").classList.remove("rotate-center");
 		    }, 700);
+
 			
 		}
 	};

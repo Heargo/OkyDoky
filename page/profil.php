@@ -89,10 +89,19 @@ if($_SESSION['current_community']>0){
 						<!-- FRIENDS -->
 						<a href="<?= Routes::url_for('/friends')?>" class="followersContainer">
 							<img src="<?= Routes::url_for('/img/svg/user-outlined.svg')?>" class="logocptperso"/>
-							42
+							<?=sizeof(User::current()->get_all_friends())?>
 						</a>
 					<?php }else{ ?>
-						<label  onclick="toogleFriendship(<?=$user->id()?>)" class="unfollowBTN cursor">
+						<?php 
+						if(User::current()->asked_to_be_friend($user)){
+							$class = "waiting";
+						}else{
+							$class = "";
+						}
+						
+
+						?>
+						<label id="followBTN" onclick="toogleFriendship(<?=$user->id()?>)" class="followBTN <?=$class?> cursor">
 							<?php if(true){ ?>
 								<img id="friendsubmit" src="<?=Routes::url_for('/img/svg/baseline-person-add-alt-1.svg')?>">
 							<?php }else{ ?>

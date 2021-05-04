@@ -1676,7 +1676,7 @@ h2.confirmation{
 	height:32px;
 	transform: scale(1);
 }
-.followBTN img, .unfollowBTN img{
+.followBTN img{
 	width: 25px;
 	height:25px;
 }
@@ -1685,15 +1685,14 @@ h2.confirmation{
 	color: #2F3542;
 }
 .followBTN{
-
-}
-
-.unfollowBTN{
 	height: 32px;
 	width: 64px;
 	background-color: white;
 	border-radius: 10px;
 	text-align: center;
+}
+.waiting{
+	background-color: #42db75;
 }
 
 .rotate-center {
