@@ -55,7 +55,7 @@ try {
         } catch {
             //ignore
         }
-        console.log("Posts restored !");
+        console.log("Posts restored!");
         clearPosts();
     }
 } catch {
