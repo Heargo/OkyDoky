@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `$friend` (
 
     PRIMARY KEY (`user1`,`user2`),
     FOREIGN KEY (`user1`) REFERENCES `$user`(`id_$user`),
-    FOREIGN KEY (`user2`) REFERENCES `$user`(`id_$user`),
+    FOREIGN KEY (`user2`) REFERENCES `$user`(`id_$user`)
 );"
 );
 
