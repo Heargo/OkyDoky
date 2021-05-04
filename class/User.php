@@ -653,7 +653,7 @@ class User {
      * @return bool If it worked or not
      */
     public function add_friend(User $u) {
-        if ($this->isFriend($u) || $u->isFriend($this)) {
+        if ($this->is_friend($u) || $u->is_friend($this)) {
             return false;
         }
         if ($u->asked_to_be_friend($this)) {
@@ -731,7 +731,7 @@ class User {
         $result = $this->_db->query($sql);
         if ($result) {
             for ($list = array();
-                    $row = $res->fetch_assoc();
+                    $row = $result->fetch_assoc();
                     $list[] = $row['user1'] == $this->id() ? new User($GLOBALS['db'],$row['user2']) : new User($GLOBALS['db'],$row['user1']));
             return $list;
         }
