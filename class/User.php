@@ -653,7 +653,7 @@ class User {
      * @return bool If it worked or not
      */
     public function add_friend(User $u) {
-        if ($this->isFriend($u) || $u->isFriend($this)) {
+        if ($this->is_friend($u)) {
             return false;
         }
         if ($u->asked_to_be_friend($this)) {
@@ -671,8 +671,8 @@ class User {
      * @param $u User The user aimed to be friend by this user
      * @return bool If yes or no
      */
-    public function isFriend(User $u) {
-        $sql = sprintf("SELECT * FROM `%s` WHERE `user1` = %d AND `user2` = %d AND `hasAccepted` = 1",Config::TABLE_FRIEND,$this->id(),$u->id());
+    public function is_friend(User $u) {
+        $sql = sprintf("SELECT * FROM `%s` WHERE ( (`user1` = %d AND `user2` = %d) || (`user1` = %d AND `user2` = %d) ) AND `hasAccepted` = 1",Config::TABLE_FRIEND,$this->id(),$u->id(),$u->id(),$this->id());
         return $this->_db->query($sql);
     }
     
@@ -731,12 +731,34 @@ class User {
         $result = $this->_db->query($sql);
         if ($result) {
             for ($list = array();
+                    $row = $result->fetch_assoc();
+                    $list[] = $row['user1'] == $this->id() ? new User($GLOBALS['db'],$row['user2']) : new User($GLOBALS['db'],$row['user1']));
+            return $list;
+        }
+        return array();
+    }
+
+
+    /**
+     * Search friends (or friend requests) from this user
+     *
+     * @param $research String the search term
+     * @param $friendRequests bool if we need friend requests or friends
+     * @return User[] Friends (or friend requests) from this user
+     */
+    public function search_by_friends(String $research, bool $friendRequests = false) {
+        $sql = sprintf("SELECT f.`user1`, f.`user2` FROM `%s` f JOIN `%s` u1 ON f.`user1` = u1.`id_%s` JOIN `%s` u2 ON f.`user2` = u2.`id_%s` WHERE ( ( (u1.nickname LIKE '%%$research%%' OR u1.display_name LIKE '%%$research%%') AND `user2` = %d) OR (`user1` = %d AND (u2.nickname LIKE '%%$research%%' OR u2.display_name LIKE '%%$research%%') ) ) AND `hasAccepted` = %d", Config::TABLE_FRIEND, Config::TABLE_USER, Config::TABLE_USER, Config::TABLE_USER, Config::TABLE_USER, $this->id(), $this->id(), !$friendRequests);
+        $result = $this->_db->query($sql);
+        if ($result) {
+            for ($list = array();
                     $row = $res->fetch_assoc();
                     $list[] = $row['user1'] == $this->id() ? new User($GLOBALS['db'],$row['user2']) : new User($GLOBALS['db'],$row['user1']));
             return $list;
         }
         return array();
     }
+
+    
 
     /**
      * Get the permission object, that represent the permission of a user on a community
