@@ -671,7 +671,7 @@ class User {
      * @param $u User The user aimed to be friend by this user
      * @return bool If yes or no
      */
-    public function isFriend(User $u) {
+    public function is_friend(User $u) {
         $sql = sprintf("SELECT * FROM `%s` WHERE `user1` = %d AND `user2` = %d AND `hasAccepted` = 1",Config::TABLE_FRIEND,$this->id(),$u->id());
         return $this->_db->query($sql);
     }
