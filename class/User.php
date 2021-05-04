@@ -673,7 +673,12 @@ class User {
      */
     public function is_friend(User $u) {
         $sql = sprintf("SELECT * FROM `%s` WHERE ( (`user1` = %d AND `user2` = %d) || (`user1` = %d AND `user2` = %d) ) AND `hasAccepted` = 1",Config::TABLE_FRIEND,$this->id(),$u->id(),$u->id(),$this->id());
-        return $this->_db->query($sql);
+        $result = $this->_db->query($sql);
+        if ($result) {
+            if ($result->fetch_assoc()) return True;
+            else return False;
+        }
+        return False;
     }
     
     /**
@@ -684,7 +689,12 @@ class User {
      */
     public function asked_to_be_friend(User $u) {
         $sql = sprintf("SELECT * FROM `%s` WHERE `user1` = %d AND `user2` = %d AND `hasAccepted` = 0",Config::TABLE_FRIEND,$this->id(),$u->id());
-        return $this->_db->query($sql);
+        $result = $this->_db->query($sql);
+        if ($result) {
+            if ($result->fetch_assoc()) return True;
+            else return False;
+        }
+        return False;
     }
 
     /**
