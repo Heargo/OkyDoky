@@ -2047,6 +2047,7 @@ h2.confirmation{
 	display: flex;
 	flex-direction: row;
 	width: calc(100%);
+	height: 70px;
 	margin-bottom: 10px;
 	border-radius: 15px;
 	background-color: white;
@@ -2059,13 +2060,24 @@ h2.confirmation{
 	object-position: center;
 	border-radius: 15px;
 }
+
+.imgleft.profil{
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
+}
 .card-notif .contentNotif{
 	position: absolute;
 	transform: translateX(75px);
 	width: calc(100% - 80px);
 }
+
 .card-notif .contentNotif.interaction{
 	width: calc(100% - 140px);
+}
+.card-notif .contentNotif.global{
+	transform: translateX(10px);
+	width: calc(100% - 60px);
 }
 
 .card-notif p{
@@ -2073,6 +2085,10 @@ h2.confirmation{
 	overflow: hidden;
     text-overflow: ellipsis;   
 }
+.previewSenderContainer{
+	padding: 5px;
+}
+
 .previewSenderContainer2{
 	display: flex;
 	align-items: center;
@@ -2090,7 +2106,15 @@ h2.confirmation{
 	margin-left: 5px;
 	font-weight: bold;
 }
+
+.nameOfSender.nopreview{
+	margin-left: 0;
+	margin-top: 5px;
+	font-weight: bold;
+}
+
 .contentNotifMsg{
+	margin-top: 5px;
 	font-size: .8rem;
 }
 

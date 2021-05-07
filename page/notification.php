@@ -28,14 +28,11 @@
   ?>
   <!-- NOTIFICATION 1 -->
   <div class="card-notif">
-
-    <img class="imgleft" src="<?=$comm->get_cover()?>">
+    <a class="previewSenderContainer" href="<?=$url?>">
+      <img class="imgleft profil" src="<?=$user->profile_pic  ()?>">
+    </a>
     <div class="contentNotif interaction">
-      <a class="previewSenderContainer2" href="<?=$url?>">
-        <img class="previewSender" src="<?=$user->profile_pic()?>">
-        <p class="nameOfSender"><?=$user->display_name()?></p>
-      </a>
-      
+        <p class="nameOfSender nopreview"><?=$user->display_name()?></p>
       <p class="contentNotifMsg">vous a envoyé une demande d'ami</p>
     </div>
     <div class="interactionBox">
