@@ -2052,15 +2052,11 @@ h2.confirmation{
 	background-color: white;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
 }
-.card-notif a {
-	width: 70px;
-	height: 70px;
-}
-
 .card-notif .imgleft{
 	width: 70px;
 	height: 70px;
 	object-fit:cover;
+	object-position: center;
 	border-radius: 15px;
 }
 .card-notif .contentNotif{
@@ -2077,12 +2073,31 @@ h2.confirmation{
 	overflow: hidden;
     text-overflow: ellipsis;   
 }
+.previewSenderContainer2{
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.previewSender{
+	width: 25px;
+	height: 25px;
+	border-radius: 100%;
+	object-fit: cover;
+}
 
 .nameOfSender{
+	margin-left: 5px;
 	font-weight: bold;
 }
 .contentNotifMsg{
 	font-size: .8rem;
+}
+
+.contentNotif a {
+	margin-top: 5px;
+	text-decoration: none;
+	color: black;
 }
 .interactionBox{
 	position: absolute;

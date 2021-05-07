@@ -24,13 +24,18 @@
   }*/
   $user=User::current(); 
   $url=Routes::url_for("/user/".$user->nickname());
-
+  $comm=$GLOBALS['communities']->get_by_id($_SESSION['current_community']);
   ?>
   <!-- NOTIFICATION 1 -->
   <div class="card-notif">
-    <a href="<?=$url?>"><img class="imgleft" src="<?=$user->profile_pic()?>"></a>
+
+    <img class="imgleft" src="<?=$comm->get_cover()?>">
     <div class="contentNotif interaction">
-      <p class="nameOfSender"><?=$user->display_name()?></p>
+      <a class="previewSenderContainer2" href="<?=$url?>">
+        <img class="previewSender" src="<?=$user->profile_pic()?>">
+        <p class="nameOfSender"><?=$user->display_name()?></p>
+      </a>
+      
       <p class="contentNotifMsg">vous a envoyé une demande d'ami</p>
     </div>
     <div class="interactionBox">
@@ -41,14 +46,17 @@
   <!-- NOTIFICATION 2 -->
   <div class="card-notif">
 
-    <a href="<?=$url?>"><img class="imgleft" src="<?=$user->profile_pic()?>"></a>
+    <img class="imgleft" src="<?=$comm->get_cover()?>">
     <div class="contentNotif interaction">
-      <p class="nameOfSender"><?=$user->display_name()?></p>
-      <p class="contentNotifMsg">vous a envoyé une demande d'ami</p>
+      <a class="previewSenderContainer2" href="<?=$url?>">
+        <img class="previewSender" src="<?=$user->profile_pic()?>">
+        <p class="nameOfSender"><?=$user->display_name()?></p>
+      </a>
+      
+      <p class="contentNotifMsg">vous a donné 20 jetons !</p>
     </div>
     <div class="interactionBox">
-      <img class="crossRED cursor" src="<?= Routes::url_for('/img/svg/crossRED.svg')?>">
-      <img class="check cursor" src="<?= Routes::url_for('/img/svg/check.svg')?>">
+      <img class="crossRED cursor" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
     </div>
   </div>
 
