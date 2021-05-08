@@ -66,6 +66,7 @@ if($_SESSION['current_community']>0){
 				
 				<div class="profil-infos-container">
 						<h2 class="nameprofil"><?=$user->display_name()?></h2>
+					<?php if(sizeof($user->get_communities())>0){?>
 					<div>
 						<div class="containerBadge">
 							<div class="badgeformat">
@@ -79,6 +80,7 @@ if($_SESSION['current_community']>0){
 							<div id="prctXp" class="XpFilled" style=""></div>
 						</div>
 					</div>
+					<?php }?>
 					<div class="generalInfo-bottom">
 						<!-- POSTS -->
 						<div class="nbPostContainer">
