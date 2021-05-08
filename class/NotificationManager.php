@@ -4,19 +4,34 @@ class NotificationManager {
     /** DB connection */
     private $_db;
 
+    /**
+     * Instaciate a manager for a DB connection
+     */
     public function __construct(mysqli $db) {
         $this->_db = $db;
     }
 
-    /**
-     * Instaciate a manager for a DB connection
-     */
+    
     public function get_by_id(int $id){
         try {
             return new Notification($this->_db, $id);
         } catch (InvalidID $e) {
             return null;
        }
+    }
+
+    public function get_friend_notif_by_sender_and_receiver(User $u1, User $u2) {
+        $sql = sprintf("SELECT `id_%s` FROM `%s` WHERE ( (`receiver` = %d AND `sender` = %d) || (`receiver` = %d AND `sender` = %d) ) AND `type` = 'friend'",  Config::TABLE_NOTIFICATION,  Config::TABLE_NOTIFICATION, $u1->id(), $u2->id(), $u2->id(), $u1->id());
+        $res = $this->_db->query($sql);
+        if ($res) {
+            if($row = $res->fetch_row()) {
+                $notif = new Notification($this->_db, $row[0]);
+                return $notif;
+            } else {
+                return null;
+            }
+        }
+        return null;
     }
 
     /**

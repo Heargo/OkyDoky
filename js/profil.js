@@ -38,15 +38,9 @@ function toogleFriendship(id){
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if (this.readyState ==4 && this.status ==200) {
-			console.log(isfriend);
-
+			console.log(this.response);
 			document.getElementById("friendsubmit").classList.add("rotate-center")
-			if(isfriend == 0){document.getElementById("followBTN").classList.toggle("waiting")}
-			else{
-				removeFriend(id);
-				isfriend = 0;
-				document.getElementById("friendsubmit").src=route+"/img/svg/baseline-person-add-alt-1.svg";
-			}
+			document.getElementById("followBTN").classList.toggle("waiting")
 			setTimeout(function(){ 
 				document.getElementById("friendsubmit").classList.remove("rotate-center");
 		    }, 700);
@@ -61,10 +55,20 @@ function toogleFriendship(id){
 }
 function removeFriend(id){
 	var xhr = new XMLHttpRequest();
-
+	xhr.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200) {
+			console.log(this.response)
+			document.getElementById("friendsubmit").classList.add("rotate-center")
+			document.getElementById("friendsubmit").src=route+"/img/svg/baseline-person-add-alt-1.svg";
+			document.getElementById("followBTN").setAttribute("onclick","toogleFriendship("+id+")");
+			setTimeout(function(){ 
+				document.getElementById("friendsubmit").classList.remove("rotate-center");
+		    }, 700);		
+		}
+	};
 
 	xhr.open("POST",route+"/ajax/removefriend",true);
-	xhr.responseType="json";
+	xhr.responseType="text";
 	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xhr.send("id="+id);
 }
