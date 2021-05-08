@@ -2233,8 +2233,14 @@ h2.confirmation{
 	padding-bottom: 10px;
 	z-index: 50;
 	overflow-y: scroll;
-
 }
+
+@media screen and (min-width: 1000px) {
+  #contentOfConv{
+  	padding: 0 20%;
+  }
+}
+
 .champSaisieMSG{
 	position: fixed;
 	bottom: 0;
