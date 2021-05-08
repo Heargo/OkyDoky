@@ -2259,6 +2259,7 @@ h2.confirmation{
 
 .msg{
 	display: flex;
+	flex-direction: row;
 	width: 90%;
 	margin-right: 10%;
 	margin-bottom: 20px;
@@ -2266,7 +2267,7 @@ h2.confirmation{
 }	
 
 .msg.left{
-	justify-content: flex-end;
+	flex-direction: row-reverse;
 	margin-right: 0;
 	margin-left: 10%;
 	
@@ -2281,4 +2282,35 @@ h2.confirmation{
 }
 .msg.left p{
 	background-color: #4bc0c8;
+}
+
+.msg img{
+	width: 40px;
+	height: 40px;
+	margin-right: 5px;
+	margin-top: 2px;
+	border-radius: 100%;
+	object-fit: cover;
+}
+.msgContainerUnique{
+	display: flex;
+	flex-direction: column;
+}
+.msgContainerUnique label{
+	opacity: .7;
+	width: 100%;
+	max-width: 200px;
+	height: 1rem;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    transform: translate(5px,-2px);
+}
+
+.chatTitle{
+	text-align: center;
+	width: 100%;
+	max-width: 200px;
+	height: 3rem;
+	overflow: hidden;
+    text-overflow: ellipsis;
 }

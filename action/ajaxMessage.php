@@ -8,6 +8,9 @@ function affichemsg($msg){
 	$text=htmlspecialchars_decode($msg->msg());
 	$date=$msg->send_date();
 	$id=$msg->id();
+	$imgprofil = $sender->profile_pic();
+	$n=$sender->nickname();
+	$url=Routes::url_for("/user/$n");
 	if ($sender->id()==User::current()->id()) {
 		$class="left";
 	}else{
@@ -16,7 +19,21 @@ function affichemsg($msg){
 
 	?>
 	<div id="<?=$id?>" class="msg <?=$class?>" data-date="<?=$date?>">
-				<p><?=$text?></p>
+		<?php 
+		if ($sender->id()!=User::current()->id()) {
+			?><a href="<?=$url?>"><img src="<?=$imgprofil?>"></a><?php
+		}
+		?>
+		<div class="msgContainerUnique">
+			
+			<?php 
+			if ($sender->id()!=User::current()->id()) {
+				?><label><?=$n?></label><?php
+			}
+			?>
+			<p><?=$text?></p>
+		</div>
+		
 	</div>
 	<?php 
 }

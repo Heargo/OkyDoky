@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Home</title>
+	<title>OkyDoky</title>
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
 	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/styleApp.css')?>">
@@ -14,6 +14,7 @@
 
 <div class="topBar conv" style="background-color: #4bc0c8;height: 50px">
   <img onclick="window.history.back();" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
+  <h1 class="chatTitle"><?=$GLOBALS['communities']->get_by_id($_SESSION['current_community'])->get_display_name()?></h1>
 </div>
 
 <section class="containerConv">
