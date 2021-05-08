@@ -28,6 +28,7 @@ class Config {
     public const TABLE_LABEL = 'label';
     public const TABLE_FRIEND = 'friend';
     public const TABLE_MESSAGE = 'message';
+    public const TABLE_NOTIFICATION = 'notification';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';

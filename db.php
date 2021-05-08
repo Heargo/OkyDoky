@@ -16,6 +16,7 @@ $like      = Config::TABLE_LIKE;
 $label     = Config::TABLE_LABEL;
 $friend    = Config::TABLE_FRIEND;
 $message   = Config::TABLE_MESSAGE;
+$notification   = Config::TABLE_NOTIFICATION;
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 0;");
 
@@ -199,7 +200,24 @@ CREATE TABLE IF NOT EXISTS `$message` (
     FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`) ON DELETE CASCADE
 );");
 
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$notification` (
+    `id_$notification` int unsigned NOT NULL AUTO_INCREMENT,
+    `sender` int unsigned NOT NULL,
+    `receiver` int unsigned NOT NULL,
+    `type` varchar(64) NOT NULL,
+    `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `community` int unsigned,
+    `amount` int unsigned,
+    
+    
+    PRIMARY KEY (`id_$message`),
+    FOREIGN KEY (`sender`) REFERENCES `$user`(`id_$user`) ON DELETE CASCADE,
+    FOREIGN KEY (`receiver`) REFERENCES `$user`(`id_$user`) ON DELETE CASCADE,
+    FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`) ON DELETE CASCADE
+);");
+
 $DB->query("SET FOREIGN_KEY_CHECKS = 1;");
 
-unset($document, $user, $community, $user_comm, $resource, $post, $vote, $comment, $like, $label, $friend, $message);
+unset($document, $user, $community, $user_comm, $resource, $post, $vote, $comment, $like, $label, $friend, $message, $notification);
 
