@@ -28,7 +28,17 @@ function searchFriends(?array $match){
 function askFriendAjax(?array $match){
 	User::current()->add_friend($GLOBALS["users"]->get_by_id($_POST["id"]));
 }
-
+function acceptFriend(?array $match){
+	User::current()->add_friend($GLOBALS["users"]->get_by_id($_POST["id"]));
+	$GLOBALS["notifications"]->delete_notif($GLOBALS["notifications"]->get_by_id($_POST['idnotif']));
+}
+function denyFriend(?array $match){
+	$GLOBALS["users"]->get_by_id($_POST["id"])->remove_friend(User::current());
+	$GLOBALS["notifications"]->delete_notif($GLOBALS["notifications"]->get_by_id($_POST['idnotif']));
+}
+function removeFriend(?array $match){
+	User::current()->remove_friend($GLOBALS["users"]->get_by_id($_POST["id"]));
+}
 function getLevel(?array $match){
 	$user= $GLOBALS['users']->get_by_nickname($_POST['user']);
 

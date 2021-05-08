@@ -727,7 +727,7 @@ class User {
      */
     public function ask_user_to_be_friend(User $u) {
         $sql = sprintf("INSERT INTO `%s` (`user1`, `user2`) VALUES (%d, %d)",Config::TABLE_FRIEND,$this->id(),$u->id());
-        $GLOBALS['notifications']->sendNotif("friend",$u);
+        $GLOBALS['notifications']->send_notif("friend",$u);
         return $this->_db->query($sql);
     }
 

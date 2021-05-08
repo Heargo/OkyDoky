@@ -78,7 +78,7 @@ class NotificationManager {
      * @param Notification $notif The notification to delete 
      */
     public function delete_notif(Notification $notif) {
-        $sql = sprintf("DELETE FROM `%s` WHERE `id_%s` = ",Config::TABLE_NOTIFICATION,$notif->id());
+        $sql = sprintf("DELETE FROM `%s` WHERE `id_%s` = %d",Config::TABLE_NOTIFICATION,Config::TABLE_NOTIFICATION,$notif->id());
         return $this->_db->query($sql);
     }
 }

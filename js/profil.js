@@ -38,10 +38,15 @@ function toogleFriendship(id){
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if (this.readyState ==4 && this.status ==200) {
-			console.log(this.response)
+			console.log(isfriend);
 
 			document.getElementById("friendsubmit").classList.add("rotate-center")
-			document.getElementById("followBTN").classList.toggle("waiting")
+			if(isfriend == 0){document.getElementById("followBTN").classList.toggle("waiting")}
+			else{
+				removeFriend(id);
+				isfriend = 0;
+				document.getElementById("friendsubmit").src=route+"/img/svg/baseline-person-add-alt-1.svg";
+			}
 			setTimeout(function(){ 
 				document.getElementById("friendsubmit").classList.remove("rotate-center");
 		    }, 700);
@@ -53,6 +58,48 @@ function toogleFriendship(id){
 	xhr.responseType="text";
 	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xhr.send("id="+id);
+}
+function removeFriend(id){
+	var xhr = new XMLHttpRequest();
+
+
+	xhr.open("POST",route+"/ajax/removefriend",true);
+	xhr.responseType="json";
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send("id="+id);
+}
+function acceptFriend(idSender,idNotif){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200) {
+			var container = document.getElementById("verticalScrollContainer");
+			var notifToRemove = document.getElementById("notif-"+idNotif);
+			var throwawayNode = container.removeChild(notifToRemove);
+
+		}
+	};
+
+	xhr.open("POST","./ajax/acceptfriend",true);
+	xhr.responseType="json";
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send("id="+idSender+"&idnotif="+idNotif);
+}
+
+function denyFriend(idSender,idNotif){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200) {
+			var container = document.getElementById("verticalScrollContainer");
+			var notifToRemove = document.getElementById("notif-"+idNotif);
+			var throwawayNode = container.removeChild(notifToRemove);
+
+		}
+	};
+
+	xhr.open("POST","./ajax/denyfriend",true);
+	xhr.responseType="json";
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send("id="+idSender+"&idnotif="+idNotif);
 }
 
 function deleteLabel(id,n,c){

@@ -104,7 +104,7 @@ if($_SESSION['current_community']>0){
 
 						?>
 						<label id="followBTN" onclick="toogleFriendship(<?=$user->id()?>)" class="followBTN <?=$class?> cursor">
-							<?php if(true){ ?>
+							<?php if(!User::current()->is_friend($user)){ ?>
 								<img id="friendsubmit" src="<?=Routes::url_for('/img/svg/baseline-person-add-alt-1.svg')?>">
 							<?php }else{ ?>
 								<img id="friendsubmit" src="<?=Routes::url_for('/img/svg/round-person-remove-alt-1.svg')?>">
@@ -192,13 +192,21 @@ else{
 </section>
 
 </div>
-
+	<?php
+		if(User::current()->is_friend($user)){
+			$isfriend = 1;
+		}
+		else{
+			$isfriend = 0;
+		}
+	?>
 </body>
 <script type="text/javascript">
 	var page = "profil";
 	var user = <?=$user->id()?>;
 	var comm = -1;
 	var route = "<?=Config::URL_SUBDIR(false)?>";
+	var isfriend = "<?=$isfriend?>";
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="<?= Routes::url_for('/js/share.js')?>"></script>

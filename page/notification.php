@@ -19,48 +19,23 @@
 
 <section id="verticalScrollContainer">
   <?php 
-/*  foreach ($notifs as $key => $notif) {
-     $user=$notif->user(); 
-  }*/
-  $user=User::current(); 
-  $url=Routes::url_for("/user/".$user->nickname());
-  $comm=$GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+  $notifs = $GLOBALS["notifications"]->load_all_notifs();
+  foreach ($notifs as $key => $notif) {
+    $sender=$notif->sender(); 
+    $receiver=$notif->receiver(); 
+    $url=Routes::url_for("/user/".$sender->nickname());
+    $id=$notif->id();
+  include "notification_standalone.php";
+  }
+  
   ?>
-  <!-- NOTIFICATION 1 -->
-  <div class="card-notif">
-    <a class="previewSenderContainer" href="<?=$url?>">
-      <img class="imgleft profil" src="<?=$user->profile_pic  ()?>">
-    </a>
-    <div class="contentNotif interaction">
-        <p class="nameOfSender nopreview"><?=$user->display_name()?></p>
-      <p class="contentNotifMsg">vous a envoyé une demande d'ami</p>
-    </div>
-    <div class="interactionBox">
-      <img class="crossRED cursor" src="<?= Routes::url_for('/img/svg/crossRED.svg')?>">
-      <img class="check cursor" src="<?= Routes::url_for('/img/svg/check.svg')?>">
-    </div>
-  </div>
-  <!-- NOTIFICATION 2 -->
-  <div class="card-notif">
-
-    <img class="imgleft" src="<?=$comm->get_cover()?>">
-    <div class="contentNotif interaction">
-      <a class="previewSenderContainer2" href="<?=$url?>">
-        <img class="previewSender" src="<?=$user->profile_pic()?>">
-        <p class="nameOfSender"><?=$user->display_name()?></p>
-      </a>
-      
-      <p class="contentNotifMsg">vous a donné 20 jetons !</p>
-    </div>
-    <div class="interactionBox">
-      <img class="crossRED cursor" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
-    </div>
-  </div>
+  
 
 
 </section>
 
 
 <?php include 'backgroundItems.php'; ?>
+<script src="<?= Routes::url_for('/js/profil.js')?>"></script>
 </body>
 </html>
