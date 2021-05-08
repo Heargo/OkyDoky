@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `$notification` (
     `amount` int unsigned,
     
     
-    PRIMARY KEY (`id_$message`),
+    PRIMARY KEY (`id_$notification`),
     FOREIGN KEY (`sender`) REFERENCES `$user`(`id_$user`) ON DELETE CASCADE,
     FOREIGN KEY (`receiver`) REFERENCES `$user`(`id_$user`) ON DELETE CASCADE,
     FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`) ON DELETE CASCADE
