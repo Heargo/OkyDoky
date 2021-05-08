@@ -41,7 +41,7 @@ class MessageManager {
      * Load last 100 messages from the current community
      */
     public function load_last_100() {
-        $sql = "SELECT `id_%s` FROM `%s` WHERE `community`=%d ORDER BY `send_date` DESC LIMIT 100";
+        $sql = "SELECT `id_%s` FROM `%s` WHERE `community`=%d ORDER BY `send_date` ASC LIMIT 100";
         $sql = sprintf($sql, Config::TABLE_MESSAGE,Config::TABLE_MESSAGE,$_SESSION["current_community"]);
         $res = $this->_db->query($sql);
         if ($res) {
@@ -59,7 +59,7 @@ class MessageManager {
      *
      * @param Date $d Since when we need messages 
      */
-    public function load_last_since(Date $d) {
+    public function load_last_since(String $d) {
         $sql = "SELECT `id_%s` FROM `%s` WHERE `community`=%d AND `send_date` > '%s' ORDER BY `send_date` DESC";
         $sql = sprintf($sql, Config::TABLE_MESSAGE,Config::TABLE_MESSAGE,$_SESSION["current_community"], $d);
         $res = $this->_db->query($sql);
