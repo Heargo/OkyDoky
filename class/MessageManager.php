@@ -26,7 +26,7 @@ class MessageManager {
      */
     public function sendMsg(String $msg) {
         $sql = "INSERT INTO `%s` (`sender`,`msg`,`community`) VALUES ('%d','%s','%d');";
-        $sql = sprintf($sql, Config::TABLE_MESSAGE,User::current(),sanitize_text($msg),$_SESSION["current_community"]);
+        $sql = sprintf($sql, Config::TABLE_MESSAGE,User::current()->id(),sanitize_text($msg),$_SESSION["current_community"]);
         if($this->_db->query($sql)){
             $id = (int) $this->_db->insert_id;
             return $id;

@@ -20,7 +20,7 @@ class Message{
         $row = $db->query($sql)->fetch_assoc();
         $this->_sender = $GLOBALS['users']->get_by_id($row["sender"]);
         $this->_msg = $row["msg"];
-        $this->_send_date = $row["send_date"];
+        $this->_send_date = strtotime($row["send_date"]);
         $this->_community = $GLOBALS['communities']->get_by_id($row['community']);
     }
 
