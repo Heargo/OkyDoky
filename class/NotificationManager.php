@@ -56,6 +56,21 @@ class NotificationManager {
         return array();
     }
 
+    /**
+     * Get number of notifications from current user
+     */
+    public function how_many_notifs() {
+        $sql = "SELECT COUNT(`id_%s`) FROM `%s` WHERE `receiver`= %d ORDER BY `creation_date` DESC";
+        $sql = sprintf($sql, Config::TABLE_NOTIFICATION,Config::TABLE_NOTIFICATION,User::current()->id());
+        $res = $this->_db->query($sql);
+        if ($res) {
+            return $res->fetch_row()[0];
+        }
+        return array();
+    }
+
+    
+
 
     /**
      * Delete the given notification

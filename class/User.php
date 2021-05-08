@@ -715,7 +715,7 @@ class User {
      * @return bool If it worked or not
      */
     public function remove_friend(User $u) {
-        $sql = sprintf("DELETE FROM `%s` WHERE `user1` = %d AND `user2` = %d",Config::TABLE_FRIEND,$this->id(),$u->id());
+        $sql = sprintf("DELETE FROM `%s` WHERE ( (`user1` = %d AND `user2` = %d) || (`user1` = %d AND `user2` = %d) )",Config::TABLE_FRIEND,$this->id(),$u->id());
         return $this->_db->query($sql);
     }
 
