@@ -653,16 +653,31 @@ class User {
      * @return bool If it worked or not
      */
     public function add_friend(User $u) {
+        $try = $GLOBALS['notifications']->get_friend_notif_by_sender_and_receiver(User::current(),$u);
         if ($this->is_friend($u)) {
+            if($try != null) {
+                $GLOBALS['notifications']->delete_notif($try);
+            }
             return false;
         }
         if ($u->asked_to_be_friend($this)) {
+            if($try != null) {
+                $GLOBALS['notifications']->delete_notif($try);
+            }
             return $u->become_friend($this);
         }
         if ($this->asked_to_be_friend($u)) {
+            if($try != null) {
+                $GLOBALS['notifications']->delete_notif($try);
+            }
             return $this->remove_friend($u);
         }
-        return $this->ask_user_to_be_friend($u);
+        else {
+            if($try == null) {
+                $GLOBALS['notifications']->send_notif("friend",$u);
+            }
+            return $this->ask_user_to_be_friend($u);
+        }
     }
     
     /**
@@ -715,7 +730,7 @@ class User {
      * @return bool If it worked or not
      */
     public function remove_friend(User $u) {
-        $sql = sprintf("DELETE FROM `%s` WHERE ( (`user1` = %d AND `user2` = %d) || (`user1` = %d AND `user2` = %d) )",Config::TABLE_FRIEND,$this->id(),$u->id());
+        $sql = sprintf("DELETE FROM `%s` WHERE ( (`user1` = %d AND `user2` = %d) || (`user1` = %d AND `user2` = %d) )",Config::TABLE_FRIEND,$this->id(),$u->id(),$u->id(),$this->id());
         return $this->_db->query($sql);
     }
 
@@ -727,7 +742,6 @@ class User {
      */
     public function ask_user_to_be_friend(User $u) {
         $sql = sprintf("INSERT INTO `%s` (`user1`, `user2`) VALUES (%d, %d)",Config::TABLE_FRIEND,$this->id(),$u->id());
-        $GLOBALS['notifications']->send_notif("friend",$u);
         return $this->_db->query($sql);
     }
 
