@@ -29,7 +29,7 @@ if (!sizeof($communities)>0){
 	<!-- bouton pour recup ses jetons -->
 	<?php if($can_collect): ?>
 		<form class="collectForm" enctype="multipart/form-data" action="<?=Routes::url_for('/dailies/collect_all')?>" method="post">
-			<label for="collect" class="collectJeton animate2">Collect<img src="<?=Routes::url_for('/img/svg/coin.svg')?>"></label>
+			<label for="collect" class="collectJeton animate2 cursor">Collect<img src="<?=Routes::url_for('/img/svg/coin.svg')?>"></label>
 			<input id="collect" type="submit" name="collect" hidden>
 		</form>
 	<?php endif; ?>	

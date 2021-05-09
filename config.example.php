@@ -50,7 +50,15 @@ class Config {
 
     public static function URL_SUBDIR(bool $trailing_slash = true){
         $subdir = explode('/', self::URL_ROOT($trailing_slash), 2)[1] ?? '';
-        $subdir = empty($subdir) ? $subdir : '/' . $subdir;  // add heading slash if needed
+        if (empty($subdir)) {
+            // The site isn't installed in a subfolder
+            // So we return '/' only in trailing_slash is true
+            $subdir = $trailing_slash ? '/' : '';
+        } else {
+            // the site is in a subfolder
+            // the trailing slash has already been handled, we juste need to had heading slash
+            $subdir = '/' . $subdir;
+        }
         return $subdir;
     }
 }

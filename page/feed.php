@@ -37,26 +37,26 @@ try {
         [offset, posts] = retrievePosts();
         OFFSET = offset;
 
+        clearPosts(); // Clear posts of former use
+
         var posts_section = document.querySelector("section#verticalScrollContainer");
         for (id in posts) {
             IDS.push(id);
-            addPostToContainer(posts[id], posts_section);
+            addPostToContainer(posts[id], posts_section, id); // Adding post in page also save them
         }
 
-        document.cookie = "shouldBeRestored=0";
+        document.cookie = "shouldBeRestored=0;SameSite=Lax;path='<?= Config::URL_SUBDIR(true) ?>'";
 
         const anchor = document.cookie
           .split('; ')
           .find(row => row.startsWith('restoreAnchor='))
           .split('=')[1];
-        console.log("anchor="+anchor);
         try {
             document.getElementById(anchor).scrollIntoView();
         } catch {
             //ignore
         }
         console.log("Posts restored!");
-        clearPosts();
     }
 } catch {
     //ignore

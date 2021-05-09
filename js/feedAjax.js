@@ -21,7 +21,6 @@ function markEmpty(bool, section,page) {
 }
 
 function savePosts(offset, to_add_array) {
-    //Side effect : won't be updated until page is fully reloaded 
     var previousPosts = JSON.parse(window.localStorage.getItem('posts'));
     var newPosts = {...previousPosts,...to_add_array};
 
@@ -35,13 +34,22 @@ function retrievePosts() {
     return [parseInt(offset), posts];
 }
 
+function deletePostFromStorage(id) {
+    // Delete in localstorage
+    var offset = retrievePosts()[0];
+    var posts = retrievePosts()[1];
+    delete posts[id];
+    window.localStorage.setItem('posts', JSON.stringify(posts));
+    window.localStorage.setItem('offset', offset - 1)
+}
+
 function clearPosts() {
     window.localStorage.removeItem('posts');
     window.localStorage.removeItem('offset');
     console.log('Storage cleared!');
 }
 
-function addPostToContainer(post_html,container) {
+function addPostToContainer(post_html,container,id) {
     var new_post = document.createElement("div");
     new_post.innerHTML = `${post_html}`; // à creuser
     post = new_post.firstElementChild
@@ -50,7 +58,8 @@ function addPostToContainer(post_html,container) {
     if (pre!=null){
         Prism.highlightElement(pre);
     }
-    
+    var json_row = {[id]: post_html};
+    savePosts(OFFSET || 0, json_row);
 }
 
 
@@ -84,26 +93,27 @@ function moreposts(page="feed",user="none",comm="current",reset=false) {
                     if(!IDS.includes(id)) {
                         IDS.push(id);
                         OFFSET++;
-                        addPostToContainer(post_html, posts_section);
+                        addPostToContainer(post_html, posts_section, id);
                     }
                 });
             }
-            savePosts(OFFSET, rep);
+            //savePosts(OFFSET, rep);
         }
     }
     xhr.send("offset=" + OFFSET.toString()+"&page="+page+"&user="+user+"&comm="+comm);
 }
 
-window.onload = function() { // might be moved
+window.onload = function() {
     // This block execute last, after shouldBeRestored block in feed.php
 
     //Load more posts only if none have been restored
     var posts_section = document.querySelector("section#verticalScrollContainer");
     if (posts_section.childElementCount === 0) {
+        // We need to reset OFFSET and IDS
         try{
-            moreposts(page,user,comm); // loads first posts at load time
+            moreposts(page,user,comm,true); 
         }catch{
-            moreposts();
+            moreposts(undefined,undefined,undefined,true);
         }
     }
 }

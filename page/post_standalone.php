@@ -57,13 +57,13 @@ $typeDocument = $post->get_documents()[0]->type();
 	                <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor dotsForPost" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
 	                <ul id="Settings-<?=$postID?>" class="menuSettings hidden">
 	                	<?php if($isAdminCommu): ?>
-	                	<li onclick="set_highlight_post(<?=$postID?>)" >Mettre en avant</li>
+	                	<li class="cursor" onclick="set_highlight_post(<?=$postID?>)" >Mettre en avant</li>
 	                	<?php endif ?>
-	                	<li onclick="delete_post(<?=$postID?>)">Supprimer</li>
+	                	<li class="cursor" onclick="delete_post(<?=$postID?>)">Supprimer</li>
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>
-                    <img onclick="document.cookie='shouldBeRestored=1;path=<?= Config::URL_SUBDIR(false) ?>';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+                    <img onclick="document.cookie='shouldBeRestored=1;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 	        <?php endif ?>
 		</div>
 		<!-- content -->
@@ -119,7 +119,7 @@ $typeDocument = $post->get_documents()[0]->type();
 			<div class="left">
             <?php if(!$isComment): ?>
             <!-- commentaire -->
-            <a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;path=/'">
+            <a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>'">
                 <img src="<?= Routes::url_for('/img/svg/comment.svg')?>">
             </a>
             <?php endif ?>
@@ -156,7 +156,7 @@ $typeDocument = $post->get_documents()[0]->type();
 			</div>
 			<div class="right">
 				<?php if(!$isComment and $publisher!=User::current()): ?>
-				<a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;path=/'">
+				<a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>'">
 					<img class="soutenirButton cursor" src="<?= Routes::url_for('/img/svg/coin.svg')?>">
 				</a>
 				<?php endif ?>
