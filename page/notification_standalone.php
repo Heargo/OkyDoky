@@ -19,7 +19,7 @@ if($notif->type() == "friend"){
 if($notif->type() == "don"){
     $comm=$notif->community();
     ?>
-    <div id="<?=$id?>" class="card-notif">
+    <div id="notif-<?=$id?>" class="card-notif">
 
     <img class="imgleft" src="<?=$comm->get_cover()?>">
     <div class="contentNotif interaction">
@@ -31,7 +31,7 @@ if($notif->type() == "don"){
       <p class="contentNotifMsg">vous a donné <?=$notif->amount()?> jetons !</p>
     </div>
     <div class="interactionBox">
-      <img class="crossRED cursor" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+      <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
     </div>
   </div>
     <?php

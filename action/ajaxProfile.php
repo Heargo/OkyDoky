@@ -36,6 +36,9 @@ function denyFriend(?array $match){
 	$GLOBALS["users"]->get_by_id($_POST["id"])->remove_friend(User::current());
 	$GLOBALS["notifications"]->delete_notif($GLOBALS["notifications"]->get_by_id($_POST['idnotif']));
 }
+function delete_notif(?array $match){
+	$GLOBALS["notifications"]->delete_notif($GLOBALS["notifications"]->get_by_id($_POST['idnotif']));
+}
 function removeFriend(?array $match){
 	User::current()->remove_friend($GLOBALS["users"]->get_by_id($_POST["id"]));
 }

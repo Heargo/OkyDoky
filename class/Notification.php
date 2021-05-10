@@ -71,5 +71,5 @@ class Notification{
      *
      * @return Community The community of the notificaiton.
      * */
-    public function amount() : Community { return $this->_amount; }
+    public function amount() : int { return $this->_amount; }
 }
