@@ -63,7 +63,7 @@ $typeDocument = $post->get_documents()[0]->type();
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>
-                    <img onclick="document.cookie='shouldBeRestored=1;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>/';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+                    <img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 	        <?php endif ?>
 		</div>
 		<!-- content -->
@@ -76,12 +76,10 @@ $typeDocument = $post->get_documents()[0]->type();
 				<div class="pdfDownloadButton">
 					<img src="<?= Routes::url_for('/img/svg/pdf.svg')?>" alt="pdf">
 					<?php 
-					//nom du fichier
-					$name = "Nom_du_ddddddddddddddddddddddddddddddddddddddpdf" . ".pdf";
-					//url du pdf 
-					$url = "";
+					$url = $post->get_documents()[0]->url();
+					$filename = $post->get_documents()[0]->filename();
 					?>
-					<a href="<?=$url?>" target="_blank"><?=$name?></a>
+					<a href="<?=$url?>" target="_blank"><?=$filename?></a>
 					<a class="dlArrowA" href="<?=$url?>" download><img class="dlArrow" src="<?= Routes::url_for('/img/svg/arrow-download.svg')?>" alt="donwload pdf"></a>
 					
 				</div>
@@ -119,7 +117,7 @@ $typeDocument = $post->get_documents()[0]->type();
 			<div class="left">
             <?php if(!$isComment): ?>
             <!-- commentaire -->
-            <a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>'">
+            <a href="<?=$urlComment?>" onclick="localStorage.setItem('restoreAnchor', <?=$post->id()?>);">
                 <img src="<?= Routes::url_for('/img/svg/comment.svg')?>">
             </a>
             <?php endif ?>
