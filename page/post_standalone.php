@@ -63,7 +63,7 @@ $typeDocument = $post->get_documents()[0]->type();
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>
-                    <img onclick="document.cookie='shouldBeRestored=1;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+                    <img onclick="document.cookie='shouldBeRestored=1;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>/';location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 	        <?php endif ?>
 		</div>
 		<!-- content -->

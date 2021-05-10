@@ -45,7 +45,7 @@ try {
             addPostToContainer(posts[id], posts_section, id); // Adding post in page also save them
         }
 
-        document.cookie = "shouldBeRestored=0;SameSite=Lax;path='<?= Config::URL_SUBDIR(true) ?>'";
+        document.cookie = "shouldBeRestored=0;SameSite=Lax;path='<?= Config::URL_SUBDIR(true) ?>/'";
 
         const anchor = document.cookie
           .split('; ')
@@ -57,6 +57,9 @@ try {
             //ignore
         }
         console.log("Posts restored!");
+    } else {
+        // Just to be sure
+        document.cookie = "shouldBeRestored=0;SameSite=Lax;path='<?= Config::URL_SUBDIR(true) ?>/'";
     }
 } catch {
     //ignore
