@@ -1,6 +1,6 @@
 <?php
 function upload_post(?array $match) {
-	if (User::is_connected() && $_FILES['size'] != 0) {
+	if (User::is_connected() && $_FILES['file']['size'] != 0) {
 
 		$id_doc = $GLOBALS["docs"]->add_document($_FILES["file"]);
 		$doc = $GLOBALS["docs"]->get_by_id($id_doc);
