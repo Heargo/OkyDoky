@@ -21,6 +21,6 @@ $ROUTES->bound_get('/document', 'page/upload_document.php')
        ->bound_get('/bank', 'page/bank.php')
        ->bound_get('/friends', 'page/friends.php')
        ->bound_get('/notifications', 'page/notification.php')
-       ->bound_get('/chat', 'page/message.php')
+       ->bound_get('/tchat', 'page/message.php')
        ->bound_get('/user/(?<user>[\w|-]+)/favoris','page/favoris.php')
 ;
