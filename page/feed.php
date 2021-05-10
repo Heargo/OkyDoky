@@ -25,14 +25,15 @@
 <?php include 'backgroundItems.php'; ?>
 </body>
 
+<script src="<?= Routes::url_for('/js/prism.js')?>"></script>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 <script>
+var current_community = "<?= $_SESSION['current_community'] ?>";
 try {
-    const shouldBeRestored = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('shouldBeRestored='))
-      .split('=')[1];
-    if (shouldBeRestored == "1") {
+    const shouldBeRestored = localStorage.getItem('shouldBeRestored');
+    const community = localStorage.getItem('community');
+
+    if (shouldBeRestored === "true" && community === current_community) {
         var offset, posts;
         [offset, posts] = retrievePosts();
         OFFSET = offset;
@@ -45,12 +46,10 @@ try {
             addPostToContainer(posts[id], posts_section, id); // Adding post in page also save them
         }
 
-        document.cookie = "shouldBeRestored=0;SameSite=Lax;path='<?= Config::URL_SUBDIR(true) ?>/'";
+        localStorage.setItem('shouldBeRestored', "false");
+        //document.cookie = "shouldBeRestored=0;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>";
 
-        const anchor = document.cookie
-          .split('; ')
-          .find(row => row.startsWith('restoreAnchor='))
-          .split('=')[1];
+        const anchor = localStorage.getItem('restoreAnchor');
         try {
             document.getElementById(anchor).scrollIntoView();
         } catch {
@@ -59,12 +58,17 @@ try {
         console.log("Posts restored!");
     } else {
         // Just to be sure
-        document.cookie = "shouldBeRestored=0;SameSite=Lax;path='<?= Config::URL_SUBDIR(true) ?>/'";
+        localStorage.setItem('shouldBeRestored', "false");
+        localStorage.setItem('community', current_community);
+        clearPosts();
+        //document.cookie = "shouldBeRestored=0;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>";
     }
-} catch {
-    //ignore
+    
+} catch(e) {
+    localStorage.setItem('shouldBeRestored', "false");
+    localStorage.setItem('community', current_community);
+    clearPosts();
 }
-
 </script>
 
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
@@ -72,5 +76,4 @@ try {
 <script src="<?= Routes::url_for('/js/share.js')?>"></script>
 <script src="<?= Routes::url_for('/js/favoris.js')?>"></script>
 <script src="<?= Routes::url_for('/js/post.js')?>"></script>
-<script src="<?= Routes::url_for('/js/prism.js')?>"></script>
 </html>
