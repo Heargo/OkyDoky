@@ -11,6 +11,8 @@ class Community{
     private $_rules;
     private $_highlight_post;
 
+    public static $authorized_mime = ["image/gif","image/jpeg","image/png"];
+
     public function __construct(mysqli $db, int $id){
         $this->_id = $id;
         $this->_db = $db;
@@ -192,7 +194,9 @@ class Community{
     public function set_cover(array $document){
         // if file isn't empty and not too large
         var_dump($document['size']);
-        if ($document['size'] != 0 && $document['size'] < 50000000) {
+        if($document['size'] != 0){$type = mime_content_type($document['tmp_name']);}
+        else{$type="";}
+        if ($document['size'] != 0 && $document['size'] < 50000000 && in_array($type,Community::$authorized_mime)) {
             if (!is_writable(Config::DIR_COVER)) {
                 throw new NotWritable('Directory ' . Config::DIR_COVER . ' is not writable');
             }
