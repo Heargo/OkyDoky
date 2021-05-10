@@ -30,9 +30,10 @@ function add_comment(?array $match) {
     if (!empty(trim($_POST['commentaire']))){
         //Sanitize is done inside
         $GLOBALS['comments']->add_comment(User::current(), $post, $_POST['commentaire']);
-
-        /*give xp*/
-        User::current()->add_points_in_community($post->community(), 3);
+        if (User::current()->id() != $post->publisher()->id()) {
+            /*give xp*/
+            User::current()->add_points_in_community($post->community(), 3);
+        }
     }
    
    
