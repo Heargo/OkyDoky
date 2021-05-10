@@ -17,6 +17,7 @@ $label     = Config::TABLE_LABEL;
 $friend    = Config::TABLE_FRIEND;
 $message   = Config::TABLE_MESSAGE;
 $notification   = Config::TABLE_NOTIFICATION;
+$favoris   = Config::TABLE_FAVORIS;
 
 $DB->query("SET FOREIGN_KEY_CHECKS = 0;");
 
@@ -217,7 +218,19 @@ CREATE TABLE IF NOT EXISTS `$notification` (
     FOREIGN KEY (`community`) REFERENCES `$community`(`id_$community`) ON DELETE CASCADE
 );");
 
+$DB->query("
+CREATE TABLE IF NOT EXISTS `$favoris` (
+    `id_$favoris` int unsigned NOT NULL AUTO_INCREMENT,
+    `user` int unsigned NOT NULL,
+    `post` int unsigned NOT NULL,
+    `date_fav` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (`id_$favoris`),
+    FOREIGN KEY (`user`) REFERENCES `$user`(`id_$user`) ON DELETE CASCADE,
+    FOREIGN KEY (`post`) REFERENCES `$post`(`id_$post`) ON DELETE CASCADE
+);");
+
 $DB->query("SET FOREIGN_KEY_CHECKS = 1;");
 
-unset($document, $user, $community, $user_comm, $resource, $post, $vote, $comment, $like, $label, $friend, $message, $notification);
+unset($document, $user, $community, $user_comm, $resource, $post, $vote, $comment, $like, $label, $friend, $message, $notification, $favoris);
 

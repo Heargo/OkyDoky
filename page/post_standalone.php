@@ -164,7 +164,19 @@ $typeDocument = $post->get_documents()[0]->type();
                     <img src="<?= Routes::url_for('/img/svg/share.svg')?>">
                     <img class="hidden" src="<?= Routes::url_for('/img/svg/check.svg')?>">
                 </button>
-                <a href="#"><img src="<?= Routes::url_for('/img/svg/bookmark.svg')?>"></a>
+                <?php 
+                	$isFavorized = $GLOBALS['favoris']->isFavori($post);
+                	if($isFavorized) {?>
+                		<button id="favIconButton-<?=$post->id()?>" class="copy-to-clipboard cursor" onclick="toggleFav(<?=$post->id()?>,0)">
+                			<?php // TODO : insert the filled bookmark ?>
+                    	<img id="favIcon-<?=$post->id()?>" src="<?= Routes::url_for('/img/svg/share.svg')?>">
+
+                    <?php }else{ ?>
+						<button id="favIconButton-<?=$post->id()?>" class="copy-to-clipboard cursor" onclick="toggleFav(<?=$post->id()?>,1)">
+                    	<img  id="favIcon-<?=$post->id()?>" src="<?= Routes::url_for('/img/svg/bookmark.svg')?>">
+                	
+                	<?php } ?>
+                </button>
 			</div>
 			
 		</div>

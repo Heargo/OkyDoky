@@ -46,4 +46,6 @@ $ROUTES->bound_post('/signin', 'signin', ['login', 'password'])
        ->bound_post('/dailies/convert_coins','convert_coins')
        ->bound_post('/dailies/collect_all','collect_all')
        ->bound_post('/donatejetons','giveTo')
+       ->bound_post('/addInFav','addFavori',['idpost'])
+       ->bound_post('/removeFav','removeFavori',['idpost'])
 ;

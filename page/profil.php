@@ -13,6 +13,7 @@
 
 <?php 
 $myprofil=User::current()->equals($GLOBALS["page"]["userOfUrl"]);
+$CU = User::current()->nickname();
 $user=$GLOBALS["page"]["userOfUrl"];
 if($_SESSION['current_community']>0){
 	$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
@@ -41,7 +42,7 @@ if($_SESSION['current_community']>0){
 	<?php if($myprofil){ ?>
 	<div class="right-container">
 		<!-- AFFICHAGE DES FAVORIS -->
-		<a href=""><img src="https://img.icons8.com/ios/50/000000/bookmark-ribbon--v2.png" name="favorilogo" class="logofavori"/></a>
+		<a href="<?= Routes::url_for("/user/$CU/favoris")?>"><img src="https://img.icons8.com/ios/50/000000/bookmark-ribbon--v2.png" name="favorilogo" class="logofavori"/></a>
 		<!-- AFFICHAGE DES PARAMETRES -->
 		<a href=javascript:void(0); onclick="afficheparameter()">
 		<img src="https://img.icons8.com/ios/50/000000/settings--v1.png" class="logoparametre"/> </a>
@@ -202,6 +203,7 @@ else{
 	var route = "<?=Config::URL_SUBDIR(false)?>";
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script src="<?= Routes::url_for('/js/favoris.js')?>"></script>
 <script src="<?= Routes::url_for('/js/share.js')?>"></script>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>

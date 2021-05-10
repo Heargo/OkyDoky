@@ -29,6 +29,7 @@ class Config {
     public const TABLE_FRIEND = 'friend';
     public const TABLE_MESSAGE = 'message';
     public const TABLE_NOTIFICATION = 'notification';
+    public const TABLE_FAVORIS = 'favoris';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';

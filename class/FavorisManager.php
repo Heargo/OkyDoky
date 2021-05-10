@@ -53,6 +53,44 @@ class FavorisManager {
         return array();
     }
 
+    public function get_by_user(int $limit = 10, int $offset = 0) : array {
+        $sql = "SELECT `post` FROM `%s` WHERE `user` = %d ORDER BY `date_fav` ASC LIMIT %d OFFSET %d";
+        $sql = sprintf($sql, Config::TABLE_FAVORIS, User::current()->id(), $limit, $offset);
+        $result = $this->_db->query($sql);
+        if($result) {
+            for ($list = array();
+                 $row = $result->fetch_assoc();
+                 $list[] = new Post($this->_db, $row['post']));
+            return $list;
+        }
+        return array();
+    }
+
+    public function get_by_post(Post $p) : ?Favoris {
+        $sql = "SELECT `id_%s` FROM `%s` WHERE `post` = %d AND `user` = %d";
+        $sql = sprintf($sql, Config::TABLE_FAVORIS, Config::TABLE_FAVORIS, $p->id(), User::current()->id());
+        $result = $this->_db->query($sql);
+        if($result) {
+            $row = $result->fetch_assoc();
+            return new Favoris($this->_db, $row['id_'.Config::TABLE_FAVORIS]);
+        }
+        return null;
+    }
+
+
+    public function isFavori(Post $post) {
+        $sql = "SELECT `post` FROM `%s` WHERE `user` = %d AND `post` = %d";
+        $sql = sprintf($sql, Config::TABLE_FAVORIS, User::current()->id(), $post->id());
+        $result = $this->_db->query($sql);
+        if($result) {
+            if($row = $result->fetch_assoc()) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
 
     /**
      * Delete the given favoris

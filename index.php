@@ -28,6 +28,7 @@ $GLOBALS['posts'] = new PostManager($DB);
 $GLOBALS['comments'] = new CommentManager($DB);
 $GLOBALS['messages'] = new MessageManager($DB);
 $GLOBALS['notifications'] = new NotificationManager($DB);
+$GLOBALS['favoris'] = new FavorisManager($DB);
 $GLOBALS['db'] = $DB;
 
 if(!isset($_SESSION["current_community"])){

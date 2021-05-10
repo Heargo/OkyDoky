@@ -5,7 +5,7 @@ class Favoris{
     private $_id;
     private $_post;
     private $_user;
-    private $_date_fav
+    private $_date_fav;
     
     public function __construct(mysqli $db, int $id){
         $this->_id = $id;
