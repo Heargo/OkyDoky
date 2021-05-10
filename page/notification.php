@@ -36,6 +36,6 @@
 
 
 <?php include 'backgroundItems.php'; ?>
-<script src="<?= Routes::url_for('/js/profil.js')?>"></script>
+<script src="<?= Routes::url_for('/js/notification.js')?>"></script>
 </body>
 </html>

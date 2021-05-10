@@ -5,7 +5,13 @@
 		<a href="./notifications">
 			<div class="notificationIconContainer">
 				<img src="<?= Routes::url_for('/img/svg/bell.svg')?>">
-				<p>99</p><!-- todo nb notif : affiche 99 au max -->
+				<?php 
+					$nbNotifs = $GLOBALS["notifications"]->how_many_notifs();
+					if ($nbNotifs != 0) {
+						?><p><?= $nbNotifs ?></p>
+					<?php
+				}
+				?>
 			</div>
 		</a>
 		<a href="./bank">
