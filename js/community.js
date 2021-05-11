@@ -47,7 +47,7 @@ function showSlides(n) {
     var numberText = document.getElementById("number");
     var descText = document.getElementById("descriptionCommu");
     var navPreview = document.getElementById("previewCommunityBottomNav");
-
+    var navPreview2 =document.getElementById("previewCommunityBottomNav2");
     if (n > slides.length) {slideIndex = 1}
     if (n < 1) {slideIndex = slides.length}
     for (i = 0; i < slides.length; i++) {
@@ -71,7 +71,7 @@ function showSlides(n) {
       descText.classList.remove("hidden")
     }
     navPreview.setAttribute("src",slides[slideIndex-1].childNodes[1].src);
-    
+    navPreview2.setAttribute("src",slides[slideIndex-1].childNodes[1].src);
 
     changeCommu(slides[slideIndex-1].childNodes[1].dataset.idcommu);
     loadHP();

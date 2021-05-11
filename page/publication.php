@@ -25,7 +25,7 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
     <p class="commentForm">
         <form class="commentaire-form" enctype="multipart/form-data" action="<?=$r?>" method="post"> 
 			<textarea class="commentaire-form-textarea" type="text" name="commentaire" placeholder="Ecrivez un commentaire"></textarea>
-			<label class="submit-comm-label" for="submit-comment">
+			<label class="submit-comm-label cursor" for="submit-comment">
 				<img src="<?=Routes::url_for('/img/svg/send.svg')?>">
 			</label>
 			<input class="hidden" type="submit" id="submit-comment" name="submit">

@@ -159,6 +159,16 @@ h1{
 	width: 36px;
 	height: 36px;
 }
+.commTopRightFeed{
+	position: absolute;
+	object-fit: cover;
+	border-radius: 100%;
+	width: 22px;
+	height: 22px;
+	transform: translate(-10px,-12px);
+	background-color: #F1F2F6;
+}
+
 .small-bubble-2{
 	object-fit: cover;
 	margin-top:5px; 
@@ -1018,6 +1028,7 @@ a.editCommubtn{
 	min-height: 280px;
 	background-color: white;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+	border-radius: 15px;
 	margin: 10px;
 }
 
@@ -1274,7 +1285,7 @@ h2.confirmation{
 .bg{
 	display: none;
 	position: fixed;
-	top: 100px;
+	top: 10px;
   width: 100%;
   height:100vh;
   z-index: -100;
