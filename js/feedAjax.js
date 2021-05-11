@@ -89,7 +89,9 @@ function moreposts(page="feed",user="none",comm="current",reset=false) {
                 markEmpty(true, posts_section,page);
             } else {
                 markEmpty(false, posts_section,page);
-                Object.entries(rep).forEach(([id, post_html]) => {
+                rep.forEach(row => {
+                    var id = row[0];
+                    var post_html = row[1];
                     if(!IDS.includes(id)) {
                         IDS.push(id);
                         OFFSET++;

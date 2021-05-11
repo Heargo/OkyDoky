@@ -36,22 +36,23 @@ function more_posts(?array $match) {
         $posts = $GLOBALS["favoris"]->get_by_user(10, (int) $_POST['offset']);
     }
     else{
-        $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
+        $posts = $GLOBALS["posts"]->get_by_community($comm, true, 2, (int) $_POST['offset']);
     }
     
 
     $result = array();
-    foreach($posts as $post) {
+    for($i=0;$i<sizeof($posts);$i++) {
+        $post=$posts[$i];
         if (ob_get_length()) ob_end_clean();
         ob_start();
         load_post($post);
         $content = ob_get_clean();
-        $result[$post->id()] = $content;
+        $result[] = array($post->id(), $content);
     }
     ob_start();
 
-
-    echo json_encode($result);
+    header('Content-Type: application/json');
+    echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
 function del_post(?array $match){
