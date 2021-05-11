@@ -63,8 +63,12 @@ if (sizeof($communities)>0){ ?>
 			}
 			
 			load_admin_container();
-
-			get_rules(array());
+			
+		    $rules = htmlspecialchars_decode($currentCom->rules());
+		    echo "<div class='rulesContainer'>";
+		    echo "<h3>Règles</h3>";
+			echo "<div id='markdowContainer'>$rules</div>";
+			echo "</div>";
 		?>
 		
 	</section>
@@ -121,13 +125,13 @@ else{
 
 <?php include 'bottomnav.php'; ?>
 
-
+<script src="<?= Routes::url_for('/js/prism.js')?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js" integrity="sha512-L03kznCrNOfVxOUovR6ESfCz9Gfny7gihUX/huVbQB9zjODtYpxaVtIaAkpetoiyV2eqWbvxMH9fiSv5enX7bw==" crossorigin="anonymous"></script>
 <script src="<?= Routes::url_for('/js/community.js')?>"></script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="<?= Routes::url_for('/js/share.js')?>"></script>
 <script src="<?= Routes::url_for('/js/favoris.js')?>"></script>
-<script src="<?= Routes::url_for('/js/prism.js')?>"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js" integrity="sha512-L03kznCrNOfVxOUovR6ESfCz9Gfny7gihUX/huVbQB9zjODtYpxaVtIaAkpetoiyV2eqWbvxMH9fiSv5enX7bw==" crossorigin="anonymous"></script>
+
 </body>
 </html>

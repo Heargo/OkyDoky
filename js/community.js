@@ -35,7 +35,6 @@ function getSlideOfID(id){
 
   for (i = 0; i < slides.length; i++) {
     if (slides[i].childNodes[1].dataset.idcommu==id){
-      console.log("Pour l'id de commu "+id+" l'index est "+(i+1))
       return parseInt(i)+1;
     }
   }
@@ -73,10 +72,12 @@ function showSlides(n) {
     }
     navPreview.setAttribute("src",slides[slideIndex-1].childNodes[1].src);
     
+
     changeCommu(slides[slideIndex-1].childNodes[1].dataset.idcommu);
     loadHP();
     loadAC();
     loadRules();
+    
 }
 
 function switchComs(){
@@ -120,7 +121,7 @@ function loadHP(){
             title.insertAdjacentHTML('afterend', this.response);
         }
     };
-    xhr.open("POST","./ajax/hp",true);
+    xhr.open("POST","./ajax/hp",false);
     xhr.send();
 }
 
@@ -140,7 +141,7 @@ function loadAC(){
             Prism.highlightAll();
         }
     };
-    xhr.open("POST","./ajax/ac",true);
+    xhr.open("POST","./ajax/ac",false);
     xhr.send();
 }
 
@@ -152,7 +153,6 @@ function loadRules(){
             //on supprime les resultats précédents
             communityContentContainer = document.getElementById("communityContentContainer");
             var rules_zone = communityContentContainer.children[2];
-            console.log(rules_zone);
             communityContentContainer.removeChild(rules_zone);
       
             //on écrit les nouveaux results 
@@ -162,12 +162,17 @@ function loadRules(){
             var mdContainer = document.getElementById("markdowContainer");
             var html = converter.makeHtml(mdContainer.innerHTML);
             mdContainer.innerHTML=html;
-            console.log(html)
-            var converter = new showdown.Converter();
         }
     };
-    xhr.open("POST","./ajax/rules",true);
+    xhr.open("POST","./ajax/rules",false);
     xhr.send();
 }
 
-
+window.onload = function(){
+    //markdown
+    var converter = new showdown.Converter();
+    var mdContainer = document.getElementById("markdowContainer");
+    var html = converter.makeHtml(mdContainer.innerHTML);
+    mdContainer.innerHTML=html;
+    //console.log("markdown applied")
+};
