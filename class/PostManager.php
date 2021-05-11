@@ -71,6 +71,39 @@ class PostManager {
 		return array();
 	}
 
+	public function get_by_communities_and_friends(int $limit = 10, int $offset = 0) {
+		$visible = $visible ? 1 : 0;
+		$sql = "
+			SELECT DISTINCT `p.id_%1$s` FROM `%1$s` p 
+			JOIN `%2$s` f1 ON `p.publisher` = `f1.user1` 
+			JOIN `%2$s` f2 ON `p.publisher` = `f1.user2`
+			JOIN `%3$s` uc ON `p.community` = `uc.community`
+			WHERE `p.visible` = 1 
+			AND (
+				`uc.user` = %4$d 
+				OR
+				`f1.user1` = %4$d
+				OR
+				`f1.user2` = %4$d
+				OR
+				`f2.user1` = %4$d
+				OR
+				`f2.user2` = %4$d
+			)
+			ORDER BY `p.date` DESC LIMIT %5$d OFFSET %6$d";
+		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_FRIEND, Config::TABLE_USER_COMMUNITY, User::current()->id(), $limit, $offset);
+		$result = $this->_db->query($sql);
+		if ($result) {
+			for ($list = array();
+				 $row = $result->fetch_assoc();
+				 $list[] = new Post($this->_db, $row['id_' . Config::TABLE_POST]));
+			return $list;
+		}
+		return array();
+	}
+
+	
+
 	/**
 	 * Get number of posts by community
 	 *
