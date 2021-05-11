@@ -54,7 +54,7 @@ class FavorisManager {
     }
 
     public function get_by_user(int $limit = 10, int $offset = 0) : array {
-        $sql = "SELECT `post` FROM `%s` WHERE `user` = %d ORDER BY `date_fav` ASC LIMIT %d OFFSET %d";
+        $sql = "SELECT `post` FROM `%s` WHERE `user` = %d ORDER BY `date_fav` DESC LIMIT %d OFFSET %d";
         $sql = sprintf($sql, Config::TABLE_FAVORIS, User::current()->id(), $limit, $offset);
         $result = $this->_db->query($sql);
         if($result) {
