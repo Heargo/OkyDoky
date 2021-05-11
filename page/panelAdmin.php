@@ -82,15 +82,15 @@ if ($isAdmin) {
 		<h2 class="communityTitle">Mis en avant</h2>
 		<?php
 		$currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
-		$highlight_post  = $GLOBALS['posts']->get_by_most_votes($currentCom);
+		$highlight_post  = $currentCom->get_highlight_post();
 
-		if(sizeof($highlight_post) != 0){
-			load_post($highlight_post[0]);
+		if($highlight_post!=null){
+			load_post($highlight_post);
 
 			?>
 			<form enctype="multipart/form-data" action="<?= Routes::url_for('/post/delMA')?>" method="post">
 				<input type="submit" class="delInput cursor" name="delMiseAvant" value="Supprimer la mise en avant">
-				<input type="number" name="idPost" value="<?=$highlight_post[0]->id()?>" hidden>
+				<input type="number" name="idPost" value="<?=$highlight_post->id()?>" hidden>
 			</form>
 			<?php 
 		}
@@ -116,18 +116,16 @@ if ($isAdmin) {
 		var comm = -1;
 		var route = "<?=Config::URL_SUBDIR(false)?>";
 	</script>
-	<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
-	<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 
 <?php elseif($_GET["page"]=="coms"): ?>
 	<section id="verticalScrollContainer" class="inAdminPanel">
-		<div class="commentaires">
+		<div id="commentairesContainer" class="commentaires">
 			<?php 
 			$currentCom = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
 			$commentsDel = $GLOBALS['comments']->get_deleted_by_community($currentCom);
 			if(sizeof($commentsDel)!=0) {
 				foreach ($commentsDel as $key => $c) {
-					load_comment($c);
+					load_comment($c,true);
 				}
 			}else{
 				?>
@@ -138,7 +136,7 @@ if ($isAdmin) {
 			?>
 		</div>
 	</section>
-
+	<script src="<?= Routes::url_for('/js/comments.js')?>"></script>
 <?php endif ?>
 </section>
 
