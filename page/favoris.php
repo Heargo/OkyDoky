@@ -12,64 +12,21 @@
 	  <h1 class="noselect shareTitle">Favoris</h1>
 	</div>
 
-	<?php include 'bottomnav.php'; ?>
-
 	<?php include 'backgroundItems.php'; ?>
 
 
-	<section id="verticalScrollContainer">
-
-
-	<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
-	<script>
-	try {
-	    const shouldBeRestored = document.cookie
-	      .split('; ')
-	      .find(row => row.startsWith('shouldBeRestored='))
-	      .split('=')[1];
-	    if (shouldBeRestored == "1") {
-	        var offset, posts;
-	        [offset, posts] = retrievePosts();
-	        OFFSET = offset;
-
-	        clearPosts(); // Clear posts of former use
-
-	        var posts_section = document.querySelector("section#verticalScrollContainer");
-	        for (id in posts) {
-	            IDS.push(id);
-	            addPostToContainer(posts[id], posts_section, id); // Adding post in page also save them
-	        }
-
-	        document.cookie = "shouldBeRestored=0;SameSite=Lax;path='<?= Config::URL_SUBDIR(true) ?>/'";
-
-	        const anchor = document.cookie
-	          .split('; ')
-	          .find(row => row.startsWith('restoreAnchor='))
-	          .split('=')[1];
-	        try {
-	            document.getElementById(anchor).scrollIntoView();
-	        } catch {
-	            //ignore
-	        }
-	        console.log("Posts restored!");
-	    } else {
-	        // Just to be sure
-	        document.cookie = "shouldBeRestored=0;SameSite=Lax;path='<?= Config::URL_SUBDIR(true) ?>/'";
-	    }
-	} catch {
-	    //ignore
-	}
-
-	</script>
-	</section>
-
+<section id="verticalScrollContainer">
+</section>
 
 </body>
-<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+<script type="text/javascript">
+	var page = "favoris";
+	var route = "<?=Config::URL_SUBDIR(false)?>";
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
-<script src="<?= Routes::url_for('/js/share.js')?>"></script>
 <script src="<?= Routes::url_for('/js/favoris.js')?>"></script>
-<script src="<?= Routes::url_for('/js/post.js')?>"></script>
+<script src="<?= Routes::url_for('/js/share.js')?>"></script>
+<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/prism.js')?>"></script>
-
 </html>
