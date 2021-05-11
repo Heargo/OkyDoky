@@ -11,7 +11,7 @@ $typeDocument = $post->get_documents()[0]->type();
 			$isAdminCommu=User::current()->perm($comm)->is(P::ADMIN);
 			$canManage=$publisher==User::current() || $isAdminCommu;
 			$postID=$post->id();
-
+			$isHP=$comm->get_highlight_post()->id()==$postID;
 			//level src
 			$badges = array("1-bleu",
 						"1-rouge",
@@ -53,7 +53,7 @@ $typeDocument = $post->get_documents()[0]->type();
 				
 			</div>
 			<!-- 3 points pour le post -->
-			<?php if($canManage && !$isComment): ?>
+			<?php if($canManage && !$isComment &&!$isHP): ?>
 	                <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor dotsForPost" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
 	                <ul id="Settings-<?=$postID?>" class="menuSettings hidden">
 	                	<?php if($isAdminCommu): ?>
@@ -170,8 +170,7 @@ $typeDocument = $post->get_documents()[0]->type();
                 	$isFavorized = $GLOBALS['favoris']->isFavori($post);
                 	if($isFavorized) {?>
                 		<button id="favIconButton-<?=$post->id()?>" class="copy-to-clipboard cursor" onclick="toggleFav(<?=$post->id()?>,0)">
-                			<?php // TODO : insert the filled bookmark ?>
-                    	<img id="favIcon-<?=$post->id()?>" src="<?= Routes::url_for('/img/svg/share.svg')?>">
+                    	<img id="favIcon-<?=$post->id()?>" src="<?= Routes::url_for('/img/svg/bookmark-check.svg')?>">
 
                     <?php }else{ ?>
 						<button id="favIconButton-<?=$post->id()?>" class="copy-to-clipboard cursor" onclick="toggleFav(<?=$post->id()?>,1)">

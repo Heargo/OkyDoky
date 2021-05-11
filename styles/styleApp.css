@@ -296,7 +296,7 @@ Fil d'actu
 
 .cliquable{
 	display: flex;
-	width: calc(100% - 42px);
+	width: calc(100% - 52px);
 }
 .postEnTete img{
 	object-fit: cover;
@@ -800,6 +800,9 @@ textarea:focus, input:focus{
 	font-size: 1.2rem;
 }
 
+a.editCommubtn{
+	width: 300px;
+}
 .editCommubtn img{
 	width: 32px;
 	height: 32px;

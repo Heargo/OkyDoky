@@ -10,7 +10,7 @@ function toggleFav(id,value){
         console.log(this.response);
         if (value==1){
           // TODO : insert the filled bookmark
-        	fav.setAttribute("src", route+"/img/svg/share.svg");
+        	fav.setAttribute("src", route+"/img/svg/bookmark-check.svg");
         	favButton.setAttribute("onclick", "toggleFav("+id+",0)");
         }
         else{

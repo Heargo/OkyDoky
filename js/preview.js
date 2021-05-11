@@ -1,7 +1,7 @@
 var code = [
 "text/css",
 "text/html",
-"application/javascript",
+"text/javascript",
 "text/x-c",
 "text/x-java-source,java",
 "application/json",
@@ -78,6 +78,9 @@ function preview(input) {
       }
       //CODE
       else if(code.includes(mime)) {
+        preview_code.innerHTML="";
+        delete preview_code.dataset.src;
+        preview_code.setAttribute('data-src-status', '')
         preview_code.dataset.src=window.URL.createObjectURL(file);
    
         preview_img.classList.add("hidden");

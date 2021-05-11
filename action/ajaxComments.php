@@ -9,6 +9,17 @@ function delete_comment(?array $match){
     }
     return $GLOBALS['comments']->deleteComment($ctd);
 }
+function restore_comment(?array $match) {
+    $isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
+    $isOwner=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
+    if ($isAdmin ||$isOwner){
+        $ctr = $GLOBALS['comments']->get_by_id($_POST['id']);
+        $ctr->author()->add_points_in_community($ctr->post()->community(),+25);
+        $done=$ctr->set_visible(true);
+    }
+    return $done;
+}
+
 
 function like(?array $match) {
 
