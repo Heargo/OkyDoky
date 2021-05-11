@@ -162,7 +162,7 @@ $typeDocument = $post->get_documents()[0]->type();
                     $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
                     $urlShare = $scheme . "://$_SERVER[HTTP_HOST]" . $urlComment;
                 ?>
-                <button class="copy-to-clipboard cursor" data-clipboard-text="<?= $urlComment ?>">
+                <button class="copy-to-clipboard cursor" data-clipboard-text="<?= $urlShare ?>">
                     <img src="<?= Routes::url_for('/img/svg/share.svg')?>">
                     <img class="hidden" src="<?= Routes::url_for('/img/svg/check.svg')?>">
                 </button>
