@@ -128,9 +128,9 @@ function load_comment($c,$deleted=false){
             <img onclick="toogleSettingsOfComm(<?=$postID?>);" class="cursor three-dots-comment" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
             <ul id="Settings-<?=$postID?>" class="menuSettings menuSettingsCommentaire hidden">
                 <?php if($deleted){ ?>
-                     <li onclick="restore_comment(<?= $c->id() ?>)"href="">Restaurer</li>
+                     <li class="cursor" onclick="restore_comment(<?= $c->id() ?>)">Restaurer</li>
                 <?php }else{ ?>
-                    <li onclick="del_comment(<?= $c->id() ?>)"href="">Supprimer</li>
+                    <li class="cursor" onclick="del_comment(<?= $c->id() ?>)">Supprimer</li>
                 <?php } ?>
                 
             </ul>
