@@ -12,6 +12,9 @@ function affichemsg($msg){
 	$n=$sender->nickname();
 	$url=Routes::url_for("/user/$n");
 	$me=($sender->id()==User::current()->id());
+	$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
+	$isOwner=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
+	$candelete =$isAdmin || $isOwner|| $me;
 	if ($me) {
 		$class="left";
 	}else{
@@ -40,7 +43,7 @@ function affichemsg($msg){
 			<p class="<?=$class2?>"><?=$text?></p>
 			<label class="timeForMsg"><?=affichedate($date)?></label>
 		</div>
-		<?php if($me && $text!="Message supprimé"){?>
+		<?php if($candelete && $text!="Message supprimé"){?>
 		<img onclick="delmsg(<?=$id?>)" class="crossForMessage" src="<?=Routes::url_for('/img/svg/cross.svg')?>">
 		<?php } ?>
 	</div>
@@ -109,8 +112,16 @@ function sendMsgAjax(?array $match){
 
 function delMsgAjax(?array $match){
 	$msgobj=$GLOBALS['messages']->get_by_id($_POST["id"]);
-	$bool = $GLOBALS['messages']->del_msg($msgobj);
-	echo $bool;
+	$sender=$msgobj->sender();
+	$me=($sender->id()==User::current()->id());
+	$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
+	$isOwner=User::current()->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::OWNER);
+	$candelete =$isAdmin || $isOwner|| $me;
+	if ($candelete){
+		$bool = $GLOBALS['messages']->del_msg($msgobj);
+		echo $bool;
+	}
+	
 }
 
 function checkMsgAjax(?array $match){
