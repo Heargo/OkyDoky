@@ -2280,6 +2280,7 @@ h2.confirmation{
 .msg{
 	display: flex;
 	flex-direction: row;
+	align-items: flex-start;
 	width: 90%;
 	margin-right: 10%;
 	margin-bottom: 20px;
@@ -2295,7 +2296,7 @@ h2.confirmation{
 
 .msg p{
 	display:inline-block;
-	padding: 1rem 1rem;
+	padding: .7rem .5rem;
 	background-color: white;
 	border-radius: 15px;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
@@ -2317,10 +2318,11 @@ h2.confirmation{
 	flex-direction: column;
 }
 .msgContainerUnique label{
+	font-size: 1.1rem;
 	opacity: .7;
 	width: 100%;
 	max-width: 200px;
-	height: 1rem;
+	height: 1.1rem;
 	overflow: hidden;
     text-overflow: ellipsis;
     transform: translate(5px,-2px);
@@ -2333,4 +2335,30 @@ h2.confirmation{
 	height: 3rem;
 	overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.msgContainerUnique .timeForMsg{
+	font-size: .8rem;
+	height: .9rem;
+	text-align: left;
+	transform: translateX(5px) translateY(2px);
+}
+.left .timeForMsg{
+	text-align: right;
+	transform: translateX(-5px);
+}
+
+img.crossForMessage{
+	width: 15px;
+	height: 15px;
+	margin-top: 0;
+	transform: translate(5px,18px);
+}
+.left img.crossForMessage{
+	transform: translate(3px,2px);
+}
+
+.msg p.delMSG{
+	padding: .4rem .6rem;
+	background-color: #F1F2F6;
 }
