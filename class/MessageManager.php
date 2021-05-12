@@ -73,7 +73,7 @@ class MessageManager {
     }
 
     public function del_msg(Message $m) {
-        $sql = sprintf("UPDATE `%s` SET `msg` = 'Message supprimé !' WHERE `id_%s` = %d;", Config::TABLE_MESSAGE, Config::TABLE_MESSAGE, $m->id());
+        $sql = sprintf("UPDATE `%s` SET `msg` = 'Message supprimé' WHERE `id_%s` = %d;", Config::TABLE_MESSAGE, Config::TABLE_MESSAGE, $m->id());
         return (bool) ($res = $this->_db->query($sql));
     }
 }
