@@ -116,6 +116,22 @@ function preview(input) {
   }
 }
 
+
+
+
+var dropContainer = document.getElementById("uploadbtn");
+var fileInput =document.getElementById("file");
+dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+  evt.preventDefault();
+};
+
+dropContainer.ondrop = function(evt) {
+  // pretty simple -- but not for IE :(
+  fileInput.files = evt.dataTransfer.files;
+  preview(fileInput);
+  evt.preventDefault();
+};
+
 $("#file").change(function() {
   preview(this);
 });
