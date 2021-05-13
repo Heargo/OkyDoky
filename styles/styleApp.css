@@ -250,7 +250,8 @@ Fil d'actu
 
 .pdfDownloadButton,.autreDownloadButton{
 	position: relative;
-	max-width: 100%;
+	width: 100%;
+	max-width: 400px;
 	height: 60px;
 	margin:0 auto;
 	display: flex;
