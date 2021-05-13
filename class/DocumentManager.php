@@ -11,7 +11,7 @@ class DocumentManager {
     public static $authorized_mime = ["image/gif","image/jpeg","image/png","application/pdf",
         "text/css","text/html","application/javascript","text/x-c","text/x-java-source,java",
         "application/json","application/x-latex","application/x-lua","text/markdown","application/x-ocaml",
-        "text/plain","application/x-python","application/x-swift"];
+        "text/plain","application/x-python","application/x-swift","text/x-shellscript"];
 
     /**
      * Instaciate a manager for a DB connection
