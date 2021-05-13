@@ -77,7 +77,7 @@ function preview(input) {
         btn.classList.add('btn-when-preview-not-img');
       }
       //CODE
-      else if(code.includes(mime)) {
+      else if(code.includes(mime) || mime.split('/')[0]=="text") {
         preview_code.innerHTML="";
         delete preview_code.dataset.src;
         preview_code.setAttribute('data-src-status', '')
