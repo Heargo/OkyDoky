@@ -26,8 +26,8 @@ function vote(id,value){
           down.setAttribute("src",route+"/img/svg/arrow-down-orange.svg")
         }
         //prct
-        if (prctValeur!=null){
-          if (prctValeur>50){
+        if (prctValeur != null){
+          if (prctValeur > 50){
             prct.classList.remove("red");
             prct.classList.add("green");
           }else{
@@ -38,13 +38,14 @@ function vote(id,value){
         }
         prct.innerHTML = prctValeur !== null ? prctValeur + "%" : prctValeur;
 
-        
+        let post = document.getElementById(id);
+        let post_html = post.outerHTML;
+        updatePost(id, post_html);
     }
   };
 
   if (value>0){
-      
-      xhr.open("POST",route+"/voteU",true);
+    xhr.open("POST",route+"/voteU",true);
   }
   else{
     xhr.open("POST",route+"/voteD",true);

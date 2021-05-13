@@ -146,9 +146,9 @@ class Routes {
     }
 
     /**
-     * Check whenever all files have been filled
+     * Check whenever all fields have been filled
      *
-     * @param array $required_filds A list of string, reprensenting the fields to be present in $post.
+     * @param array $required_fields A list of string, reprensenting the fields to be present in $post.
      * @param array $post Usualy $_POST.
      */
     public static function are_fields_valid(array $required_fields, array $post) : bool {
