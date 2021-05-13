@@ -86,12 +86,12 @@ class PostManager {
 				f2.user1 = %4$d OR 
 				f2.user2 = %4$d
 			) 
-            ORDER BY YEAR(p.date) DESC, 
+			ORDER BY YEAR(p.date) DESC, 
 					MONTH(p.date) DESC, 
 					DAY(p.date) DESC, 
 					REPLACE(f1.user1,%4$d,0) DESC, 
 					REPLACE(f2.user2,%4$d,0) DESC,
-                    REPLACE(f1.user2,%4$d,0) DESC, 
+					REPLACE(f1.user2,%4$d,0) DESC, 
 					REPLACE(f2.user1,%4$d,0) DESC,
 					p.date DESC
 			LIMIT %5$d OFFSET %6$d";
@@ -248,17 +248,17 @@ class PostManager {
 	 * @return Posts[] An array of posts.
 	 */
 	public function search_post_by_title(String $research){
-        $sql = "SELECT p.`id_%s` FROM `%s` p JOIN `%s` uc ON uc.community = p.community WHERE p.title LIKE '%%$research%%' AND uc.user = %d";
-        $sql = sprintf($sql, Config::TABLE_POST,Config::TABLE_POST,Config::TABLE_USER_COMMUNITY, User::current()->id());
-        $res = $this->_db->query($sql);
-        if ($res) {
+		$sql = "SELECT p.`id_%s` FROM `%s` p JOIN `%s` uc ON uc.community = p.community WHERE p.title LIKE '%%$research%%' AND uc.user = %d";
+		$sql = sprintf($sql, Config::TABLE_POST,Config::TABLE_POST,Config::TABLE_USER_COMMUNITY, User::current()->id());
+		$res = $this->_db->query($sql);
+		if ($res) {
 			for ($list = array();
 				 $row = $res->fetch_row();
 				 $list[] = new Post($this->_db, $row[0]));
 			return $list;
 		}
 		return array();
-    }
+	}
 
 	/**
 	  * Delete a post based on its ID
@@ -272,7 +272,7 @@ class PostManager {
 		$visib_ok = $post->set_visible(false);
 		
 		// Documents
-        $docs_ok = $post->del_all_docs();
-        return $visib_ok & $docs_ok;
+		$docs_ok = $post->del_all_docs();
+		return $visib_ok & $docs_ok;
 	}
 }
