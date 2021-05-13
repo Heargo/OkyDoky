@@ -34,7 +34,7 @@ $typeDocument = $post->get_documents()[0]->type();
 				$urlbadge = Routes::url_for("/img/svg/medals/final.svg");
 			}else{
 				$i =round($level/2)-1;
-				$urlbadge = Routes::url_for("/img/svg/medals/".$badges[$i].".svg");
+				$urlbadge = $i<0 ? "" : Routes::url_for("/img/svg/medals/".$badges[$i].".svg");
 			}
 			
 			?>
@@ -45,7 +45,7 @@ $typeDocument = $post->get_documents()[0]->type();
 						<img class="certifiedImgPost"src="https://img.icons8.com/nolan/64/approval.png">
 					<?php endif ?>
 					<div class="badgeformat fix">
-						<img src="<?=$urlbadge?>" id="badgeIcon">
+						<?php echo $urlbadge == "" ? "" : "<img src='$urlbadge' id='badgeIcon'>"; ?>
 						<p id="badgeText" class="fix"><?=$level?></p>
 					</div>
 				</div>
