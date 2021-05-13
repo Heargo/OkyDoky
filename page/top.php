@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>OkyDoky</title>
+	<link rel="shortcut icon" href="<?= Routes::url_for('/img/favicon.ico')?>" type="image/x-icon" />
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
 	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/styleApp.css')?>">
@@ -11,68 +12,73 @@
 <?php include 'topnav.php'; ?>
 
 
+<section class="BestUserContainerVertical">
+	<div class="BestUserContainer">
+		<h2>Le top de nos membres</h2>
+		<div class="profilMisEnAvant">
+			<?php
+				if(!empty(User::current()->get_communities())) {
+					echo "<h3>Plus actifs</h3><ul>";
+					$currentComm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+					$active_members = $currentComm->get_active_members();
+					if(sizeof($active_members) != 0){
+						foreach($active_members as $key => $value){
+							$tmpUser = new User($GLOBALS['db'], $key);
+							?>
+							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<?php
+						}
+					}
+					else{
+						echo "<p>Aucun utilisateur n'est actif... Quel dommage...</p>";
+					}
+					
+					echo "</ul>";
+			?>
+			<h3>Mieux notés</h3>
+			<?php
+					echo "<ul>";
+					$liked_members = $GLOBALS['users']->get_user_by_most_likes_in_community($currentComm, 3);
+					
+					if(sizeof($liked_members) != 0){
+						foreach($liked_members as $m){
+							$tmpUser = $m;
+							?>
+							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<?php
+						}
+					}
+					else{
+						echo "<p>Aucun utilisateur n'a posté de posts... Quel dommage...</p>";
+					}
+					
+					echo "</ul>";
+			?>
+			<h3>Les anciens</h3>
+			<?php
+					echo "<ul>";
+					$ancient_members = $GLOBALS['users']->get_by_ancienty_community($currentComm, 3);
+					if(sizeof($ancient_members) != 0){
+						foreach($ancient_members as $m){
+							$tmpUser = $m;
+							?>
+							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<?php
+						}
+					}
+					else{
+						echo "<p>Erreur : veuillez contacter un développeur afin qu'ils règlent le problème</p>";
+					}
+					echo "</ul>";
+				}
+			?>
+		</div>
+	</div>
+</section>
+
 <section id="verticalScrollContainer">
 
-<div class="BestUserContainer">
-	<div class="profilMisEnAvant">
-		<?php
-			if(!empty(User::current()->get_communities())) {
-				echo "<h3>Les + actifs</h3><ul>";
-				$currentComm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
-				$active_members = $currentComm->get_active_members();
-				if(sizeof($active_members) != 0){
-					foreach($active_members as $key => $value){
-						$tmpUser = new User($GLOBALS['db'], $key);
-						?>
-						<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
-						<?php
-					}
-				}
-				else{
-					echo "<p>Aucun utilisateur n'est actif... Quel dommage...</p>";
-				}
-				
-				echo "</ul>";
-		?>
-		<h3>Les + likés</h3>
-		<?php
-				echo "<ul>";
-				$liked_members = $GLOBALS['users']->get_user_by_most_likes_in_community($currentComm, 3);
-				
-				if(sizeof($liked_members) != 0){
-					foreach($liked_members as $m){
-						$tmpUser = $m;
-						?>
-						<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
-						<?php
-					}
-				}
-				else{
-					echo "<p>Aucun utilisateur n'a posté de posts... Quel dommage...</p>";
-				}
-				
-				echo "</ul>";
-		?>
-		<h3>Les + anciens</h3>
-		<?php
-				echo "<ul>";
-				$ancient_members = $GLOBALS['users']->get_by_ancienty_community($currentComm, 3);
-				if(sizeof($ancient_members) != 0){
-					foreach($ancient_members as $m){
-						$tmpUser = $m;
-						?>
-						<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
-						<?php
-					}
-				}
-				else{
-					echo "<p>Erreur : veuillez contacter un développeur afin qu'ils règlent le problème</p>";
-				}
-				echo "</ul>";
-			}
-		?>
-	</div>
-</div>
+
 
 
 <!-- du + au - like (a faire) -->

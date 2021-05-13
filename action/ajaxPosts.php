@@ -22,7 +22,7 @@ function load_post(Post $post, $isComment = false) {
 function more_posts(?array $match) {
     $comm = $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]);
     if ($_POST['page']=="top"){
-        $posts = $GLOBALS["posts"]->get_by_most_votes($comm, true, 10, (int) $_POST['offset']);      
+        $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);      
     }
     elseif ($_POST['page']=="profil"){
         $user=  $GLOBALS["users"]->get_by_id($_POST['user']);

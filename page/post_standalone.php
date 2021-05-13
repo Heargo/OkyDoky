@@ -53,10 +53,10 @@ $typeDocument = $post->get_documents()[0]->type();
 				
 			</div>
 			<!-- 3 points pour le post -->
-			<?php if($canManage && !$isComment &&!$isHP): ?>
+			<?php if($canManage && !$isComment): ?>
 	                <img onclick="toogleSettingsOfPost(<?=$postID?>);" class="cursor dotsForPost" src="<?= Routes::url_for('/img/svg/three-dots.svg')?>">
 	                <ul id="Settings-<?=$postID?>" class="menuSettings hidden">
-	                	<?php if($isAdminCommu): ?>
+	                	<?php if($isAdminCommu &&!$isHP): ?>
 	                	<li class="cursor" onclick="set_highlight_post(<?=$postID?>)" >Mettre en avant</li>
 	                	<?php endif ?>
 	                	<li class="cursor" onclick="delete_post(<?=$postID?>)">Supprimer</li>

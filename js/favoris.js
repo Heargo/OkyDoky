@@ -7,9 +7,7 @@ function toggleFav(id,value){
     if (this.readyState ==4 && this.status ==200) {
         var fav = document.getElementById("favIcon-"+id);
         var favButton = document.getElementById("favIconButton-"+id);
-        console.log(this.response);
         if (value==1){
-          // TODO : insert the filled bookmark
         	fav.setAttribute("src", route+"/img/svg/bookmark-check.svg");
         	favButton.setAttribute("onclick", "toggleFav("+id+",0)");
         }
@@ -17,7 +15,9 @@ function toggleFav(id,value){
         	fav.setAttribute("src", route+"/img/svg/bookmark.svg");
         	favButton.setAttribute("onclick", "toggleFav("+id+",1)");
         }
-        //prct        
+        let post = document.getElementById(id);
+        let post_html = post.outerHTML;
+        updatePost(id, post_html);
     }
   };
   if (value==1){

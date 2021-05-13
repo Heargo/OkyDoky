@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>OkyDoky</title>
+    <link rel="shortcut icon" href="<?= Routes::url_for('/img/favicon.ico')?>" type="image/x-icon" />
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
 	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/styleApp.css')?>">
@@ -33,22 +34,25 @@ try {
     const shouldBeRestored = localStorage.getItem('shouldBeRestored');
     const community = localStorage.getItem('community');
 
+    // localStorage only allow strings, not booleans
     if (shouldBeRestored === "true" && community === current_community) {
         var offset, posts;
         [offset, posts] = retrievePosts();
-        OFFSET = offset;
+        OFFSET = offset; // that is because it's declared in feedAjax.js
 
         clearPosts(); // Clear posts of former use
 
         var posts_section = document.querySelector("section#verticalScrollContainer");
-        for (id in posts) {
-            IDS.push(id);
-            addPostToContainer(posts[id], posts_section, id); // Adding post in page also save them
-        }
+        posts.forEach( (row, index, array) => {
+            var id = row[0];
+            var html = row[1];
+            IDS.push(id) // IDS is also declared in feedAjax.js
+            addPostToContainer(html, posts_section, id); // Adding post in page also save them in cache
+        });
 
         localStorage.setItem('shouldBeRestored', "false");
-        //document.cookie = "shouldBeRestored=0;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>";
 
+        // get back where we were
         const anchor = localStorage.getItem('restoreAnchor');
         try {
             document.getElementById(anchor).scrollIntoView();
@@ -61,7 +65,6 @@ try {
         localStorage.setItem('shouldBeRestored', "false");
         localStorage.setItem('community', current_community);
         clearPosts();
-        //document.cookie = "shouldBeRestored=0;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>";
     }
     
 } catch(e) {
