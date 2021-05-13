@@ -22,6 +22,8 @@
 </body>
 <script type="text/javascript">
 	var page = "favoris";
+	var user = -1;
+	var comm = -1;
 	var route = "<?=Config::URL_SUBDIR(false)?>";
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>

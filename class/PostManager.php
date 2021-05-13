@@ -72,35 +72,35 @@ class PostManager {
 	}
 
 	public function get_by_communities_and_friends(int $limit = 10, int $offset = 0) {
-		$visible = $visible ? 1 : 0;
+		$u = User::current()->id();
 		$sql = "
-			SELECT p.id_%1$s FROM `%1$s` p
-			LEFT JOIN `%2$s` f1 ON p.publisher = f1.user1
-			LEFT JOIN `%2$s` f2 ON p.publisher = f2.user2 
-			LEFT JOIN `%3$s` uc ON p.community = uc.community 
+			SELECT DISTINCT p.id_%s FROM `%s` p
+			LEFT JOIN `%s` f1 ON p.publisher = f1.user1
+			LEFT JOIN `%s` f2 ON p.publisher = f2.user2 
+			LEFT JOIN `%s` uc ON p.community = uc.community 
 			WHERE p.visible = 1 
 			AND (
-				uc.user  = %4$d OR 
-				f1.user1 = %4$d OR 
-				f1.user2 = %4$d OR 
-				f2.user1 = %4$d OR 
-				f2.user2 = %4$d
+				uc.user  = %d OR 
+				f1.user1 = %d OR 
+				f1.user2 = %d OR 
+				f2.user1 = %d OR 
+				f2.user2 = %d
 			) 
 			ORDER BY YEAR(p.date) DESC, 
 					MONTH(p.date) DESC, 
 					DAY(p.date) DESC, 
-					REPLACE(f1.user1,%4$d,0) DESC, 
-					REPLACE(f2.user2,%4$d,0) DESC,
-					REPLACE(f1.user2,%4$d,0) DESC, 
-					REPLACE(f2.user1,%4$d,0) DESC,
+					REPLACE(f1.user1,%d,0) DESC, 
+					REPLACE(f2.user2,%d,0) DESC,
+					REPLACE(f1.user2,%d,0) DESC, 
+					REPLACE(f2.user1,%d,0) DESC,
 					p.date DESC
-			LIMIT %5$d OFFSET %6$d";
-		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_FRIEND, Config::TABLE_USER_COMMUNITY, User::current()->id(), $limit, $offset);
+			LIMIT %d OFFSET %d";
+		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, Config::TABLE_FRIEND, Config::TABLE_FRIEND, Config::TABLE_USER_COMMUNITY, $u, $u, $u, $u, $u, $u, $u, $u, $u, $limit, $offset);
 		$result = $this->_db->query($sql);
 		if ($result) {
 			for ($list = array();
 				 $row = $result->fetch_assoc();
-				 $list[] = new Post($this->_db, $row['id_' . Config::TABLE_POST]));
+				 $list[] = new Post($this->_db, (int) ($row['id_' . Config::TABLE_POST])));
 			return $list;
 		}
 		return array();
@@ -138,7 +138,7 @@ class PostManager {
 	 */
 	public function get_by_user_and_community(User $user, Community $community, bool $visible = true, int $limit = 10, int $offset = 0) {
 		$visible = $visible ? 1 : 0;
-		$sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d AND `publisher` = %d LIMIT %d OFFSET %d";
+		$sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d AND `publisher` = %d ORDER BY `date` LIMIT %d OFFSET %d";
 		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $community->id(), $user->id(), $limit, $offset);
 		$result = $this->_db->query($sql);
 		if ($result) {
