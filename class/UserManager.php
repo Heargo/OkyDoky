@@ -166,7 +166,7 @@ class UserManager {
      * @return User[] An array of users.
      */
     public function get_by_ancienty_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
-        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = "%3$s" ORDER BY uc.join_date LIMIT %4$d OFFSET %5$d';
+        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d AND DATEDIFF(CURRENT_TIMESTAMP, uc.last_collect) < 30 ORDER BY uc.join_date LIMIT %4$d OFFSET %5$d';
         $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
         $result = $this->_db->query($sql);
         if($result) {
@@ -177,6 +177,53 @@ class UserManager {
         }
         return array();
     }
+
+    /**
+     * Get an array of users by community by richness
+     *
+     * @param Community $community The community where we are searching in
+     * @param bool|null $visible Filter if user are marked as visible or not. Null will return both.
+     * @param int $limit Limits the number of users you want.
+     * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
+     * @return User[] An array of users.
+     */
+    public function get_by_richness_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
+        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d ORDER BY uc.coins DESC LIMIT %4$d OFFSET %5$d';
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
+        $result = $this->_db->query($sql);
+        if($result) {
+            for ($list = array();
+                 $row = $result->fetch_assoc();
+                 $list[] = new User($this->_db, $row['id_' . Config::TABLE_USER]));
+            return $list;
+        }
+        return array();
+    }
+
+    /**
+     * Get an array of users by community by levelness
+     *
+     * @param Community $community The community where we are searching in
+     * @param bool|null $visible Filter if user are marked as visible or not. Null will return both.
+     * @param int $limit Limits the number of users you want.
+     * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
+     * @return User[] An array of users.
+     */
+    public function get_by_levelness_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
+        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d ORDER BY uc.level DESC, uc.xpoints DESC LIMIT %4$d OFFSET %5$d';
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
+        $result = $this->_db->query($sql);
+        if($result) {
+            for ($list = array();
+                 $row = $result->fetch_assoc();
+                 $list[] = new User($this->_db, $row['id_' . Config::TABLE_USER]));
+            return $list;
+        }
+        return array();
+    }
+
+    
+
     /**
      * Get an array of users by community by most likes
      *
