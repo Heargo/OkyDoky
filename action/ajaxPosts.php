@@ -38,7 +38,10 @@ function more_posts(?array $match) {
     elseif ($_POST['page']=="community"){
         $posts = $GLOBALS["posts"]->get_by_community($comm, true, 10, (int) $_POST['offset']);
     }
-    else{
+    elseif ($_POST['page']=="feed") {
+        $posts = $GLOBALS["posts"]->get_by_communities_and_friends(10, (int) $_POST['offset']);
+    }
+    else {
         $posts = $GLOBALS["posts"]->get_by_communities_and_friends(10, (int) $_POST['offset']);
     }
     

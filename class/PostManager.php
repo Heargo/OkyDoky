@@ -138,7 +138,7 @@ class PostManager {
 	 */
 	public function get_by_user_and_community(User $user, Community $community, bool $visible = true, int $limit = 10, int $offset = 0) {
 		$visible = $visible ? 1 : 0;
-		$sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d AND `publisher` = %d ORDER BY `date` LIMIT %d OFFSET %d";
+		$sql = "SELECT `id_%s` FROM `%s` WHERE `visible` = %d AND `community` = %d AND `publisher` = %d ORDER BY `date` DESC LIMIT %d OFFSET %d";
 		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, $visible, $community->id(), $user->id(), $limit, $offset);
 		$result = $this->_db->query($sql);
 		if ($result) {
