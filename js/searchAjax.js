@@ -9,6 +9,8 @@ function search(txt, typeSearch){
 			  }
 			//on écrit les nouveaux results
 			verticalScrollContainer.insertAdjacentHTML('afterbegin', this.response);
+			Prism.highlightAll();
+
 		}
 		else if (this.readyState ==4){
 			console.log("ERREUR");
@@ -30,6 +32,7 @@ function runSearchBar(txt, typeSearch){
 			searchTo = typeSearch[i].value;
 	}
 	search(txt, searchTo);
+
 }
 
 

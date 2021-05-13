@@ -223,7 +223,9 @@ Fil d'actu
 .BestUserContainerVertical{
 	padding-bottom: 0px;
 }
-
+.BestUserContainerVertical p{
+	text-align: center;
+}
 
 
 .postContainer{
