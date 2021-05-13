@@ -21,26 +21,46 @@ function markEmpty(bool, section,page) {
 }
 
 function savePosts(offset, to_add_array) {
-    var previousPosts = JSON.parse(window.localStorage.getItem('posts'));
-    var newPosts = {...previousPosts,...to_add_array};
+    let posts = JSON.parse(window.localStorage.getItem('posts')) || [];
+    posts.push(to_add_array);
 
-    window.localStorage.setItem('posts', JSON.stringify(newPosts));
+    window.localStorage.setItem('posts', JSON.stringify(posts));
     window.localStorage.setItem('offset', offset);
 }
 
+function updatePost(id, html) {
+    let posts = JSON.parse(window.localStorage.getItem('posts'));
+    posts.forEach( (row, index, array) => {
+        let id_post = row[0];
+        let html_post = row[1];
+        console.log("ID actuel = " + id_post);
+        console.log("L'HTML en cache est " + (html_post == html ? "identique" : "différent"));
+        if (id_post == id) {
+            console.log("C'est celui qu'on veut !");
+            array[index][1] = html;
+        }
+    });
+    window.localStorage.setItem('posts', JSON.stringify(posts));
+}
+
 function retrievePosts() {
-    var posts = JSON.parse(window.localStorage.getItem('posts'));
-    var offset = JSON.parse(window.localStorage.getItem('offset'));
+    let posts = JSON.parse(window.localStorage.getItem('posts'));
+    let offset = JSON.parse(window.localStorage.getItem('offset'));
     return [parseInt(offset), posts];
 }
 
 function deletePostFromStorage(id) {
     // Delete in localstorage
-    var offset = retrievePosts()[0];
-    var posts = retrievePosts()[1];
-    delete posts[id];
+    let offset = retrievePosts()[0];
+    let posts = retrievePosts()[1];
+    posts.forEach( (row, index, array) => {
+        if (row[0] === id) {
+            array.splice(index, 1);
+        }
+    });
     window.localStorage.setItem('posts', JSON.stringify(posts));
-    window.localStorage.setItem('offset', offset - 1)
+    OFFSET = OFFSET - 1; // Not sure
+    window.localStorage.setItem('offset', offset - 1);
 }
 
 function clearPosts() {
@@ -58,7 +78,8 @@ function addPostToContainer(post_html,container,id) {
     if (pre!=null){
         Prism.highlightElement(pre);
     }
-    var json_row = {[id]: post_html};
+    var json_row = [id, post_html];
+    //save post to be retrieved when using The Cross
     savePosts(OFFSET || 0, json_row);
 }
 
@@ -84,7 +105,6 @@ function moreposts(page="feed",user="none",comm="current",reset=false) {
             var rep = this.response;
             var rep = JSON.parse(rep);
             var posts_section = document.querySelector("section#verticalScrollContainer");
-            //save post to be retrieved when using The Cross
             if (isEmpty(rep)) {
                 markEmpty(true, posts_section,page);
             } else {
