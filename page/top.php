@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
 	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/styleApp.css')?>">
+	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/prism.css')?>">
 </head>
 <body>
 
@@ -127,6 +128,7 @@
 	var user = "none";
 	var comm = "current";
 </script>
+<script src="<?= Routes::url_for('/js/prism.js')?>"></script>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
