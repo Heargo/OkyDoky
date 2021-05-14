@@ -319,10 +319,34 @@ class Community{
     }
     
 
-    public function ban(User $user) : bool{return false;}
+    public function ban(User $user) : bool{
+        $sql = "UPDATE `%s` SET `permission` = %d WHERE `%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,0,Config::TABLE_USER,$user->id());
+        return $this->_db->query($sql);
+    }
 
-    public function unban(User $user) : bool{return false;}
+    public function unban(User $user) : bool{
+        $average = new Permission(Permission::AVERAGE);
+        return $this->promote($user,$average);
+    }
 
+    public function get_banned_users(): array{
+        $sql = "SELECT `user` FROM `%s` WHERE `permission` = %d AND `%s` = %s";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,0,Config::TABLE_COMMUNITY ,$this->id());
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_assoc();
+				 $list[] = new User($this->_db, $row['user']));
+			return $list;
+		}
+		return array();
+
+    }
+    public function is_banned(User $user){
+        $banned_users = $this->get_banned_users();
+        return in_array($user,$banned_users);
+    }
     public function get_certified_members() : array{
         $members = array();
         $sql = "SELECT %s FROM `%s` WHERE `%s` = %d AND `%s` = %d";

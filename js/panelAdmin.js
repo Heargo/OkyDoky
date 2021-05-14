@@ -89,3 +89,37 @@ function kick_user(idComm,idUser){
 	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xhr.send("idComm="+idComm + "&idUser="+ idUser);
 }
+
+function ban_user(idComm,idUser){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200) {
+			var container = document.getElementById("verticalScrollContainer");
+			var userToRemove = document.getElementById("profil-"+idUser);
+			var throwawayNode = container.removeChild(userToRemove);
+
+		}
+	};
+
+	xhr.open("POST","./ajax/banuser",true);
+	xhr.responseType="json";
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send("idComm="+idComm + "&idUser="+ idUser);
+}
+
+function unban_user(idComm,idUser){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200) {
+			var container = document.getElementById("verticalScrollContainer");
+			var userToRemove = document.getElementById("profil-"+idUser);
+			var throwawayNode = container.removeChild(userToRemove);
+
+		}
+	};
+
+	xhr.open("POST","./ajax/unbanuser",true);
+	xhr.responseType="json";
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send("idComm="+idComm + "&idUser="+ idUser);
+}

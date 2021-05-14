@@ -36,6 +36,17 @@ function kick_user(?array $match){
     $comm->leave($user);
 }
 
+function ban_user(?array $match){
+    $comm = $GLOBALS['communities']->get_by_id($_POST['idComm']);
+    $user = $GLOBALS['users']->get_by_id($_POST['idUser']);
+    $comm->ban($user);
+}
+
+function unban_user(?array $match){
+    $comm = $GLOBALS['communities']->get_by_id($_POST['idComm']);
+    $user = $GLOBALS['users']->get_by_id($_POST['idUser']);
+    $comm->unban($user);
+}
 function searchProfilAdmin(?array $match){
     $allusers=$GLOBALS["users"]->search_user_by_nickname_or_display_name_in_community($_POST["tosearch"], $GLOBALS["communities"]->get_by_id($_SESSION["current_community"]));
     foreach ($allusers as $key => $user) {

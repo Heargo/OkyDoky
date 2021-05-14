@@ -22,6 +22,7 @@ $id = $_SESSION["current_community"];
 	$actualUser = $GLOBALS['users']->get_by_id($userID);
 	$isInTeam= $actualUser->perm($GLOBALS['communities']->get_by_id($_SESSION['current_community']))->is(Permission::ADMIN);
 	$isCertified = $actualUser->is_certified($comm);
+	$isBanned = $comm->is_banned($actualUser);
 	?>
 	<img onclick="toogleSettingsOfUser(<?=$userID?>);" class="userManageButton cursor" src="<?= Routes::url_for('/img/svg/user-cog.svg')?>" alt="manageUser">
 	<ul id="Settings-<?=$userID?>" class="menuSettings hidden">
@@ -42,7 +43,12 @@ $id = $_SESSION["current_community"];
 			<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button-<?=$userID?>">Certifier</li>
 		<?php endif ?>
 		<?php if(!$isOwner || !$isItself): ?>
-		<li onclick="kick_user(<?= $id ?>,<?=$userID?>)" >Bannir</li>
+		<li onclick="kick_user(<?= $id ?>,<?=$userID?>)" >Kick</li>
+		<?php if(!$isBanned): ?>
+		<li onclick="ban_user(<?= $id ?>,<?=$userID?>)" >Bannir</li>
+		<?php else: ?>
+		<li onclick="unban_user(<?= $id ?>,<?=$userID?>)" >Débannir</li>
+		<?php endif ?>
 		<?php endif ?>
 	</ul>
 </div>
