@@ -25,7 +25,9 @@ if ($isAdmin) {
 	<?php if($_GET["page"]=="home"): ?>
 	<h1 class="noselect shareTitle">Panel admin</h1>
 	<?php elseif($_GET["page"]=="users"): ?>
-	<h1 class="noselect shareTitle">Uilisateurs</h1>
+	<h1 class="noselect shareTitle">Utilisateurs</h1>
+	<?php elseif($_GET["page"]=="bans"): ?>
+	<h1 class="noselect shareTitle">Bans</h1>
 	<?php elseif($_GET["page"]=="posts"): ?>
 	<h1 class="noselect shareTitle">Docs & posts</h1>
 	<?php elseif($_GET["page"]=="coms"): ?>
@@ -71,6 +73,16 @@ if ($isAdmin) {
 	</section>
 	<script src="<?= Routes::url_for('/js/panelAdmin.js')?>"></script>
 	<script src="<?= Routes::url_for('/js/panelAdminSearch.js')?>"></script>
+
+<?php elseif($_GET["page"]=="bans"): ?>
+	<section id="verticalScrollContainer" class="inAdminPanel">
+		<?php 
+			$allusers=$comm->get_banned_users();
+			foreach ($allusers as $key => $user) {
+				load_user_admin($user); 
+			}
+			?>
+	</section>
 	
 
 <?php elseif($_GET["page"]=="posts"): ?>

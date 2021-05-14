@@ -26,29 +26,33 @@ $id = $_SESSION["current_community"];
 	?>
 	<img onclick="toogleSettingsOfUser(<?=$userID?>);" class="userManageButton cursor" src="<?= Routes::url_for('/img/svg/user-cog.svg')?>" alt="manageUser">
 	<ul id="Settings-<?=$userID?>" class="menuSettings hidden">
-		<?php if($isOwner): ?>
-			<?php if($isInTeam): ?>
-			<li onclick="unpromote_user(<?= $id ?>,<?=$userID?>)" id="unpromote-button-<?=$userID?>">Supprimer de l'équipe</li>
-			<li onclick="promote_user(<?= $id ?>,<?=$userID?>)" id="promote-button-<?=$userID?>" class="hidden">Ajouter à l'équipe</li>
-			<?php else: ?>
-			<li onclick="unpromote_user(<?= $id ?>,<?=$userID?>)" id="unpromote-button-<?=$userID?>" class="hidden">Supprimer de l'équipe</li>
-			<li onclick="promote_user(<?= $id ?>,<?=$userID?>)" id="promote-button-<?=$userID?>">Ajouter à l'équipe</li>
+		<?php if(!$isBanned): ?>
+			<?php if($isOwner): ?>
+				<?php if($isInTeam): ?>
+				<li onclick="unpromote_user(<?= $id ?>,<?=$userID?>)" id="unpromote-button-<?=$userID?>">Supprimer de l'équipe</li>
+				<li onclick="promote_user(<?= $id ?>,<?=$userID?>)" id="promote-button-<?=$userID?>" class="hidden">Ajouter à l'équipe</li>
+				<?php else: ?>
+				<li onclick="unpromote_user(<?= $id ?>,<?=$userID?>)" id="unpromote-button-<?=$userID?>" class="hidden">Supprimer de l'équipe</li>
+				<li onclick="promote_user(<?= $id ?>,<?=$userID?>)" id="promote-button-<?=$userID?>">Ajouter à l'équipe</li>
+				<?php endif ?>
+			<?php endif ?>
+			<?php if($isCertified): ?>
+				<li onclick="uncertify_user(<?= $id ?>,<?=$userID?>)" id="uncertify-button-<?=$userID?>">Décertifier</li>
+				<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button-<?=$userID?>" class="hidden">Certifier</li>
+				<?php else: ?>
+				<li onclick="uncertify_user(<?= $id ?>,<?=$userID?>)" id="uncertify-button-<?=$userID?>" class="hidden">Décertifier</li>
+				<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button-<?=$userID?>">Certifier</li>
 			<?php endif ?>
 		<?php endif ?>
-		<?php if($isCertified): ?>
-			<li onclick="uncertify_user(<?= $id ?>,<?=$userID?>)" id="uncertify-button-<?=$userID?>">Décertifier</li>
-			<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button-<?=$userID?>" class="hidden">Certifier</li>
-			<?php else: ?>
-			<li onclick="uncertify_user(<?= $id ?>,<?=$userID?>)" id="uncertify-button-<?=$userID?>" class="hidden">Décertifier</li>
-			<li onclick="certify_user(<?= $id ?>,<?=$userID?>)" id="certify-button-<?=$userID?>">Certifier</li>
-		<?php endif ?>
 		<?php if(!$isOwner || !$isItself): ?>
-		<li onclick="kick_user(<?= $id ?>,<?=$userID?>)" >Kick</li>
-		<?php if(!$isBanned): ?>
-		<li onclick="ban_user(<?= $id ?>,<?=$userID?>)" >Bannir</li>
-		<?php else: ?>
-		<li onclick="unban_user(<?= $id ?>,<?=$userID?>)" >Débannir</li>
-		<?php endif ?>
+			<?php if(!$isBanned): ?>
+				<li onclick="kick_user(<?= $id ?>,<?=$userID?>)" >Kick</li>
+			<?php endif ?>
+			<?php if(!$isBanned): ?>
+				<li onclick="ban_user(<?= $id ?>,<?=$userID?>)" >Bannir</li>
+			<?php else: ?>
+				<li onclick="unban_user(<?= $id ?>,<?=$userID?>)" >Débannir</li>
+			<?php endif ?>
 		<?php endif ?>
 	</ul>
 </div>
