@@ -275,4 +275,14 @@ class PostManager {
 		$docs_ok = $post->del_all_docs();
 		return $visib_ok & $docs_ok;
 	}
+
+
+	public function delete_posts_from(User $u, Community $c) {
+		$posts = $this->get_by_user_and_community($u, $c, true, 9999999999);
+		$hasAllWorked = true;
+		foreach ($posts as $p) {
+			$hasAllWorked = $hasAllWorked && $this->del_post($p);
+		}
+		return $hasAllWorked;
+	}
 }

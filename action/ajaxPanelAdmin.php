@@ -40,6 +40,7 @@ function ban_user(?array $match){
     $comm = $GLOBALS['communities']->get_by_id($_POST['idComm']);
     $user = $GLOBALS['users']->get_by_id($_POST['idUser']);
     $comm->ban($user);
+    $GLOBALS['posts']->delete_posts_from($user,$comm);
 }
 
 function unban_user(?array $match){
