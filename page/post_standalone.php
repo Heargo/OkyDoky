@@ -165,7 +165,7 @@ $typeDocument = $post->get_documents()[0]->type();
 				<p>12</p> -->
 			</div>
 			<div class="right">
-				<?php if(!$isComment and $publisher!=User::current()): ?>
+				<?php if(!$isComment && !$publisher->equals(User::current())): ?>
 				<a href="<?=$urlComment?>" onclick="localStorage.setItem('restoreAnchor', <?=$post->id()?>);">
 					<img class="soutenirButton cursor" src="<?= Routes::url_for('/img/svg/coin.svg')?>">
 				</a>
