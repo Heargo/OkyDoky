@@ -1041,10 +1041,10 @@ a.editCommubtn{
 }
 
 .BestUserContainer h3{
-	margin: 10px 0;
+	margin: 5px 0;
 	text-align:center;
 	font-weight: normal;
-	font-size: 1.8rem;
+	font-size: 1.5rem;
 	color: black;
 	font-family: 'Caveat Brush', cursive;
 }
@@ -1071,8 +1071,8 @@ a.editCommubtn{
 }
 
 .profilMisEnAvant li img{
-	width: 60px;
-	height: 60px;
+	width: 50px;
+	height: 50px;
 	margin: 5px;
 	border-radius: 100%;
 	object-fit: cover;

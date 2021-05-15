@@ -55,7 +55,7 @@
 					
 					echo "</ul>";
 			?>
-			<h3>Les + hauts niveaux</h3>
+			<h3>Haut niveaux</h3>
 			<?php
 					echo "<ul>";
 					$ancient_members = $GLOBALS['users']->get_by_levelness_community($currentComm, 5);
@@ -72,7 +72,7 @@
 					}
 					echo "</ul>";
 			?>
-			<h3>Les + riches</h3>
+			<h3>Plus riches</h3>
 			<?php
 					echo "<ul>";
 					$ancient_members = $GLOBALS['users']->get_by_richness_community($currentComm, 5);
