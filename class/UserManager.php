@@ -144,7 +144,7 @@ class UserManager {
      * @return User[] An array of users.
      */
     public function search_user_by_nickname_or_display_name_in_community(String $research, Community $c){
-        $sql = "SELECT `id_%s` FROM `%s` u JOIN `%s` uc ON u.`id_%s` = uc.user WHERE uc.community = %d AND (u.nickname LIKE '%%%s%%' OR u.display_name LIKE '%%%s%%')";
+        $sql = "SELECT `id_%s` FROM `%s` u JOIN `%s` uc ON u.`id_%s` = uc.user WHERE uc.community = %d AND (u.nickname LIKE '%%%s%%' OR u.display_name LIKE '%%%s%%') AND uc.permission != 0";
         $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $c->id(), $research, $research);
         $res = $this->_db->query($sql);
         if ($res) {
@@ -166,7 +166,7 @@ class UserManager {
      * @return User[] An array of users.
      */
     public function get_by_ancienty_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
-        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d AND DATEDIFF(CURRENT_TIMESTAMP, uc.last_collect) < 30 ORDER BY uc.join_date LIMIT %4$d OFFSET %5$d';
+        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d AND DATEDIFF(CURRENT_TIMESTAMP, uc.last_collect) < 30 AND uc.permission != 0 ORDER BY uc.join_date LIMIT %4$d OFFSET %5$d';
         $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
         $result = $this->_db->query($sql);
         if($result) {
@@ -188,7 +188,7 @@ class UserManager {
      * @return User[] An array of users.
      */
     public function get_by_richness_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
-        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d ORDER BY uc.coins DESC LIMIT %4$d OFFSET %5$d';
+        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d AND uc.permission != 0 ORDER BY uc.coins DESC LIMIT %4$d OFFSET %5$d';
         $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
         $result = $this->_db->query($sql);
         if($result) {
@@ -210,7 +210,7 @@ class UserManager {
      * @return User[] An array of users.
      */
     public function get_by_levelness_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
-        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d ORDER BY uc.level DESC, uc.xpoints DESC LIMIT %4$d OFFSET %5$d';
+        $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d AND uc.permission != 0 ORDER BY uc.level DESC, uc.xpoints DESC LIMIT %4$d OFFSET %5$d';
         $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
         $result = $this->_db->query($sql);
         if($result) {
@@ -256,12 +256,14 @@ class UserManager {
                         GROUP BY p2.publisher)
                     vMinus
                 ON vMinus.publisher = p.publisher
+                JOIN `%9$s` uc ON uc.user = p.publisher
                 WHERE p.visible = %3$d 
                 AND p.community = %4$d
+                AND uc.permission != 0
                 GROUP BY p.publisher
                 ORDER BY (IFNULL(vPlus.c, 0) - IFNULL(vMinus.c, 0)) DESC, vPlus.c DESC, p.date DESC
                 LIMIT %7$d OFFSET %8$d';
-        $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_VOTE, $visible, $c->id(),"up", "down", $limit, $offset);
+        $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_VOTE, $visible, $c->id(),"up", "down", $limit, $offset, Config::TABLE_USER_COMMUNITY);
         $result = $this->_db->query($sql);
         if($result) {
             for ($list = array();
