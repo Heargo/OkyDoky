@@ -69,8 +69,8 @@ $typeDocument = $post->get_documents()[0]->type();
 			<?php if($isComment): ?>
 					<?php if(false): //si on a PAS besoin d'un retour dans un feed?>
 						<img onclick="javascript:history.back()" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
-					<?php elseif(false): //si on viens du feed de commu?>
-						<img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+					<?php elseif(false): //si on viens du feed de commu ?>
+						<img onclick="enableRestore();location.href='<?= Routes::url_for('/top')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 					<?php elseif(true): //si on viens du feed global?>
 						<img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 					<?php endif ?>
@@ -166,7 +166,7 @@ $typeDocument = $post->get_documents()[0]->type();
 			</div>
 			<div class="right">
 				<?php if(!$isComment and $publisher!=User::current()): ?>
-				<a href="<?=$urlComment?>" onclick="document.cookie='restoreAnchor=<?=$post->id()?>;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>'">
+				<a href="<?=$urlComment?>" onclick="localStorage.setItem('restoreAnchor', <?=$post->id()?>);">
 					<img class="soutenirButton cursor" src="<?= Routes::url_for('/img/svg/coin.svg')?>">
 				</a>
 				<?php endif ?>
