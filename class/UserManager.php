@@ -279,5 +279,76 @@ class UserManager {
      *
      * @return bool True if successful.
      */
-    //public function del_user(User $user) : bool;
+    // like -> vote -> comment -> favoris -> post -> friend -> label -> message -> notification -> || (community si owner : delete commu si last user, give owner to admin / ancient one) -> user_community -> user
+    public function del_user(User $user) : bool {
+        $allWorked = true;
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_LIKE, "user", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_VOTE, "user", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_COMMENT, "author", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_POST, "publisher", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_FRIEND, "user1", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_FRIEND, "user2", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_LABEL, "user", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_MESSAGE, "sender", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_NOTIFICATION, "sender", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_NOTIFICATION, "receiver", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        foreach($user->get_communities() as $c) {
+            $tmpP = new Permission($user->permission($c));
+            if($tmpP->is(Permission::OWNER)) {
+                $sql = sprintf("SELECT COUNT(*) FROM `%s` WHERE `community` = %d", Config::TABLE_USER_COMMUNITY, $c->id());
+                $result = $this->_db->query($sql);
+                if($result ? $result->fetch_row()[0] == 1 : true) {
+                    $sql = sprintf("DELETE FROM `%s` WHERE `id_%s` = %d", Config::TABLE_COMMUNITY, Config::TABLE_COMMUNITY, $c->id());
+                    $allWorked = $allWorked && $this->_db->query($sql);
+                } else {
+                    $sql = sprintf("SELECT * FROM `%s` WHERE `community` = %d AND `user` != %d ORDER BY `join_date` ASC", Config::TABLE_USER_COMMUNITY, $c->id(), $u->id());
+                    $result = $this->_db->query($sql);
+                    if ($result) {
+                        for ($list = array();
+                            $row = $result->fetch_assoc();
+                            $list[] = new User($this->_db, $row['publisher']));
+                        $uReminded = null;
+                        foreach ($list as $utmp) {
+                            $tmpP2 = new Permission($utmp->permission($c));
+                            if($tmpP2->is(Permission::ADMIN) {
+                                $uReminded = $utmp;
+                                break;
+                            }
+                        }
+                        if ($uReminded == null) {
+                            $uReminded = $list[0];
+                        }
+                        $uReminded->set_perm(Permission::OWNER);
+                    }
+                }
+            }
+        }
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_USER_COMMUNITY, "user", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `id_%s` = %d", Config::TABLE_USER, Config::TABLE_USER, $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        return $allWorked;
+    }
 }
