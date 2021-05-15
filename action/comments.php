@@ -46,7 +46,12 @@ function load_comment($c,$deleted=false){
     
     $n=$c->author()->nickname();
     $canManage=$c->author()==User::current();
-    $isAdminCommu=User::current()->perm($c->post()->community())->is(P::ADMIN);
+    
+    if($c->post()->community()->user_in(User::current())){
+        $isAdminCommu=User::current()->perm($c->post()->community())->is(P::ADMIN);
+    }else{
+        $isAdminCommu=False;
+    }
     $postID=$c->id();
     ?>
     <div class="commentaireAlone" id="com-<?=$postID?>">

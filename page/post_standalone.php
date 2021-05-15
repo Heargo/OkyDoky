@@ -8,7 +8,11 @@ $typeDocument = $post->get_documents()[0]->type();
 			<?php $n=$publisher->nickname();
 			$url=Routes::url_for("/user/$n");
 			$comm = $post->community();
-			$isAdminCommu=User::current()->perm($comm)->is(P::ADMIN);
+			if($comm->user_in(User::current())){
+				$isAdminCommu=User::current()->perm($comm)->is(P::ADMIN); // cette ligne plante si on est pas dans la commu
+			}else{
+				$isAdminCommu=False;
+			}
 			$canManage=$publisher==User::current() || $isAdminCommu;
 			$postID=$post->id();
 			$isHP=$comm->get_highlight_post()->id()==$postID;
@@ -63,7 +67,14 @@ $typeDocument = $post->get_documents()[0]->type();
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>
-                    <img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+					<?php if(false): //si on a PAS besoin d'un retour dans un feed?>
+						<img onclick="javascript:history.back()" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+					<?php elseif(false): //si on viens du feed de commu?>
+						<img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+					<?php elseif(false): //si on viens du feed global?>
+						<img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+					<?php endif ?>
+                    
 	        <?php endif ?>
 		</div>
 		<!-- content -->
@@ -121,7 +132,7 @@ $typeDocument = $post->get_documents()[0]->type();
                 <img src="<?= Routes::url_for('/img/svg/comment.svg')?>">
             </a>
             <?php endif ?>
-
+            <?php if($comm->user_in(User::current())){ ?>
 				<?php  
 				if ($voted==1){
 					?>
@@ -141,6 +152,7 @@ $typeDocument = $post->get_documents()[0]->type();
                     <img id="downVoteIcon-<?=$post->id()?>" class="downVote cursor" onclick="vote(<?=$post->id()?>,-1);" src="<?= Routes::url_for('/img/svg/arrow-down.svg')?>">
 					<?php 
 				}
+			}
 					if ($prct>50) {
 						?><p id="prctQualityText-<?=$post->id()?>" class="prctQuality green"><?php 	
 					}else{
@@ -182,7 +194,7 @@ $typeDocument = $post->get_documents()[0]->type();
 			
 		</div>
 		<!-- form pour soutenir -->
-		<?php if($isComment && $publisher!=User::current()): ?>
+		<?php if($isComment && $publisher!=User::current() && $comm->user_in(User::current())): ?>
 			<form class="donateForm" enctype="multipart/form-data" action="<?=Routes::url_for('/donatejetons')?>" method="post">
 				<?php 
 				$nbjetons = User::current()->coins_in_community($comm);

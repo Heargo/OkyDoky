@@ -10,7 +10,26 @@
 </head>
 <body>
 
-
+<?php 
+	$comm=$GLOBALS['page']['post']->community();
+	$user=$GLOBALS['page']['post']->publisher();
+	if ($comm->is_banned(User::current())) {
+		?>
+		<p>Vous êtes bannis de cette communauté, vous ne pouvez pas voir les publications</p>
+		<?php
+	}
+	elseif($comm->is_banned($user)) {
+		?>
+		<p>Utilisateur bannis.</p>
+		<?php
+	}
+	elseif (!$GLOBALS['page']['post']->is_visible()) {
+		?>
+		<p>La publication a été supprimée.</p>
+		<?php
+	}
+	else{
+?>
 <section class="uniquePost">
 <?php load_post($GLOBALS['page']['post'],true); ?>
 
@@ -21,6 +40,7 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
 
 
 <div class="commentaires" id="commentairesContainer">
+	<?php if($comm->user_in(User::current())){ ?>
 	<div>
 	<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
     <p class="commentForm">
@@ -31,8 +51,8 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
 			</label>
 			<input class="hidden" type="submit" id="submit-comment" name="submit">
 		</form>	
-</div>
-
+	</div>
+<?php } ?>
     <?php foreach($GLOBALS['page']['post']->comments() as $c){
         load_comment($c); 
         }
@@ -65,12 +85,17 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
 		//document.cookie="shouldBeRestored=1;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>";
 	}
 </script>
-<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
-<script src="<?= Routes::url_for('/js/likesAjax.js')?>"></script>
+<?php if($comm->user_in(User::current())){ ?>
+	<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+	<script src="<?= Routes::url_for('/js/likesAjax.js')?>"></script>
+	<script src="<?= Routes::url_for('/js/comments.js')?>"></script>
+<?php } ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="<?= Routes::url_for('/js/favoris.js')?>"></script>
 <script src="<?= Routes::url_for('/js/share.js')?>"></script>
-<script src="<?= Routes::url_for('/js/comments.js')?>"></script>
 <script src="<?= Routes::url_for('/js/prism.js')?>"></script>
+<?php 
+}
+?>
 
 </html>

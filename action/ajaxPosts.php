@@ -1,6 +1,6 @@
 <?php 
 
-function load_post(Post $post, $isComment = false) {
+function load_post(Post $post, $isComment = false,$isFromSearch=false) {
     $publisher = $post->publisher();
     $titrePost = $post->title();
     $description = $post->description();

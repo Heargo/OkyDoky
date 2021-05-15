@@ -83,7 +83,7 @@ if ($isAdmin) {
 			}
 			?>
 	</section>
-	
+	<script src="<?= Routes::url_for('/js/panelAdmin.js')?>"></script>
 
 <?php elseif($_GET["page"]=="posts"): ?>
 
