@@ -67,14 +67,27 @@ $typeDocument = $post->get_documents()[0]->type();
 	                </ul>
 	        <?php endif ?>
 			<?php if($isComment): ?>
-					<?php if(false): //si on a PAS besoin d'un retour dans un feed?>
-						<img onclick="javascript:history.back()" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
-					<?php elseif(false): //si on viens du feed de commu ?>
-						<img onclick="enableRestore();location.href='<?= Routes::url_for('/top')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
-					<?php elseif(true): //si on viens du feed global?>
-						<img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
-					<?php endif ?>
-                    
+                <?php //si on a PAS besoin d'un retour dans un feed ?>
+                    <img onclick="javascript:history.back()" class="hidden cursor crossForPost no-restore" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+                <?php //si on viens du feed de commu ?>
+                    <img onclick="enableRestore();location.href='<?= Routes::url_for('/top')?>'" class="hidden cursor crossForPost restore-top" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+                <?php //si on viens du feed global?>
+                    <img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="hidden cursor crossForPost restore-feed" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+                <script>
+                try {
+                    let previous = document.referrer;
+                    console.log(previous);
+                    if (previous.endsWith('/feed')) {
+                        document.querySelector('img.crossForPost.restore-feed').classList.remove("hidden");
+                    } else if (previous.endsWith('/top')){
+                        document.querySelector('img.crossForPost.restore-top').classList.remove("hidden");
+                    } else {
+                        document.querySelector('img.crossForPost.no-restore').classList.remove("hidden");
+                    }
+                } catch(e) {
+                    document.querySelector('img.crossForPost.no-restore').classList.remove("hidden");
+                }
+                </script>
 	        <?php endif ?>
 		</div>
 		<!-- content -->
@@ -191,7 +204,6 @@ $typeDocument = $post->get_documents()[0]->type();
                 	<?php } ?>
                 </button>
 			</div>
-			
 		</div>
 		<!-- form pour soutenir -->
 		<?php if($isComment && $publisher!=User::current() && $comm->user_in(User::current())): ?>
