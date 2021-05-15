@@ -361,13 +361,13 @@ class Community{
 		return array();
     }
 
-    public function get_active_members() : array{
+    public function get_active_members(int $limit = 3) : array{
         $members = $this->get_members();
         $sorted_members = array();
         foreach($members as $m){
             $mid = $m->id();
-            $sql = "SELECT COUNT(*) FROM `%s` WHERE `%s` = %d AND `publisher` = %d LIMIT 5";
-            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_COMMUNITY, $this->_id,$mid);
+            $sql = "SELECT COUNT(*) FROM `%s` p JOIN `%s` uc ON uc.user = p.publisher WHERE p.community = %d AND p.publisher = %d AND uc.permission != 0 LIMIT %d";
+            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_USER_COMMUNITY, $this->_id, $mid, $limit);
             $result = $this->_db->query($sql);
             $row = mysqli_fetch_row($result);
             if ($row[0] != 0){

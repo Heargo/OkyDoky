@@ -21,7 +21,7 @@
 				if(!empty(User::current()->get_communities())) {
 					echo "<h3>Plus actifs</h3><ul>";
 					$currentComm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
-					$active_members = $currentComm->get_active_members();
+					$active_members = $currentComm->get_active_members(5);
 					if(sizeof($active_members) != 0){
 						foreach($active_members as $key => $value){
 							$tmpUser = new User($GLOBALS['db'], $key);
@@ -39,7 +39,7 @@
 			<h3>Mieux notés</h3>
 			<?php
 					echo "<ul>";
-					$liked_members = $GLOBALS['users']->get_user_by_most_likes_in_community($currentComm, 3);
+					$liked_members = $GLOBALS['users']->get_user_by_most_likes_in_community($currentComm, 5);
 					
 					if(sizeof($liked_members) != 0){
 						foreach($liked_members as $m){
@@ -55,10 +55,44 @@
 					
 					echo "</ul>";
 			?>
+			<h3>Les + hauts niveaux</h3>
+			<?php
+					echo "<ul>";
+					$ancient_members = $GLOBALS['users']->get_by_levelness_community($currentComm, 5);
+					if(sizeof($ancient_members) != 0){
+						foreach($ancient_members as $m){
+							$tmpUser = $m;
+							?>
+							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<?php
+						}
+					}
+					else{
+						echo "<p>Erreur : veuillez contacter un développeur afin qu'ils règlent le problème</p>";
+					}
+					echo "</ul>";
+			?>
+			<h3>Les + riches</h3>
+			<?php
+					echo "<ul>";
+					$ancient_members = $GLOBALS['users']->get_by_richness_community($currentComm, 5);
+					if(sizeof($ancient_members) != 0){
+						foreach($ancient_members as $m){
+							$tmpUser = $m;
+							?>
+							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<?php
+						}
+					}
+					else{
+						echo "<p>Erreur : veuillez contacter un développeur afin qu'ils règlent le problème</p>";
+					}
+					echo "</ul>";
+			?>
 			<h3>Les anciens</h3>
 			<?php
 					echo "<ul>";
-					$ancient_members = $GLOBALS['users']->get_by_ancienty_community($currentComm, 3);
+					$ancient_members = $GLOBALS['users']->get_by_ancienty_community($currentComm, 5);
 					if(sizeof($ancient_members) != 0){
 						foreach($ancient_members as $m){
 							$tmpUser = $m;
