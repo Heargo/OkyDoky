@@ -86,6 +86,7 @@ class PostManager {
 				f2.user1 = %d OR 
 				f2.user2 = %d
 			) 
+			AND uc.permission != 0
 			ORDER BY YEAR(p.date) DESC, 
 					MONTH(p.date) DESC, 
 					DAY(p.date) DESC, 
