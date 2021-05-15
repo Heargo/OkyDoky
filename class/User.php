@@ -160,7 +160,7 @@ class User {
      *     $myuser->get_communities(P::VIEW); // will return communities where user is not banned from
      */
     public function get_communities(?int $flags=null) : array {
-        $sql = "SELECT `community` FROM `%s` WHERE `user` = %d";
+        $sql = "SELECT `community` FROM `%s` WHERE `user` = %d AND `permission` != 0";
         $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id());
         $result = $this->_db->query($sql);
 
