@@ -310,7 +310,7 @@ class Community{
     }
 
     public function get_nb_members(int $flags = null) : int{
-        $sql = "SELECT COUNT(*) FROM `%s` WHERE `%s` = %d";
+        $sql = "SELECT COUNT(*) FROM `%s` WHERE `%s` = %d AND `permission` != 0";
         $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_COMMUNITY, $this->_id);
         $result = $this->_db->query($sql);
         $row = mysqli_fetch_row($result);
