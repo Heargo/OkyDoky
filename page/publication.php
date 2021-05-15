@@ -15,17 +15,17 @@
 	$user=$GLOBALS['page']['post']->publisher();
 	if ($comm->is_banned(User::current())) {
 		?>
-		<p>Vous êtes bannis de cette communauté, vous ne pouvez pas voir les publications</p>
+		<p class="warningPublication">Vous êtes bannis de cette communauté, vous ne pouvez pas voir les publications.</p>
 		<?php
 	}
 	elseif($comm->is_banned($user)) {
 		?>
-		<p>Utilisateur bannis.</p>
+		<p class="warningPublication">Utilisateur banni de cette communauté.</p>
 		<?php
 	}
 	elseif (!$GLOBALS['page']['post']->is_visible()) {
 		?>
-		<p>La publication a été supprimée.</p>
+		<p class="warningPublication">La publication a été supprimée.</p>
 		<?php
 	}
 	else{

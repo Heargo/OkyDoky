@@ -54,10 +54,13 @@ function preview(input) {
 
         preview_img.classList.remove('hidden');
         try {
-          //on change l'appercu et le bouton
-          var btn = document.getElementById('uploadbtn');
-          btn.classList.add('btn-when-preview');
-          btn.classList.remove("btn-when-preview-not-img");
+          if(previewType!="onlyImage"){
+            //on change l'appercu et le bouton
+            var btn = document.getElementById('uploadbtn');
+            btn.classList.add('btn-when-preview');
+            btn.classList.remove("btn-when-preview-not-img");
+          }
+          
         } catch(e) {}
       }
       //PDF
@@ -71,10 +74,12 @@ function preview(input) {
         preview_code.classList.add("hidden");
         preview_pdf.classList.remove("hidden");
 
-        //on change l'appercu et le bouton
-        var btn = document.getElementById('uploadbtn');
-        btn.classList.remove("btn-when-preview");
-        btn.classList.add('btn-when-preview-not-img');
+        if(previewType!="onlyImage"){
+          //on change l'appercu et le bouton
+          var btn = document.getElementById('uploadbtn');
+          btn.classList.remove("btn-when-preview");
+          btn.classList.add('btn-when-preview-not-img');
+        }
       }
       //CODE
       else if(code.includes(mime) || mime.split('/')[0]=="text") {
@@ -88,10 +93,12 @@ function preview(input) {
         preview_autre.classList.add("hidden");
         preview_code.classList.remove('hidden');
 
-        //on change l'appercu et le bouton
-        var btn = document.getElementById('uploadbtn');
-        btn.classList.remove("btn-when-preview");
-        btn.classList.add('btn-when-preview-not-img');
+        if(previewType!="onlyImage"){
+          //on change l'appercu et le bouton
+          var btn = document.getElementById('uploadbtn');
+          btn.classList.remove("btn-when-preview");
+          btn.classList.add('btn-when-preview-not-img');
+        }
 
         Prism.highlightElement(preview_code);
       }
@@ -104,11 +111,12 @@ function preview(input) {
         preview_pdf.classList.add("hidden");
         preview_code.classList.add("hidden");
         preview_autre.classList.remove("hidden");
-
-        //on change l'appercu et le bouton
-        var btn = document.getElementById('uploadbtn');
-        btn.classList.remove("btn-when-preview");
-        btn.classList.add('btn-when-preview-not-img');
+        if(previewType!="onlyImage"){
+          //on change l'appercu et le bouton
+          var btn = document.getElementById('uploadbtn');
+          btn.classList.remove("btn-when-preview");
+          btn.classList.add('btn-when-preview-not-img');
+        }
       }
       
       

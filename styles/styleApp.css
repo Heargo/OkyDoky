@@ -2377,3 +2377,12 @@ img.crossForMessage{
 	padding: .4rem .6rem;
 	background-color: #F1F2F6;
 }
+
+.warningPublication{
+	margin-top: 100px;
+	font-weight: normal;
+	font-size: 2rem;
+	font-family: 'Caveat Brush', cursive;
+	color:#2F3542;
+	text-align: center;
+}

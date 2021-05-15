@@ -34,7 +34,7 @@ if (!isset($_GET["type"])) {
 		<!-- Photo de profil -->
 		<H3> Votre photo de profil : </H3>
 		<img id="preview-img" class="previewImgProfil" src="<?= User::is_connected() ? User::current()->profile_pic() : 'preview' ?>" alt="preview">
-		<label id ="uploadbtnProfil" for="file" class="fileUploadLabelProfil cursor">Changer...</label>
+		<label id ="uploadbtn" for="file" class="fileUploadLabelProfil cursor">Changer...</label>
 		<input class="fileUploadInput" id="file" name="file" type="file" />
 
 		<!-- Nom d'utilisateur -->
@@ -96,6 +96,9 @@ elseif($_GET["type"]=="password"){
 
 
 </body>
+<script type="text/javascript">
+	var previewType = "onlyImage";
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="<?= Routes::url_for('/js/preview.js')?>"></script>
 </html>
