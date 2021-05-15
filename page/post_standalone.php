@@ -71,7 +71,7 @@ $typeDocument = $post->get_documents()[0]->type();
 						<img onclick="javascript:history.back()" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 					<?php elseif(false): //si on viens du feed de commu?>
 						<img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
-					<?php elseif(false): //si on viens du feed global?>
+					<?php elseif(true): //si on viens du feed global?>
 						<img onclick="enableRestore();location.href='<?= Routes::url_for('/feed')?>'" class="cursor crossForPost" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
 					<?php endif ?>
                     

@@ -26,7 +26,6 @@ function affichemsg($msg){
 		$class2="";
 	}
 
-
 	?>
 	<div id="<?=$id?>" class="msg <?=$class?>" data-date="<?=$date?>">
 		<?php 
@@ -37,7 +36,7 @@ function affichemsg($msg){
 		<div class="msgContainerUnique">
 			<?php 
 			if ($sender->id()!=User::current()->id()) {
-				?><label><?=$n?></label><?php
+				?><label><?=$sender->display_name()?></label><?php
 			}
 			?>
 			<p class="<?=$class2?>"><?=$text?></p>
