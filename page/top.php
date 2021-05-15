@@ -55,7 +55,7 @@
 					
 					echo "</ul>";
 			?>
-			<h3>Les + hauts niveaux</h3>
+			<h3>Haut niveaux</h3>
 			<?php
 					echo "<ul>";
 					$ancient_members = $GLOBALS['users']->get_by_levelness_community($currentComm, 5);
@@ -72,7 +72,7 @@
 					}
 					echo "</ul>";
 			?>
-			<h3>Les + riches</h3>
+			<h3>Plus riches</h3>
 			<?php
 					echo "<ul>";
 					$ancient_members = $GLOBALS['users']->get_by_richness_community($currentComm, 5);
@@ -161,9 +161,11 @@
 	var page = "top";
 	var user = "none";
 	var comm = "current";
+    var current_community = "<?= $_SESSION['current_community'] ?>";
 </script>
 <script src="<?= Routes::url_for('/js/prism.js')?>"></script>
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
+<script src="<?= Routes::url_for('/js/theCross.js')?>"></script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="<?= Routes::url_for('/js/favoris.js')?>"></script>
