@@ -292,6 +292,9 @@ class UserManager {
         $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_COMMENT, "author", $user->id());
         $allWorked = $allWorked && $this->_db->query($sql);
 
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_FAVORIS, "user", $user->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
         $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_POST, "publisher", $user->id());
         $allWorked = $allWorked && $this->_db->query($sql);
 
