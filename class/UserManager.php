@@ -329,7 +329,7 @@ class UserManager {
                         $uReminded = null;
                         foreach ($list as $utmp) {
                             $tmpP2 = new Permission($utmp->permission($c));
-                            if($tmpP2->is(Permission::ADMIN) {
+                            if($tmpP2->is(Permission::ADMIN)) {
                                 $uReminded = $utmp;
                                 break;
                             }
