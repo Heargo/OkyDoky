@@ -14,6 +14,8 @@
 				?>
 			</div>
 		</a>
+		<?php $nocommu=empty(User::current()->get_communities()); 
+		if(!$nocommu):?>
 		<a href="./bank">
 			<!-- animation qui si argent pas collecté -->
 				<?php 
@@ -26,6 +28,7 @@
 				?>
 			<img class="coinIcon intopnav <?=$animate?> noselect" src="<?=Routes::url_for("/img/svg/coin.svg")?>" alt="bank">
 		</a>
+		<?php endif ?>
 		<a href="./user/<?= User::is_connected() ? User::current()->nickname() : "anonyme" ?>">
 			<img class="small-bubble-2 noselect" src="<?= User::is_connected() ? User::current()->profile_pic() : "anonyme" ?>" alt="profil">
 		</a>
