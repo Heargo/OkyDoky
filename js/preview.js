@@ -19,6 +19,9 @@ var pdf = "application/pdf";
 
 
 function preview(input) {
+  if (typeof previewType == 'undefined') {
+    var previewType="all";
+  }
   //si ce n'est pas vide
 	if (input.files && input.files[0]) {
       var file = input.files[0];

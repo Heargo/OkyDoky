@@ -654,7 +654,7 @@ form{
 	padding: 0.1rem;
 	font-size: 0.8rem;
 }
-.communityButtonSearch{
+.communityButtonSearch, .communityBanInfo{
 	position: absolute;
 	bottom: 0;
 	right: 5px;
@@ -663,6 +663,11 @@ form{
 	text-align: center;
 	border: solid 1px #2F3542;
 	border-radius: 40px;
+}
+.communityBanInfo{
+	width: 150px;
+	color: #E74C3C;
+	font-weight: bold;
 }
 
 textarea:focus, input:focus{
