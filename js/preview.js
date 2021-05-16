@@ -19,7 +19,7 @@ var pdf = "application/pdf";
 
 
 function preview(input) {
-  if (typeof previewType == 'undefined') {
+  if (typeof previewType === 'undefined') {
     var previewType="all";
   }
   //si ce n'est pas vide
