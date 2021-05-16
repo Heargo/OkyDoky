@@ -86,14 +86,13 @@ class PostManager {
 				f2.user1 = %d OR 
 				f2.user2 = %d
 			) 
-			AND uc.permission != 0
 			ORDER BY YEAR(p.date) DESC, 
 					MONTH(p.date) DESC, 
 					DAY(p.date) DESC, 
-					REPLACE(f1.user1,%d,0) DESC, 
-					REPLACE(f2.user2,%d,0) DESC,
-					REPLACE(f1.user2,%d,0) DESC, 
-					REPLACE(f2.user1,%d,0) DESC,
+					REPLACE(f1.user1,%d,null) DESC, 
+					REPLACE(f2.user2,%d,null) DESC,
+					REPLACE(f1.user2,%d,null) DESC, 
+					REPLACE(f2.user1,%d,null) DESC,
 					p.date DESC
 			LIMIT %d OFFSET %d";
 		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, Config::TABLE_FRIEND, Config::TABLE_FRIEND, Config::TABLE_USER_COMMUNITY, $u, $u, $u, $u, $u, $u, $u, $u, $u, $limit, $offset);
@@ -101,7 +100,8 @@ class PostManager {
 		if ($result) {
 			for ($list = array();
 				 $row = $result->fetch_assoc();
-				 $list[] = new Post($this->_db, (int) ($row['id_' . Config::TABLE_POST])));
+				 $action = User::current()->perm((new Post($this->_db, (int) ($row['id_' . Config::TABLE_POST])))->community())->get() == 0 ? null : $list[] = new Post($this->_db, (int) ($row['id_' . Config::TABLE_POST]))
+				);
 			return $list;
 		}
 		return array();
