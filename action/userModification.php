@@ -31,7 +31,11 @@ function delete_user_profile(?array $match) {
         if (User::current()->is_pwd_correct($pwd)) {
             $deleted=true;
             $GLOBALS['users']->del_user(User::current());
-            //TODO refresh le cache quand deletion
+            ?>
+            <script type="text/javascript">
+                localStorage.clear();
+            </script>
+            <?php
             header("Location: .");
         }
     }
