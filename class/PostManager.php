@@ -276,8 +276,38 @@ class PostManager {
 	  * @return bool True if successful.
 	 */
 	public function del_post(Post $post) : bool {
+		$allWorked = true;
+		//first get all comments from the post
+		$sql = sprintf("SELECT `id_%s` FROM `%s` WHERE `%s` = %d", Config::TABLE_COMMENT, Config::TABLE_COMMENT, "post", $post->id());
+		$result = $this->_db->query($sql);
+
+		if ($result) {
+			for ($list = array();
+                 $row = $result->fetch_assoc();
+                 $list[] = new Comment($this->_db, $row['id_' . Config::TABLE_COMMENT]));
+			foreach ($list as $c) {
+				$sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_LIKE, "comment", $c->id());
+        		$allWorked = $allWorked && $this->_db->query($sql);
+			}
+		}
+
+		
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_VOTE, "post", $post->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_COMMENT, "post", $post->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_FAVORIS, "post", $post->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_DOCUMENT, "post", $post->id());
+        $allWorked = $allWorked && $this->_db->query($sql);
+
         $sql = sprintf("DELETE FROM `%s` WHERE `id_%s` = %d", Config::TABLE_POST, Config::TABLE_POST, $post->id());
-        return $this->_db->query($sql);
+        $allWorked = $allWorked && $this->_db->query($sql);
+        return $allWorked;
 	}
 
 
