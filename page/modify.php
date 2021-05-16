@@ -87,10 +87,20 @@ elseif($_GET["type"]=="password"){
 	</form>
 
 	<?php
-}
-
+} elseif($_GET["type"]=="delete"){
 ?>
-
+	<form enctype="multipart/form-data" action="<?= Routes::url_for('/deleteProfile')?>" method="post">
+		<!-- Nom d'utilisateur -->
+		<H3> Pour confirmer la supression du compte, veuillez entrer votre mot de passe </H3>
+		<input class="titleInput" type="password" name="passwordConfirm">
+		
+		<H3>Confirmez la suppression du compte</H3>
+		<label for="submit" class="submitUploadLabel cursor"><img src="./img/svg/check.svg"></label>
+		<input id ="submit" type="submit" value="create" />	
+	</form>
+<?php
+}
+?>
 
 </section>
 

@@ -21,6 +21,27 @@ function modify_profil(?array $match) {
     header("Location: $root/user/$n");
 }
 
+function delete_user_profile(?array $match) {
+    $deleted=false;
+
+    if (!empty(trim($_POST["passwordConfirm"]))) {
+
+        $pwd=filter_var($_POST["passwordConfirm"], FILTER_SANITIZE_SPECIAL_CHARS);
+        
+        if (User::current()->is_pwd_correct($pwd)) {
+            $deleted=true;
+            $GLOBALS['users']->del_user(User::current());
+            //TODO refresh le cache quand deletion
+            header("Location: .");
+        }
+    }
+
+    if (!$changed) {
+        $nick = User::current()->nickname();
+        header("Location: $root/user/$nick");
+    }
+}
+
 function modify_email(?array $match) {
     //modif du mail
     if (!empty(trim($_POST["newmail"])) && User::current()->email()!=trim($_POST["newmail"])){

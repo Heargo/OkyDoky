@@ -279,7 +279,7 @@ class UserManager {
      *
      * @return bool True if successful.
      */
-    // like -> vote -> comment -> favoris -> post -> friend -> label -> message -> notification -> || (community si owner : delete commu si last user, give owner to admin / ancient one) -> user_community -> user
+    // like -> vote -> comment -> favoris -> (document ->) post -> friend -> label -> message -> notification -> || (community si owner : delete commu si last user, give owner to admin / ancient one) -> user_community -> user
     public function del_user(User $user) : bool {
         $allWorked = true;
 
@@ -289,11 +289,36 @@ class UserManager {
         $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_VOTE, "user", $user->id());
         $allWorked = $allWorked && $this->_db->query($sql);
 
+        $sql = sprintf("SELECT `id_%s` FROM `%s` WHERE `%s` = %d", Config::TABLE_COMMENT, Config::TABLE_COMMENT, "user", $user->id());
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            for ($list = array();
+                 $row = $result->fetch_assoc();
+                 $list[] = new Comment($this->_db, $row['id_' . Config::TABLE_COMMENT]));
+            foreach ($list as $c) {
+                $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_LIKE, "comment", $c->id());
+                $allWorked = $allWorked && $this->_db->query($sql);
+            }
+        }
+
         $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_COMMENT, "author", $user->id());
         $allWorked = $allWorked && $this->_db->query($sql);
 
         $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_FAVORIS, "user", $user->id());
         $allWorked = $allWorked && $this->_db->query($sql);
+
+        $sql = sprintf("SELECT `community` FROM `%s` WHERE `%s` = %d", Config::TABLE_USER_COMMUNITY, "user", $user->id());
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            for ($list = array();
+                 $row = $result->fetch_assoc();
+                 $list[] = new Community($this->_db, $row['community']));
+            foreach ($list as $c) {
+                $allWorked = $allWorked && $GLOBALS['posts']->delete_posts_from($user, $c);
+            }
+        }
 
         $sql = sprintf("DELETE FROM `%s` WHERE `%s` = %d", Config::TABLE_POST, "publisher", $user->id());
         $allWorked = $allWorked && $this->_db->query($sql);
@@ -315,7 +340,7 @@ class UserManager {
         $allWorked = $allWorked && $this->_db->query($sql);
 
         foreach($user->get_communities() as $c) {
-            $tmpP = new Permission($user->permission($c));
+            $tmpP = $user->perm($c);
             if($tmpP->is(Permission::OWNER)) {
                 $sql = sprintf("SELECT COUNT(*) FROM `%s` WHERE `community` = %d", Config::TABLE_USER_COMMUNITY, $c->id());
                 $result = $this->_db->query($sql);
@@ -323,15 +348,15 @@ class UserManager {
                     $sql = sprintf("DELETE FROM `%s` WHERE `id_%s` = %d", Config::TABLE_COMMUNITY, Config::TABLE_COMMUNITY, $c->id());
                     $allWorked = $allWorked && $this->_db->query($sql);
                 } else {
-                    $sql = sprintf("SELECT * FROM `%s` WHERE `community` = %d AND `user` != %d ORDER BY `join_date` ASC", Config::TABLE_USER_COMMUNITY, $c->id(), $u->id());
+                    $sql = sprintf("SELECT * FROM `%s` WHERE `community` = %d AND `user` != %d ORDER BY `join_date` ASC", Config::TABLE_USER_COMMUNITY, $c->id(), $user->id());
                     $result = $this->_db->query($sql);
                     if ($result) {
                         for ($list = array();
                             $row = $result->fetch_assoc();
-                            $list[] = new User($this->_db, $row['publisher']));
+                            $list[] = new User($this->_db, $row['user']));
                         $uReminded = null;
                         foreach ($list as $utmp) {
-                            $tmpP2 = new Permission($utmp->permission($c));
+                            $tmpP2 = $utmp->perm($c);
                             if($tmpP2->is(Permission::ADMIN)) {
                                 $uReminded = $utmp;
                                 break;
@@ -340,7 +365,7 @@ class UserManager {
                         if ($uReminded == null) {
                             $uReminded = $list[0];
                         }
-                        $uReminded->set_perm(Permission::OWNER);
+                        $uReminded->set_perm($c, new Permission(8207));
                     }
                 }
             }
