@@ -98,10 +98,18 @@ class PostManager {
 		$sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_POST, Config::TABLE_FRIEND, Config::TABLE_FRIEND, Config::TABLE_USER_COMMUNITY, $u, $u, $u, $u, $u, $u, $u, $u, $u, $limit, $offset);
 		$result = $this->_db->query($sql);
 		if ($result) {
-			for ($list = array();
-				 $row = $result->fetch_assoc();
-				 $action = User::current()->perm((new Post($this->_db, (int) ($row['id_' . Config::TABLE_POST])))->community())->get() == 0 ? null : $list[] = new Post($this->_db, (int) ($row['id_' . Config::TABLE_POST]))
-				);
+			$list = array();
+			while ($row = $result->fetch_assoc()) {
+				$tmpP = new Post($this->_db, (int) ($row['id_' . Config::TABLE_POST]));
+				$c = $tmpP->community();
+				if ($c->user_in(User::current())){
+					if (User::current()->perm($c)->get() != 0) {
+						$list[] = $tmpP;
+					}
+				} else {
+					$list[] = $tmpP;
+				}
+			}
 			return $list;
 		}
 		return array();
