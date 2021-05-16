@@ -81,10 +81,10 @@ class PostManager {
 			WHERE p.visible = 1 
 			AND (
 				uc.user  = %d OR 
-				f1.user1 = %d OR 
+				((f1.user1 = %d OR 
 				f1.user2 = %d OR 
 				f2.user1 = %d OR 
-				f2.user2 = %d
+				f2.user2 = %d) AND (f1.hasAccepted = 1 OR f2.hasAccepted = 1)) 
 			) 
 			ORDER BY YEAR(p.date) DESC, 
 					MONTH(p.date) DESC, 
