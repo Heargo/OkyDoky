@@ -276,13 +276,8 @@ class PostManager {
 	  * @return bool True if successful.
 	 */
 	public function del_post(Post $post) : bool {
-		
-		// Visibility
-		$visib_ok = $post->set_visible(false);
-		
-		// Documents
-		$docs_ok = $post->del_all_docs();
-		return $visib_ok & $docs_ok;
+        $sql = sprintf("DELETE FROM `%s` WHERE `id_%s` = %d", Config::TABLE_POST, Config::TABLE_POST, $post->id());
+        return $this->_db->query($sql);
 	}
 
 
