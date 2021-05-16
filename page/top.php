@@ -11,7 +11,9 @@
 <body>
 
 <?php include 'topnav.php'; ?>
+<?php $nocommu=empty(User::current()->get_communities()); 
 
+if(!$nocommu):?>
 
 <section class="BestUserContainerVertical">
 	<div class="BestUserContainer">
@@ -110,7 +112,7 @@
 		</div>
 	</div>
 </section>
-
+<?php endif ?>
 <section id="verticalScrollContainer">
 
 
