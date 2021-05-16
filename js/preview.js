@@ -18,10 +18,7 @@ var image =["image/gif","image/jpeg","image/png"];
 var pdf = "application/pdf";
 
 
-function preview(input) {
-  if (typeof previewType === 'undefined') {
-    var previewType="all";
-  }
+function preview(input,previewType="all") {
   //si ce n'est pas vide
 	if (input.files && input.files[0]) {
       var file = input.files[0];
@@ -144,5 +141,10 @@ dropContainer.ondrop = function(evt) {
 };
 
 $("#file").change(function() {
-  preview(this);
+  try {
+    preview(this,previewType);
+  } catch(e) {
+    preview(this);
+  }
+  
 });
