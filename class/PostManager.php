@@ -75,9 +75,9 @@ class PostManager {
 		$u = User::current()->id();
 		$sql = "
 			SELECT DISTINCT p.id_%s FROM `%s` p
+			LEFT JOIN `%s` uc ON p.community = uc.community 
 			LEFT JOIN `%s` f1 ON p.publisher = f1.user1
 			LEFT JOIN `%s` f2 ON p.publisher = f2.user2 
-			LEFT JOIN `%s` uc ON p.community = uc.community 
 			WHERE p.visible = 1 
 			AND (
 				uc.user  = %d OR 
