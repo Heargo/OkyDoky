@@ -23,16 +23,39 @@ if($notif->type() == "don"){
 
     <img class="imgleft" src="<?=$comm->get_cover()?>">
     <div class="contentNotif interaction">
-      <a class="previewSenderContainer2" href="<?=$url?>">
+        <a class="previewSenderContainer2" href="<?=$url?>">
         <img class="previewSender" src="<?=$sender->profile_pic()?>">
         <p class="nameOfSender"><?=$sender->display_name()?></p>
-      </a>
+        </a>
       
-      <p class="contentNotifMsg">vous a donné <?=$notif->amount()?> jetons !</p>
+        <p class="contentNotifMsg">vous a donné <?=$notif->amount()?> jetons !</p>
     </div>
     <div class="interactionBox">
-      <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+        <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
     </div>
-  </div>
+    </div>
+    <?php
+}
+if($notif->type() == "commentaire"){
+    $comm=$notif->community();
+    $commnickname = $comm->get_name();
+    $id_post = $notif->comment_post()->id();
+    ?>
+    <div id="notif-<?=$id?>" class="card-notif">
+
+    <img class="imgleft" src="<?=$comm->get_cover()?>">
+    <div class="contentNotif interaction">
+        <a class="previewSenderContainer2" href="<?=$url?>">
+        <img class="previewSender" src="<?=$sender->profile_pic()?>">
+        <p class="nameOfSender"><?=$sender->display_name()?></p>
+        </a>
+      
+        <p class="contentNotifMsg"><?=$sender->display_name()?> a commenté : <br/> <?=$notif->comment_text()?></p>
+    </div>
+    <div class="interactionBox">
+        <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
+        <img class="check cursor" onclick="location.href='<?=Routes::url_for('/c/'.$commnickname.'/post/'.$id_post)?>'" src="<?= Routes::url_for('/img/svg/check.svg')?>">
+    </div>
+    </div>
     <?php
 }

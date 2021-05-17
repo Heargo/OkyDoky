@@ -39,10 +39,13 @@ class NotificationManager {
      *
      * @param String $msg The notification sended. 
      */
-    public function send_notif(String $type, User $receiver, ?Community $community = null, int $amount = 0) {
+    public function send_notif(String $type, User $receiver, ?Community $community = null, ?int $amount = 0, ?int $comment = 0) {
         if ($type == "don") {
             $sql = sprintf("INSERT INTO `%s` (`sender`,`receiver`,`type`,`community`,`amount`) VALUES ('%d','%d','%s','%d','%d');", Config::TABLE_NOTIFICATION, User::current()->id(), $receiver->id(), $type, $_SESSION["current_community"], $amount);
-        } else {
+        } else if($type == "commentaire"){
+            $sql = sprintf("INSERT INTO `%s` (`sender`,`receiver`,`type`,`community`,`comment`) VALUES ('%d','%d','%s','%d','%d');", Config::TABLE_NOTIFICATION, User::current()->id(), $receiver->id(), $type, $community->id(), $comment);
+        }
+         else {
             $sql = sprintf("INSERT INTO `%s` (`sender`,`receiver`,`type`) VALUES ('%d','%d','%s');", Config::TABLE_NOTIFICATION, User::current()->id(), $receiver->id(), $type);
         }
         if($this->_db->query($sql)){
