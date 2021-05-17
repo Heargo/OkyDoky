@@ -8,7 +8,10 @@ class Community{
     private $_display_name;
     private $_cover;
     private $_description;
+    private $_rules;
     private $_highlight_post;
+
+    public static $authorized_mime = ["image/gif","image/jpeg","image/png"];
 
     public function __construct(mysqli $db, int $id){
         $this->_id = $id;
@@ -24,6 +27,7 @@ class Community{
         $this->_display_name = $row["display_name"];
         $this->_cover = $row["cover"];
         $this->_description = $row["description"];
+        $this->_rules = $row['rules'];
         $this->_highlight_post = $row['highlight_post'];
     }
 
@@ -43,31 +47,65 @@ class Community{
      * Set the display name of the community
      */
     public function set_display_name(String $display_name){
-        $_display_name = $display_name;
-        $sql = "UPDATE `%s` SET `display_name` = '$display_name' WHERE `%s`.`id_%s` = $this->_id ;";
-        $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        $this->_display_name = $display_name;
+        $sql = "UPDATE `%s` SET `display_name` = '%s' WHERE `%s`.`id_%s` = $this->_id ;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,sanitize_text($display_name),Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         return $this->_db->query($sql);
     }
   
     /**
      * Get the display name of the community
+     * 
+     * @return string Community's display name
      */
     public function get_display_name(){
         return $this->_display_name;
     }
 
+    /**
+     * Set a community's description
+     * 
+     * @param string the description you want 
+     * @return bool if it worked or not
+     */
     public function set_description(String $description){
-        $_description = $description;
-        $sql = "UPDATE `%s` SET `description` = '$description' WHERE `%s`.`id_%s` = $this->_id;";
-        $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        $this->_description = $description;
+        $sql = "UPDATE `%s` SET `description` = '%s' WHERE `%s`.`id_%s` = $this->_id;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,sanitize_text($description),Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
         return $this->_db->query($sql);
     }
 
     /**
      * Get a community's description
+     * 
+     * @param int The number of character you want
+     * @return string the description 
      */
-    public function get_description(){
-        return $this->_description;
+    public function get_description(?int $length = null){
+        return htmlspecialchars_decode(substr($this->_description,0,$length));
+    }
+
+    /**
+     * Set a community's rules
+     * 
+     * @param string the rules you want 
+     * @return bool if it worked or not
+     */
+    public function set_rules(String $rules){
+        $this->_rules = $rules;
+        $sql = "UPDATE `%s` SET `rules` = '%s' WHERE `%s`.`id_%s` = $this->_id;";
+        $sql = sprintf($sql,Config::TABLE_COMMUNITY,sanitize_text($rules),Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+        return $this->_db->query($sql);
+    }
+
+     /**
+     * Get a community's rules
+     * 
+     * @param int The number of character you want
+     * @return string the rules 
+     */
+    public function rules(?int $length = null){
+        return substr($this->_rules,0,$length);
     }
 
     /**
@@ -88,23 +126,42 @@ class Community{
         return null;
     }
 
-    public function set_highlight_post(){
-        $higherPost = $GLOBALS['posts']->get_by_most_votes($this);
-        if(sizeof($higherPost) != 0){
-            $highlight_id = $higherPost[0]->id();
-            $sql = "UPDATE `%s` SET `highlight_post` = '$highlight_id' WHERE `%s`.`id_%s` = %d";
-            $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$this->id());
-            return $this->_db->query($sql);
+    public function set_highlight_post(int $id = 0){
+        if($this->_highlight_post == NULL && $id == 0){
+            $higherPost = $GLOBALS['posts']->get_by_most_votes($this);
+            if(sizeof($higherPost) != 0){
+                $highlight_id = $higherPost[0]->id();
+                $sql = "UPDATE `%s` SET `highlight_post` = '$highlight_id' WHERE `%s`.`id_%s` = %d";
+                $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$this->id());
+                return $this->_db->query($sql);
+            }
         }
+        else{
+            $sql = "UPDATE `%s` SET `highlight_post` = '$id' WHERE `%s`.`id_%s` = $this->_id;";
+            $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY);
+            return $this->_db->query($sql);
+
+        }
+        
         return NULL;
     }
+
+    public function remove_highlight_post(){
+        $sql = "UPDATE `%s` SET `highlight_post` = NULL WHERE `%s`.`id_%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$this->id());
+        return $this->_db->query($sql);
+    }
+
     /**
      * Function to add an user to a communtity
      */
     public function recruit(User $user, bool $owner = false) : bool {
-        $average_nb = (new Permission(Permission::AVERAGE));
-        $sql = "INSERT INTO `%s` (`%s`, `%s`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%s','%s');";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,Config::TABLE_USER,Config::TABLE_COMMUNITY,$user->id(),$this->_id,$owner ? 256 : 0,0);
+        $average_nb = (new Permission(P::AVERAGE));
+        if ($owner) {
+            $average_nb->add(P::OWNER);
+        }
+        $sql = "INSERT INTO `%s` (`user`, `community`, `join_date`, `permission`, `certified`) VALUES ('%s', '%s',NOW(),'%d','%s');";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $user->id(),$this->_id, $average_nb->get(), 0);
         return $this->_db->query($sql);
     }
 
@@ -112,9 +169,12 @@ class Community{
      * Function to remove an user from a community
      */
     public function leave(User $user) : bool {
-        $sql = "DELETE FROM `%s` WHERE `%s` = %s AND `%s` = %s;";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $user->id(),Config::TABLE_COMMUNITY,$this->_id);
-        return $this->_db->query($sql);
+        if(!$user->perm($this)->is(P::OWNER)){
+            $sql = "DELETE FROM `%s` WHERE `%s` = %s AND `%s` = %s;";
+            $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_USER, $user->id(),Config::TABLE_COMMUNITY,$this->_id);
+            return $this->_db->query($sql);
+        }
+        return false;
     }
     public function update_cover(int $id_cover){
         $sql = "UPDATE `%s` SET `cover` = '$id_cover' WHERE `%s`.`id_%s` = $this->_id;";
@@ -133,7 +193,10 @@ class Community{
     }
     public function set_cover(array $document){
         // if file isn't empty and not too large
-        if ($document['size'] != 0 && $document['size'] < 50000000) {
+        var_dump($document['size']);
+        if($document['size'] != 0){$type = mime_content_type($document['tmp_name']);}
+        else{$type="";}
+        if ($document['size'] != 0 && $document['size'] < 50000000 && in_array($type,Community::$authorized_mime)) {
             if (!is_writable(Config::DIR_COVER)) {
                 throw new NotWritable('Directory ' . Config::DIR_COVER . ' is not writable');
             }
@@ -179,6 +242,7 @@ class Community{
             $success =  $this->_db->query($sql);
             return $success;
         }
+
     }
 
     public function set_owner($user){
@@ -187,9 +251,12 @@ class Community{
         }
         return false;        
     }
+    public function promote(User $user,Permission $p){
+        return $user->set_perm($this,$p);
+    }
     public function get_owner(){
         $sql = "SELECT * FROM `%s` WHERE `permission` = %d AND `community` = %d";
-        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,256,$this->id());
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,8207,$this->id());
         $res = $this->_db->query($sql)->fetch_assoc();
         return $GLOBALS['users']->get_by_id((int)$res['user']);
     }
@@ -197,8 +264,8 @@ class Community{
      * Find members with permissions in that community
      */
     public function get_members(){
-        $sql = "SELECT * FROM `%s` WHERE `%s` = $this->_id";
-        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY);
+        $sql = "SELECT * FROM `%s` WHERE `%s` = %d";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY,$this->_id);
         $res = $this->_db->query($sql);
         if ($res) {
 			for ($list = array();
@@ -209,6 +276,22 @@ class Community{
 		return array();
 
     }
+
+    public function get_team(Permission $perm){
+        $sql = "SELECT * FROM `%s` WHERE `%s` = %d AND `%s` = %d";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY,$this->_id,"permission",$perm->get());
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_assoc();
+				 $list[] = new User($this->_db, $row['user']));
+			return $list;
+		}
+		return array();
+
+    }
+
+    
     
 
     /**
@@ -227,7 +310,7 @@ class Community{
     }
 
     public function get_nb_members(int $flags = null) : int{
-        $sql = "SELECT COUNT(*) FROM `%s` WHERE `%s` = %d";
+        $sql = "SELECT COUNT(*) FROM `%s` WHERE `%s` = %d AND `permission` != 0";
         $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, Config::TABLE_COMMUNITY, $this->_id);
         $result = $this->_db->query($sql);
         $row = mysqli_fetch_row($result);
@@ -236,19 +319,55 @@ class Community{
     }
     
 
-    public function ban(User $user) : bool{return false;}
+    public function ban(User $user) : bool{
+        $sql = "UPDATE `%s` SET `permission` = %d WHERE `%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,0,Config::TABLE_USER,$user->id());
+        return $this->_db->query($sql);
+    }
 
-    public function unban(User $user) : bool{return false;}
+    public function unban(User $user) : bool{
+        $average = new Permission(Permission::AVERAGE);
+        return $this->promote($user,$average);
+    }
 
-    public function get_certified_members() : array{return null;}
+    public function get_banned_users(): array{
+        $sql = "SELECT `user` FROM `%s` WHERE `permission` = %d AND `%s` = %s";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY,0,Config::TABLE_COMMUNITY ,$this->id());
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_assoc();
+				 $list[] = new User($this->_db, $row['user']));
+			return $list;
+		}
+		return array();
 
-    public function get_active_members() : array{
+    }
+    public function is_banned(User $user){
+        $banned_users = $this->get_banned_users();
+        return in_array($user,$banned_users);
+    }
+    public function get_certified_members() : array{
+        $members = array();
+        $sql = "SELECT %s FROM `%s` WHERE `%s` = %d AND `%s` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, Config::TABLE_COMMUNITY,$this->id(),"certified", 1);
+        $res = $this->_db->query($sql);
+        if ($res) {
+			for ($list = array();
+				 $row = $res->fetch_assoc();
+				 $list[] = new User($this->_db, $row['user']));
+			return $list;
+		}
+		return array();
+    }
+
+    public function get_active_members(int $limit = 3) : array{
         $members = $this->get_members();
         $sorted_members = array();
         foreach($members as $m){
             $mid = $m->id();
-            $sql = "SELECT COUNT(*) FROM `%s` WHERE `%s` = %d AND `publisher` = %d LIMIT 5";
-            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_COMMUNITY, $this->_id,$mid);
+            $sql = "SELECT COUNT(*) FROM `%s` p JOIN `%s` uc ON uc.user = p.publisher WHERE p.community = %d AND p.publisher = %d AND uc.permission != 0 LIMIT %d";
+            $sql = sprintf($sql, Config::TABLE_POST, Config::TABLE_USER_COMMUNITY, $this->_id, $mid, $limit);
             $result = $this->_db->query($sql);
             $row = mysqli_fetch_row($result);
             if ($row[0] != 0){
@@ -261,5 +380,48 @@ class Community{
         return $sorted_members;
     }
 
+    public function certify_user(User $user){
+        $sql = "UPDATE `%s` SET `certified` = '%s' WHERE `%s` = %s AND `%s` = %s ";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,1,Config::TABLE_COMMUNITY, $this->id(),Config::TABLE_USER,$user->id());
+        return $this->_db->query($sql);
+    }
 
+    public function uncertify_user(User $user){
+        $sql = "UPDATE `%s` SET `certified` = '%s' WHERE `%s` = %s AND `%s` = %s ";
+        $sql = sprintf($sql,Config::TABLE_USER_COMMUNITY,0,Config::TABLE_COMMUNITY, $this->id(),Config::TABLE_USER,$user->id());
+        return $this->_db->query($sql);
+    }
+
+    public function set_label(User $user, string $label_text, string $color){
+        $sql = "INSERT INTO `%s` (`user`,`community`,`label_name`,`color`) VALUES ('%s','%s','%s','%s');";
+        $sql = sprintf($sql,Config::TABLE_LABEL,$user->id(),$this->id(),$label_text,$color);
+        return $this->_db->query($sql);
+    }
+    
+    public function delete_label(int $id_label){
+        $sql = "DELETE FROM `%s` WHERE `id_%s` = %s ";
+        $sql = sprintf($sql, Config::TABLE_LABEL,Config::TABLE_LABEL, $id_label);
+        return $this->_db->query($sql);
+    }
+
+
+    /**
+     * Get all label of the user in the community
+     * 
+     * @param User the user you want the label from
+     * @return array associative array : id_label, label_name, color
+     */
+    public function get_label(User $user){
+        $sql = "SELECT `id_label`,`label_name`,`color` FROM `%s` WHERE `%s` = %s AND `%s` = %s ";
+        $sql = sprintf($sql, Config::TABLE_LABEL, Config::TABLE_COMMUNITY, $this->id(), Config::TABLE_USER, $user->id());
+        $res = $this->_db->query($sql);
+        if ($res) {
+            $list=array();
+            while ($row = $res->fetch_assoc()) {
+                $list[] = $row;
+            }
+            return $list;
+		}
+		return array();
+    } 
 }

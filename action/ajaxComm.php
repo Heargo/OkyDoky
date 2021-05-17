@@ -10,7 +10,7 @@ function join_community(?array $match) {
     $tempcomm->recruit(User::current());
 }
 	
-function search(?array $match){
+function searchCommu(?array $match){
 	$allcoms=$GLOBALS["communities"]->search_community($_POST["tosearch"]);
 	foreach ($allcoms as $key => $com) {?>
 
@@ -19,15 +19,18 @@ function search(?array $match){
 
 		<div class="communityLabelSearch">
 			<p class="title"><?=$com->get_display_name();?></p>
-			<p class="descriptionCommuSearch"><?=$com->get_description();?></p>
-			<div class="communityButtonSearch cursor" onclick="joinOrLeave(<?=$com->id()?>);">
-			<?php if($com->user_in(User::current())){
-			?>
-			Leave
-			<?php }else{
-			?>Join
-			<?php } ?>
-			</div>
+			<p class="descriptionCommuSearch"><?=$com->get_description(80);?>...</p>
+			<?php if($com->is_banned(User::current())): ?>
+				<div class="communityBanInfo">Vous êtes bannis</div>
+			<?php else: ?>
+				<div class="communityButtonSearch cursor" onclick="joinOrLeave(<?=$com->id()?>);">
+				<?php if($com->user_in(User::current())){?>
+				Leave
+				<?php }else{
+				?>Join
+				<?php } ?>
+				</div>
+			<?php endif ?>
 		</div>
 		
 	</div>
@@ -49,4 +52,15 @@ function JoinOrLeaveCommu(?array $match){
 		$tempcomm->recruit(User::current());
 		$_SESSION["current_community"] = (int) $_POST['idCommu'];
 	}
+}
+
+function get_rules(?array $match){
+    //@TODO Si l'utilisateur connecté a les droits
+    $comm = $GLOBALS['communities']->get_by_id($_SESSION['current_community']);
+    $rules = htmlspecialchars_decode($comm->rules());
+    echo "<div class='rulesContainer'>";
+    echo "<h3>Règles</h3>";
+	echo "<div id='markdowContainer'>$rules</div>";
+	echo "</div>";
+
 }

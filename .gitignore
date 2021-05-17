@@ -3,5 +3,6 @@ data/community/*
 data/document/*
 data/user/*
 data/cover/*
+.htaccess
 
 

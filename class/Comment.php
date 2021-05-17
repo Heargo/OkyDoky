@@ -58,10 +58,10 @@ class Comment {
      *
      * @return string Date formated like DD/MM/YY H:M:S.
       */
-    public function date() : string { return date('d/m/Y H:i', $this->_date); }
+    public function date() : string { return date("Y-m-d H:i:s", $this->_date); }
 
     /** Get the text of the comment */
-    public function text() : string { return $this->_text; }
+    public function text() : string { return htmlspecialchars_decode($this->_text); }
 
     /**
      * Get the author of the comment 

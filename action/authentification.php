@@ -35,9 +35,12 @@ function signup(?array $match) {
     $pwd = $_POST['password'];
 
     $success=false;
-    if (trim($nickname) && filter_var($email, FILTER_VALIDATE_EMAIL) && trim($pwd)) {
-        $success = $GLOBALS['users']->add_user($email, $nickname, $pwd);
+    if($GLOBALS['users']->is_nickname_free($nickname) &&$GLOBALS['users']->is_email_free($email) ){
+        if (trim($nickname) && filter_var($email, FILTER_VALIDATE_EMAIL) && trim($pwd)) {
+            $success = $GLOBALS['users']->add_user($email, $nickname, $pwd);
+        }
     }
+    
 
     if (!$success) { $GLOBALS['page']['error_signup'] = true; }
 

@@ -4,7 +4,7 @@ function vote(id,value){
   }
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function(){
-
+    //console.log(route+"/voteU")
     if (this.readyState ==4 && this.status ==200) {
         var voteValue = this.response[0];
         var prctValeur = this.response[1]
@@ -26,8 +26,8 @@ function vote(id,value){
           down.setAttribute("src",route+"/img/svg/arrow-down-orange.svg")
         }
         //prct
-        if (prctValeur!=null){
-          if (prctValeur>50){
+        if (prctValeur != null){
+          if (prctValeur > 50){
             prct.classList.remove("red");
             prct.classList.add("green");
           }else{
@@ -38,12 +38,12 @@ function vote(id,value){
         }
         prct.innerHTML = prctValeur !== null ? prctValeur + "%" : prctValeur;
 
-        
+        updatePost(id);
     }
   };
 
   if (value>0){
-      xhr.open("POST",route+"/voteU",true);
+    xhr.open("POST",route+"/voteU",true);
   }
   else{
     xhr.open("POST",route+"/voteD",true);
@@ -52,3 +52,18 @@ function vote(id,value){
   xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
   xhr.send("idpost="+id);
 }
+
+function toogleSettingsOfPost(id){
+    //on cache tout le autres menus
+    var allMenus = document.getElementsByClassName("menuSettings");
+    var menu = document.getElementById("Settings-"+id);
+    for (var i = 0; i < allMenus.length; i++) {
+      if (allMenus[i] !=menu){
+        allMenus[i].classList.add("hidden")
+      }
+    }
+    //on affiche le bon
+    menu.classList.toggle("hidden");
+
+}
+

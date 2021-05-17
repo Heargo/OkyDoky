@@ -25,6 +25,11 @@ class Config {
     public const TABLE_VOTE = 'vote';
     public const TABLE_COMMENT = 'comment';
     public const TABLE_LIKE = 'like';
+    public const TABLE_LABEL = 'label';
+    public const TABLE_FRIEND = 'friend';
+    public const TABLE_MESSAGE = 'message';
+    public const TABLE_NOTIFICATION = 'notification';
+    public const TABLE_FAVORIS = 'favoris';
 
     // Files
     public const DIR_DOCUMENT = __DIR__ . '/data/document/';
@@ -46,7 +51,15 @@ class Config {
 
     public static function URL_SUBDIR(bool $trailing_slash = true){
         $subdir = explode('/', self::URL_ROOT($trailing_slash), 2)[1] ?? '';
-        $subdir = empty($subdir) ? $subdir : '/' . $subdir;  // add heading slash if needed
+        if (empty($subdir)) {
+            // The site isn't installed in a subfolder
+            // So we return '/' only in trailing_slash is true
+            $subdir = $trailing_slash ? '/' : '';
+        } else {
+            // the site is in a subfolder
+            // the trailing slash has already been handled, we juste need to had heading slash
+            $subdir = '/' . $subdir;
+        }
         return $subdir;
     }
 }

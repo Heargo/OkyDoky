@@ -30,13 +30,41 @@ class Document {
     public function id() : int { return $this->_id;}
 
     /** Return the type of the document */
-    public function type() : string {
-        return get_field_with_id($this->_db, 'type', Config::TABLE_DOCUMENT, $this->id());
+    public function type() : ?string {
+        $res = get_field_with_id($this->_db, 'type', Config::TABLE_DOCUMENT, $this->id());
+        if($res != null){
+            $tab = explode("/",$res);
+            if($tab[0] == "application"){
+                if($tab[1]=="pdf"){
+                    return "pdf";
+                }
+                elseif($tab[1]=="javascript" ||$tab[1]=="json" ||
+                        $tab[1]=="x-latex" ||$tab[1]=="x-lua" ||
+                        $tab[1]=="x-ocaml" ||$tab[1]=="x-python" ||
+                        $tab[1]=="x-swift" ||$tab[1]=="x-php"){
+                            return "code";
+                        }
+                }
+            elseif($tab[0]=="text"){
+                return "code";
+            }
+            elseif($tab[0]=="image"){
+                return "image";
+            }
+            $filenametab = explode(".",$this->path());
+            $lastpart = $filenametab[sizeof($filenametab) - 1];
+            if($lastpart == "py"){
+                return "code";
+            }
+            else{return "autre";}
+        }
+        else{return null;}
     }
 
     /** Return the url of the document */
     public function url() : string {
         return get_field_with_id($this->_db, 'url', Config::TABLE_DOCUMENT, $this->id());
+        
     }
 
     /** Return the path of the document server-side */
@@ -48,6 +76,17 @@ class Document {
     public function is_visible() : bool { 
         $int = (int) get_field_with_id($this->_db, 'visible', Config::TABLE_DOCUMENT, $this->id());
         return $int === 1;
+    }
+    
+     /**
+     * Get the name of the file
+     * 
+     * @return string the file name
+     */
+    public function filename(){
+        $filenametab = explode("/",$this->path());
+        $lastpart = $filenametab[sizeof($filenametab) - 1];
+        return $lastpart;
     }
 
     /**
@@ -82,4 +121,6 @@ class Document {
      * @return bool True if it's deleted.
      */
     public function is_deleted() : bool { return $this->path() == null; }
+
+   
 }

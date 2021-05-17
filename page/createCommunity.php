@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Create Community</title>
+	<title>OkyDoky</title>
+	<link rel="shortcut icon" href="<?= Routes::url_for('/img/favicon.ico')?>" type="image/x-icon" />
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
 	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/styleApp.css')?>">
@@ -24,7 +25,7 @@
 		<!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
 		<label id ="uploadbtn" for="file" class="fileUploadLabel cursor"><img src="./img/svg/upload.svg"></label>
 		<input class="fileUploadInput" id="file" name="file" type="file"/>
-		<img id="preview" class="hidden preview" src="#" alt="preview">
+		<img id="preview-img" class="hidden preview" src="#" alt="preview">
 		<!-- Description -->
 		<textarea class="descriptionInput" type="text" name="description" placeholder="Description."></textarea>
 		
@@ -37,5 +38,5 @@
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="<?= Routes::url_for('/js/imagePreview.js')?>"></script>
+<script src="<?= Routes::url_for('/js/preview.js')?>"></script>
 </html>

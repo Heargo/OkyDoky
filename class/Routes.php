@@ -11,6 +11,9 @@ class Routes {
     /** An array containing GET URLs as regex */
     private $_regex_post = array();
 
+    /** An array containing error number => page */
+    private $_errors = array();
+
     /** 
      * Bound a URL to a view page
      *
@@ -46,8 +49,23 @@ class Routes {
      *        This is **not** a sanitizing/validating tool.
      * @return $this So you can easily chain URL registration.
      */
-    public function bound_post(string $regex, callable $func, ?array $required_fields = null){
+    public function bound_post(string $regex, callable $func, ?array $required_fields = null) {
         $this->_regex_post['#^' . $regex . '/?$#'] = array($func, $required_fields);
+        return $this;
+    }
+
+    /**
+     * Define an error page based on $errno. Syntax is the same as bound_get.
+     */
+    public function error(int $errno, string $regex, string $filename, ?callable $before = null) {
+        $before_error = function (?array $match = null) use ($errno, $filename, $before) {
+            http_response_code($errno);
+            if (isset($before)) $before($match);
+            include $filename;
+            exit();
+        };
+        $this->_regex_get['#^' . $regex . '/?$#'] = array($filename, $before_error); // By URL (for Apache)
+        $this->_errors[$errno] = '#^' . $regex . '/?$#'; // If not found in _regex_get and _regex_post
         return $this;
     }
 
@@ -57,37 +75,59 @@ class Routes {
     public function execute(){
         $method = $_SERVER['REQUEST_METHOD'];
 
-        $match = null;
+        $found = false;
         if ($method === "GET") {
-            $this->_execute_get();
+            $found = $this->_execute_get();
         } else if ($method === "POST") {
-            $this->_execute_post();
+            $found = $this->_execute_post();
+        }
+
+        if (!$found) {
+            $GLOBALS['page']['url'] = self::get_url();
+            $regex_error = $this->_errors[404];
+
+            if (isset($regex_error)) {
+                $filename = $this->_regex_get[ $regex_error ][0];
+                $callable = $this->_regex_get[ $regex_error ][1];
+
+                $callable();
+                include $filename;
+                exit();
+            }
         }
     }
 
     /**
      * Process GET requests
      */
-    private function _execute_get() {
+    private function _execute_get() : bool {
+        $match = null;
+        $found = false;
         foreach ($this->_regex_get as $regex => list($filename, $before)) {
             if (preg_match($regex, self::get_url(), $match)){
+                $found = $found || true;
                 $GLOBALS['page']['url'] = self::get_url();
                 $GLOBALS['page']['match'] = $match;
                 if (isset($before)) $before($match);
                 include $filename;
             }
         }
+        return $found;
     }
 
     /**
      * Process POST requests
      */
-    private function _execute_post() {
+    private function _execute_post() : bool {
+        $match = null;
+        $found = false;
         foreach ($this->_regex_post as $regex => list($func, $req_fields)) {
             if (preg_match($regex, self::get_url(), $match)){
+                $found = $found || true;
                 if (!isset($req_fields) || self::are_fields_valid($req_fields, $_POST)) $func($match);
             }
         }
+        return $found;
     }
 
     /**
@@ -106,9 +146,9 @@ class Routes {
     }
 
     /**
-     * Check whenever all files have been filled
+     * Check whenever all fields have been filled
      *
-     * @param array $required_filds A list of string, reprensenting the fields to be present in $post.
+     * @param array $required_fields A list of string, reprensenting the fields to be present in $post.
      * @param array $post Usualy $_POST.
      */
     public static function are_fields_valid(array $required_fields, array $post) : bool {

@@ -32,7 +32,7 @@ class CommunityManager {
     */
     public function add_community(string $name, string $disp_name, string $description, User $user, array $document, bool $is_private = false) : ?int {
         $sql = "INSERT INTO `%s` (`name`,`is_private`) VALUES ('%s','%d');";
-        $sql = sprintf($sql, Config::TABLE_COMMUNITY,$name,$is_private = $is_private ? 1 : 0);
+        $sql = sprintf($sql, Config::TABLE_COMMUNITY,trim(str_replace("!","",str_replace(">","",str_replace("<","",$name)))),$is_private = $is_private ? 1 : 0);
         if($this->_db->query($sql)){
             $id = (int) $this->_db->insert_id;
             
@@ -42,7 +42,6 @@ class CommunityManager {
                 $tmp_community->set_description($description);
                 $tmp_community->set_cover($document);
                 $tmp_community->recruit($user,true);
-                //$tmp_community->set_owner($user);
             }
             return $id;
         }

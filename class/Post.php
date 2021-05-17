@@ -10,7 +10,7 @@ class Post {
 
 	/** Post's infos */
 	private $_publisher;
-	private $_id_community;
+	private $_community;
 	private $_date;
 	private $_title;
 	private $_description;
@@ -34,7 +34,7 @@ class Post {
 		$row = $db->query($sql)->fetch_assoc();
 	
 		$this->_publisher = $GLOBALS['users']->get_by_id($row['publisher']);
-		$this->_id_community = $GLOBALS['communities']->get_by_id($row['community']);
+		$this->_community = $GLOBALS['communities']->get_by_id($row['community']);
 		$this->_date = $row['date'];
 		$this->_title = $row['title'];
 		$this->_description = $row['description'];
@@ -47,7 +47,7 @@ class Post {
 	public function publisher() { return $this->_publisher; }
 	
 	/** Return the post's community */
-	public function id_community() { return $this->_id_community; }
+	public function community() { return $this->_community; }
 
 	/** Return the post's creation date */
 	public function date() { return $this->_date; }
@@ -72,7 +72,7 @@ class Post {
 	 */
 	public function set_title_to(string $title) {
 		$sql = "UPDATE `%s` SET `title` = '%s' WHERE `id_%s` = %s";
-		$sql = sprintf($sql, Config::TABLE_POST, $title, Config::TABLE_POST, $this->id());
+		$sql = sprintf($sql, Config::TABLE_POST, sanitize_text($title), Config::TABLE_POST, $this->id());
 
 		return $this->_db->query($sql);
 	}
@@ -85,7 +85,7 @@ class Post {
 	 */
 	public function set_description_to(string $description) {
 		$sql = "UPDATE `%s` SET `description` = '%s' WHERE `id_%s` = %s";
-		$sql = sprintf($sql, Config::TABLE_POST, $description, Config::TABLE_POST, $this->id());
+		$sql = sprintf($sql, Config::TABLE_POST, sanitize_text($description), Config::TABLE_POST, $this->id());
 
 		return $this->_db->query($sql);
 	}
@@ -252,4 +252,22 @@ class Post {
 		$sql = sprintf($sql, Config::TABLE_POST, $visib ? 1 : 0, Config::TABLE_POST, $this->id());
 		return $this->_db->query($sql);
 	}
+
+	/**
+	 * Show up a post in his community
+	 *
+	 * @param User $whoTryTo who tries to show up a post
+	 * @return bool True if successful
+	 */
+	public function showup(User $whoTryTo) : bool {
+		$commu = new Community($this->_db,$this->community());
+		$perm = $whoTryTo->perm($this->$commu);
+		if ($perm->can(MOD_HIGHLIGHT_POST)) {
+			$sql = "UPDATE `%s` SET `highlight_post` = %d WHERE `id_%s` = %s";
+			$sql = sprintf($sql, Config::TABLE_COMMUNITY, $this->id(), Config::TABLE_COMMUNITY, $commu->id());
+			return $this->_db->query($sql);
+		}
+		return false;
+	}
+
 }

@@ -74,7 +74,9 @@ class User {
     /**
      * Get description
      */
-    public function description() : ?string { return $this->_description; }
+    public function description(?int $length = null) : ?string {
+        return substr($this->_description,0,$length); 
+    }
 
     /**
      * Get email
@@ -121,6 +123,7 @@ class User {
     public function set_display_name($d_n) : bool {
         
         $id=$this->_id;
+        $d_n = sanitize_text($d_n);
         $sql="UPDATE `user` SET `display_name` = '$d_n' WHERE `user`.`id_user` = $id;";
         $result = $this->_db->query($sql);
         if($result){
@@ -134,6 +137,7 @@ class User {
      */
     public function set_description($d){
         $id=$this->_id;
+        $d = sanitize_text($d);
         $sql="UPDATE `user` SET `description` = '$d' WHERE `user`.`id_user` = $id;";
         $result = $this->_db->query($sql);
         if($result){
@@ -156,7 +160,7 @@ class User {
      *     $myuser->get_communities(P::VIEW); // will return communities where user is not banned from
      */
     public function get_communities(?int $flags=null) : array {
-        $sql = "SELECT `community` FROM `%s` WHERE `user` = %d";
+        $sql = "SELECT `community` FROM `%s` WHERE `user` = %d AND `permission` != 0";
         $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id());
         $result = $this->_db->query($sql);
 
@@ -372,6 +376,7 @@ class User {
      */
     public function disconnect() : void {
         unset($_SESSION['user']);
+        $_SESSION["current_community"]=0;
     }
 
     // POSTS INTERACTIONS
@@ -417,40 +422,416 @@ class User {
     public function downvote(Post $post) : bool {
         return $post->downvote($this);
     }
+    // PROFIL INTERACTION
+
+    /** 
+     * Gives common communities between the user and another
+     * 
+     * @param $user User the second user
+     * @return int[] array of common community 
+     */
+    public function common_communities_with(User $user) : array{
+        $users = array($this, $user);
+        $commsArray = array();
+        $common_comm = array();
+        foreach($users as $u){
+            $sql = "SELECT c.id_%s FROM `%s` c JOIN `%s` uc ON c.id_%s = uc.%s WHERE uc.`user` = %s ";
+            $sql = sprintf($sql,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_USER_COMMUNITY,Config::TABLE_COMMUNITY,Config::TABLE_COMMUNITY,$u->id());
+            $res = $this->_db->query($sql);
+            if ($res) {
+                for ($list = array();
+                    $row = $res->fetch_assoc();
+                    $list[] = $row['id_community']);
+            }
+            $commsArray[] = $list;
+        }
+        foreach($commsArray[0] as $c){
+            if(in_array($c,$commsArray[1])){
+                $common_comm[] = $GLOBALS['communities']->get_by_id((int) $c);
+            }
+        }
+        return $common_comm;
+    }
 
     /**
-     * Check if a user has a certain permission
-     *
-     * @param $flags a constant from class P or a group of constant joined by a "|" (pipe)
-     * @return bool True if user has ALL permissions specified in $flags
+     * Check if a user is certified regarding a community
      */
-    //public function can(int $flags, Community $comm) : bool;
+    public function is_certified(Community $comm) : bool {
+        $sql = "SELECT `certified` FROM `%s` WHERE `user` = %d AND `community` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id(), $comm->id());
+
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            $is = (int) $result->fetch_row()[0];
+            return $is == 1;
+        }
+        return false;
+    }
+    /**
+     * Certify an user in a community
+     * 
+     * @param Community The community where you want to be certified
+     * @return bool if it worked or not
+     */
+    public function certify_in_comm(Community $comm){
+        return $comm->certify_user($this);
+    }
+    
+    /**
+     * Uncertify an user in a community
+     * 
+     * @param Community The community where you want to be uncertified
+     * @return bool if it worked or not
+     */
+    public function uncertify_in_comm(Community $comm){
+        return $comm->uncertify_user($this);
+    }
 
     /**
-     * Add a permission (or several) for a user on a community
-     *
-     * @param bool True if successful.
+     * Get user's level and xpoints in a community
+     * 
+     * @param Community The community where you want those numbers
+     * @return int[]|null the level and points of the user in the given community
      */
-    //public function add_perm(int $flags, Community $comm) : bool;
+    public function level_in_community(Community $comm){
+        $sql = sprintf("SELECT level, xpoints FROM `%s` WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            return $result->fetch_row();
+        }
+        return null;
+    }
 
     /**
-     * Delete a permission (or several) for a user on a community
-     *
-     * @param bool True if successful.
+     * Get user's coins in a community
+     * 
+     * @param Community The community where you want those numbers
+     * @return int[]|null the coins of the user in the given community
      */
-    //public function del_perm(int $flags, Community $comm) : bool;
+    public function coins_in_community(Community $comm){
+        $sql = sprintf("SELECT coins FROM `%s` WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            return $result->fetch_row()[0];
+        }
+        return null;
+    }
+
+    /**
+     * Add coins to the user in a community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @param int the coins to add
+     * @return bool if it worked or not
+     */
+    public function add_coins_in_community(Community $comm, int $coins){
+        $sql = sprintf("UPDATE `%s` SET coins = (coins + %d) WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$coins,$this->id(),$comm->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Say if user can collect daily coins in a community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @return bool if yes or not its possible
+     */
+    public function can_collect_daily_coins_in_community(Community $comm){
+        $test = sprintf("SELECT DATEDIFF(NOW(), last_collect) FROM `%s` WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+        $res = $this->_db->query($test);
+        if($res) {
+            return $res->fetch_row()[0]>0;
+        }
+        return false;
+    }
+
+    /**
+     * Collect daily coins in a community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @return bool if yes or not its possible
+     */
+    public function collect_daily_coins_in_community(Community $comm){
+        if($this->can_collect_daily_coins_in_community($comm)) {
+            $this->add_coins_in_community($comm,5);
+            $sql = sprintf("UPDATE `%s` SET last_collect = NOW() WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+            $res = $this->_db->query($sql);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Say if user can collect daily coins in a community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @return bool if yes or not its possible
+     */
+    public function can_collect_daily_coins_at_least_one(){
+        $cs = $this->get_communities();
+        $canYou = false;
+        foreach ($cs as $c) {
+            if($this->can_collect_daily_coins_in_community($c)) {
+                $canYou=true;
+            }
+        }
+        return $canYou;
+    }
+
+    /**
+     * Collect all daily coins
+     * 
+     * @return int number of collected dailies
+     */
+    public function collect_all_dailies(){
+        $cs = $this->get_communities();
+        foreach ($cs as $c) {
+            $this->collect_daily_coins_in_community($c);
+        }
+    }
+
+
+    /**
+     * Add xpoints to the user in a community and if successful, updates the level if needed
+     * 
+     * @param Community The community where you want to update those numbers
+     * @param int the points to add
+     * @return bool if it worked or not
+     */
+    public function add_points_in_community(Community $comm, int $points){
+        $sql = sprintf("UPDATE `%s` SET xpoints = (xpoints + %d) WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$points,$this->id(),$comm->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            $this->update_level_in_community($comm);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Updates the level of the user in a given community
+     * 
+     * @param Community The community where you want to update those numbers
+     * @return bool if it updated or not
+     */
+    public function update_level_in_community(Community $comm){
+        $tabLvl = $this->level_in_community($comm);
+        $pointsToReach = User::hmptlvlup($tabLvl[0]);
+        if ($pointsToReach <= $tabLvl[1]) {
+            $sql = sprintf("UPDATE `%s` SET level = (level + 1), xpoints = (xpoints - %d) WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$pointsToReach,$this->id(),$comm->id());
+            $result = $this->_db->query($sql);
+            if ($result) {
+                $this->update_level_in_community($comm);
+            }
+            return true;
+        }
+        elseif (0 > $tabLvl[1]) {
+            if ($tabLvl[0] == 1) {
+                $sql = sprintf("UPDATE `%s` SET level = 1, xpoints = 0 WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,$this->id(),$comm->id());
+                $result = $this->_db->query($sql);
+            } else {
+                $sql = sprintf("UPDATE `%s` SET level = (level - 1), xpoints = (xpoints + %d) WHERE `user` = %d AND `community` = %d",Config::TABLE_USER_COMMUNITY,User::hmptlvlup($tabLvl[0]-1),$this->id(),$comm->id());
+                $result = $this->_db->query($sql);
+                if ($result) {
+                    $this->update_level_in_community($comm);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Add a friend to this user
+     *
+     * @param $u User The user aimed to be friend by this user
+     * @return bool If it worked or not
+     */
+    public function add_friend(User $u) {
+        $try = $GLOBALS['notifications']->get_friend_notif_by_sender_and_receiver(User::current(),$u);
+        if ($this->is_friend($u)) {
+            if($try != null) {
+                $GLOBALS['notifications']->delete_notif($try);
+            }
+            return false;
+        }
+        if ($u->asked_to_be_friend($this)) {
+            if($try != null) {
+                $GLOBALS['notifications']->delete_notif($try);
+            }
+            return $u->become_friend($this);
+        }
+        if ($this->asked_to_be_friend($u)) {
+            if($try != null) {
+                $GLOBALS['notifications']->delete_notif($try);
+            }
+            return $this->remove_friend($u);
+        }
+        else {
+            if($try == null) {
+                $GLOBALS['notifications']->send_notif("friend",$u);
+            }
+            return $this->ask_user_to_be_friend($u);
+        }
+    }
+    
+    /**
+     * Say if a user is a friend of this user
+     *
+     * @param $u User The user aimed to be friend by this user
+     * @return bool If yes or no
+     */
+    public function is_friend(User $u) {
+        $sql = sprintf("SELECT * FROM `%s` WHERE ( (`user1` = %d AND `user2` = %d) || (`user1` = %d AND `user2` = %d) ) AND `hasAccepted` = 1",Config::TABLE_FRIEND,$this->id(),$u->id(),$u->id(),$this->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            if ($result->fetch_assoc()) return True;
+            else return False;
+        }
+        return False;
+    }
+    
+    /**
+     * Say if a user asked this user to be friend
+     *
+     * @param $u User The user aimed to be friend by this user
+     * @return bool If yes or no
+     */
+    public function asked_to_be_friend(User $u) {
+        $sql = sprintf("SELECT * FROM `%s` WHERE `user1` = %d AND `user2` = %d AND `hasAccepted` = 0",Config::TABLE_FRIEND,$this->id(),$u->id());
+        $result = $this->_db->query($sql);
+        if ($result) {
+            if ($result->fetch_assoc()) return True;
+            else return False;
+        }
+        return False;
+    }
+
+    /**
+     * Become friend with the given user
+     *
+     * @param $u User The given user
+     * @return bool If it worked or not
+     */
+    public function become_friend(User $u) {
+        $sql = sprintf("UPDATE `%s` SET `hasAccepted` = 1, `ask_date` = NOW() WHERE `user1` = %d AND `user2` = %d",Config::TABLE_FRIEND,$this->id(),$u->id());
+        return $this->_db->query($sql);
+    }
+
+    /**
+     * Remove friend with someone else
+     *
+     * @param $u User The given user
+     * @return bool If it worked or not
+     */
+    public function remove_friend(User $u) {
+        $sql = sprintf("DELETE FROM `%s` WHERE ( (`user1` = %d AND `user2` = %d) || (`user1` = %d AND `user2` = %d) )",Config::TABLE_FRIEND,$this->id(),$u->id(),$u->id(),$this->id());
+        return $this->_db->query($sql);
+    }
+
+    /**
+     * Create a friend request to a given user
+     *
+     * @param $u User The given user
+     * @return bool If it worked or not
+     */
+    public function ask_user_to_be_friend(User $u) {
+        $sql = sprintf("INSERT INTO `%s` (`user1`, `user2`) VALUES (%d, %d)",Config::TABLE_FRIEND,$this->id(),$u->id());
+        return $this->_db->query($sql);
+    }
+
+    /**
+     * Get all friends (or friend requests) from this user
+     *
+     * @param $friendRequests bool if we need friend requests or friends
+     * @return User[] Friends (or friend requests) from this user
+     */
+    public function get_all_friends(bool $friendRequests = false) {
+        $sql = sprintf("SELECT `user1`, `user2` FROM `%s` WHERE (`user1` = %d OR `user2` = %d) AND `hasAccepted` = %d ORDER BY `ask_date` DESC",Config::TABLE_FRIEND,$this->id(),$this->id(),!$friendRequests);
+        $result = $this->_db->query($sql);
+        if ($result) {
+            for ($list = array();
+                    $row = $result->fetch_assoc();
+                    $list[] = $row['user1'] == $this->id() ? new User($GLOBALS['db'],$row['user2']) : new User($GLOBALS['db'],$row['user1']));
+            return $list;
+        }
+        return array();
+    }
+
+
+    /**
+     * Search friends (or friend requests) from this user
+     *
+     * @param $research String the search term
+     * @param $friendRequests bool if we need friend requests or friends
+     * @return User[] Friends (or friend requests) from this user
+     */
+    public function search_by_friends(String $research, bool $friendRequests = false) {
+        $sql = sprintf("SELECT f.`user1`, f.`user2` FROM `%s` f JOIN `%s` u1 ON f.`user1` = u1.`id_%s` JOIN `%s` u2 ON f.`user2` = u2.`id_%s` WHERE ( ( (u1.nickname LIKE '%%$research%%' OR u1.display_name LIKE '%%$research%%') AND `user2` = %d) OR (`user1` = %d AND (u2.nickname LIKE '%%$research%%' OR u2.display_name LIKE '%%$research%%') ) ) AND `hasAccepted` = %d", Config::TABLE_FRIEND, Config::TABLE_USER, Config::TABLE_USER, Config::TABLE_USER, Config::TABLE_USER, $this->id(), $this->id(), !$friendRequests);
+        $result = $this->_db->query($sql);
+        if ($result) {
+            for ($list = array();
+                    $row = $result->fetch_assoc();
+                    $list[] = $row['user1'] == $this->id() ? new User($GLOBALS['db'],$row['user2']) : new User($GLOBALS['db'],$row['user1']));
+            return $list;
+        }
+        return array();
+    }
+
+    
+
+    /**
+     * Get the permission object, that represent the permission of a user on a community
+     *
+     * @param $comm Community The community you want the permission of.
+     * @return Permission|null The object representing the permission of $this on $comm. null if fails.
+     */
+    public function perm(Community $comm) : ?Permission {
+        $sql = "SELECT permission FROM `%s` WHERE `user` = %d AND `community` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $this->id(), $comm->id());
+
+        $result = $this->_db->query($sql);
+
+        if ($result) {
+            $nb = (int) $result->fetch_row()[0];
+            return $nb >= 0 ? new Permission($nb) : null;
+        }
+        return null;
+    }
 
     /**
      * Set a permission (or several) for a user on a community
      *
      * @param bool True if successful.
      */
-    //public function set_perm(int $flags, Community $comm) : bool;
+    public function set_perm(Community $comm, Permission $p) : bool {
+        $nb = $p->get();
+        $sql = "UPDATE `%s` SET `permission` = %d WHERE `user` = %d AND `community` = %d";
+        $sql = sprintf($sql, Config::TABLE_USER_COMMUNITY, $nb, $this->id(), $comm->id());
+        return (bool) $this->_db->query($sql);
+    }
 
+    /**
+     * Stringify to `(id) nickname` format. For debug purpose.
+     */
     public function __toString() : string {
         return '('.$this->id().') '. $this->nickname();
     }
+    /**
+     * Test if two users are the same
+     * 
+     * @param User the second user
+     * @return bool if they are the same or not
+     */
 
+    public function equals(User $user) : bool {
+        return $this->id() === $user->id();
+    }
 
     //// STATIC
 
@@ -459,6 +840,10 @@ class User {
      */
     public static function is_connected() : bool {
         return isset($_SESSION['user']) ? gettype($_SESSION['user']) == "integer" : false;
+    }
+
+    public static function hmptlvlup(int $actualLvl) : int {
+        return 325 * (pow(1.041, ($actualLvl + 1))) - 188;
     }
 
     /**

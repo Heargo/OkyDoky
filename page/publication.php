@@ -1,104 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Post</title>
+	<title>OkyDoky</title>
+	<link rel="shortcut icon" href="<?= Routes::url_for('/img/favicon.ico')?>" type="image/x-icon" />
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' >
 	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/styleApp.css')?>">
+	<link rel="stylesheet" type="text/css" href="<?= Routes::url_for('/styles/prism.css')?>">
 </head>
 <body>
 
-
+<?php 
+	$comm=$GLOBALS['page']['post']->community();
+	$user=$GLOBALS['page']['post']->publisher();
+	if ($comm->is_banned(User::current())) {
+		?>
+		<p class="warningPublication">Vous êtes bannis de cette communauté, vous ne pouvez pas voir les publications.</p>
+		<?php
+	}
+	elseif($comm->is_banned($user)) {
+		?>
+		<p class="warningPublication">Utilisateur banni de cette communauté.</p>
+		<?php
+	}
+	elseif (!$GLOBALS['page']['post']->is_visible()) {
+		?>
+		<p class="warningPublication">La publication a été supprimée.</p>
+		<?php
+	}
+	else{
+?>
 <section class="uniquePost">
 <?php load_post($GLOBALS['page']['post'],true); ?>
 
 <?php 
-$r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name().'/post/'.$GLOBALS['page']['post']->id().'/new');
+$r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/post/'.$GLOBALS['page']['post']->id().'/new');
 ?>
 
 
 
-<div class="commentaires">
-	<div>
-	<a href="#">
-		<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
-	</a>
-    <p class="comment">
-        <form class="commentaire-form" enctype="multipart/form-data" action="<?=$r?>" method="post"> 
-			<textarea class="commentaire-form-textarea" type="text" name="commentaire" placeholder="Ecrivez un commentaire"></textarea>
-			<label class="submit-comm-label" for="submit-comment">
+<div class="commentaires" id="commentairesContainer">
+	<?php if($comm->user_in(User::current())){ ?>
+	<div id="formulaireForCommentToSend">
+	<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
+        <div class="commentaire-form"> 
+			<textarea id="commentaireContentPost" class="commentaire-form-textarea" type="text" name="commentaire" placeholder="Ecrivez un commentaire"></textarea>
+			<label onclick="sendComment('<?=$r?>')" class="submit-comm-label cursor">
 				<img src="<?=Routes::url_for('/img/svg/send.svg')?>">
 			</label>
-			<input class="hidden" type="submit" id="submit-comment" name="submit">
-		</form>	
-</div>
-
-    <?php foreach($GLOBALS['page']['post']->comments() as $c){ ?>
-	<div>
-		<a href="#">
-			<img class="comment-img" src="<?= $c->author()->profile_pic() ?>" alt="profil">
-		</a>
-        <p class="comment">
-            <span class="comment-pseudo"><?= $c->author()->nickname()?></span>
-            <?= $c->text() ?>
-		<br>
-		<span class="comment-like" >
-            <img src="<?= Routes::url_for('/img/svg/like.svg') //handle red heart ?>">
-            <?= $c->nb_likes() ?>
-            <i>
-        	<?php 
-        		$datetime1=date_create($c->date());
-        		$datetime2=date_create(date("Y-d-m H:i:s"));
-        		$interval = date_diff($datetime1, $datetime2);
-        		//années
-        		if ($interval->y>0){
-        			//pluriel
-        			if($interval->y>1){
-        				echo($interval->format("%y ans"));
-	        		}
-	        		//singulier
-	        		else{
-	        			echo($interval->format("%y an"));
-	        		}
-        		}
-        		//mois
-        		elseif($interval->m>0){
-					echo($interval->format("%m mois"));
-        		}
-        		//jours
-        		elseif($interval->d>0){
-        			//pluriel
-        			if($interval->d>1){
-        				echo($interval->format("%i jours"));
-	        		}
-	        		//singulier
-	        		else{
-	        			echo($interval->format("%i jour"));
-	        		}
-        		}
-        		//heures
-        		elseif($interval->i>0){
-        			//pluriel
-        			if($interval->i>1){
-        				echo($interval->format("%i minutes"));
-	        		}
-	        		//singulier
-	        		else{
-	        			echo($interval->format("%i minute"));
-	        		}
-        		}
-        		//minute
-        		elseif($interval->s>0){
-        			echo($interval->format("%s secondes"));
-        		}
-  				
-        	?>
-            </i>
-		</span>
-		</p>
-		
+		</div>	
 	</div>
-    <?php } ?>
+<?php } ?>
+    <?php foreach($GLOBALS['page']['post']->comments() as $c){
+        load_comment($c); 
+        }
+        ?>
 </div>
 </section>
 
@@ -106,7 +62,41 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->id_community()->get_name()
 </body>
 <script type="text/javascript">
 	var route="<?=Config::URL_SUBDIR(false)?>";
+    var current_community = "<?= $_SESSION['current_community'] ?>";
+
+	try {
+		var input = document.getElementById("nbjetonstogive");
+		var maxi = parseInt(input.max);
+		input.addEventListener("input", function(){
+			if (input.value>maxi) {
+				input.classList.add("badinput")
+			}else{
+				input.classList.remove("badinput")
+			}
+		});
+	} catch {
+		//ignore
+	}
+	
+
+	function enableRestore() {
+		localStorage.setItem('shouldBeRestored', "true");
+		//document.cookie="shouldBeRestored=1;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>";
+	}
 </script>
-<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+
+<script src="<?= Routes::url_for('/js/theCross.js')?>"></script>
+<?php if($comm->user_in(User::current())){ ?>
+	<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
+	<script src="<?= Routes::url_for('/js/likesAjax.js')?>"></script>
+	<script src="<?= Routes::url_for('/js/comments.js')?>"></script>
+<?php } ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script src="<?= Routes::url_for('/js/favoris.js')?>"></script>
+<script src="<?= Routes::url_for('/js/share.js')?>"></script>
+<script src="<?= Routes::url_for('/js/prism.js')?>"></script>
+<?php 
+}
+?>
 
 </html>
