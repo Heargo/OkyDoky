@@ -10,6 +10,7 @@ class Notification{
     
     private $_community;
     private $_amount;
+    private $_comment;
 
     public function __construct(mysqli $db, int $id){
         $this->_id = $id;
@@ -29,6 +30,10 @@ class Notification{
         if($this->_type == "don") {
             $this->_community = $GLOBALS['communities']->get_by_id($row['community']);
             $this->_amount = $row['amount'];
+        }
+        else if( $this->_type == "commentaire"){
+            $this->_community = $GLOBALS['communities']->get_by_id($row['community']);
+            $this->_comment = $GLOBALS['comments']->get_by_id($row['comment']);
         }
     }
 
@@ -72,4 +77,13 @@ class Notification{
      * @return Community The community of the notificaiton.
      * */
     public function amount() : int { return $this->_amount; }
+    
+    /**
+     * Get the comment text of the notification (type === "commentaire")
+     * 
+     * @return string Part of the comment
+     */
+    public function comment_text() : string {
+        return substr($this->_comment->text(), 0, 30);
+    }
 }
