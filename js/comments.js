@@ -50,9 +50,9 @@ function sendComment(r){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.response)
             let form = document.getElementById("formulaireForCommentToSend")
             form.insertAdjacentHTML("afterend", this.response);
+            document.getElementById("commentaireContentPost").value="";
 
         }
     };
