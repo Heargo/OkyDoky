@@ -33,8 +33,9 @@
     var route = "<?=Config::URL_SUBDIR(false)?>";
 </script>
 <script src="<?= Routes::url_for('/js/prism.js')?>"></script>
-<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/theCross.js')?>"></script>
+<script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
+<script type="text/javascript">restore();</script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="<?= Routes::url_for('/js/share.js')?>"></script>

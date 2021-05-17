@@ -20,55 +20,6 @@ function markEmpty(bool, section,page) {
     }
 }
 
-function savePosts(offset, to_add_array) {
-    let posts = JSON.parse(window.localStorage.getItem('posts')) || [];
-    posts.push(to_add_array);
-
-    window.localStorage.setItem('posts', JSON.stringify(posts));
-    window.localStorage.setItem('offset', offset);
-}
-
-function updatePost(id, html) {
-    let posts = JSON.parse(window.localStorage.getItem('posts'));
-    posts.forEach( (row, index, array) => {
-        let id_post = row[0];
-        let html_post = row[1];
-        console.log("ID actuel = " + id_post);
-        console.log("L'HTML en cache est " + (html_post == html ? "identique" : "différent"));
-        if (id_post == id) {
-            console.log("C'est celui qu'on veut !");
-            array[index][1] = html;
-        }
-    });
-    window.localStorage.setItem('posts', JSON.stringify(posts));
-}
-
-function retrievePosts() {
-    let posts = JSON.parse(window.localStorage.getItem('posts'));
-    let offset = JSON.parse(window.localStorage.getItem('offset'));
-    return [parseInt(offset), posts];
-}
-
-function deletePostFromStorage(id) {
-    // Delete in localstorage
-    let offset = retrievePosts()[0];
-    let posts = retrievePosts()[1];
-    posts.forEach( (row, index, array) => {
-        if (row[0] === id) {
-            array.splice(index, 1);
-        }
-    });
-    window.localStorage.setItem('posts', JSON.stringify(posts));
-    OFFSET = OFFSET - 1; // Not sure
-    window.localStorage.setItem('offset', offset - 1);
-}
-
-function clearPosts() {
-    window.localStorage.removeItem('posts');
-    window.localStorage.removeItem('offset');
-    console.log('Storage cleared!');
-}
-
 function addPostToContainer(post_html,container,id) {
     var new_post = document.createElement("div");
     new_post.innerHTML = `${post_html}`; // à creuser

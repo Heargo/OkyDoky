@@ -1,43 +1,112 @@
-try {
-    const shouldBeRestored = localStorage.getItem('shouldBeRestored');
-    const community = localStorage.getItem('community');
 
-    // localStorage only allow strings, not booleans
-    // current_community is a var from php, passed through <scrip>
-    if (shouldBeRestored === "true" && community === current_community) {
-        var offset, posts;
-        [offset, posts] = retrievePosts();
-        OFFSET = offset; // that is because it's declared in feedAjax.js
+function savePosts(offset, to_add_array) {
+    let posts = JSON.parse(window.localStorage.getItem('posts')) || [];
+    posts.push(to_add_array);
 
-        clearPosts(); // Clear posts of former use
+    window.localStorage.setItem('posts', JSON.stringify(posts));
+    window.localStorage.setItem('offset', offset);
+}
 
-        var posts_section = document.querySelector("section#verticalScrollContainer");
-        posts.forEach( (row, index, array) => {
-            var id = row[0];
-            var html = row[1];
-            IDS.push(id) // IDS is also declared in feedAjax.js
-            addPostToContainer(html, posts_section, id); // Adding post in page also save them in cache
-        });
+function updatePost(id) {
+    let newUp   = document.getElementById("upVoteIcon-" + id);
+    let newDown = document.getElementById("downVoteIcon-" + id);
+    let newPrct = document.getElementById("prctQualityText-" + id);
+    let newFav  = document.getElementById("favIcon-" + id);
 
-        localStorage.setItem('shouldBeRestored', "false");
+    let posts = JSON.parse(window.localStorage.getItem('posts'));
+    posts.forEach( (row, index, array) => {
+        let id_cache = row[0];
+        if (id_cache == id) { // the one we're looking for
+            //load cached post
+            let u_post= document.createElement('div');
+            u_post.innerHTML = `${row[1]}`;
+            let updated_post = u_post.firstElementChild;
 
-        // get back where we were
-        const anchor = localStorage.getItem('restoreAnchor');
-        try {
-            document.getElementById(anchor).scrollIntoView();
-        } catch {
-            //ignore
+            let up   = updated_post.querySelector("#upVoteIcon-" + id);
+            let down = updated_post.querySelector("#downVoteIcon-" + id);
+            let prct = updated_post.querySelector("#prctQualityText-" + id);
+            let fav  = updated_post.querySelector("#favIcon-" + id);
+
+            //edit cached post
+            up.replaceWith(newUp.cloneNode(true));
+            down.replaceWith(newDown.cloneNode(true));
+            prct.replaceWith(newPrct.cloneNode(true))
+            fav.replaceWith(newFav.cloneNode(true))
+
+            array[index][1] = updated_post.outerHTML;
         }
-        console.log("Posts restored!");
-    } else {
-        // Just to be sure
+    });
+    window.localStorage.setItem('posts', JSON.stringify(posts));
+}
+
+function retrievePosts() {
+    let posts = JSON.parse(window.localStorage.getItem('posts'));
+    let offset = JSON.parse(window.localStorage.getItem('offset'));
+    return [parseInt(offset), posts];
+}
+
+function deletePostFromStorage(id) {
+    // Delete in localstorage
+    let offset = retrievePosts()[0];
+    let posts = retrievePosts()[1];
+    posts.forEach( (row, index, array) => {
+        if (row[0] === id) {
+            array.splice(index, 1);
+        }
+    });
+    window.localStorage.setItem('posts', JSON.stringify(posts));
+    OFFSET = OFFSET - 1; // Not sure
+    window.localStorage.setItem('offset', offset - 1);
+}
+
+function clearPosts() {
+    window.localStorage.removeItem('posts');
+    window.localStorage.removeItem('offset');
+    console.log('Storage cleared!');
+}
+
+function restore() {
+    try {
+        const shouldBeRestored = localStorage.getItem('shouldBeRestored');
+        const community = localStorage.getItem('community');
+
+        // localStorage only allow strings, not booleans
+        // current_community is a var from php, passed through <scrip>
+        if (shouldBeRestored === "true" && community === current_community) {
+            var offset, posts;
+            [offset, posts] = retrievePosts();
+            OFFSET = offset; // that is because it's declared in feedAjax.js
+
+            clearPosts(); // Clear posts of former use
+
+            var posts_section = document.querySelector("section#verticalScrollContainer");
+            posts.forEach( (row, index, array) => {
+                var id = row[0];
+                var html = row[1];
+                IDS.push(id) // IDS is also declared in feedAjax.js
+                addPostToContainer(html, posts_section, id); // Adding post in page also save them in cache
+            });
+
+            localStorage.setItem('shouldBeRestored', "false");
+
+            // get back where we were
+            const anchor = localStorage.getItem('restoreAnchor');
+            try {
+                document.getElementById(anchor).scrollIntoView();
+            } catch {
+                //ignore
+            }
+            console.log("Posts restored!");
+        } else {
+            // Just to be sure
+            localStorage.setItem('shouldBeRestored', "false");
+            localStorage.setItem('community', current_community);
+            clearPosts();
+        }
+        
+    } catch(e) {
         localStorage.setItem('shouldBeRestored', "false");
         localStorage.setItem('community', current_community);
         clearPosts();
     }
-    
-} catch(e) {
-    localStorage.setItem('shouldBeRestored', "false");
-    localStorage.setItem('community', current_community);
-    clearPosts();
 }

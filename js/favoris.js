@@ -17,7 +17,7 @@ function toggleFav(id,value){
         }
         let post = document.getElementById(id);
         let post_html = post.outerHTML;
-        updatePost(id, post_html);
+        updatePost(id);
     }
   };
   if (value==1){

@@ -62,6 +62,7 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
 </body>
 <script type="text/javascript">
 	var route="<?=Config::URL_SUBDIR(false)?>";
+    var current_community = "<?= $_SESSION['current_community'] ?>";
 
 	try {
 		var input = document.getElementById("nbjetonstogive");
@@ -83,6 +84,8 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
 		//document.cookie="shouldBeRestored=1;SameSite=Lax;path=<?= Config::URL_SUBDIR(true) ?>";
 	}
 </script>
+
+<script src="<?= Routes::url_for('/js/theCross.js')?>"></script>
 <?php if($comm->user_in(User::current())){ ?>
 	<script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 	<script src="<?= Routes::url_for('/js/likesAjax.js')?>"></script>

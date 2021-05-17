@@ -38,9 +38,7 @@ function vote(id,value){
         }
         prct.innerHTML = prctValeur !== null ? prctValeur + "%" : prctValeur;
 
-        let post = document.getElementById(id);
-        let post_html = post.outerHTML;
-        updatePost(id, post_html);
+        updatePost(id);
     }
   };
 
