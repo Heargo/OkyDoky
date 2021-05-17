@@ -41,16 +41,14 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
 
 <div class="commentaires" id="commentairesContainer">
 	<?php if($comm->user_in(User::current())){ ?>
-	<div>
+	<div id="formulaireForCommentToSend">
 	<img class="comment-img" src="<?= User::current()->profile_pic() ?>" alt="profil">
-    <p class="commentForm">
-        <form class="commentaire-form" enctype="multipart/form-data" action="<?=$r?>" method="post"> 
-			<textarea class="commentaire-form-textarea" type="text" name="commentaire" placeholder="Ecrivez un commentaire"></textarea>
-			<label class="submit-comm-label cursor" for="submit-comment">
+        <div class="commentaire-form"> 
+			<textarea id="commentaireContentPost" class="commentaire-form-textarea" type="text" name="commentaire" placeholder="Ecrivez un commentaire"></textarea>
+			<label onclick="sendComment('<?=$r?>')" class="submit-comm-label cursor">
 				<img src="<?=Routes::url_for('/img/svg/send.svg')?>">
 			</label>
-			<input class="hidden" type="submit" id="submit-comment" name="submit">
-		</form>	
+		</div>	
 	</div>
 <?php } ?>
     <?php foreach($GLOBALS['page']['post']->comments() as $c){

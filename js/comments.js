@@ -45,3 +45,19 @@ function toogleSettingsOfComm(id){
     menu.classList.toggle("hidden");
 
 }
+function sendComment(r){
+    var text = document.getElementById("commentaireContentPost").value;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.response)
+            let form = document.getElementById("formulaireForCommentToSend")
+            form.insertAdjacentHTML("afterend", this.response);
+
+        }
+    };
+    xhr.open("POST", r, true);
+    xhr.responseType="text";
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhr.send("commentaire="+text);
+}

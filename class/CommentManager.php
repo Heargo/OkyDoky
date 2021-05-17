@@ -34,7 +34,7 @@ class CommentManager {
      * @return Comment[] Array of comment.
      */
     public function get_by_post(Post $p, bool $visible = true) : array {
-        $sql = "SELECT `id_%s` FROM `%s` WHERE `post` = %d AND `visible` = %d";
+        $sql = "SELECT `id_%s` FROM `%s` WHERE `post` = %d AND `visible` = %d ORDER BY `date` DESC";
         $sql = sprintf($sql, Config::TABLE_COMMENT, Config::TABLE_COMMENT, $p->id(), $visible);
         $result = $this->_db->query($sql);
 

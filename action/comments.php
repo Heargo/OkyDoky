@@ -29,17 +29,17 @@ function add_comment(?array $match) {
 
     if (!empty(trim($_POST['commentaire']))){
         //Sanitize is done inside
-        $GLOBALS['comments']->add_comment(User::current(), $post, $_POST['commentaire']);
+        $c=$GLOBALS['comments']->add_comment(User::current(), $post, $_POST['commentaire']);
         if (User::current()->id() != $post->publisher()->id()) {
             /*give xp*/
             User::current()->add_points_in_community($post->community(), 3);
         }
+        if($c!=null){
+            $commentaireToLoad=$GLOBALS['comments']->get_by_id($c);
+            load_comment($commentaireToLoad);
+            //var_dump($n=$commentaireToLoad->author()->nickname());
+        }
     }
-   
-   
-
-    $root = Config::URL_SUBDIR(false);
-    header("Location: $root" . '/c/' . $post->community()->get_name() . '/post/' . $post->id());
 }
 
 function load_comment($c,$deleted=false){

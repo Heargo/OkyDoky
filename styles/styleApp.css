@@ -1213,11 +1213,12 @@ button.copy-to-clipboard{
 	z-index: 20;
 }
 
-.commentaire-form{
+.commentaires div.commentaire-form{
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
 	width: 100%;
+	margin:0;
 }
 .commentaire-form-textarea{
 
