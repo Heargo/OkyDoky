@@ -11,7 +11,4 @@ function giveTo(?array $match) {
 		$from->add_points_in_community($in, $hmCoins);
 		$GLOBALS['notifications']->send_notif("don",$to,$in,$hmCoins);
 	} 
-	$root = Config::URL_SUBDIR(false);
-	var_dump($_POST['urlRedirect']);
-	header("Location: $root".$_POST['urlRedirect']);
 }

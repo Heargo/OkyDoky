@@ -61,3 +61,26 @@ function sendComment(r){
     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xhr.send("commentaire="+text);
 }
+
+function donate(r,to,commu){
+    var togive = document.getElementById("nbjetonstogive").value;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200) {
+            let c = document.getElementById("coinToAnimAfterGive");
+            if(togive>0){
+                c.classList.add("animate");
+                setTimeout(function(){ 
+                    c.classList.remove("animate");
+                    document.getElementById("nbjetonstogive").value=0;
+                }, 1100);
+
+            }
+            
+        }
+    };
+    xhr.open("POST", r, true);
+    xhr.responseType="text";
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhr.send("number="+togive+"&to="+to+"&in="+commu);
+}

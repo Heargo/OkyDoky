@@ -207,21 +207,16 @@ $typeDocument = $post->get_documents()[0]->type();
 		</div>
 		<!-- form pour soutenir -->
 		<?php if($isComment && $publisher!=User::current() && $comm->user_in(User::current())): ?>
-			<form class="donateForm" enctype="multipart/form-data" action="<?=Routes::url_for('/donatejetons')?>" method="post">
+			<div class="donateForm" enctype="multipart/form-data" action="" method="post">
 				<?php 
 				$nbjetons = User::current()->coins_in_community($comm);
 				?>
 				<div>
 					<input id="nbjetonstogive" type="number" name="number" class="numberinput" min="0" max="<?=$nbjetons?>">
-					<input type="hidden" name="to" value="<?= $post->publisher()->id() ?>" />
-					<input type="hidden" name="urlRedirect" value="/c/<?= $comm->get_name() ?>/post/<?= $post->id() ?>" />
-					<input type="hidden" name="in" value="<?= $comm->id() ?>" />
-					<img class="soutenirButton" src="<?=Routes::url_for('/img/svg/coin.svg')?>">
+					<img  id="coinToAnimAfterGive" class="soutenirButton" src="<?=Routes::url_for('/img/svg/coin.svg')?>">
 				</div>
-				<label for="donate">Soutenir !</label>
-				<input id="donate" type="submit" name="donate" value="donate" hidden>
-				
-			</form>
+				<label onclick="donate('<?=Routes::url_for('/donatejetons')?>',<?=$post->publisher()->id()?>,<?=$comm->id()?>)">Soutenir !</label>
+			</div>
 		<?php endif ?>
 		<!-- descritpion -->
 		<?php if($isComment): ?>

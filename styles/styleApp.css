@@ -342,6 +342,10 @@ Fil d'actu
 	height: 32px;
 	width: 32px;
 }
+.donateForm .soutenirButton.animate{
+	animation: 1s donated-anim;
+}
+
 .right .soutenirButton{
 	margin-right: 10px;
 }
@@ -1129,8 +1133,24 @@ button.copy-to-clipboard{
 
 .donateForm label{
 	padding: .3rem;
+	margin-left: 10px;
 	background-color: #feac5e;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+	border-radius: 10px;
+}
+
+
+
+@keyframes donated-anim {
+
+    0%{
+        transform: rotate(0deg) scale(1.1);
+    }
+
+    100%{
+        transform: rotate(360deg) scale(1.1);
+    }
+
 }
 
 .postdescritp{
@@ -1308,9 +1328,9 @@ h2.confirmation{
 	display: none;
 	position: fixed;
 	top: 10px;
-  width: 100%;
-  height:100vh;
-  z-index: -100;
+  	width: 100%;
+  	height:100vh;
+  	z-index: -100;
 }
 
 @media screen and (min-width: 1200px) {
