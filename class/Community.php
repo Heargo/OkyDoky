@@ -81,8 +81,11 @@ class Community{
      * @param int The number of character you want
      * @return string the description 
      */
-    public function get_description(?int $length = null){
-        return htmlspecialchars_decode(substr($this->_description,0,$length));
+    public function get_description(bool $preview=false){
+        if ($preview){
+            return htmlspecialchars_decode(substr($this->_description,0,80));
+        }
+        return htmlspecialchars_decode($this->_description);
     }
 
     /**
