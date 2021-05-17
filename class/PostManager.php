@@ -257,7 +257,7 @@ class PostManager {
 	 * @return Posts[] An array of posts.
 	 */
 	public function search_post_by_title(String $research){
-		$sql = "SELECT p.`id_%s` FROM `%s` p JOIN `%s` uc ON uc.community = p.community WHERE p.title LIKE '%%$research%%' AND uc.user = %d AND p.visible = 1";
+		$sql = "SELECT p.`id_%s` FROM `%s` p JOIN `%s` uc ON uc.community = p.community WHERE p.title LIKE '%%$research%%' AND uc.user = %d AND p.visible = 1 AND uc.permission != 0";
 		$sql = sprintf($sql, Config::TABLE_POST,Config::TABLE_POST,Config::TABLE_USER_COMMUNITY, User::current()->id());
 		$res = $this->_db->query($sql);
 		if ($res) {
