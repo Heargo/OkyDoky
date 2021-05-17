@@ -83,6 +83,14 @@ class Notification{
      * 
      * @return string Part of the comment
      */
+    public function comment_post() : Post {
+        return $this->_comment->post();
+    }
+    /**
+     * Get the comment text of the notification (type === "commentaire")
+     * 
+     * @return string Part of the comment
+     */
     public function comment_text() : string {
         return substr($this->_comment->text(), 0, 30);
     }
