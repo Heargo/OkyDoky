@@ -75,7 +75,7 @@ class User {
      * Get description
      */
     public function description() : ?string {
-        return $this->_description; 
+        return htmlspecialchars_decode($this->_description); 
     }
 
     /**
