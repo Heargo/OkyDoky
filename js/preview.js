@@ -1,7 +1,7 @@
 var code = [
 "text/css",
 "text/html",
-"text/javascript",
+"application/javascript",
 "text/x-c",
 "text/x-java-source,java",
 "application/json",
