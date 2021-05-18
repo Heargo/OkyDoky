@@ -347,7 +347,24 @@ nav{
     height: 160px;
   }
 }
-
+@media screen and (max-height: 500px){
+  .homeTitle{
+    font-size: 3rem;
+  }
+  .homeSlogan{
+    font-size: 1.5rem;
+  }
+  .box {
+    transform: scale(0.7);
+  }
+  .circle{
+    width: 150px;
+    height: 160px;
+  }
+  .container{
+    height: calc(65vh - 50px)
+  }
+}
 
 @keyframes spinning {
     from {

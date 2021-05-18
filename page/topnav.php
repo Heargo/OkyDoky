@@ -1,5 +1,5 @@
 <section class="topNav">
-	<h1 class="noselect">OkyDoky</h1>
+	<h1 onclick="location.href='<?= Routes::url_for('/feed')?>'" class="noselect cursor">OkyDoky</h1>
 	<!-- <p><?= User::is_connected() ? User::current()->nickname() : "anonyme" ?></p> -->	
 	<div class="uprightcontainer">
 		<a href="./notifications">

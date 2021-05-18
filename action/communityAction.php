@@ -1,13 +1,24 @@
 <?php
 
 function create_community(?array $match){
-    $name = strtolower(str_replace(' ', '-',trim($_POST['name'])));
-    $disp_name = $_POST['name'];
-    $description = $_POST['description'];
-    $user = User::current();
-    $GLOBALS['communities']->add_community($name,$disp_name,$description,$user,$_FILES['file']);
+    $name = strtolower(str_replace("'", "",str_replace(' ', '-',trim($_POST['name']))));
+    $name = removeaccents($name);
     $root = Config::URL_SUBDIR(false);
-    header("Location: $root/feed");
+    $error=false;
+    if(!empty(trim($name))){
+        $disp_name = $_POST['name'];
+        $description = $_POST['description'];
+        $user = User::current();
+        $id = $GLOBALS['communities']->add_community($name,$disp_name,$description,$user,$_FILES['file']);
+    }else{
+        $error=true;
+    }
+    
+    if($id==null || $error){
+        header("Location: $root/createCommunity");
+    }else{
+        header("Location: $root/community");
+    }
 }
 
 function modify_commu(?array $match){

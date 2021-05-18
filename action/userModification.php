@@ -7,11 +7,9 @@ function modify_profil(?array $match) {
     	$dis = filter_var($_POST["display_name"], FILTER_SANITIZE_SPECIAL_CHARS);
         User::current()->set_display_name($dis);
     }
-    //dscritpion
-    if (!empty(trim($_POST["description"]))){
-    	$desc = filter_var($_POST["description"], FILTER_SANITIZE_SPECIAL_CHARS);
-        User::current()->set_description($desc);
-    }
+    //descritpion
+    $desc = filter_var($_POST["description"], FILTER_SANITIZE_SPECIAL_CHARS);
+    User::current()->set_description($desc);
     //photo de profil
     User::current()->set_profile_picture($_FILES['file']);
 

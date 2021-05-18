@@ -59,10 +59,6 @@ if (sizeof($communities)>0){ ?>
 			if(isset($highlight_post) && $highlight_post->is_visible()){
 				load_post($highlight_post);
 			}
-			else{
-				echo "<p>Pas de posts mis en avant... C'est triste</p>";
-			}
-			
 			load_admin_container();
 			
 		    $rules = htmlspecialchars_decode($currentCom->rules());

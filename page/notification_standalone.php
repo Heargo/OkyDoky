@@ -53,8 +53,8 @@ if($notif->type() == "commentaire"){
         <p class="contentNotifMsg"><?=$sender->display_name()?> a commenté : <br/> <?=$notif->comment_text()?></p>
     </div>
     <div class="interactionBox">
-        <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>">
-        <img class="check cursor" onclick="location.href='<?=Routes::url_for('/c/'.$commnickname.'/post/'.$id_post)?>'" src="<?= Routes::url_for('/img/svg/check.svg')?>">
+        <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>" alt="supprimer notification">
+        <img class="check cursor" onclick="location.href='<?=Routes::url_for('/c/'.$commnickname.'/post/'.$id_post)?>'" src="<?= Routes::url_for('/img/svg/comment-arrow-right-28-regular.svg')?>" alt="aller voir">
     </div>
     </div>
     <?php

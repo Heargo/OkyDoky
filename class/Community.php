@@ -107,8 +107,8 @@ class Community{
      * @param int The number of character you want
      * @return string the rules 
      */
-    public function rules(?int $length = null){
-        return substr($this->_rules,0,$length);
+    public function rules(){
+        return $this->_rules;
     }
 
     /**

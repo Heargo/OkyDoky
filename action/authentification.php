@@ -31,6 +31,7 @@ function signin(?array $match) {
 
 function signup(?array $match) {
     $nickname = strtolower(trim($_POST['nickname']));
+    $nickname = removeaccents($nickname);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $pwd = $_POST['password'];
 
