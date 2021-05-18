@@ -66,7 +66,7 @@ function clearPosts() {
 }
 
 function restore() {
-    window.OFFSET = window.OFFET || 0;
+    window.OFFSET = 0; // don't really care, it'll be overwritten
     window.IDS = [];
     try {
         const shouldBeRestored = localStorage.getItem('shouldBeRestored');
