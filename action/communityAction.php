@@ -2,6 +2,7 @@
 
 function create_community(?array $match){
     $name = strtolower(str_replace("'", "",str_replace(' ', '-',trim($_POST['name']))));
+    $name = removeaccents($name);
     $root = Config::URL_SUBDIR(false);
     $error=false;
     if(!empty(trim($name))){
