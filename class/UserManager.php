@@ -165,7 +165,7 @@ class UserManager {
      * @param int $offset So you can get documents by slice of $limit. $offset should be a multiple of $limit.
      * @return User[] An array of users.
      */
-    public function get_by_ancienty_community(Community $c, int $limit = 10, bool $visible = true, int $offset = 0) {
+    public function get_by_ancienty_community(Community $c, int $limit = 10, int $offset = 0) {
         $sql = 'SELECT u.id_%1$s FROM `%1$s` u JOIN `%2$s` uc ON u.id_%1$s = uc.user WHERE uc.community = %3$d AND DATEDIFF(CURRENT_TIMESTAMP, uc.last_collect) < 30 AND uc.permission != 0 ORDER BY uc.join_date LIMIT %4$d OFFSET %5$d';
         $sql = sprintf($sql, Config::TABLE_USER, Config::TABLE_USER_COMMUNITY, $c->id(), $limit, $offset);
         $result = $this->_db->query($sql);

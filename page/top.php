@@ -104,7 +104,7 @@ if(!$nocommu):?>
 						}
 					}
 					else{
-						echo "<p>Erreur : veuillez contacter un développeur afin qu'ils règlent le problème</p>";
+						echo "<p>Personne n'est actif dans la communauté, même les plus vieux</p>";
 					}
 					echo "</ul>";
 				}
