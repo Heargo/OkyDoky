@@ -153,15 +153,22 @@ function loadRules(){
             //on supprime les resultats précédents
             communityContentContainer = document.getElementById("communityContentContainer");
             var rules_zone = communityContentContainer.children[2];
-            communityContentContainer.removeChild(rules_zone);
-      
-            //on écrit les nouveaux results 
-            communityContentContainer.insertAdjacentHTML('beforeend', this.response);
-            //markdown
-            var converter = new showdown.Converter();
-            var mdContainer = document.getElementById("markdowContainer");
-            var html = converter.makeHtml(mdContainer.innerHTML);
-            mdContainer.innerHTML=html;
+            if(rules_zone.children[0].innerHTML=="Règles"){
+                communityContentContainer.removeChild(rules_zone);
+            }
+            
+            //on écrit les nouveaux results si pas vide
+            console.log(this.response)
+            if (this.response!="no rules"){
+                communityContentContainer.insertAdjacentHTML('beforeend', this.response);
+                console.log(this.response)
+                //markdown
+                var converter = new showdown.Converter();
+                var mdContainer = document.getElementById("markdowContainer");
+                var html = converter.makeHtml(mdContainer.innerHTML);
+                mdContainer.innerHTML=html;
+            }
+            
         }
     };
     xhr.open("POST","./ajax/rules",false);
@@ -170,9 +177,15 @@ function loadRules(){
 
 window.onload = function(){
     //markdown
-    var converter = new showdown.Converter();
-    var mdContainer = document.getElementById("markdowContainer");
-    var html = converter.makeHtml(mdContainer.innerHTML);
-    mdContainer.innerHTML=html;
-    //console.log("markdown applied")
+    try {
+        var converter = new showdown.Converter();
+        var mdContainer = document.getElementById("markdowContainer");
+        var html = converter.makeHtml(mdContainer.innerHTML);
+        mdContainer.innerHTML=html;
+        //console.log("markdown applied")
+    } catch(e) {
+        // statements
+        //console.log(e);
+    }
+    
 };

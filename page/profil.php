@@ -122,7 +122,11 @@ if($_SESSION['current_community']>0){
 				
 			</div>
 		</div>
-		<p class="profilDescription"><?=$user->description()?></p>
+		<?php if(strlen($user->description())>0):?>
+			<p class="profilDescription"><?=$user->description()?></p>
+		<?php else: ?>
+			<br>
+		<?php endif ?>
 	</div>
 <!-- RECUPERER LES COMMUNAUTES  -->
 <?php

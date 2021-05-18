@@ -74,9 +74,8 @@ function send_highlight_post(?array $match){
     $hp = $comm->get_highlight_post();
     if(isset($hp) && $hp->is_visible()){
         load_post($hp);
-    }
-    else{
-        echo "<p>Pas de posts mis en avant... C'est triste</p>";
+    }else{
+        echo "<p class='infoPostEnAvant'>Pas de post dans la communauté ! pour mettre en avant un post, veuillez en créer un.</p>";
     }
 }
 function set_highlight_post(?array $match){
