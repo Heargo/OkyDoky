@@ -55,7 +55,7 @@ function deletePostFromStorage(id) {
         }
     });
     window.localStorage.setItem('posts', JSON.stringify(posts));
-    OFFSET = OFFSET - 1; // Not sure
+    // window.OFFSET = OFFSET - 1; // Not sure
     window.localStorage.setItem('offset', offset - 1);
 }
 
@@ -66,6 +66,8 @@ function clearPosts() {
 }
 
 function restore() {
+    window.OFFSET = 0; // don't really care, it'll be overwritten
+    window.IDS = [];
     try {
         console.log("hey")
         const shouldBeRestored = localStorage.getItem('shouldBeRestored');
@@ -76,7 +78,7 @@ function restore() {
         if (shouldBeRestored === "true" && community === current_community) {
             var offset, posts;
             [offset, posts] = retrievePosts();
-            OFFSET = offset; // that is because it's declared in feedAjax.js
+            window.OFFSET = offset; 
 
             clearPosts(); // Clear posts of former use
 
@@ -84,7 +86,7 @@ function restore() {
             posts.forEach( (row, index, array) => {
                 var id = row[0];
                 var html = row[1];
-                IDS.push(id) // IDS is also declared in feedAjax.js
+                window.IDS.push(id) // IDS is also declared in feedAjax.js
                 addPostToContainer(html, posts_section, id); // Adding post in page also save them in cache
             });
 

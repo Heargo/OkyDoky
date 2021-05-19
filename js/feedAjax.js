@@ -31,22 +31,22 @@ function addPostToContainer(post_html,container,id) {
     }
     var json_row = [id, post_html];
     //save post to be retrieved when using The Cross
-    savePosts(OFFSET || 0, json_row);
+    savePosts(window.OFFSET || 0, json_row);
 }
 
 
-var OFFSET = OFFSET || 0;
-var IDS = [];
+window.OFFSET = window.OFFET || 0;
+window.IDS = window.IDS || [];
 function moreposts(page="feed",user="none",comm="current",reset=false) {
     console.log("moreposts() called!");
     if (reset){
-        OFFSET=0;
-        IDS=[];
+        window.OFFSET = 0;
+        window.IDS = [];
     }
     if (typeof route === 'undefined') {
-        r=""
+        r = "";
     }else{
-        r=route+"/";
+        r = route+"/";
     }
     var xhr = new XMLHttpRequest();
     xhr.open('POST', r+'ajax/moreposts', true);
@@ -63,17 +63,16 @@ function moreposts(page="feed",user="none",comm="current",reset=false) {
                 rep.forEach(row => {
                     var id = row[0];
                     var post_html = row[1];
-                    if(!IDS.includes(id)) {
-                        IDS.push(id);
-                        OFFSET++;
+                    if(!window.IDS.includes(id)) {
+                        window.IDS.push(id);
+                        window.OFFSET++;
                         addPostToContainer(post_html, posts_section, id);
                     }
                 });
             }
-            //savePosts(OFFSET, rep);
         }
     }
-    xhr.send("offset=" + OFFSET.toString()+"&page="+page+"&user="+user+"&comm="+comm);
+    xhr.send("offset=" + window.OFFSET.toString()+"&page="+page+"&user="+user+"&comm="+comm);
 }
 
 window.onload = function() {
