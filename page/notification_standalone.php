@@ -39,7 +39,9 @@ if($notif->type() == "don"){
 if($notif->type() == "commentaire"){
     $comm=$notif->community();
     $commnickname = $comm->get_name();
-    $id_post = $notif->comment_post()->id();
+    $comment = $notif->comment();
+    $id_comment = $comment->id();
+    $id_post = $comment->post()->id();
     ?>
     <div id="notif-<?=$id?>" class="card-notif">
 
@@ -54,7 +56,7 @@ if($notif->type() == "commentaire"){
     </div>
     <div class="interactionBox">
         <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>" alt="supprimer notification">
-        <img class="check cursor" onclick="location.href='<?=Routes::url_for('/c/'.$commnickname.'/post/'.$id_post)?>'" src="<?= Routes::url_for('/img/svg/comment-arrow-right-28-regular.svg')?>" alt="aller voir">
+        <img class="check cursor" onclick="location.href='<?=Routes::url_for('/c/'.$commnickname.'/post/'.$id_post.'#com-'.$id_comment)?>'" src="<?= Routes::url_for('/img/svg/comment-arrow-right-28-regular.svg')?>" alt="aller voir">
     </div>
     </div>
     <?php

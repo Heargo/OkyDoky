@@ -83,9 +83,19 @@ class Notification{
      * 
      * @return string Part of the comment
      */
-    public function comment_post() : Post {
+    public function comment() : Comment {
+        return $this->_comment;
+    }
+
+    /**
+     * Get the comment text of the notification (type === "commentaire")
+     * 
+     * @return string Part of the comment
+     */
+    public function comment_id() : Post {
         return $this->_comment->post();
     }
+
     /**
      * Get the comment text of the notification (type === "commentaire")
      * 
