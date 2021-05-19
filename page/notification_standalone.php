@@ -38,26 +38,29 @@ if($notif->type() == "don"){
 }
 if($notif->type() == "commentaire"){
     $comm=$notif->community();
-    $commnickname = $comm->get_name();
     $comment = $notif->comment();
-    $id_comment = $comment->id();
-    $id_post = $comment->post()->id();
-    ?>
-    <div id="notif-<?=$id?>" class="card-notif">
+    if($comment->is_visible() && !$comm->is_banned(User::current())){
+        $commnickname = $comm->get_name();
+        $id_comment = $comment->id();
+        $id_post = $comment->post()->id();
+        ?>
+        <div id="notif-<?=$id?>" class="card-notif">
 
-    <img class="imgleft" src="<?=$comm->get_cover()?>">
-    <div class="contentNotif interaction">
-        <a class="previewSenderContainer2" href="<?=$url?>">
-        <img class="previewSender" src="<?=$sender->profile_pic()?>">
-        <p class="nameOfSender"><?=$sender->display_name()?></p>
-        </a>
-      
-        <p class="contentNotifMsg"><?=$sender->display_name()?> a commenté : <br/> <?=$notif->comment_text()?></p>
-    </div>
-    <div class="interactionBox">
-        <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>" alt="supprimer notification">
-        <img class="check cursor" onclick="location.href='<?=Routes::url_for('/c/'.$commnickname.'/post/'.$id_post.'#com-'.$id_comment)?>'" src="<?= Routes::url_for('/img/svg/comment-arrow-right-28-regular.svg')?>" alt="aller voir">
-    </div>
-    </div>
-    <?php
+        <img class="imgleft" src="<?=$comm->get_cover()?>">
+        <div class="contentNotif interaction">
+            <a class="previewSenderContainer2" href="<?=$url?>">
+            <img class="previewSender" src="<?=$sender->profile_pic()?>">
+            <p class="nameOfSender"><?=$sender->display_name()?></p>
+            </a>
+        
+            <p class="contentNotifMsg"><?=$sender->display_name()?> a commenté : <br/> <?=$notif->comment_text()?></p>
+        </div>
+        <div class="interactionBox">
+            <img class="crossRED cursor" onclick="deleteNotif(<?=$id?>)" src="<?= Routes::url_for('/img/svg/cross.svg')?>" alt="supprimer notification">
+            <img class="check cursor" onclick="location.href='<?=Routes::url_for('/c/'.$commnickname.'/post/'.$id_post.'#com-'.$id_comment)?>'" src="<?= Routes::url_for('/img/svg/comment-arrow-right-28-regular.svg')?>" alt="aller voir">
+        </div>
+        </div>
+        <?php
+    }
+    
 }
