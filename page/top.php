@@ -28,7 +28,7 @@ if(!$nocommu):?>
 						foreach($active_members as $key => $value){
 							$tmpUser = new User($GLOBALS['db'], $key);
 							?>
-							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<li class="cursor" onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
 							<?php
 						}
 					}
@@ -47,7 +47,7 @@ if(!$nocommu):?>
 						foreach($liked_members as $m){
 							$tmpUser = $m;
 							?>
-							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<li class="cursor" onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
 							<?php
 						}
 					}
@@ -65,7 +65,7 @@ if(!$nocommu):?>
 						foreach($ancient_members as $m){
 							$tmpUser = $m;
 							?>
-							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<li class="cursor" onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
 							<?php
 						}
 					}
@@ -82,7 +82,7 @@ if(!$nocommu):?>
 						foreach($ancient_members as $m){
 							$tmpUser = $m;
 							?>
-							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<li class="cursor" onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
 							<?php
 						}
 					}
@@ -99,7 +99,7 @@ if(!$nocommu):?>
 						foreach($ancient_members as $m){
 							$tmpUser = $m;
 							?>
-							<li onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
+							<li class="cursor" onclick="document.location.href='./user/<?=$tmpUser->nickname()?>'"><img src=<?=$tmpUser->profile_pic()?>></li>
 							<?php
 						}
 					}

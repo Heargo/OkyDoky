@@ -67,6 +67,7 @@ function clearPosts() {
 
 function restore() {
     try {
+        console.log("hey")
         const shouldBeRestored = localStorage.getItem('shouldBeRestored');
         const community = localStorage.getItem('community');
 

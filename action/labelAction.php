@@ -1,11 +1,18 @@
 <?php
 
 function add_label(?array $match){
-    $user = $GLOBALS['users']->get_by_nickname($match['user']);
-    $currentComm = $GLOBALS['communities']->get_by_id($_POST['idcommu']);
-    $r = $currentComm->set_label($user,$_POST['label_text'],$_POST['color']);
-    $root = Config::URL_SUBDIR(false);
-    $nicknameUser = $user->nickname();
+	if($_SESSION['current_community']>0){
+		$isAdmin=User::current()->perm($GLOBALS['communities']->get_by_id($_POST['idcommu']))->is(Permission::ADMIN);
+	}else{
+		$isAdmin=false;
+	}
+	if($isAdmin){
+	    $user = $GLOBALS['users']->get_by_nickname($match['user']);
+	    $currentComm = $GLOBALS['communities']->get_by_id($_POST['idcommu']);
+	    $r = $currentComm->set_label($user,$_POST['label_text'],$_POST['color']);
+	}
+	$root = Config::URL_SUBDIR(false);
+	$nicknameUser = $user->nickname();
     header("Location: $root/user/$nicknameUser");
 }
 

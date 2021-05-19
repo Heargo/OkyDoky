@@ -66,8 +66,8 @@ $r = Routes::url_for('/c/'. $GLOBALS['page']['post']->community()->get_name().'/
 
 	try {
 		var input = document.getElementById("nbjetonstogive");
-		var maxi = parseInt(input.max);
 		input.addEventListener("input", function(){
+			var maxi = parseInt(document.getElementById("nbjetonstogive").max);
 			if (input.value>maxi) {
 				input.classList.add("badinput")
 			}else{
