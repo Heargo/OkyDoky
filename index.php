@@ -54,6 +54,9 @@ foreach (glob("action/*.php") as $filename) {
 }
 if (php_sapi_name() != 'cli') {
     $ROUTES = new Routes();
+    $ROUTES->is_authenticated(User::is_connected())
+           ->default_page('/')
+    ;
     include('action.php');
     include('view.php');
     $ROUTES->error(404, '/404', 'page/404.php');

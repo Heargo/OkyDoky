@@ -1,7 +1,7 @@
 <?php
 
-$ROUTES->bound_post('/signin', 'signin', ['login', 'password'])
-       ->bound_post('/signup', 'signup', ['nickname', 'email', 'password'])
+$ROUTES->bound_post('/signin', 'signin', ['login', 'password'])->unprotected()
+       ->bound_post('/signup', 'signup', ['nickname', 'email', 'password'])->unprotected()
        ->bound_post('/createCommunity','create_community',['name','description'])
        ->bound_post('/addLabel/(?<user>[\w|-]+)','add_label',['label_text','color'])
        ->bound_post('/delLabel','remove_label')

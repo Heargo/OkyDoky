@@ -178,7 +178,6 @@ else{
 	
 </ul>
 
-<?php if($isAdmin){ ?>
 <!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
 <form id="labelForm" class="labelForm hidden" enctype="multipart/form-data" action="<?=Routes::url_for('/addLabel/'.$GLOBALS["page"]["userOfUrl"]->nickname())?>" method="post">
 	<!-- Nom label -->
@@ -191,7 +190,6 @@ else{
 	<label for="submit" class="submitUploadLabel cursor"><img src="<?=Routes::url_for('/img/svg/check.svg')?>"></label>
 	<input id ="submit" type="submit" value="create" />	
 </form>
-<?php } ?>
 
 </section>
 

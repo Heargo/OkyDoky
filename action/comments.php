@@ -30,7 +30,10 @@ function add_comment(?array $match) {
     if (!empty(trim($_POST['commentaire']))){
         //Sanitize is done inside
         $c=$GLOBALS['comments']->add_comment(User::current(), $post, $_POST['commentaire']);
-        $GLOBALS['notifications']->send_notif("commentaire", $post->publisher(),$post->community(),0,$c);
+        if(!User::current()->equals($post->publisher())){
+            $GLOBALS['notifications']->send_notif("commentaire", $post->publisher(),$post->community(),0,$c);
+        }
+        
 
         if (User::current()->id() != $post->publisher()->id()) {
             /*give xp*/

@@ -72,7 +72,8 @@ function donate(r,to,commu){
                 c.classList.add("animate");
                 setTimeout(function(){ 
                     c.classList.remove("animate");
-                    document.getElementById("nbjetonstogive").value=0;
+                    document.getElementById("nbjetonstogive").max=document.getElementById("nbjetonstogive").max-document.getElementById("nbjetonstogive").value;
+                    document.getElementById("nbjetonstogive").value="";
                 }, 1100);
 
             }
