@@ -25,6 +25,7 @@ class Comment {
       */
     private $_date;
 
+    private $_visible;
 	/**
 	 * Instanciate a post from an ID
 	 *
@@ -48,6 +49,7 @@ class Comment {
         $this->_post = $GLOBALS['posts']->get_by_id($row['post']);
         $this->_text = $row['text'];
         $this->_date = strtotime($row['date']);
+        $this->_visible = $row['visible'] == 1 ? true : false;
     }
 
     /** Get the id of the comment */
@@ -132,10 +134,15 @@ class Comment {
     }
 
     public function set_visible(bool $visible) : bool {
+        $this->_visible = $visible;
         $visible = $visible ? 1 : 0;
         $sql = "UPDATE `%s` SET `visible` = %d WHERE `id_%s` = %d";
         $sql = sprintf($sql, Config::TABLE_COMMENT, $visible, Config::TABLE_COMMENT, $this->id());
         return (bool) $this->_db->query($sql);
+    }
+
+    public function is_visible() : bool{
+        return $this->_visible;
     }
 }
 

@@ -12,13 +12,25 @@
 
 </head>
 <body>
+<?php 
+$has_community = sizeof(User::current()->get_communities()) > 0 ? true : false;
+if($has_community){
+	$is_banned = $GLOBALS['communities']->get_by_id($_SESSION['current_community'])->is_banned(User::current());
+}
+else{
+	$is_banned = false;
+}
 
+
+?>
 <div class="topBar conv" style="background-color: #4bc0c8;height: 50px">
   <img onclick="window.history.back();" class="backArrow cursor" src="./img/svg/arrow-back-fill.svg">
-  <h1 class="chatTitle"><?=$GLOBALS['communities']->get_by_id($_SESSION['current_community'])->get_display_name()?></h1>
+  <h1 class="chatTitle"><?=$has_community ? $GLOBALS['communities']->get_by_id($_SESSION['current_community'])->get_display_name() : "Tchat" ?></h1>
 </div>
-
-<section class="containerConv">
+<?php
+if(!$is_banned && $has_community){
+	?>
+	<section class="containerConv">
 	<div class="conv" style="background: center/200vh url(<?=Routes::url_for('/img/svg/bgmsg.svg')?>)">
 		<!-- en php on recup les 100 derniers et on les met de base (trié du plus ancien au plus récent) -->
 		
@@ -38,12 +50,26 @@
 		</div>
 	</div>
 
-</section>
+	</section>
+	<script
+		src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+		crossorigin="anonymous"></script>
+	<script src="<?= Routes::url_for('/js/message.js')?>"></script>
+	<?php
+}
+else if(!$has_community){
+	?>
+	<h2 class="banniinfomessage">Vous n'avez pas de communauté</h2>
+	<?php
+}
+else{
+	?>
+	<h2 class="banniinfomessage">Vous êtes bannis de cette communauté...</h2>
+	<?php
+}
+?>
 
 </body>
-<script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
-<script src="<?= Routes::url_for('/js/message.js')?>"></script>
+
 </html>
