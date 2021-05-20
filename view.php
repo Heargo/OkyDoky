@@ -1,7 +1,11 @@
 <?php
-$ROUTES->bound_get('/document', 'page/upload_document.php')
+$ROUTES->bound_get('/document', 'page/upload_document.php',)
        ->bound_get('/', 'page/accueil.php')
+                   ->unprotected()
+                   ->redirect_if(User::is_connected(), '/feed')
        ->bound_get('/login', 'page/login.php')
+                   ->unprotected()
+                   ->redirect_if(User::is_connected(), '/feed')
        ->bound_get('/post', 'page/upload.php')
        ->bound_get('/createCommunity', 'page/createCommunity.php')
        ->bound_get('/feed', 'page/feed.php')

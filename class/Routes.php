@@ -14,6 +14,15 @@ class Routes {
     /** An array containing error number => page */
     private $_errors = array();
 
+    /** Whether or not all the app is accessible */
+    private $_is_connected = false;
+
+    /** default page to redirect to if not $_is_connected */
+    private $_default_page;
+
+    /** pointer to the last edited $_regex_get or $_regex_post */
+    private $_last_edited;
+
     /** 
      * Bound a URL to a view page
      *
@@ -29,7 +38,9 @@ class Routes {
      * @return $this So you can easily chain URL registration.
      */
     public function bound_get(string $regex, string $filename, ?callable $before = null) {
-        $this->_regex_get['#^' . $regex . '/?$#'] = array($filename, $before);
+        $this->_regex_get['#^' . $regex . '/?$#'] = array($filename, $before, false, null); // false = protected, null = redirect
+        // echo "<pre>"; var_dump(end($this->_regex_get)); echo "</pre>";
+        $this->_last_edited = &$this->_regex_get;
         return $this;
     }
 
@@ -50,7 +61,35 @@ class Routes {
      * @return $this So you can easily chain URL registration.
      */
     public function bound_post(string $regex, callable $func, ?array $required_fields = null) {
-        $this->_regex_post['#^' . $regex . '/?$#'] = array($func, $required_fields);
+        $this->_regex_post['#^' . $regex . '/?$#'] = array($func, $required_fields, false, null); // false = protected, null = redirect
+        $this->_last_edited = &$this->_regex_post;
+        return $this;
+    }
+
+    /**
+     * Define whether or not we should protect the routes
+     */
+    public function is_authenticated(bool $is_connected) {
+        $this->_is_connected = $is_connected;
+        return $this;
+    }
+
+    public function unprotected() {
+        $last_key = array_key_last($this->_last_edited);
+        $this->_last_edited[$last_key][2] = true;
+        return $this;
+    }
+
+    public function default_page(string $url) {
+        $this->_default_page = $url;
+        return $this;
+    }
+
+    public function redirect_if(bool $cond, string $url) {
+        if ($cond) {
+            $last_key = array_key_last($this->_last_edited);
+            $this->_last_edited[$last_key][3] = $url;
+        }
         return $this;
     }
 
@@ -64,7 +103,7 @@ class Routes {
             include $filename;
             exit();
         };
-        $this->_regex_get['#^' . $regex . '/?$#'] = array($filename, $before_error); // By URL (for Apache)
+        $this->_regex_get['#^' . $regex . '/?$#'] = array($filename, $before_error, false, null); // By URL (for Apache)
         $this->_errors[$errno] = '#^' . $regex . '/?$#'; // If not found in _regex_get and _regex_post
         return $this;
     }
@@ -82,6 +121,7 @@ class Routes {
             $found = $this->_execute_post();
         }
 
+        // 404
         if (!$found) {
             $GLOBALS['page']['url'] = self::get_url();
             $regex_error = $this->_errors[404];
@@ -99,17 +139,28 @@ class Routes {
 
     /**
      * Process GET requests
+     * @return bool Whether 
      */
     private function _execute_get() : bool {
         $match = null;
         $found = false;
-        foreach ($this->_regex_get as $regex => list($filename, $before)) {
+        foreach ($this->_regex_get as $regex => list($filename, $before, $unprotected, $redirect)) {
             if (preg_match($regex, self::get_url(), $match)){
-                $found = $found || true;
-                $GLOBALS['page']['url'] = self::get_url();
-                $GLOBALS['page']['match'] = $match;
-                if (isset($before)) $before($match);
-                include $filename;
+                if (isset($redirect)) {
+                    header('Location: ' . self::url_for($redirect));
+                    exit();
+                }
+                if ($this->_is_connected || $unprotected) {
+                    $found = $found || true; // founded, no 404
+                    $GLOBALS['page']['url'] = self::get_url();
+                    $GLOBALS['page']['match'] = $match;
+                    if (isset($before)) $before($match);
+                    include $filename;
+                } else {
+                    // The user is not connected and the page is protected
+                    header('Location: ' . self::url_for($this->_default_page));
+                    exit();
+                }
             }
         }
         return $found;
@@ -121,10 +172,16 @@ class Routes {
     private function _execute_post() : bool {
         $match = null;
         $found = false;
-        foreach ($this->_regex_post as $regex => list($func, $req_fields)) {
+        foreach ($this->_regex_post as $regex => list($func, $req_fields, $unprotected, $redirect)) {
             if (preg_match($regex, self::get_url(), $match)){
-                $found = $found || true;
-                if (!isset($req_fields) || self::are_fields_valid($req_fields, $_POST)) $func($match);
+                if ($this->_is_connected || $unprotected) {
+                    $found = $found || true;
+                    if (!isset($req_fields) || self::are_fields_valid($req_fields, $_POST)) $func($match);
+                } else {
+                    http_response_code(401);
+                    // maybe redirect to $redirect?
+                    exit();
+                }
             }
         }
         return $found;
