@@ -27,7 +27,7 @@
                 <li><img src="<?=Routes::url_for('/img/devs/hugo.jpg');?>" alt="Hugo"><p>Hugo REY</p></li>
                 <li><img src="<?=Routes::url_for('/img/devs/simon.jpg');?>" alt="Simon"><p>Simon LEONARD</p></li>
                 <li><img src="<?=Routes::url_for('/img/img1.jpg');?>" alt="Evan"><p>Evan L'HUISSIER</p></li>
-                <li><img src="<?=Routes::url_for('/img/img1.jpg');?>" alt="Romain"><p>Romain NEGRO</p></li>
+                <li><img src="<?=Routes::url_for('/img/devs/romain.jpg');?>" alt="Romain"><p>Romain NEGRO</p></li>
                 <li><img src="<?=Routes::url_for('/img/img1.jpg');?>" alt="Juliette"><p>Juliette NEYRAT</p></li>
             </ul>
         </p>
