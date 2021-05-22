@@ -25,7 +25,7 @@
         Ce projet est porté par les personnes suivantes :
             <ul class="team">
                 <li><img src="<?=Routes::url_for('/img/devs/hugo.jpg');?>" alt="Hugo"><p>Hugo REY</p></li>
-                <li><img src="<?=Routes::url_for('/img/img1.jpg');?>" alt="Simon"><p>Simon LEONARD</p></li>
+                <li><img src="<?=Routes::url_for('/img/devs/simon.jpg');?>" alt="Simon"><p>Simon LEONARD</p></li>
                 <li><img src="<?=Routes::url_for('/img/img1.jpg');?>" alt="Evan"><p>Evan L'HUISSIER</p></li>
                 <li><img src="<?=Routes::url_for('/img/img1.jpg');?>" alt="Romain"><p>Romain NEGRO</p></li>
                 <li><img src="<?=Routes::url_for('/img/img1.jpg');?>" alt="Juliette"><p>Juliette NEYRAT</p></li>
@@ -52,7 +52,7 @@
             Si vous souhaitez voir, télécharger ou supprimer vos données, envoyez un mail à <a href='mailto:okydoky@sinux.sh'>okydoky@sinux.sh</a>
         </p>
 
-        <h2>Gesstion des cookies</h2>
+        <h2>Gestion des cookies</h2>
         <p>Tout les cookies utilisé par Okydoky sont purement de l'ordre technique.
         Ils identifient de manière unique votre navigateur lorsque vous parcourez le site,
         et permet d'identifier l'auteur (tel que vous vous êtes enregistrez) lorsque vous intéragissez avec le site</p>
