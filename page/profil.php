@@ -216,6 +216,7 @@ else{
 	switchFilter(<?=$_SESSION["current_community"]?>,'<?=$GLOBALS["page"]["userOfUrl"]->nickname()?>')
 </script>
 <script src="<?= Routes::url_for('/js/prism.js')?>"></script>
+<script src="<?= Routes::url_for('/js/post.js')?>"></script>
 
 </html>
 
