@@ -33,6 +33,7 @@ if($_SESSION['current_community']>0){
 			<a href="<?= Routes::url_for("/profil-edit?type=password")?>"> Changer mon mot de passe </a>
 			<a href="<?= Routes::url_for('/disconnect')?>"> Déconnexion  </a>
 			<a href="<?= Routes::url_for("/profil-edit?type=delete")?>"> Supprimer mon compte </a>
+			<a href="<?=Routes::url_for('/cgu');?>">Politique de confidentialité</a>
 		</div>
 </div>
 <?php } ?>
