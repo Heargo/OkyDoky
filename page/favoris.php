@@ -33,4 +33,5 @@
 <script src="<?= Routes::url_for('/js/feedAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/votesAjax.js')?>"></script>
 <script src="<?= Routes::url_for('/js/prism.js')?>"></script>
+<script src="<?= Routes::url_for('/js/post.js')?>"></script>
 </html>
