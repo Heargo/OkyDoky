@@ -23,7 +23,7 @@
 		<input class="titleInput" type="text" name="title" placeholder="Titre de votre document.">
 
 		<!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
-		<input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
+        <input type="hidden" name="MAX_FILE_SIZE" value="<?= 10*Mo ?>" />
 		
 		<!-- preview pdf -->
 		<div id="preview-pdf" class="pdfDownloadButton hidden">

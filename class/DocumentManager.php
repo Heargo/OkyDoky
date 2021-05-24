@@ -83,15 +83,14 @@ class DocumentManager {
      *
      * @param array $document A file from the global array $_FILES like $_FILES['profile_picture'].
      * @param bool $visible Should the document be visible by an average user.
-     * @param int|null Return the ID of the document added. Null type means an error occured.
+     * @return int|null Return the ID of the document added. Null type means an error occured.
      * @throw NotWritable If Config::DIR_DOCUMENT is not writable.
      */
     public function add_document(array $document, bool $visible = true) : ?int {
         $visible = $visible ? 1 : 0;
         $s = "";
-        // @todo change size
         // if file isn't empty and not too large
-        if ($document['size'] != 0 && $document['size'] < 50000000) {
+        if ($document['size'] != 0 && $document['size'] < 10*Mo) {
             if (!is_writable(Config::DIR_DOCUMENT)) {
                 throw new NotWritable('Directory ' . Config::DIR_DOCUMENT . ' is not writable');
             }

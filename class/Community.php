@@ -196,10 +196,9 @@ class Community{
     }
     public function set_cover(array $document){
         // if file isn't empty and not too large
-        var_dump($document['size']);
         if($document['size'] != 0){$type = mime_content_type($document['tmp_name']);}
         else{$type="";}
-        if ($document['size'] != 0 && $document['size'] < 50000000 && in_array($type,Community::$authorized_mime)) {
+        if ($document['size'] != 0 && $document['size'] < 10*Mo && in_array($type,Community::$authorized_mime)) {
             if (!is_writable(Config::DIR_COVER)) {
                 throw new NotWritable('Directory ' . Config::DIR_COVER . ' is not writable');
             }
