@@ -33,19 +33,23 @@ $typeDocument = $post->get_documents()[0]->type();
 						"5-rouge",
 						"5-violet",
 						"final");
-			$level = $publisher->level_in_community($comm)[0];
-			if ($level>32){
-				$urlbadge = Routes::url_for("/img/svg/medals/final.svg");
+			if($publisher->level_in_community($comm)!=null){
+				$level = $publisher->level_in_community($comm)[0];
+				if ($level>32){
+					$urlbadge = Routes::url_for("/img/svg/medals/final.svg");
+				}else{
+					$i =round($level/2)-1;
+					$urlbadge = $i<0 ? "" : Routes::url_for("/img/svg/medals/".$badges[$i].".svg");
+				}
 			}else{
-				$i =round($level/2)-1;
-				$urlbadge = $i<0 ? "" : Routes::url_for("/img/svg/medals/".$badges[$i].".svg");
+				$urlbadge = Routes::url_for("/img/svg/medals/1-bleu.svg");
+				$level="";
 			}
-			
 			?>
 			<div class="cliquable cursor" onclick="location.href='<?=$url?>'">
 				<p><?php echo "<img src='$profile_pic' alt='profil'>"; ?></p>
 				<div class="postEnTete2">
-					<?php if($publisher->is_certified($comm)): ?>
+					<?php if($publisher->level_in_community($comm)!=null && $publisher->is_certified($comm)): ?>
 						<img class="certifiedImgPost"src="https://img.icons8.com/nolan/64/approval.png">
 					<?php endif ?>
 					<div class="badgeformat fix">
