@@ -73,7 +73,7 @@ if($_SESSION['current_community']>0){
 					<div>
 						<div class="containerBadge">
 							<div class="badgeformat">
-								<img src="" id="badgeIcon">
+								<img src="<?= Routes::url_for("/img/svg/medals/1-bleu.svg")?>" id="badgeIcon">
 								<p id="badgeText"></p>
 							</div>
 						</div>
