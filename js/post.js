@@ -22,8 +22,11 @@ function delete_post(id){
         }
      
     };
-  
-    xhr.open("POST","./ajax/delpost",true);
+    try {
+        xhr.open("POST",route+"/ajax/delpost",true);
+    } catch(e) {
+        xhr.open("POST","./ajax/delpost",true);
+    }
     xhr.responseType="text";
     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xhr.send("id="+id);
