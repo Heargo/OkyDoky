@@ -14,6 +14,7 @@ spl_autoload_register(function ($class_name) {
     if (file_exists($class)) include $class;
     if (file_exists($library)) include $library;
 });
+define('Mo', 1024*1024);
 require 'class/tools.php';
 class_alias('Permission', 'P');
 
