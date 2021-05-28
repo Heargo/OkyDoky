@@ -1,21 +1,10 @@
 # OkyDoky
 
-## Configuration
+## Installation
 
-Pour connecter la base de donnée, il faut créer un fichier `config.php` avec pour modèle `config.example.php`.
+Copiez `config.example.php` en le renomant `config.php`. Remplissez ensuite les paramètres pour la dase de donnée et pour le serveur SMTP.
 
-Il faut également modifier le fichier `.htaccess` pour remplacer `/user/` par le vrai sous-répetoire de votre installation (ou remplacer par `/` si l'installation est à la racine).
+Il faut également copier et renommer le fichier `example.htaccess` en `.htaccess` puis remplacer `/user/` par le vrai sous-répetoire de votre installation (ou remplacer par `/` si l'installation est à la racine).
 
-Php doit avoir les droit d'écriture dans le dossier data.
-
-## Working
-
-- Upload de document (sur `/post`)
-- Affichage des 10 derniers documents (10 pour limiter la quantité de données. Sur `/feed`)
-
-## To fix
-
-- Les URLs local sont en absolut en http par défaut, il faut réfléchir à plus intéligant en prenant en compte une installation en sous-répertoire
-- le .htaccess n'est pas universel
-- le fichiers de config est mélanger avec ces méthodes. Utiliser héritage
+PHP doit avoir les droit d'écriture dans le dossier `data`.
 
